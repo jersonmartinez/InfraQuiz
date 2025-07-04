@@ -41,13 +41,17 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeLanguageSelector();
     renderQuizCategories(); // Render categories dynamically
     loadQuizData();
+
+    // Initialize AOS after content is loaded
+    AOS.init();
 });
 
 // Initialize navigation
 function initializeNavigation() {
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
     const sections = document.querySelectorAll('section[id]');
-    
+    const mainNavbar = document.getElementById('main-navbar');
+
     // Smooth scrolling for navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -57,16 +61,39 @@ function initializeNavigation() {
             if (targetSection) {
                 targetSection.scrollIntoView({ behavior: 'smooth' });
             }
+
+            // Collapse navbar on mobile after clicking a link
+            if (window.innerWidth < 992) { // Bootstrap's 'lg' breakpoint is 992px
+                const navbarCollapse = document.getElementById('navbarNav');
+                if (navbarCollapse.classList.contains('show')) {
+                    const collapseInstance = mdb.Collapse.getInstance(navbarCollapse);
+                    if (collapseInstance) {
+                        collapseInstance.hide();
+                    }
+                }
+            }
         });
     });
-    
+
+    // Add shadow to navbar on scroll
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            mainNavbar.classList.add('shadow-2');
+            mainNavbar.classList.remove('shadow-0');
+        } else {
+            mainNavbar.classList.remove('shadow-2');
+            mainNavbar.classList.add('shadow-0');
+        }
+    });
+
     // Update active navigation link on scroll
     window.addEventListener('scroll', function() {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
+            // Adjust offset for fixed navbar height
             const sectionHeight = section.clientHeight;
-            if (pageYOffset >= sectionTop - 200) {
+            if (pageYOffset >= sectionTop - mainNavbar.offsetHeight - 50) { // Added buffer
                 current = section.getAttribute('id');
             }
         });
@@ -101,23 +128,9 @@ function initializeDarkMode() {
 
 // Initialize language selector
 function initializeLanguageSelector() {
-    const nav = document.querySelector('.navbar-nav');
-    if (!nav) return;
-    
-    // Check if the selector already exists to avoid duplication
-    if (!document.getElementById('languageSelector')) {
-        const li = document.createElement('li');
-        li.className = 'nav-item ms-lg-3'; // Add margin for spacing
-        li.innerHTML = `
-            <select id="languageSelector" class="form-select form-select-sm" aria-label="Language selector">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-            </select>
-        `;
-        nav.appendChild(li);
-    }
-
     const languageSelector = document.getElementById('languageSelector');
+    if (!languageSelector) return; // Ensure the element exists
+
     languageSelector.value = currentLanguage;
     languageSelector.addEventListener('change', function(e) {
         currentLanguage = e.target.value;
@@ -134,11 +147,17 @@ function renderQuizCategories() {
 
     container.innerHTML = ''; // Clear existing categories
 
-    technologies.forEach(tech => {
+    technologies.forEach((tech, index) => {
+        // Skip 'mixed' category from dynamic rendering if preferred, or handle it specially
+        // For now, it's included.
         const col = document.createElement('div');
         col.className = 'col-md-6 col-lg-4';
+        // Add AOS animations to quiz cards
+        col.setAttribute('data-aos', 'fade-up');
+        col.setAttribute('data-aos-delay', `${index * 100}`); // Stagger animations
+
         col.innerHTML = `
-            <div class="card quiz-card h-100" onclick="loadQuiz('${tech.id}')">
+            <div class="card quiz-card h-100 shadow-3" onclick="loadQuiz('${tech.id}')">
                 <div class="card-body text-center">
                     <i class="bi ${tech.icon} display-4 text-${tech.color} mb-3"></i>
                     <h5 class="card-title">${tech.name}</h5>
@@ -236,10 +255,10 @@ function parseMarkdownQuiz(markdown) {
             continue;
         }
         
-        // Detect options
-        if (inQuestionBlock && (line.startsWith('- [ ] ') || line.startsWith('- [x] '))) {
-            const isCorrect = line.startsWith('- [x] ');
-            const optionText = line.substring(6).trim();
+        // Detect options using specific emojis
+        if (inQuestionBlock && line.match(/^(?:📝|🔄|📦|🎯)/)) {
+            const isCorrect = line.startsWith('📝'); // Option starting with 📝 is the correct one
+            const optionText = line.substring(2).trim(); // Remove emoji and space
             currentOptions.push({
                 text: optionText,
                 isCorrect: isCorrect
@@ -305,7 +324,8 @@ function loadQuiz(quizType) {
 
 // Show quiz modal
 function showQuizModal() {
-    const quizModal = new bootstrap.Modal(document.getElementById('quizModal'));
+    // Use mdb.Modal instead of bootstrap.Modal
+    const quizModal = new mdb.Modal(document.getElementById('quizModal'));
     quizModal.show();
     showQuestion();
 }
@@ -322,15 +342,15 @@ function showQuestion() {
 
         questionContainer.innerHTML = `
             <div class="quiz-progress mb-3">
-                <div class="progress">
+                <div class="progress rounded-pill">
                     <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <small class="text-muted float-end mt-1">${currentQuestionIndex} / ${totalQuestions}</small>
+                <small class="text-muted float-end mt-1">${currentQuestionIndex + 1} / ${totalQuestions}</small>
             </div>
             <p class="quiz-question">${question.text}</p>
             <div class="quiz-options">
                 ${question.options.map((option, index) => `
-                    <div class="quiz-option" data-index="${index}">
+                    <div class="quiz-option ripple shadow-1" data-mdb-ripple-color="primary" data-index="${index}">
                         ${option.text}
                     </div>
                 `).join('')}
@@ -358,6 +378,7 @@ function selectOption(event) {
     quizOptions.forEach(opt => {
         opt.removeEventListener('click', selectOption);
         opt.style.cursor = 'default';
+        opt.classList.add('pe-none'); // Prevent pointer events (MDBootstrap utility class)
     });
 
     // Mark selected option
@@ -420,8 +441,8 @@ function showQuizResults() {
             </div>
             <p class="lead">${scoreDetails}</p>
             <div class="d-grid gap-2 col-md-8 mx-auto mt-4">
-                <button class="btn btn-primary btn-lg" onclick="restartQuiz()">${currentLanguage === 'es' ? 'Reiniciar Quiz' : 'Restart Quiz'}</button>
-                <button class="btn btn-outline-secondary btn-lg" data-bs-dismiss="modal">${currentLanguage === 'es' ? 'Volver a Categorías' : 'Back to Categories'}</button>
+                <button class="btn btn-primary btn-lg shadow-2" onclick="restartQuiz()">${currentLanguage === 'es' ? 'Reiniciar Quiz' : 'Restart Quiz'}</button>
+                <button class="btn btn-outline-secondary btn-lg" data-mdb-dismiss="modal">${currentLanguage === 'es' ? 'Volver a Categorías' : 'Back to Categories'}</button>
             </div>
         </div>
     `;
@@ -449,7 +470,8 @@ function showComingSoon() {
 // Show generic error modal
 function showError(message) {
     document.getElementById('errorMessage').innerText = message;
-    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+    // Use mdb.Modal instead of bootstrap.Modal
+    const errorModal = new mdb.Modal(document.getElementById('errorModal'));
     errorModal.show();
 }
 

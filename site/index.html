@@ -5,25 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfraQuiz - DevOps Learning Platform</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MDBootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- AOS Animate On Scroll CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-0" id="main-navbar">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="#home">
                 <i class="bi bi-cpu"></i> InfraQuiz
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
                         <a class="nav-link" href="#home">Home</a>
                     </li>
@@ -34,11 +39,17 @@
                         <a class="nav-link" href="#about">About</a>
                     </li>
                     <!-- Dark Mode Switch -->
-                    <li class="nav-item dark-mode-switch">
+                    <li class="nav-item dark-mode-switch ms-lg-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="darkModeToggle">
                             <label class="form-check-label text-light" for="darkModeToggle"><i class="bi bi-moon-fill"></i></label>
                         </div>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <select id="languageSelector" class="form-select form-select-sm bg-dark text-white border-0" aria-label="Language selector" style="width: auto;">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
                     </li>
                 </ul>
             </div>
@@ -46,31 +57,31 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-section d-flex align-items-center">
+    <section id="home" class="hero-section d-flex align-items-center text-white text-center text-lg-start vh-100">
         <div class="container">
-            <div class="row align-items-center min-vh-100 py-5">
-                <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-4 fw-bold text-white mb-4">
+            <div class="row align-items-center py-5">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
+                    <h1 class="display-3 fw-bold mb-4">
                         🚀 Master DevOps with Interactive Quizzes
                     </h1>
-                    <p class="lead text-white-50 mb-4">
+                    <p class="lead mb-4 opacity-75">
                         Learn Bash scripting, Python automation, Terraform, AWS, and more through engaging, 
                         bite-sized quizzes designed for DevOps professionals.
                     </p>
                     <div class="d-flex justify-content-center justify-content-lg-start gap-3 flex-wrap">
-                        <button class="btn btn-primary btn-lg" onclick="startRandomQuiz()">
-                            <i class="bi bi-play-circle"></i> Start Random Quiz
+                        <button class="btn btn-primary btn-lg shadow-2" onclick="startRandomQuiz()">
+                            <i class="bi bi-play-circle me-2"></i> Start Random Quiz
                         </button>
                         <button class="btn btn-outline-light btn-lg" onclick="scrollToQuizzes()">
-                            <i class="bi bi-list-check"></i> Browse Categories
+                            <i class="bi bi-list-check me-2"></i> Browse Categories
                         </button>
                     </div>
                 </div>
-                <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                <div class="col-lg-6 text-center" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
                     <div class="hero-illustration">
-                        <i class="bi bi-cpu display-1 text-white opacity-75"></i>
-                        <i class="bi bi-cloud display-1 text-white opacity-75"></i>
-                        <i class="bi bi-gear display-1 text-white opacity-75"></i>
+                        <i class="bi bi-cpu display-1 text-white opacity-75 mx-3"></i>
+                        <i class="bi bi-cloud display-1 text-white opacity-75 mx-3"></i>
+                        <i class="bi bi-gear display-1 text-white opacity-75 mx-3"></i>
                     </div>
                 </div>
             </div>
@@ -81,9 +92,9 @@
     <section id="quizzes" class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-12 text-center mb-5">
-                    <h2 class="display-5 fw-bold text-center">📚 Quiz Categories</h2>
-                    <p class="lead text-muted text-center">Choose your learning path or take a mixed quiz</p>
+                <div class="col-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="display-5 fw-bold mb-3">📚 Quiz Categories</h2>
+                    <p class="lead text-muted">Choose your learning path or take a mixed quiz</p>
                 </div>
             </div>
             
@@ -96,12 +107,12 @@
     <!-- Quiz Modal -->
     <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="quizTitle">Quiz</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content rounded-5 shadow-5-strong">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="quizTitle">Quiz</h5>
+                    <button type="button" class="btn-close btn-close-white" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="quizContent">
+                <div class="modal-body p-4" id="quizContent">
                     <!-- Quiz content will be loaded here -->
                     <div class="text-center">
                         <div class="spinner-border text-primary" role="status">
@@ -110,28 +121,28 @@
                         <p class="mt-2">Loading quiz...</p>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="nextQuestion" style="display: none;">Next Question</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Error Modal (Added for better error handling) -->
+    <!-- Error Modal -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content rounded-5 shadow-5-strong">
+                <div class="modal-header bg-danger text-white border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close btn-close-white" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center">
+                <div class="modal-body text-center p-4">
                     <i class="bi bi-exclamation-triangle-fill text-danger display-4 mb-3"></i>
                     <p id="errorMessage" class="lead"></p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -141,12 +152,12 @@
     <section id="about" class="py-5 bg-light">
         <div class="container">
             <div class="row">
-                <div class="col-12 text-center mb-5">
+                <div class="col-12 text-center mb-5" data-aos="fade-up">
                     <h2 class="display-5 fw-bold">About InfraQuiz</h2>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8 mx-auto">
+                <div class="col-lg-8 mx-auto" data-aos="fade-up" data-aos-delay="200">
                     <div class="card shadow-sm border-0 rounded-3">
                         <div class="card-body p-4">
                             <p class="lead mb-4">
@@ -163,7 +174,7 @@
                                 <li><i class="bi bi-check-circle text-success me-2"></i> Mixed or random categories to test your knowledge</li>
                             </ul>
                             <div class="text-center mt-4">
-                                <a href="https://github.com/yourusername/InfraQuiz" class="btn btn-outline-primary btn-lg">
+                                <a href="https://github.com/yourusername/InfraQuiz" class="btn btn-outline-primary btn-lg shadow-2">
                                     <i class="bi bi-github me-2"></i> View on GitHub
                                 </a>
                             </div>
@@ -185,8 +196,13 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- MDBootstrap JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.js"></script>
+    <!-- AOS Animate On Scroll JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
     <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
