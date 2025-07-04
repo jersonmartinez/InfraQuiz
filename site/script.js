@@ -128,13 +128,17 @@ function parseMarkdownQuiz(markdown) {
         // Skip headers and empty lines
         if (line.startsWith('#') || line === '') continue;
         
+        // Skip placeholder text
+        if (line.includes('Este archivo necesita ser completado') || 
+            line.includes('This file needs to be completed')) continue;
+        
         // Detect question start
         if (line.includes('❓') || line.includes('🧠') || line.includes('💭') || 
             line.includes('🤔') || line.includes('🔧') || line.includes('⚙️') ||
             line.includes('🔍') || line.includes('🚀')) {
             
             // Save previous question if exists
-            if (currentQuestion) {
+            if (currentQuestion && currentOptions.length === 4) {
                 currentQuestion.options = currentOptions;
                 currentQuestion.explanation = currentExplanation;
                 questions.push(currentQuestion);
@@ -167,27 +171,27 @@ function parseMarkdownQuiz(markdown) {
             continue;
         }
         
-        // Detect explanation
-        if (line.startsWith('**Correct Answer:**')) {
+        // Detect correct answer section in both languages
+        if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**')) {
             inExplanation = true;
             inOptions = false;
             continue;
         }
         
-        // Collect explanation text
-        if (inExplanation && line.startsWith('**Explanation:**')) {
-            currentExplanation = line.replace('**Explanation:**', '').trim();
+        // Collect explanation text in both languages
+        if (inExplanation && (line.includes('**Explanation:**') || line.includes('**Explicación:**'))) {
+            currentExplanation = line.replace('**Explanation:**', '').replace('**Explicación:**', '').trim();
             continue;
         }
         
-        if (inExplanation && line.startsWith('💡') || line.startsWith('🔍') || 
-            line.startsWith('⚡') || line.startsWith('🩺') || line.startsWith('🔧')) {
+        if (inExplanation && (line.startsWith('💡') || line.startsWith('🔍') || 
+            line.startsWith('⚡') || line.startsWith('🩺') || line.startsWith('🔧'))) {
             currentExplanation += ' ' + line.trim();
         }
     }
     
     // Add last question
-    if (currentQuestion) {
+    if (currentQuestion && currentOptions.length === 4) {
         currentQuestion.options = currentOptions;
         currentQuestion.explanation = currentExplanation;
         questions.push(currentQuestion);
@@ -206,7 +210,9 @@ function startRandomQuiz() {
 // Load a specific quiz
 function loadQuiz(quizType) {
     if (!quizData[quizType] || quizData[quizType].length === 0) {
-        showError('Quiz not available yet. Please try another category.');
+        showError(currentLanguage === 'es' 
+            ? `El quiz de ${quizType} aún no está disponible. Por favor, intenta con otra categoría.`
+            : `The ${quizType} quiz is not available yet. Please try another category.`);
         return;
     }
     
@@ -338,29 +344,42 @@ function showQuizResults() {
     let message = '';
     let color = '';
     
-    if (percentage >= 80) {
-        message = '🎉 Excellent! You\'re a DevOps expert!';
-        color = 'success';
-    } else if (percentage >= 60) {
-        message = '👍 Good job! Keep learning!';
-        color = 'primary';
+    if (currentLanguage === 'es') {
+        if (percentage >= 80) {
+            message = '🎉 ¡Excelente! ¡Eres un experto en DevOps!';
+            color = 'success';
+        } else if (percentage >= 60) {
+            message = '👍 ¡Buen trabajo! ¡Sigue aprendiendo!';
+            color = 'primary';
+        } else {
+            message = '📚 ¡Sigue practicando! ¡Mejorarás!';
+            color = 'warning';
+        }
     } else {
-        message = '📚 Keep practicing! You\'ll get better!';
-        color = 'warning';
+        if (percentage >= 80) {
+            message = '🎉 Excellent! You\'re a DevOps expert!';
+            color = 'success';
+        } else if (percentage >= 60) {
+            message = '👍 Good job! Keep learning!';
+            color = 'primary';
+        } else {
+            message = '📚 Keep practicing! You\'ll get better!';
+            color = 'warning';
+        }
     }
     
     quizContent.innerHTML = `
         <div class="quiz-score">
             <h3>${message}</h3>
-            <h2>Final Score: ${score}/${totalQuestions} (${percentage}%)</h2>
+            <h2>${currentLanguage === 'es' ? 'Puntuación Final' : 'Final Score'}: ${score}/${totalQuestions} (${percentage}%)</h2>
         </div>
         
         <div class="text-center mt-4">
             <button class="btn btn-${color} me-2" onclick="restartQuiz()">
-                <i class="bi bi-arrow-clockwise"></i> Try Again
+                <i class="bi bi-arrow-clockwise"></i> ${currentLanguage === 'es' ? 'Intentar de Nuevo' : 'Try Again'}
             </button>
             <button class="btn btn-outline-primary" onclick="startRandomQuiz()">
-                <i class="bi bi-shuffle"></i> Another Quiz
+                <i class="bi bi-shuffle"></i> ${currentLanguage === 'es' ? 'Otro Quiz' : 'Another Quiz'}
             </button>
         </div>
     `;
@@ -385,19 +404,19 @@ function showComingSoon() {
     const content = document.getElementById('quizContent');
     const nextButton = document.getElementById('nextQuestion');
     
-    title.textContent = '🚧 Coming Soon';
+    title.textContent = currentLanguage === 'es' ? '🚧 Próximamente' : '🚧 Coming Soon';
     content.innerHTML = `
         <div class="text-center">
             <i class="bi bi-tools display-1 text-muted mb-4"></i>
-            <h4>More quizzes are on the way!</h4>
-            <p class="lead">We're working on adding quizzes for:</p>
+            <h4>${currentLanguage === 'es' ? '¡Más quizzes en camino!' : 'More quizzes are on the way!'}</h4>
+            <p class="lead">${currentLanguage === 'es' ? 'Estamos trabajando en agregar quizzes para:' : 'We\'re working on adding quizzes for:'}</p>
             <ul class="list-unstyled">
                 <li><i class="bi bi-check-circle text-success"></i> Docker & Kubernetes</li>
-                <li><i class="bi bi-check-circle text-success"></i> CI/CD Pipelines</li>
-                <li><i class="bi bi-check-circle text-success"></i> Monitoring & Observability</li>
-                <li><i class="bi bi-check-circle text-success"></i> Security & Compliance</li>
+                <li><i class="bi bi-check-circle text-success"></i> ${currentLanguage === 'es' ? 'Pipelines CI/CD' : 'CI/CD Pipelines'}</li>
+                <li><i class="bi bi-check-circle text-success"></i> ${currentLanguage === 'es' ? 'Monitoreo y Observabilidad' : 'Monitoring & Observability'}</li>
+                <li><i class="bi bi-check-circle text-success"></i> ${currentLanguage === 'es' ? 'Seguridad y Cumplimiento' : 'Security & Compliance'}</li>
             </ul>
-            <p>Stay tuned for updates!</p>
+            <p>${currentLanguage === 'es' ? '¡Mantente atento a las actualizaciones!' : 'Stay tuned for updates!'}</p>
         </div>
     `;
     nextButton.style.display = 'none';

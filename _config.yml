@@ -1,0 +1,27 @@
+# Jekyll configuration for GitHub Pages
+# This prevents Jekyll from processing markdown files as pages
+
+# Exclude directories and files from Jekyll processing
+exclude:
+  - README.md
+  - CONTRIBUTING.md
+  - LICENSE
+  - .gitignore
+  - .github/
+  - quizzes/
+  - node_modules/
+  - package.json
+  - package-lock.json
+
+# Include specific files that should be served
+include:
+  - index.html
+  - styles.css
+  - script.js
+  - 404.html
+
+# Disable Jekyll processing for quiz markdown files
+plugins: []
+
+# Set the base URL if needed (update with your GitHub username/repo)
+# baseurl: "/InfraQuiz" 

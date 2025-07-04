@@ -30,43 +30,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
-          
-      - name: Install dependencies
-        run: |
-          # Create package.json if it doesn't exist
-          if [ ! -f package.json ]; then
-            echo '{
-              "name": "infraquiz",
-              "version": "1.0.0",
-              "description": "DevOps Learning Platform",
-              "scripts": {
-                "build": "echo \"No build step required\"",
-                "test": "echo \"No tests specified\""
-              },
-              "devDependencies": {}
-            }' > package.json
-          fi
-          npm install
           
       - name: Build site
         run: |
-          # Copy site files to dist directory
-          mkdir -p dist
-          cp -r site/* dist/
-          cp -r quizzes dist/
+          # Copy site files to root for GitHub Pages
+          cp -r site/* .
           
-          # Create a simple index.html redirect if needed
+          # Ensure quizzes directory is accessible
+          # GitHub Pages serves from root, so paths need to be adjusted
+          
+          # Create a simple 404 page
           echo '<!DOCTYPE html>
           <html>
           <head>
-            <meta http-equiv="refresh" content="0; url=./index.html">
-            <title>InfraQuiz</title>
+            <meta charset="UTF-8">
+            <title>404 - Page Not Found</title>
+            <meta http-equiv="refresh" content="3; url=./index.html">
           </head>
           <body>
-            <p>Redirecting to <a href="./index.html">InfraQuiz</a>...</p>
+            <h1>404 - Page Not Found</h1>
+            <p>Redirecting to home page...</p>
           </body>
-          </html>' > dist/index.html
+          </html>' > 404.html
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -74,7 +59,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: '.'
 
   # Deployment job
   deploy:
