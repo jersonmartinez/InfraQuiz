@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfraQuiz - DevOps Learning Platform</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-cpu"></i> InfraQuiz
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#quizzes">Quizzes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold text-primary mb-4">
+                        🚀 Master DevOps with Interactive Quizzes
+                    </h1>
+                    <p class="lead mb-4">
+                        Learn Bash scripting, Python automation, Terraform, AWS, and more through engaging, 
+                        bite-sized quizzes designed for DevOps professionals.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-primary btn-lg" onclick="startRandomQuiz()">
+                            <i class="bi bi-play-circle"></i> Start Random Quiz
+                        </button>
+                        <button class="btn btn-outline-primary btn-lg" onclick="scrollToQuizzes()">
+                            <i class="bi bi-list-check"></i> Browse Categories
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="hero-illustration">
+                        <i class="bi bi-cpu display-1 text-primary"></i>
+                        <i class="bi bi-cloud display-1 text-info"></i>
+                        <i class="bi bi-gear display-1 text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Categories Section -->
+    <section id="quizzes" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold">📚 Quiz Categories</h2>
+                    <p class="lead">Choose your learning path or take a mixed quiz</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card quiz-card h-100" onclick="loadQuiz('bash')">
+                        <div class="card-body text-center">
+                            <i class="bi bi-terminal display-4 text-success mb-3"></i>
+                            <h5 class="card-title">🐚 Bash Scripting</h5>
+                            <p class="card-text">Master shell scripting fundamentals and automation</p>
+                            <div class="difficulty-badges">
+                                <span class="badge bg-success">Beginner</span>
+                                <span class="badge bg-warning">Intermediate</span>
+                                <span class="badge bg-danger">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card quiz-card h-100" onclick="loadQuiz('python')">
+                        <div class="card-body text-center">
+                            <i class="bi bi-code-slash display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">🐍 Python Automation</h5>
+                            <p class="card-text">Learn Python for DevOps and automation tasks</p>
+                            <div class="difficulty-badges">
+                                <span class="badge bg-success">Beginner</span>
+                                <span class="badge bg-warning">Intermediate</span>
+                                <span class="badge bg-danger">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card quiz-card h-100" onclick="loadQuiz('terraform')">
+                        <div class="card-body text-center">
+                            <i class="bi bi-gear display-4 text-warning mb-3"></i>
+                            <h5 class="card-title">🛠️ Terraform</h5>
+                            <p class="card-text">Infrastructure as Code with HashiCorp Terraform</p>
+                            <div class="difficulty-badges">
+                                <span class="badge bg-success">Beginner</span>
+                                <span class="badge bg-warning">Intermediate</span>
+                                <span class="badge bg-danger">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card quiz-card h-100" onclick="loadQuiz('aws')">
+                        <div class="card-body text-center">
+                            <i class="bi bi-cloud display-4 text-info mb-3"></i>
+                            <h5 class="card-title">☁️ AWS</h5>
+                            <p class="card-text">Amazon Web Services and cloud computing</p>
+                            <div class="difficulty-badges">
+                                <span class="badge bg-success">Beginner</span>
+                                <span class="badge bg-warning">Intermediate</span>
+                                <span class="badge bg-danger">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card quiz-card h-100" onclick="loadQuiz('mixed')">
+                        <div class="card-body text-center">
+                            <i class="bi bi-shuffle display-4 text-danger mb-3"></i>
+                            <h5 class="card-title">🎯 Mixed Quiz</h5>
+                            <p class="card-text">Random questions from all categories</p>
+                            <div class="difficulty-badges">
+                                <span class="badge bg-success">Beginner</span>
+                                <span class="badge bg-warning">Intermediate</span>
+                                <span class="badge bg-danger">Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="card quiz-card h-100" onclick="showComingSoon()">
+                        <div class="card-body text-center">
+                            <i class="bi bi-plus-circle display-4 text-muted mb-3"></i>
+                            <h5 class="card-title">🚧 More Coming</h5>
+                            <p class="card-text">Docker, Kubernetes, CI/CD, and more</p>
+                            <div class="difficulty-badges">
+                                <span class="badge bg-secondary">Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quizTitle">Quiz</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="quizContent">
+                    <!-- Quiz content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="nextQuestion" style="display: none;">Next Question</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold">About InfraQuiz</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="lead">
+                                InfraQuiz is a public repository containing interactive quizzes about DevOps tools and methodologies. 
+                                Perfect for reinforcing knowledge, interview preparation, or certification study.
+                            </p>
+                            <p>
+                                Each quiz includes:
+                            </p>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle text-success"></i> 1 correct answer per question</li>
+                                <li><i class="bi bi-check-circle text-success"></i> Brief technical explanations</li>
+                                <li><i class="bi bi-check-circle text-success"></i> Visual and engaging format with emojis</li>
+                                <li><i class="bi bi-check-circle text-success"></i> Mixed or random categories to test your knowledge</li>
+                            </ul>
+                            <div class="text-center mt-4">
+                                <a href="https://github.com/yourusername/InfraQuiz" class="btn btn-outline-primary">
+                                    <i class="bi bi-github"></i> View on GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 InfraQuiz. Made with ❤️ for the DevOps community.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html> 

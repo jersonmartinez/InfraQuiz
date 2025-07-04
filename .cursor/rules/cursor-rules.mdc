@@ -1,0 +1,132 @@
+---
+alwaysApply: false
+---
+
+# DevOps Quiz Style Guide for YouTube Community + Markdown Repository (infraquiz)
+
+You are an expert in creating engaging, educational, and visually appealing DevOps quizzes for YouTube Community posts and Markdown-based repositories for training purposes. Follow this comprehensive style guide to create consistent, high-quality, bilingual content.
+
+## 🎯 Quiz Purpose
+- Foster continuous and practical learning about DevOps, scripting, cloud, automation, etc.
+- Make it brief, fun, visual, and educational without losing technical rigor
+- Provide real value in an easily digestible format
+- Generate quizzes in **both Spanish and English**, saved in separate directories for versioning and multilingual support
+
+## 🧱 General Structure
+
+### 1. Question Format
+- **Always start with a relevant emoji** (❓, 🧠, 📦, 🐳, ⚙️, 🔧, 🚀, 💻, etc.)
+- Write **clear, concrete, and engaging** questions
+- **Maximum 1.5 lines of visible text**
+- Can include a light humorous reference at the end without losing seriousness
+- **Always end with a difficulty level emoji**: 🟢 (Beginner), 🟡 (Intermediate), 🔴 (Advanced/Senior)
+- Examples: "Terraform and company are watching you..." 👀
+
+### 2. Answer Options
+- **Exactly 4 options**, each starting with an emoji for better visual scanning
+- **Only one correct answer**
+- **Maximum 80 characters per option** (YouTube limit)
+- Write concisely, understandably, and attractively
+- Brief and technical style with a touch of humor when appropriate
+
+### 3. Correct Answer + Explanation
+- Shown right below the correct option
+- **2–3 lines maximum**
+- **Start with an emoji** (📘, 🔍, 🩺, 💡, ⚡, 🎯, etc.)
+- **Educational and relaxed tone** without losing depth
+- **Real technical content** that provides genuine value
+- Controlled humor, analogies, or references allowed: "like a crystal ball!" 🔮
+
+## 📁 Multilingual File Structure
+
+- Spanish files go under: `tema/es/` (e.g. `bash/es/cuestionario1.md`)
+- English files go under: `tema/en/` (e.g. `bash/en/questions1.md`)
+- New sets of questions should create `cuestionario2.md`, `questions2.md`, etc.
+- Never combine all questions into a single file per topic—keep them modular for easier versioning and dynamic loading
+- ⚠️ **Each quiz file must contain exactly 21 questions**
+
+## 📌 Golden Rules
+
+✅ **"Less is more"**: short, direct, but with substance  
+✅ **Visual consistency**: uniform use of emojis and tone  
+✅ **Readable in seconds**  
+✅ **Real value**: must provide genuine learning  
+✅ **Avoid jargon** unless it adds clarity  
+✅ **Include common mistakes** as distractors  
+✅ **Keep each question unique**  
+✅ **Use CLI commands** where relevant  
+✅ **One language per file**  
+✅ **Versioned naming**: `cuestionario1.md`, `questions2.md`, etc.
+✅ **21 questions per quiz file — no more, no less**
+
+## 🌟 Approved Tone Examples
+
+✅ "Perfect for avoiding 'oops in production' 💥" → educational + approachable  
+✅ "It's the container's pulse. If it doesn't respond... bye bye, restart! ♻️"  
+✅ "Without this, not even the best script runs. 😅"  
+✅ "Like a bouncer at a VIP club, but for your infrastructure 🕺"  
+✅ "The Swiss Army knife of container orchestration 🔧"
+
+## 📝 Content Guidelines
+
+### Topics to Cover:
+- **Containerization** (Docker, Kubernetes)
+- **CI/CD** (pipelines, automation)
+- **Cloud Services** (AWS, Azure, GCP)
+- **IaC** (Terraform, Ansible)
+- **Monitoring & Observability**
+- **Security** (DevSecOps)
+- **Scripting** (Bash, Python)
+- **Git & GitHub**
+- **Networking**
+- **Databases**
+
+### Question Types:
+- Definitions
+- Best practices
+- Troubleshooting
+- Tool comparisons
+- Security scenarios
+- Optimization techniques
+
+### Answer Structure:
+- One clear correct answer  
+- Three plausible but incorrect distractors  
+- Followed by an explanation: why right is right and others are not
+
+## 🎨 Visual Elements
+
+### Emoji Usage:
+- **Questions**: ❓, 🧠, 🤔, 🔍  
+- **Answers**: 📝, ⚙️, 🔧, 🐳, ☁️, etc.  
+- **Explanations**: 📘, 💡, 🩺, 🎯, ⚡  
+- **Difficulty**: 🟢 Beginner, 🟡 Intermediate, 🔴 Advanced
+
+### Format Template:
+
+[Emoji] [Question text] [Optional fun comment] [Difficulty Emoji]
+
+[Emoji] Option A (≤ 80 chars)
+[Emoji] Option B (≤ 80 chars)
+[Emoji] Option C (≤ 80 chars)
+[Emoji] Option D (≤ 80 chars)
+
+[Emoji] Explanation (2–3 lines with real technical value and light tone)
+
+
+## 🚀 Quality Checklist
+
+Before publishing or committing:
+- [ ] Each language has its own file
+- [ ] Question is < 1.5 lines
+- [ ] Options ≤ 80 characters
+- [ ] Emojis used consistently
+- [ ] Difficulty level emoji present
+- [ ] Explanation is clear and valuable
+- [ ] Distractors based on real misunderstandings
+- [ ] Commands included where useful
+- [ ] File named and versioned correctly (`cuestionario1.md`, `questions2.md`)
+
+---
+
+👉 The goal is to create modular, multilingual, high-quality DevOps quizzes that support both community engagement and real technical growth. Whether posted on YouTube or served via GitHub Pages, keep the energy high and the content sharp! ⚡
