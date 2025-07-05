@@ -107,10 +107,9 @@ const translations = {
  * @returns {string} The relative path to the quiz markdown file.
  */
 function getQuizFilePath(techId, language) {
-    // Assuming a convention like quizzes/bash/en/cuestionario1.md
-    // For now, let's assume 'cuestionario1.md' is the only quiz file per category/language
-    // We might expand this later for multiple quizzes per category
-    return `quizzes/${techId}/${language}/cuestionario1.md`;
+    // Determine the correct file name based on the language
+    const fileName = (language === 'en') ? 'questions1.md' : 'cuestionario1.md';
+    return `quizzes/${techId}/${language}/${fileName}`;
 }
 
 // Parse markdown quiz content
