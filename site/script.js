@@ -137,22 +137,24 @@ function applyTranslations() {
 
 // Initialize the application
 window.addEventListener('load', function() { // Ensure all resources including MDBootstrap are loaded
-    if (typeof mdb !== 'undefined') { // Check if MDBootstrap is loaded
-        initializeNavigation();
-        initializeDarkMode(); // Initialize dark mode
-        initializeLanguageSelector();
-        renderQuizCategories(); // Render categories dynamically
-        loadQuizData();
-        applyTranslations(); // Apply translations on initial load
+    // Add a small delay to ensure MDBootstrap is fully initialized and globally available
+    setTimeout(() => {
+        if (typeof mdb !== 'undefined') { // Check if MDBootstrap is loaded
+            console.log("MDBootstrap (mdb object) found, initializing app.");
+            initializeNavigation();
+            initializeDarkMode(); // Initialize dark mode
+            initializeLanguageSelector();
+            renderQuizCategories(); // Render categories dynamically
+            loadQuizData();
+            applyTranslations(); // Apply translations on initial load
 
-        // Initialize AOS after content is loaded
-        AOS.init();
-    } else {
-        console.error("MDBootstrap (mdb object) not found. Retrying initialization...");
-        // Fallback or retry logic if MDBootstrap isn't immediately available
-        // For simplicity, we'll just log and assume it will eventually load if script order is correct.
-        // In a more complex app, you might use a MutationObserver or a small delay retry.
-    }
+            // Initialize AOS after content is loaded
+            AOS.init();
+        } else {
+            console.error("MDBootstrap (mdb object) still not found after delay. There might be a deeper issue.");
+            // Optionally, show a user-friendly error message or retry more aggressively
+        }
+    }, 100); // 100ms delay, might be enough for async script execution
 });
 
 // Initialize navigation
