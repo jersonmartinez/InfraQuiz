@@ -30,13 +30,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="#home" data-lang-key="home_nav">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#quizzes">Quizzes</a>
+                        <a class="nav-link" href="#quizzes" data-lang-key="quizzes_nav">Quizzes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link" href="#about" data-lang-key="about_nav">About</a>
                     </li>
                     <!-- Dark Mode Switch -->
                     <li class="nav-item dark-mode-switch ms-lg-3">
@@ -61,18 +61,18 @@
         <div class="container">
             <div class="row align-items-center py-5">
                 <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
-                    <h1 class="display-3 fw-bold mb-4">
+                    <h1 class="display-3 fw-bold mb-4" data-lang-key="hero_title">
                         🚀 Master DevOps with Interactive Quizzes
                     </h1>
-                    <p class="lead mb-4 opacity-75">
+                    <p class="lead mb-4 opacity-75" data-lang-key="hero_description">
                         Learn Bash scripting, Python automation, Terraform, AWS, and more through engaging, 
                         bite-sized quizzes designed for DevOps professionals.
                     </p>
                     <div class="d-flex justify-content-center justify-content-lg-start gap-3 flex-wrap">
-                        <button class="btn btn-primary btn-lg shadow-2" onclick="startRandomQuiz()">
+                        <button class="btn btn-primary btn-lg shadow-2" onclick="startRandomQuiz()" data-lang-key="start_random_quiz">
                             <i class="bi bi-play-circle me-2"></i> Start Random Quiz
                         </button>
-                        <button class="btn btn-outline-light btn-lg" onclick="scrollToQuizzes()">
+                        <button class="btn btn-outline-light btn-lg" onclick="scrollToQuizzes()" data-lang-key="browse_categories">
                             <i class="bi bi-list-check me-2"></i> Browse Categories
                         </button>
                     </div>
@@ -93,8 +93,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center mb-5" data-aos="fade-up">
-                    <h2 class="display-5 fw-bold mb-3">📚 Quiz Categories</h2>
-                    <p class="lead text-muted">Choose your learning path or take a mixed quiz</p>
+                    <h2 class="display-5 fw-bold mb-3" data-lang-key="quiz_categories_title">📚 Quiz Categories</h2>
+                    <p class="lead text-muted" data-lang-key="quiz_categories_subtitle">Choose your learning path or take a mixed quiz</p>
                 </div>
             </div>
             
@@ -116,14 +116,14 @@
                     <!-- Quiz content will be loaded here -->
                     <div class="text-center">
                         <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                            <span class="visually-hidden" data-lang-key="loading_quiz">Loading...</span>
                         </div>
-                        <p class="mt-2">Loading quiz...</p>
+                        <p class="mt-2" data-lang-key="loading_questions">Loading quiz...</p>
                     </div>
                 </div>
                 <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="nextQuestion" style="display: none;">Next Question</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" data-lang-key="modal_close">Close</button>
+                    <button type="button" class="btn btn-primary" id="nextQuestion" style="display: none;" data-lang-key="next_question">Next Question</button>
                 </div>
             </div>
         </div>
@@ -134,7 +134,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-5 shadow-5-strong">
                 <div class="modal-header bg-danger text-white border-0 pb-0">
-                    <h5 class="modal-title fw-bold" id="errorModalLabel">Error</h5>
+                    <h5 class="modal-title fw-bold" id="errorModalLabel" data-lang-key="error_title">Error</h5>
                     <button type="button" class="btn-close btn-close-white" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center p-4">
@@ -142,7 +142,7 @@
                     <p id="errorMessage" class="lead"></p>
                 </div>
                 <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" data-lang-key="modal_close">Close</button>
                 </div>
             </div>
         </div>
@@ -153,28 +153,28 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center mb-5" data-aos="fade-up">
-                    <h2 class="display-5 fw-bold">About InfraQuiz</h2>
+                    <h2 class="display-5 fw-bold" data-lang-key="about_infraquiz_title">About InfraQuiz</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8 mx-auto" data-aos="fade-up" data-aos-delay="200">
                     <div class="card shadow-sm border-0 rounded-3">
                         <div class="card-body p-4">
-                            <p class="lead mb-4">
+                            <p class="lead mb-4" data-lang-key="about_description_1">
                                 InfraQuiz is a public repository containing interactive quizzes about DevOps tools and methodologies. 
                                 Perfect for reinforcing knowledge, interview preparation, or certification study.
                             </p>
-                            <p class="mb-4">
+                            <p class="mb-4" data-lang-key="about_description_2">
                                 Each quiz includes:
                             </p>
                             <ul class="list-unstyled mb-4">
-                                <li><i class="bi bi-check-circle text-success me-2"></i> 1 correct answer per question</li>
-                                <li><i class="bi bi-check-circle text-success me-2"></i> Brief technical explanations</li>
-                                <li><i class="bi bi-check-circle text-success me-2"></i> Visual and engaging format with emojis</li>
-                                <li><i class="bi bi-check-circle text-success me-2"></i> Mixed or random categories to test your knowledge</li>
+                                <li data-lang-key="about_feature_1"><i class="bi bi-check-circle text-success me-2"></i> 1 correct answer per question</li>
+                                <li data-lang-key="about_feature_2"><i class="bi bi-check-circle text-success me-2"></i> Brief technical explanations</li>
+                                <li data-lang-key="about_feature_3"><i class="bi bi-check-circle text-success me-2"></i> Visual and engaging format with emojis</li>
+                                <li data-lang-key="about_feature_4"><i class="bi bi-check-circle text-success me-2"></i> Mixed or random categories to test your knowledge</li>
                             </ul>
                             <div class="text-center mt-4">
-                                <a href="https://github.com/yourusername/InfraQuiz" class="btn btn-outline-primary btn-lg shadow-2">
+                                <a href="https://github.com/yourusername/InfraQuiz" class="btn btn-outline-primary btn-lg shadow-2" data-lang-key="view_on_github">
                                     <i class="bi bi-github me-2"></i> View on GitHub
                                 </a>
                             </div>
@@ -190,7 +190,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="mb-0">&copy; 2024 InfraQuiz. Made with ❤️ for the DevOps community.</p>
+                    <p class="mb-0" data-lang-key="footer_text">&copy; 2024 InfraQuiz. Made with ❤️ for the DevOps community.</p>
                 </div>
             </div>
         </div>

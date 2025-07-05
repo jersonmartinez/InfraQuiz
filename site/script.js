@@ -28,22 +28,131 @@ const technologies = [
     { id: 'mixed', name: 'Mixed Quiz', icon: 'bi-shuffle', color: 'danger', description: 'Random questions from all categories' }
 ];
 
-// Quiz data structure (dynamic based on language)
-function getQuizFilePath(techId) {
-    const fileName = (currentLanguage === 'es') ? 'cuestionario1.md' : 'questions1.md';
-    return `quizzes/${techId}/${currentLanguage}/${fileName}`;
+// Translations object for static texts
+const translations = {
+    'en': {
+        'home_nav': 'Home',
+        'quizzes_nav': 'Quizzes',
+        'about_nav': 'About',
+        'hero_title': '🚀 Master DevOps with Interactive Quizzes',
+        'hero_description': 'Learn Bash scripting, Python automation, Terraform, AWS and more through engaging, bite-sized quizzes designed for DevOps professionals.',
+        'start_random_quiz': 'Start Random Quiz',
+        'browse_categories': 'Browse Categories',
+        'quiz_categories_title': '📚 Quiz Categories',
+        'quiz_categories_subtitle': 'Choose your learning path or take a mixed quiz',
+        'about_infraquiz_title': 'About InfraQuiz',
+        'about_description_1': 'InfraQuiz is a public repository containing interactive quizzes about DevOps tools and methodologies. Perfect for reinforcing knowledge, interview preparation, or certification study.',
+        'about_description_2': 'Each quiz includes:',
+        'about_feature_1': '1 correct answer per question',
+        'about_feature_2': 'Brief technical explanations',
+        'about_feature_3': 'Visual and engaging format with emojis',
+        'about_feature_4': 'Mixed or random categories to test your knowledge',
+        'view_on_github': 'View on GitHub',
+        'footer_text': '© 2024 InfraQuiz. Made with ❤️ for the DevOps community.',
+        'modal_close': 'Close',
+        'next_question': 'Next Question',
+        'loading_quiz': 'Loading quiz...',
+        'loading_questions': 'Loading questions...',
+        'error_title': 'Error',
+        'error_no_quizzes_available': 'No quizzes available to start. Please try reloading the page.',
+        'error_quiz_not_available': (techName) => `The ${techName} quiz is not available yet. Please try another category.`,
+        'correct_feedback': 'Correct!',
+        'incorrect_feedback': 'Incorrect.',
+        'correct_answer_was': 'The correct answer was:',
+        'quiz_complete_title': '🎉 You have completed the quiz! Your final score is:',
+        'quiz_score_details': (score, total) => `You got ${score} out of ${total} questions correct.`,
+        'restart_quiz': 'Restart Quiz',
+        'back_to_categories': 'Back to Categories',
+        'coming_soon_message': 'This category will be available soon. Check back later!'
+    },
+    'es': {
+        'home_nav': 'Inicio',
+        'quizzes_nav': 'Quizzes',
+        'about_nav': 'Acerca de',
+        'hero_title': '🚀 Domina DevOps con Quizzes Interactivos',
+        'hero_description': 'Aprende scripting Bash, automatización con Python, Terraform, AWS y más a través de quizzes atractivos y concisos diseñados para profesionales de DevOps.',
+        'start_random_quiz': 'Iniciar Quiz Aleatorio',
+        'browse_categories': 'Explorar Categorías',
+        'quiz_categories_title': '📚 Categorías de Quizzes',
+        'quiz_categories_subtitle': 'Elige tu ruta de aprendizaje o toma un quiz mixto',
+        'about_infraquiz_title': 'Acerca de InfraQuiz',
+        'about_description_1': 'InfraQuiz es un repositorio público que contiene quizzes interactivos sobre herramientas y metodologías DevOps. Perfecto para reforzar conocimientos, preparación de entrevistas o estudio para certificaciones.',
+        'about_description_2': 'Cada quiz incluye:',
+        'about_feature_1': '1 respuesta correcta por pregunta',
+        'about_feature_2': 'Breves explicaciones técnicas',
+        'about_feature_3': 'Formato visual y atractivo con emojis',
+        'about_feature_4': 'Categorías mixtas o aleatorias para probar tus conocimientos',
+        'view_on_github': 'Ver en GitHub',
+        'footer_text': '© 2024 InfraQuiz. Hecho con ❤️ para la comunidad DevOps.',
+        'modal_close': 'Cerrar',
+        'next_question': 'Siguiente Pregunta',
+        'loading_quiz': 'Cargando quiz...',
+        'loading_questions': 'Cargando preguntas...',
+        'error_title': 'Error',
+        'error_no_quizzes_available': 'No hay quizzes disponibles para iniciar. Por favor, intenta recargar la página.',
+        'error_quiz_not_available': (techName) => `El quiz de ${techName} no está disponible todavía. Por favor, intenta otra categoría.`,
+        'correct_feedback': '¡Correcto!',
+        'incorrect_feedback': 'Incorrecto.',
+        'correct_answer_was': 'La respuesta correcta era:',
+        'quiz_complete_title': '🎉 Has completado el quiz! Tu puntuación final es:',
+        'quiz_score_details': (score, total) => `Obtuviste ${score} de ${total} preguntas correctas.`,
+        'restart_quiz': 'Reiniciar Quiz',
+        'back_to_categories': 'Volver a Categorías',
+        'coming_soon_message': 'Esta categoría estará disponible pronto. ¡Vuelve más tarde!'
+    }
+};
+
+// Function to apply translations to static texts
+function applyTranslations() {
+    const currentTranslations = translations[currentLanguage];
+
+    // Navbar links
+    document.querySelector('a[href="#home"]').textContent = currentTranslations.home_nav;
+    document.querySelector('a[href="#quizzes"]').textContent = currentTranslations.quizzes_nav;
+    document.querySelector('a[href="#about"]').textContent = currentTranslations.about_nav;
+
+    // Hero Section
+    document.querySelector('h1.display-3').innerHTML = currentTranslations.hero_title; // Use innerHTML for emojis
+    document.querySelector('p.lead.mb-4.opacity-75').textContent = currentTranslations.hero_description;
+    document.querySelector('button[onclick="startRandomQuiz()"]').innerHTML = `<i class="bi bi-play-circle me-2"></i> ${currentTranslations.start_random_quiz}`;
+    document.querySelector('button[onclick="scrollToQuizzes()"]').innerHTML = `<i class="bi bi-list-check me-2"></i> ${currentTranslations.browse_categories}`;
+
+    // Quiz Categories Section
+    document.querySelector('#quizzes h2').innerHTML = currentTranslations.quiz_categories_title; // Use innerHTML for emojis
+    document.querySelector('#quizzes p.lead').textContent = currentTranslations.quiz_categories_subtitle;
+
+    // About Section
+    document.querySelector('#about h2').textContent = currentTranslations.about_infraquiz_title;
+    document.querySelector('#about p.lead.mb-4').textContent = currentTranslations.about_description_1;
+    document.querySelector('#about p.mb-4').textContent = currentTranslations.about_description_2;
+    document.querySelector('#about ul li:nth-child(1)').innerHTML = `<i class="bi bi-check-circle text-success me-2"></i> ${currentTranslations.about_feature_1}`;
+    document.querySelector('#about ul li:nth-child(2)').innerHTML = `<i class="bi bi-check-circle text-success me-2"></i> ${currentTranslations.about_feature_2}`;
+    document.querySelector('#about ul li:nth-child(3)').innerHTML = `<i class="bi bi-check-circle text-success me-2"></i> ${currentTranslations.about_feature_3}`;
+    document.querySelector('#about ul li:nth-child(4)').innerHTML = `<i class="bi bi-check-circle text-success me-2"></i> ${currentTranslations.about_feature_4}`;
+    document.querySelector('#about a[href*="github.com"]').innerHTML = `<i class="bi bi-github me-2"></i> ${currentTranslations.view_on_github}`;
+
+    // Footer
+    document.querySelector('footer p.mb-0').innerHTML = currentTranslations.footer_text; // Use innerHTML for emojis
 }
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    initializeNavigation();
-    initializeDarkMode(); // Initialize dark mode
-    initializeLanguageSelector();
-    renderQuizCategories(); // Render categories dynamically
-    loadQuizData();
+window.addEventListener('load', function() { // Ensure all resources including MDBootstrap are loaded
+    if (typeof mdb !== 'undefined') { // Check if MDBootstrap is loaded
+        initializeNavigation();
+        initializeDarkMode(); // Initialize dark mode
+        initializeLanguageSelector();
+        renderQuizCategories(); // Render categories dynamically
+        loadQuizData();
+        applyTranslations(); // Apply translations on initial load
 
-    // Initialize AOS after content is loaded
-    AOS.init();
+        // Initialize AOS after content is loaded
+        AOS.init();
+    } else {
+        console.error("MDBootstrap (mdb object) not found. Retrying initialization...");
+        // Fallback or retry logic if MDBootstrap isn't immediately available
+        // For simplicity, we'll just log and assume it will eventually load if script order is correct.
+        // In a more complex app, you might use a MutationObserver or a small delay retry.
+    }
 });
 
 // Initialize navigation
@@ -137,6 +246,7 @@ function initializeLanguageSelector() {
         localStorage.setItem('quizLanguage', currentLanguage); // Save language preference
         loadQuizData(); // Reload quiz data for the new language
         renderQuizCategories(); // Re-render categories with correct titles/descriptions
+        applyTranslations(); // Apply translations after language change
     });
 }
 
@@ -295,7 +405,7 @@ function parseMarkdownQuiz(markdown) {
 function startRandomQuiz() {
     const availableTechs = technologies.filter(tech => quizData[tech.id] && quizData[tech.id].length > 0);
     if (availableTechs.length === 0) {
-        showError(currentLanguage === 'es' ? 'No hay quizzes disponibles para iniciar. Intenta recargar la página.' : 'No quizzes available to start. Please try reloading the page.');
+        showError(translations[currentLanguage].error_no_quizzes_available); // Use translation
         return;
     }
     const randomIndex = Math.floor(Math.random() * availableTechs.length);
@@ -308,9 +418,7 @@ function loadQuiz(quizType) {
     currentQuiz = quizData[quizType];
     if (!currentQuiz || currentQuiz.length === 0) {
         const techName = technologies.find(t => t.id === quizType)?.name || quizType;
-        showError(currentLanguage === 'es' ?
-            `El quiz de ${techName} no está disponible todavía. Por favor, intenta otra categoría.` :
-            `The ${techName} quiz is not available yet. Please try another category.`);
+        showError(translations[currentLanguage].error_quiz_not_available(techName)); // Use translation function
         return;
     }
 
@@ -392,7 +500,7 @@ function selectOption(event) {
         selectedOptionElement.classList.add('correct');
         score++;
         explanationElement.innerHTML = `
-            <h6>${currentLanguage === 'es' ? '¡Correcto!' : 'Correct!'} <i class="bi bi-check-circle-fill text-success"></i></h6>
+            <h6>${translations[currentLanguage].correct_feedback} <i class="bi bi-check-circle-fill text-success"></i></h6>
             <p>${question.explanation}</p>
         `;
     } else {
@@ -401,8 +509,8 @@ function selectOption(event) {
             quizOptions[correctOptionIndex].classList.add('correct'); // Highlight correct answer
         }
         explanationElement.innerHTML = `
-            <h6>${currentLanguage === 'es' ? 'Incorrecto.' : 'Incorrect.'} <i class="bi bi-x-circle-fill text-danger"></i></h6>
-            <p>${currentLanguage === 'es' ? 'La respuesta correcta era:' : 'The correct answer was:'} <strong>${question.options[correctOptionIndex].text}</strong></p>
+            <h6>${translations[currentLanguage].incorrect_feedback} <i class="bi bi-x-circle-fill text-danger"></i></h6>
+            <p>${translations[currentLanguage].correct_answer_was} <strong>${question.options[correctOptionIndex].text}</strong></p>
             <p>${question.explanation}</p>
         `;
     }
@@ -426,12 +534,8 @@ function showQuizResults() {
     const nextQuestionBtn = document.getElementById('nextQuestion');
     nextQuestionBtn.style.display = 'none';
 
-    const resultMessage = currentLanguage === 'es' ?
-        `Has completado el quiz! Tu puntuación final es:` :
-        `You have completed the quiz! Your final score is:`;
-    const scoreDetails = currentLanguage === 'es' ?
-        `Obtuviste ${score} de ${totalQuestions} preguntas correctas.` :
-        `You got ${score} out of ${totalQuestions} questions correct.`;
+    const resultMessage = translations[currentLanguage].quiz_complete_title;
+    const scoreDetails = translations[currentLanguage].quiz_score_details(score, totalQuestions);
 
     questionContainer.innerHTML = `
         <div class="quiz-results text-center py-4">
@@ -441,8 +545,8 @@ function showQuizResults() {
             </div>
             <p class="lead">${scoreDetails}</p>
             <div class="d-grid gap-2 col-md-8 mx-auto mt-4">
-                <button class="btn btn-primary btn-lg shadow-2" onclick="restartQuiz()">${currentLanguage === 'es' ? 'Reiniciar Quiz' : 'Restart Quiz'}</button>
-                <button class="btn btn-outline-secondary btn-lg" data-mdb-dismiss="modal">${currentLanguage === 'es' ? 'Volver a Categorías' : 'Back to Categories'}</button>
+                <button class="btn btn-primary btn-lg shadow-2" onclick="restartQuiz()">${translations[currentLanguage].restart_quiz}</button>
+                <button class="btn btn-outline-secondary btn-lg" data-mdb-dismiss="modal">${translations[currentLanguage].back_to_categories}</button>
             </div>
         </div>
     `;
@@ -462,9 +566,7 @@ function scrollToQuizzes() {
 
 // Show coming soon message
 function showComingSoon() {
-    showError(currentLanguage === 'es' ?
-        'Esta categoría estará disponible pronto. ¡Vuelve más tarde!' :
-        'This category will be available soon. Check back later!');
+    showError(translations[currentLanguage].coming_soon_message); // Use translation
 }
 
 // Show generic error modal
@@ -482,9 +584,9 @@ function showLoading(isLoading) {
         quizContent.innerHTML = `
             <div class="text-center py-5">
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">${currentLanguage === 'es' ? 'Cargando...' : 'Loading...'}</span>
+                    <span class="visually-hidden">${translations[currentLanguage].loading_quiz}</span>
                 </div>
-                <p class="mt-3 lead">${currentLanguage === 'es' ? 'Cargando preguntas...' : 'Loading questions...'}</p>
+                <p class="mt-3 lead">${translations[currentLanguage].loading_questions}</p>
             </div>
         `;
     } else {

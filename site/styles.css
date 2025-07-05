@@ -428,6 +428,41 @@ footer {
     border-color: var(--primary-color);
 }
 
+.dark-mode-switch .form-check-label {
+    color: var(--current-text-color) !important; /* Ensure label is visible in both modes */
+    transition: color 0.3s ease;
+}
+
+/* About Section */
+#about {
+    background-color: var(--current-background-color); /* Use theme variable for background */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: var(--current-text-color);
+}
+
+#about .card {
+    background-color: var(--current-card-bg);
+    border-color: var(--current-card-border);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); /* Ensure shadow matches theme */
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#about h2 {
+    color: var(--current-text-color);
+}
+
+#about .lead {
+    color: var(--current-text-color);
+}
+
+#about .list-unstyled li {
+    color: var(--current-text-color);
+}
+
+#about .list-unstyled li i {
+    color: var(--success-color) !important; /* Keep success icon color */
+}
+
 /* Custom colors for categories (ensure they exist in your CSS variables if needed) */
 .text-purple { color: var(--purple-color) !important; }
 .text-orange { color: var(--orange-color) !important; }
