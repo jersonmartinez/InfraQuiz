@@ -3,13 +3,6 @@
 // Default language
 let currentLanguage = localStorage.getItem('quizLanguage') || 'en'; // Get language from local storage or default to English
 
-// Global variables
-let currentQuiz = null;
-let currentQuestionIndex = 0;
-let score = 0;
-let totalQuestions = 0;
-let quizData = {};
-
 // Supported technologies with display names and icons
 const technologies = [
     { id: 'bash', name: 'Bash Scripting', icon: 'bi-terminal', color: 'success', description: 'Master shell scripting fundamentals and automation' },
@@ -60,7 +53,7 @@ const translations = {
         'incorrect_feedback': 'Incorrect.',
         'correct_answer_was': 'The correct answer was:',
         'quiz_complete_title': '🎉 You have completed the quiz! Your final score is:',
-        'quiz_score_details': (score, total) => `You got ${score} out of ${total} questions correct.`,
+        'quiz_score_details': (score, total) => `You got ${score} out of ${total} questions correct.`, 
         'restart_quiz': 'Restart Quiz',
         'back_to_categories': 'Back to Categories',
         'coming_soon_message': 'This category will be available soon. Check back later!'
@@ -95,7 +88,7 @@ const translations = {
         'incorrect_feedback': 'Incorrecto.',
         'correct_answer_was': 'La respuesta correcta era:',
         'quiz_complete_title': '🎉 Has completado el quiz! Tu puntuación final es:',
-        'quiz_score_details': (score, total) => `Obtuviste ${score} de ${total} preguntas correctas.`,
+        'quiz_score_details': (score, total) => `Obtuviste ${score} de ${total} preguntas correctas.`, 
         'restart_quiz': 'Reiniciar Quiz',
         'back_to_categories': 'Volver a Categorías',
         'coming_soon_message': 'Esta categoría estará disponible pronto. ¡Vuelve más tarde!'
@@ -145,7 +138,6 @@ window.addEventListener('load', function() { // Ensure all resources including M
             initializeDarkMode(); // Initialize dark mode
             initializeLanguageSelector();
             renderQuizCategories(); // Render categories dynamically
-            loadQuizData();
             applyTranslations(); // Apply translations on initial load
 
             // Initialize AOS after content is loaded
@@ -246,23 +238,9 @@ function initializeLanguageSelector() {
     languageSelector.addEventListener('change', function(e) {
         currentLanguage = e.target.value;
         localStorage.setItem('quizLanguage', currentLanguage); // Save language preference
-        loadQuizData(); // Reload quiz data for the new language
         renderQuizCategories(); // Re-render categories with correct titles/descriptions
         applyTranslations(); // Apply translations after language change
     });
-}
-
-/**
- * Constructs the file path for a quiz markdown file based on technology ID and language.
- * @param {string} techId - The ID of the technology (e.g., 'bash', 'python').
- * @param {string} language - The language code (e.g., 'en', 'es').
- * @returns {string} The relative path to the quiz markdown file.
- */
-function getQuizFilePath(techId, language) {
-    // Assuming a convention like quizzes/bash/en/cuestionario1.md
-    // For now, let's assume 'cuestionario1.md' is the only quiz file per category/language
-    // We might expand this later for multiple quizzes per category
-    return `quizzes/${techId}/${language}/cuestionario1.md`;
 }
 
 // Render quiz categories dynamically
@@ -282,15 +260,15 @@ function renderQuizCategories() {
         col.setAttribute('data-aos-delay', `${index * 100}`); // Stagger animations
 
         col.innerHTML = `
-            <div class="card quiz-card h-100 shadow-3" onclick="loadQuiz('${tech.id}')">
+            <div class="card quiz-card h-100 shadow-3">
                 <div class="card-body text-center">
                     <i class="bi ${tech.icon} display-4 text-${tech.color} mb-3"></i>
-                    <h5 class="card-title">${tech.name}</h5>
-                    <p class="card-text">${tech.description}</p>
-                    <div class="difficulty-badges">
-                        <span class="badge bg-success">Beginner</span>
-                        <span class="badge bg-warning">Intermediate</span>
-                        <span class="badge bg-danger">Advanced</span>
+                    <h5 class="card-title fw-bold mb-2">${tech.name}</h5>
+                    <p class="card-text text-muted"><small>${tech.description}</small></p>
+                    <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
+                        <a href="quiz.html?category=${tech.id}&level=beginner&lang=${currentLanguage}" class="btn btn-success btn-sm m-0">Beginner</a>
+                        <a href="quiz.html?category=${tech.id}&level=intermediate&lang=${currentLanguage}" class="btn btn-warning btn-sm m-0">Intermediate</a>
+                        <a href="quiz.html?category=${tech.id}&level=advanced&lang=${currentLanguage}" class="btn btn-danger btn-sm m-0">Advanced</a>
                     </div>
                 </div>
             </div>
@@ -299,313 +277,7 @@ function renderQuizCategories() {
     });
 }
 
-// Load quiz data from markdown files
-async function loadQuizData() {
-    quizData = {}; // Clear existing data
-    showLoading(true); // Show loading spinner
-    
-    const fetchPromises = technologies.map(async tech => {
-        const filePath = getQuizFilePath(tech.id, currentLanguage);
-        try {
-            const response = await fetch(filePath);
-            if (response.ok) {
-                const markdown = await response.text();
-                quizData[tech.id] = parseMarkdownQuiz(markdown);
-            } else {
-                console.warn(`Quiz file not found for ${tech.id} (${currentLanguage}): ${filePath}`);
-                quizData[tech.id] = []; // Assign empty array if file not found
-            }
-        } catch (error) {
-            console.error(`Error fetching quiz for ${tech.id} (${currentLanguage}):`, error);
-            quizData[tech.id] = []; // Assign empty array on error
-        }
-    });
-
-    await Promise.all(fetchPromises);
-    showLoading(false); // Hide loading spinner
-    console.log('Quiz data loaded successfully', quizData);
-}
-
-// Parse markdown quiz content
-function parseMarkdownQuiz(markdown) {
-    const questions = [];
-    const lines = markdown.split('\n');
-    let currentQuestion = null;
-    let currentOptions = [];
-    let currentExplanation = '';
-    let inQuestionBlock = false; // Flag to indicate if we are inside a question's content block
-    
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
-        
-        // Skip empty lines
-        if (line === '') continue;
-
-        // Skip placeholder text for empty quizzes
-        if (line.includes('Este archivo necesita ser completado') || 
-            line.includes('This file needs to be completed')) {
-            console.warn("Placeholder content detected, returning empty quiz.");
-            return []; // If placeholder found, return an empty array for this quiz
-        }
-        
-        // Detect question start (using common emoji patterns)
-        if (line.match(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/) && line.includes('Difficulty:')) {
-            // Save previous question if exists and is valid
-            if (currentQuestion && currentOptions.length > 0) {
-                currentQuestion.options = currentOptions;
-                currentQuestion.explanation = currentExplanation.trim();
-                questions.push(currentQuestion);
-            }
-            
-            // Start new question
-            const difficultyMatch = line.match(/Difficulty: (🟢|🟡|🔴)/);
-            let difficulty = 'unknown';
-            if (difficultyMatch) {
-                switch (difficultyMatch[1]) {
-                    case '🟢': difficulty = 'beginner'; break;
-                    case '🟡': difficulty = 'intermediate'; break;
-                    case '🔴': difficulty = 'advanced'; break;
-                }
-            }
-
-            currentQuestion = {
-                text: line.replace(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*|\s*Difficulty: (?:🟢|🟡|🔴)/g, '').trim(),
-                difficulty: difficulty,
-                options: [],
-                explanation: ''
-            };
-            currentOptions = [];
-            currentExplanation = '';
-            inQuestionBlock = true;
-            continue;
-        }
-        
-        // Detect options using specific emojis
-        if (inQuestionBlock && line.match(/^(?:📝|🔄|📦|🎯)/)) {
-            const isCorrect = line.startsWith('📝'); // Option starting with 📝 is the correct one
-            const optionText = line.substring(2).trim(); // Remove emoji and space
-            currentOptions.push({
-                text: optionText,
-                isCorrect: isCorrect
-            });
-            // Reset explanation gathering once options start
-            currentExplanation = ''; 
-            continue;
-        }
-
-        // Detect explanation header and content
-        if (inQuestionBlock) {
-            if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**') ||
-                line.includes('**Explanation:**') || line.includes('**Explicación:**')) {
-                // This is an explanation header, start collecting from here
-                currentExplanation = line.replace(/\*\*(Correct Answer|Respuesta Correcta|Explanation|Explicación):\*\*/g, '').trim();
-            } else if (currentExplanation !== '') {
-                // Continue collecting explanation lines
-                currentExplanation += '\n' + line;
-            }
-        }
-    }
-    
-    // Add the last question if it exists and is valid
-    if (currentQuestion && currentOptions.length > 0) {
-        currentQuestion.options = currentOptions;
-        currentQuestion.explanation = currentExplanation.trim();
-        questions.push(currentQuestion);
-    }
-    
-    return questions;
-}
-
-// Start random quiz
-function startRandomQuiz() {
-    const availableTechs = technologies.filter(tech => quizData[tech.id] && quizData[tech.id].length > 0);
-    if (availableTechs.length === 0) {
-        showError(translations[currentLanguage].error_no_quizzes_available); // Use translation
-        return;
-    }
-    const randomIndex = Math.floor(Math.random() * availableTechs.length);
-    const randomTechId = availableTechs[randomIndex].id;
-    loadQuiz(randomTechId);
-}
-
-// Load a specific quiz
-function loadQuiz(quizType) {
-    currentQuiz = quizData[quizType];
-    if (!currentQuiz || currentQuiz.length === 0) {
-        const techName = technologies.find(t => t.id === quizType)?.name || quizType;
-        showError(translations[currentLanguage].error_quiz_not_available(techName)); // Use translation function
-        return;
-    }
-
-    currentQuestionIndex = 0;
-    score = 0;
-    totalQuestions = currentQuiz.length;
-    document.getElementById('quizTitle').innerText = technologies.find(t => t.id === quizType)?.name || 'Quiz';
-    
-    showQuizModal();
-}
-
-// Show quiz modal
-function showQuizModal() {
-    // Use mdb.Modal instead of bootstrap.Modal
-    const quizModal = new mdb.Modal(document.getElementById('quizModal'));
-    quizModal.show();
-    showQuestion();
-}
-
-// Show a question
-function showQuestion() {
-    const questionContainer = document.getElementById('quizContent');
-    const nextQuestionBtn = document.getElementById('nextQuestion');
-    nextQuestionBtn.style.display = 'none'; // Hide next button initially
-
-    if (currentQuestionIndex < totalQuestions) {
-        const question = currentQuiz[currentQuestionIndex];
-        const progress = ((currentQuestionIndex) / totalQuestions) * 100;
-
-        questionContainer.innerHTML = `
-            <div class="quiz-progress mb-3">
-                <div class="progress rounded-pill">
-                    <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small class="text-muted float-end mt-1">${currentQuestionIndex + 1} / ${totalQuestions}</small>
-            </div>
-            <p class="quiz-question">${question.text}</p>
-            <div class="quiz-options">
-                ${question.options.map((option, index) => `
-                    <div class="quiz-option ripple shadow-1" data-mdb-ripple-color="primary" data-index="${index}">
-                        ${option.text}
-                    </div>
-                `).join('')}
-            </div>
-            <div class="quiz-explanation" style="display: none;"></div>
-        `;
-
-        document.querySelectorAll('.quiz-option').forEach(optionElement => {
-            optionElement.addEventListener('click', selectOption);
-        });
-    } else {
-        showQuizResults();
-    }
-}
-
-// Select an option
-function selectOption(event) {
-    const selectedOptionElement = event.currentTarget;
-    const optionIndex = parseInt(selectedOptionElement.dataset.index);
-    const question = currentQuiz[currentQuestionIndex];
-    const nextQuestionBtn = document.getElementById('nextQuestion');
-    const quizOptions = document.querySelectorAll('.quiz-option');
-
-    // Disable further clicks on options
-    quizOptions.forEach(opt => {
-        opt.removeEventListener('click', selectOption);
-        opt.style.cursor = 'default';
-        opt.classList.add('pe-none'); // Prevent pointer events (MDBootstrap utility class)
-    });
-
-    // Mark selected option
-    selectedOptionElement.classList.add('selected');
-
-    // Reveal correct answer and explanation
-    const correctOptionIndex = question.options.findIndex(option => option.isCorrect);
-    const explanationElement = document.querySelector('.quiz-explanation');
-
-    if (question.options[optionIndex].isCorrect) {
-        selectedOptionElement.classList.add('correct');
-        score++;
-        explanationElement.innerHTML = `
-            <h6>${translations[currentLanguage].correct_feedback} <i class="bi bi-check-circle-fill text-success"></i></h6>
-            <p>${question.explanation}</p>
-        `;
-    } else {
-        selectedOptionElement.classList.add('incorrect');
-        if (correctOptionIndex !== -1) {
-            quizOptions[correctOptionIndex].classList.add('correct'); // Highlight correct answer
-        }
-        explanationElement.innerHTML = `
-            <h6>${translations[currentLanguage].incorrect_feedback} <i class="bi bi-x-circle-fill text-danger"></i></h6>
-            <p>${translations[currentLanguage].correct_answer_was} <strong>${question.options[correctOptionIndex].text}</strong></p>
-            <p>${question.explanation}</p>
-        `;
-    }
-    explanationElement.style.display = 'block';
-    nextQuestionBtn.style.display = 'block';
-}
-
-// Next question
-function nextQuestion() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < totalQuestions) {
-        showQuestion();
-    } else {
-        showQuizResults();
-    }
-}
-
-// Show quiz results
-function showQuizResults() {
-    const questionContainer = document.getElementById('quizContent');
-    const nextQuestionBtn = document.getElementById('nextQuestion');
-    nextQuestionBtn.style.display = 'none';
-
-    const resultMessage = translations[currentLanguage].quiz_complete_title;
-    const scoreDetails = translations[currentLanguage].quiz_score_details(score, totalQuestions);
-
-    questionContainer.innerHTML = `
-        <div class="quiz-results text-center py-4">
-            <h3 class="display-4 fw-bold mb-3">🎉 ${resultMessage}</h3>
-            <div class="quiz-score mb-4">
-                <p class="h4 mb-0">${score} / ${totalQuestions}</p>
-            </div>
-            <p class="lead">${scoreDetails}</p>
-            <div class="d-grid gap-2 col-md-8 mx-auto mt-4">
-                <button class="btn btn-primary btn-lg shadow-2" onclick="restartQuiz()">${translations[currentLanguage].restart_quiz}</button>
-                <button class="btn btn-outline-secondary btn-lg" data-mdb-dismiss="modal">${translations[currentLanguage].back_to_categories}</button>
-            </div>
-        </div>
-    `;
-}
-
-// Restart quiz
-function restartQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    showQuestion();
-}
-
 // Scroll to quizzes section
 function scrollToQuizzes() {
     document.getElementById('quizzes').scrollIntoView({ behavior: 'smooth' });
-}
-
-// Show coming soon message
-function showComingSoon() {
-    showError(translations[currentLanguage].coming_soon_message); // Use translation
-}
-
-// Show generic error modal
-function showError(message) {
-    document.getElementById('errorMessage').innerText = message;
-    // Use mdb.Modal instead of bootstrap.Modal
-    const errorModal = new mdb.Modal(document.getElementById('errorModal'));
-    errorModal.show();
-}
-
-// Show/hide loading spinner in quiz modal
-function showLoading(isLoading) {
-    const quizContent = document.getElementById('quizContent');
-    if (isLoading) {
-        quizContent.innerHTML = `
-            <div class="text-center py-5">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">${translations[currentLanguage].loading_quiz}</span>
-                </div>
-                <p class="mt-3 lead">${translations[currentLanguage].loading_questions}</p>
-            </div>
-        `;
-    } else {
-        // Clear loading spinner, content will be replaced by showQuestion or showQuizResults
-        // No direct action needed here, as showQuestion/showQuizResults will overwrite
-    }
 } 

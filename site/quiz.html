@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfraQuiz - Quiz</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>"> <!-- Generic brain emoji favicon -->
+    
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- MDBootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- AOS Animate On Scroll CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation (replicated from index.html for consistency) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-0" id="main-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-cpu"></i> InfraQuiz
+            </a>
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#home" data-lang-key="home_nav">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#quizzes" data-lang-key="quizzes_nav">Quizzes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#about" data-lang-key="about_nav">About</a>
+                    </li>
+                    <!-- Dark Mode Switch -->
+                    <li class="nav-item dark-mode-switch ms-lg-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                            <label class="form-check-label text-light" for="darkModeToggle"><i class="bi bi-moon-fill"></i></label>
+                        </div>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <select id="languageSelector" class="form-select form-select-sm bg-dark text-white border-0" aria-label="Language selector" style="width: auto;">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quiz Section -->
+    <section id="quiz-page" class="py-5 mt-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-5-strong rounded-5">
+                        <div class="card-body p-4">
+                            <h2 class="card-title text-center mb-4 fw-bold" id="quizPageTitle">Quiz</h2>
+                            
+                            <!-- Loading / Error State -->
+                            <div id="quizLoading" class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden" data-lang-key="loading_quiz">Loading...</span>
+                                </div>
+                                <p class="mt-3 lead" data-lang-key="loading_questions">Loading quiz...</p>
+                            </div>
+
+                            <!-- Quiz Content -->
+                            <div id="quizContent" style="display: none;">
+                                <div class="progress mb-4" style="height: 10px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="lead mb-4" id="questionText"></p>
+                                <div class="list-group mb-4" id="optionsContainer">
+                                    <!-- Options will be loaded here -->
+                                </div>
+                                <div id="feedback" class="mb-4 d-none"></div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-secondary" id="backToCategoriesBtn" data-lang-key="back_to_categories">Back to Categories</button>
+                                    <button class="btn btn-primary" id="nextQuestionBtn" data-lang-key="next_question" style="display: none;">Next Question</button>
+                                </div>
+                            </div>
+
+                            <!-- Quiz Results -->
+                            <div id="quizResults" class="text-center py-5" style="display: none;">
+                                <h3 class="fw-bold mb-3" data-lang-key="quiz_complete_title">🎉 Quiz Completed!</h3>
+                                <p class="lead mb-4" id="finalScore"></p>
+                                <button class="btn btn-primary btn-lg" id="restartQuizBtn" data-lang-key="restart_quiz">Restart Quiz</button>
+                                <button class="btn btn-outline-secondary btn-lg ms-3" id="backToCategoriesResultsBtn" data-lang-key="back_to_categories">Back to Categories</button>
+                            </div>
+
+                            <!-- Error Message (for quiz page specific errors) -->
+                            <div id="quizError" class="text-center py-5" style="display: none;">
+                                <i class="bi bi-exclamation-triangle-fill text-danger display-4 mb-3"></i>
+                                <p id="quizErrorMessage" class="lead"></p>
+                                <button class="btn btn-secondary" id="errorBackToCategoriesBtn" data-lang-key="back_to_categories">Back to Categories</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (replicated from index.html for consistency) -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0" data-lang-key="footer_text">&copy; 2024 InfraQuiz. Made with ❤️ for the DevOps community.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MDBootstrap JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+    <!-- AOS Animate On Scroll JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <!-- Custom JS for main page functionalities (like dark mode and language selector) -->
+    <script src="script.js"></script> 
+    <!-- Quiz Page Specific JS -->
+    <script src="quiz_page.js"></script>
+</body>
+</html> 
