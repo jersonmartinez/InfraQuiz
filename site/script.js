@@ -252,6 +252,19 @@ function initializeLanguageSelector() {
     });
 }
 
+/**
+ * Constructs the file path for a quiz markdown file based on technology ID and language.
+ * @param {string} techId - The ID of the technology (e.g., 'bash', 'python').
+ * @param {string} language - The language code (e.g., 'en', 'es').
+ * @returns {string} The relative path to the quiz markdown file.
+ */
+function getQuizFilePath(techId, language) {
+    // Assuming a convention like quizzes/bash/en/cuestionario1.md
+    // For now, let's assume 'cuestionario1.md' is the only quiz file per category/language
+    // We might expand this later for multiple quizzes per category
+    return `quizzes/${techId}/${language}/cuestionario1.md`;
+}
+
 // Render quiz categories dynamically
 function renderQuizCategories() {
     const container = document.getElementById('quiz-categories-container');
@@ -292,7 +305,7 @@ async function loadQuizData() {
     showLoading(true); // Show loading spinner
     
     const fetchPromises = technologies.map(async tech => {
-        const filePath = getQuizFilePath(tech.id);
+        const filePath = getQuizFilePath(tech.id, currentLanguage);
         try {
             const response = await fetch(filePath);
             if (response.ok) {
