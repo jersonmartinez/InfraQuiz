@@ -135,7 +135,7 @@ function parseMarkdownQuiz(markdown) {
         }
         
         // Detect question start (using common emoji patterns)
-        if (line.match(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/) && line.includes('Difficulty:')) {
+        if (line.match(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
             // Save previous question if exists and is valid
             if (currentQuestion && currentOptions.length > 0) {
                 currentQuestion.options = currentOptions;
@@ -144,7 +144,7 @@ function parseMarkdownQuiz(markdown) {
             }
             
             // Start new question
-            const difficultyMatch = line.match(/Difficulty: (🟢|🟡|🔴)/);
+            const difficultyMatch = line.match(/(🟢|🟡|🔴)$/);
             let difficulty = 'unknown';
             if (difficultyMatch) {
                 switch (difficultyMatch[1]) {
@@ -155,7 +155,7 @@ function parseMarkdownQuiz(markdown) {
             }
 
             currentQuestion = {
-                text: line.replace(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*|\s*Difficulty: (?:🟢|🟡|🔴)/g, '').trim(),
+                text: line.replace(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*|(?:🟢|🟡|🔴)\s*$/g, '').trim(),
                 difficulty: difficulty,
                 options: [],
                 explanation: ''
@@ -199,6 +199,7 @@ function parseMarkdownQuiz(markdown) {
         questions.push(currentQuestion);
     }
     
+    console.log('Parsed questions:', questions); // Debug log
     return questions;
 }
 
@@ -464,6 +465,8 @@ async function loadQuizPage(category, level, language) {
             
             // Filter questions by difficulty level
             const filteredQuestions = allQuestions.filter(q => q.difficulty === level);
+            console.log('All questions parsed:', allQuestions); // Debug log
+            console.log(`Filtered questions for level ${level}:`, filteredQuestions); // Debug log
 
             if (filteredQuestions.length > 0) {
                 currentQuiz = filteredQuestions;
