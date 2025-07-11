@@ -122,7 +122,7 @@
 
 ---
 
-### 🔧 What's the most efficient way to process large files? 🔴
+### 🔧 What's the most efficient way to process large files? 🟡
 
 📝 `with open('file.txt') as f: for line in f: process(line)`
 🔄 `content = open('file.txt').read(); for line in content.splitlines():`
