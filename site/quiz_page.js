@@ -463,6 +463,143 @@ function getUrlParameter(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\\+/g, ' '));
 }
 
+// --- ADVANCED UX, LEADERBOARD, RANDOMIZATION, MULTIMEDIA, ACCESSIBILITY, ROBUSTNESS ---
+
+// --- Timer ---
+let quizTimerInterval = null;
+let quizElapsedSeconds = 0;
+function startQuizTimer() {
+    quizElapsedSeconds = 0;
+    updateQuizTimerDisplay();
+    if (quizTimerInterval) clearInterval(quizTimerInterval);
+    quizTimerInterval = setInterval(() => {
+        quizElapsedSeconds++;
+        updateQuizTimerDisplay();
+    }, 1000);
+}
+function stopQuizTimer() {
+    if (quizTimerInterval) clearInterval(quizTimerInterval);
+}
+function updateQuizTimerDisplay() {
+    const timerEl = document.getElementById('quizTimer');
+    if (timerEl) {
+        const min = Math.floor(quizElapsedSeconds / 60);
+        const sec = quizElapsedSeconds % 60;
+        timerEl.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+    }
+}
+
+// --- Progress Bar & Counter ---
+function renderProgressIndicator() {
+    const container = document.getElementById('quizProgressIndicator');
+    if (!container) return;
+    const progress = ((currentQuestionIndex) / totalQuestions) * 100;
+    container.innerHTML = `
+        <div class="progress flex-grow-1 me-3" style="height: 12px; min-width: 120px;">
+            <div class="progress-bar" role="progressbar" style="width: ${progress}%" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="fw-bold">${translations[currentLanguage].question_progress(currentQuestionIndex + 1, totalQuestions)}</div>
+        <div id="quizTimer" class="quiz-timer" aria-live="polite" tabindex="0"></div>
+    `;
+    updateQuizTimerDisplay();
+}
+
+// --- Keyboard Navigation ---
+function setupKeyboardNavigation() {
+    document.onkeydown = (e) => {
+        if (!currentQuiz || currentQuestionIndex >= totalQuestions) return;
+        const options = document.querySelectorAll('.quiz-option');
+        let focused = Array.from(options).findIndex(opt => opt === document.activeElement);
+        // 1-4 or A-D
+        if (e.key >= '1' && e.key <= String(options.length)) {
+            options[parseInt(e.key) - 1].focus();
+        } else if (e.key.toLowerCase() >= 'a' && e.key.toLowerCase() < String.fromCharCode('a'.charCodeAt(0) + options.length)) {
+            options[e.key.toLowerCase().charCodeAt(0) - 97].focus();
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            if (focused < options.length - 1) options[focused + 1].focus();
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            if (focused > 0) options[focused - 1].focus();
+        } else if (e.key === 'Enter' && focused !== -1) {
+            options[focused].click();
+        }
+    };
+}
+
+// --- Leaderboard Local Storage ---
+function saveLeaderboard(category, level, score, time) {
+    const key = `infraquiz_leaderboard_${category}_${level}`;
+    let board = JSON.parse(localStorage.getItem(key) || '[]');
+    board.push({ score, time, date: new Date().toISOString() });
+    board = board.sort((a, b) => b.score - a.score || a.time - b.time).slice(0, 5);
+    localStorage.setItem(key, JSON.stringify(board));
+}
+function renderLeaderboard(category, level) {
+    const key = `infraquiz_leaderboard_${category}_${level}`;
+    let board = JSON.parse(localStorage.getItem(key) || '[]');
+    if (!board.length) return '';
+    return `
+    <div class="leaderboard">
+        <div class="leaderboard-title">🏆 Top 5 (${category} - ${level})</div>
+        <ul class="leaderboard-list">
+            ${board.map((entry, i) => `<li><span>#${i+1}</span> <span class="leaderboard-score">${entry.score}</span> <span class="leaderboard-time">${Math.floor(entry.time/60)}:${(entry.time%60).toString().padStart(2,'0')}</span></li>`).join('')}
+        </ul>
+    </div>`;
+}
+
+// --- Random Question Selection ---
+function selectRandomQuestions(allQuestions, count) {
+    if (allQuestions.length <= count) return allQuestions;
+    const shuffled = allQuestions.slice().sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+}
+
+// --- Multimedia in Explanations ---
+function renderExplanationWithMedia(explanation) {
+    // Convert URLs to links and images
+    let html = explanation.replace(/(https?:\/\/\S+\.(?:png|jpg|jpeg|gif))/gi, '<img src="$1" alt="Explanation image" style="max-width:100%;margin:1em 0;" />');
+    html = html.replace(/(https?:\/\/\S+)/gi, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    // Basic markdown bold/italic
+    html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>');
+    return html;
+}
+
+// --- ARIA/Accessibility ---
+function applyAriaToOptions() {
+    const options = document.querySelectorAll('.quiz-option');
+    options.forEach((opt, i) => {
+        opt.setAttribute('role', 'button');
+        opt.setAttribute('tabindex', '0');
+        opt.setAttribute('aria-label', `Option ${i+1}`);
+        opt.setAttribute('aria-selected', 'false');
+    });
+}
+
+// --- Share Results ---
+function renderShareButtons(score, total, category, level, time) {
+    const url = encodeURIComponent(window.location.href.split('?')[0] + `?category=${category}&level=${level}`);
+    const text = encodeURIComponent(`I scored ${score}/${total} in ${category} (${level}) on InfraQuiz! Try to beat my score!`);
+    return `
+    <div class="d-flex gap-2 justify-content-center mt-3">
+        <a href="https://twitter.com/intent/tweet?text=${text}&url=${url}" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-twitter"></i> Twitter</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${url}" target="_blank" class="btn btn-outline-primary btn-sm"><i class="bi bi-linkedin"></i> LinkedIn</a>
+        <a href="https://wa.me/?text=${text}%20${url}" target="_blank" class="btn btn-outline-success btn-sm"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+        <button class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard.writeText('${text} ${url}')"><i class="bi bi-clipboard"></i> Copy</button>
+    </div>`;
+}
+
+// --- Voice Reading ---
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utter);
+    }
+}
+
+// --- Integrate into quiz flow ---
+// (1) On quiz start, select random questions, start timer, render progress
+// (2) On each question, update progress, timer, ARIA, allow keyboard
+// (3) On finish, stop timer, save leaderboard, show share/leaderboard
+// (4) On explanation, render media, add voice button
 // Enhanced quiz page initialization
 window.addEventListener('load', function() {
     setTimeout(() => {

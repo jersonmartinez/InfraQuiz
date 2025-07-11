@@ -1016,18 +1016,96 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Progress bar and timer styles */
+.quiz-progress-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.quiz-timer {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--danger-color);
+    background: var(--current-card-bg);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.quiz-timer[aria-live] {
+    outline: 2px solid var(--danger-color);
+}
 .quiz-option:focus {
     outline: 3px solid var(--primary-color);
     outline-offset: 3px;
+    background: var(--primary-color-light-alpha);
 }
-
+.quiz-option[aria-selected="true"] {
+    border-color: var(--info-color);
+    background: var(--primary-color-light-alpha);
+}
+/* Leaderboard styles */
+.leaderboard {
+    margin: 2rem 0;
+    background: var(--current-card-bg);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+}
+.leaderboard-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.leaderboard-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--current-card-border);
+}
+.leaderboard-list li:last-child {
+    border-bottom: none;
+}
+.leaderboard-score {
+    font-weight: 600;
+    color: var(--success-color);
+}
+.leaderboard-time {
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+}
+/* Accessibility: visually hidden for screen readers */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    border: 0 !important;
+}
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .quiz-option {
         border-width: 3px;
+        background: #fff !important;
+        color: #000 !important;
     }
-    .btn {
-        border-width: 2px;
+    .quiz-timer {
+        background: #fff !important;
+        color: #000 !important;
     }
 }
 
