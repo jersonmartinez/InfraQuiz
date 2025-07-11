@@ -1,7 +1,7 @@
-// InfraQuiz JavaScript functionality
+// InfraQuiz JavaScript functionality - Enhanced Version
 
 // Default language
-let currentLanguage = localStorage.getItem('quizLanguage') || 'en'; // Get language from local storage or default to English
+let currentLanguage = localStorage.getItem('quizLanguage') || 'en';
 
 // Supported technologies with display names and icons
 const technologies = [
@@ -56,7 +56,12 @@ const translations = {
         'quiz_score_details': (score, total) => `You got ${score} out of ${total} questions correct.`, 
         'restart_quiz': 'Restart Quiz',
         'back_to_categories': 'Back to Categories',
-        'coming_soon_message': 'This category will be available soon. Check back later!'
+        'coming_soon_message': 'This category will be available soon. Check back later!',
+        'difficulty_beginner': 'Beginner',
+        'difficulty_intermediate': 'Intermediate',
+        'difficulty_advanced': 'Advanced',
+        'questions_count': (count) => `${count} questions`,
+        'estimated_time': (minutes) => `~${minutes} min`
     },
     'es': {
         'home_nav': 'Inicio',
@@ -91,7 +96,12 @@ const translations = {
         'quiz_score_details': (score, total) => `Obtuviste ${score} de ${total} preguntas correctas.`, 
         'restart_quiz': 'Reiniciar Quiz',
         'back_to_categories': 'Volver a Categorías',
-        'coming_soon_message': 'Esta categoría estará disponible pronto. ¡Vuelve más tarde!'
+        'coming_soon_message': 'Esta categoría estará disponible pronto. ¡Vuelve más tarde!',
+        'difficulty_beginner': 'Principiante',
+        'difficulty_intermediate': 'Intermedio',
+        'difficulty_advanced': 'Avanzado',
+        'questions_count': (count) => `${count} preguntas`,
+        'estimated_time': (minutes) => `~${minutes} min`
     }
 };
 
@@ -105,13 +115,13 @@ function applyTranslations() {
     document.querySelector('a[href="#about"]').textContent = currentTranslations.about_nav;
 
     // Hero Section
-    document.querySelector('h1.display-3').innerHTML = currentTranslations.hero_title; // Use innerHTML for emojis
+    document.querySelector('h1.display-3').innerHTML = currentTranslations.hero_title;
     document.querySelector('p.lead.mb-4.opacity-75').textContent = currentTranslations.hero_description;
     document.querySelector('button[onclick="startRandomQuiz()"]').innerHTML = `<i class="bi bi-play-circle me-2"></i> ${currentTranslations.start_random_quiz}`;
     document.querySelector('button[onclick="scrollToQuizzes()"]').innerHTML = `<i class="bi bi-list-check me-2"></i> ${currentTranslations.browse_categories}`;
 
     // Quiz Categories Section
-    document.querySelector('#quizzes h2').innerHTML = currentTranslations.quiz_categories_title; // Use innerHTML for emojis
+    document.querySelector('#quizzes h2').innerHTML = currentTranslations.quiz_categories_title;
     document.querySelector('#quizzes p.lead').textContent = currentTranslations.quiz_categories_subtitle;
 
     // About Section
@@ -125,28 +135,25 @@ function applyTranslations() {
     document.querySelector('#about a[href*="github.com"]').innerHTML = `<i class="bi bi-github me-2"></i> ${currentTranslations.view_on_github}`;
 
     // Footer
-    document.querySelector('footer p.mb-0').innerHTML = currentTranslations.footer_text; // Use innerHTML for emojis
+    document.querySelector('footer p.mb-0').innerHTML = currentTranslations.footer_text;
 }
 
 // Initialize the application
-window.addEventListener('load', function() { // Ensure all resources including MDBootstrap are loaded
-    // Add a small delay to ensure MDBootstrap is fully initialized and globally available
+window.addEventListener('load', function() {
     setTimeout(() => {
-        if (typeof mdb !== 'undefined') { // Check if MDBootstrap is loaded
+        if (typeof mdb !== 'undefined') {
             console.log("MDBootstrap (mdb object) found, initializing app.");
             initializeNavigation();
-            initializeDarkMode(); // Initialize dark mode
+            initializeDarkMode();
             initializeLanguageSelector();
-            renderQuizCategories(); // Render categories dynamically
-            applyTranslations(); // Apply translations on initial load
-
-            // Initialize AOS after content is loaded
+            renderQuizCategories();
+            applyTranslations();
+            initializeRandomQuiz();
             AOS.init();
         } else {
             console.error("MDBootstrap (mdb object) still not found after delay. There might be a deeper issue.");
-            // Optionally, show a user-friendly error message or retry more aggressively
         }
-    }, 100); // 100ms delay, might be enough for async script execution
+    }, 100);
 });
 
 // Initialize navigation
@@ -166,7 +173,7 @@ function initializeNavigation() {
             }
 
             // Collapse navbar on mobile after clicking a link
-            if (window.innerWidth < 992) { // Bootstrap's 'lg' breakpoint is 992px
+            if (window.innerWidth < 992) {
                 const navbarCollapse = document.getElementById('navbarNav');
                 if (navbarCollapse.classList.contains('show')) {
                     const collapseInstance = mdb.Collapse.getInstance(navbarCollapse);
@@ -194,9 +201,8 @@ function initializeNavigation() {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            // Adjust offset for fixed navbar height
             const sectionHeight = section.clientHeight;
-            if (pageYOffset >= sectionTop - mainNavbar.offsetHeight - 50) { // Added buffer
+            if (pageYOffset >= sectionTop - mainNavbar.offsetHeight - 50) {
                 current = section.getAttribute('id');
             }
         });
@@ -232,15 +238,36 @@ function initializeDarkMode() {
 // Initialize language selector
 function initializeLanguageSelector() {
     const languageSelector = document.getElementById('languageSelector');
-    if (!languageSelector) return; // Ensure the element exists
+    if (!languageSelector) return;
 
     languageSelector.value = currentLanguage;
     languageSelector.addEventListener('change', function(e) {
         currentLanguage = e.target.value;
-        localStorage.setItem('quizLanguage', currentLanguage); // Save language preference
-        renderQuizCategories(); // Re-render categories with correct titles/descriptions
-        applyTranslations(); // Apply translations after language change
+        localStorage.setItem('quizLanguage', currentLanguage);
+        renderQuizCategories();
+        applyTranslations();
     });
+}
+
+// Initialize random quiz functionality
+function initializeRandomQuiz() {
+    // Add click event listener for the random quiz button
+    const randomQuizBtn = document.querySelector('button[onclick="startRandomQuiz()"]');
+    if (randomQuizBtn) {
+        randomQuizBtn.addEventListener('click', startRandomQuiz);
+    }
+}
+
+// Start random quiz function
+function startRandomQuiz() {
+    // Get a random technology (excluding 'mixed')
+    const availableTechs = technologies.filter(tech => tech.id !== 'mixed');
+    const randomTech = availableTechs[Math.floor(Math.random() * availableTechs.length)];
+    const difficulties = ['beginner', 'intermediate', 'advanced'];
+    const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+    
+    // Navigate to quiz page with random parameters
+    window.location.href = `quiz.html?category=${randomTech.id}&level=${randomDifficulty}&lang=${currentLanguage}`;
 }
 
 // Render quiz categories dynamically
@@ -248,17 +275,16 @@ function renderQuizCategories() {
     const container = document.getElementById('quiz-categories-container');
     if (!container) return;
 
-    container.innerHTML = ''; // Clear existing categories
+    container.innerHTML = '';
 
     technologies.forEach((tech, index) => {
-        // Skip 'mixed' category from dynamic rendering if preferred, or handle it specially
-        // For now, it's included.
         const col = document.createElement('div');
         col.className = 'col-md-6 col-lg-4';
-        // Add AOS animations to quiz cards
         col.setAttribute('data-aos', 'fade-up');
-        col.setAttribute('data-aos-delay', `${index * 100}`); // Stagger animations
+        col.setAttribute('data-aos-delay', `${index * 100}`);
 
+        const currentTranslations = translations[currentLanguage];
+        
         col.innerHTML = `
             <div class="card quiz-card h-100 shadow-3">
                 <div class="card-body text-center">
@@ -266,18 +292,155 @@ function renderQuizCategories() {
                     <h5 class="card-title fw-bold mb-2">${tech.name}</h5>
                     <p class="card-text text-muted"><small>${tech.description}</small></p>
                     <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
-                        <a href="quiz.html?category=${tech.id}&level=beginner&lang=${currentLanguage}" class="btn btn-success btn-sm m-0">Beginner</a>
-                        <a href="quiz.html?category=${tech.id}&level=intermediate&lang=${currentLanguage}" class="btn btn-warning btn-sm m-0">Intermediate</a>
-                        <a href="quiz.html?category=${tech.id}&level=advanced&lang=${currentLanguage}" class="btn btn-danger btn-sm m-0">Advanced</a>
+                        <a href="quiz.html?category=${tech.id}&level=beginner&lang=${currentLanguage}" 
+                           class="btn btn-success btn-sm m-0" 
+                           data-bs-toggle="tooltip" 
+                           data-bs-placement="top" 
+                           title="${currentTranslations.difficulty_beginner} - ${currentTranslations.questions_count(7)}">
+                            ${currentTranslations.difficulty_beginner}
+                        </a>
+                        <a href="quiz.html?category=${tech.id}&level=intermediate&lang=${currentLanguage}" 
+                           class="btn btn-warning btn-sm m-0"
+                           data-bs-toggle="tooltip" 
+                           data-bs-placement="top" 
+                           title="${currentTranslations.difficulty_intermediate} - ${currentTranslations.questions_count(7)}">
+                            ${currentTranslations.difficulty_intermediate}
+                        </a>
+                        <a href="quiz.html?category=${tech.id}&level=advanced&lang=${currentLanguage}" 
+                           class="btn btn-danger btn-sm m-0"
+                           data-bs-toggle="tooltip" 
+                           data-bs-placement="top" 
+                           title="${currentTranslations.difficulty_advanced} - ${currentTranslations.questions_count(7)}">
+                            ${currentTranslations.difficulty_advanced}
+                        </a>
                     </div>
                 </div>
             </div>
         `;
         container.appendChild(col);
     });
+
+    // Initialize tooltips
+    if (typeof mdb !== 'undefined' && mdb.Tooltip) {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new mdb.Tooltip(tooltipTriggerEl);
+        });
+    }
 }
 
 // Scroll to quizzes section
 function scrollToQuizzes() {
     document.getElementById('quizzes').scrollIntoView({ behavior: 'smooth' });
-} 
+}
+
+// Enhanced quiz loading function with better error handling
+async function loadQuizFile(category, language) {
+    const fileName = language === 'en' ? 'questions1.md' : 'cuestionario1.md';
+    const filePath = `../quizzes/${category}/${language}/${fileName}`;
+    
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const content = await response.text();
+        return content;
+    } catch (error) {
+        console.error(`Error loading quiz file: ${filePath}`, error);
+        throw error;
+    }
+}
+
+// Parse markdown quiz content with enhanced parsing
+function parseMarkdownQuiz(markdown) {
+    const questions = [];
+    const lines = markdown.split('\n');
+    let currentQuestion = null;
+    let currentOptions = [];
+    let currentExplanation = '';
+    let inQuestionBlock = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        if (line === '') continue;
+
+        // Skip placeholder text
+        if (line.includes('Este archivo necesita ser completado') || 
+            line.includes('This file needs to be completed')) {
+            console.warn("Placeholder content detected, returning empty quiz.");
+            return [];
+        }
+        
+        // Detect question start
+        if (line.match(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
+            if (currentQuestion && currentOptions.length > 0) {
+                currentQuestion.options = currentOptions;
+                currentQuestion.explanation = currentExplanation.trim();
+                questions.push(currentQuestion);
+            }
+            
+            const difficultyMatch = line.match(/(🟢|🟡|🔴)$/);
+            let difficulty = 'unknown';
+            if (difficultyMatch) {
+                switch (difficultyMatch[1]) {
+                    case '🟢': difficulty = 'beginner'; break;
+                    case '🟡': difficulty = 'intermediate'; break;
+                    case '🔴': difficulty = 'advanced'; break;
+                }
+            }
+
+            currentQuestion = {
+                text: line.replace(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*|(?:🟢|🟡|🔴)\s*$/g, '').trim(),
+                difficulty: difficulty,
+                options: [],
+                explanation: ''
+            };
+            currentOptions = [];
+            currentExplanation = '';
+            inQuestionBlock = true;
+            continue;
+        }
+        
+        // Detect options
+        if (inQuestionBlock && line.match(/^(?:📝|🔄|📦|🎯)/)) {
+            const isCorrect = line.startsWith('📝');
+            const optionText = line.substring(2).trim();
+            currentOptions.push({
+                text: optionText,
+                isCorrect: isCorrect
+            });
+            currentExplanation = '';
+            continue;
+        }
+
+        // Detect explanation
+        if (inQuestionBlock) {
+            if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**') ||
+                line.includes('**Explanation:**') || line.includes('**Explicación:**')) {
+                currentExplanation = line.replace(/\*\*(Correct Answer|Respuesta Correcta|Explanation|Explicación):\*\*/g, '').trim();
+            } else if (currentExplanation !== '') {
+                currentExplanation += '\n' + line;
+            }
+        }
+    }
+    
+    if (currentQuestion && currentOptions.length > 0) {
+        currentQuestion.options = currentOptions;
+        currentQuestion.explanation = currentExplanation.trim();
+        questions.push(currentQuestion);
+    }
+    
+    console.log('Parsed questions:', questions);
+    return questions;
+}
+
+// Export functions for use in other files
+window.InfraQuiz = {
+    loadQuizFile,
+    parseMarkdownQuiz,
+    translations,
+    technologies,
+    currentLanguage
+}; 
