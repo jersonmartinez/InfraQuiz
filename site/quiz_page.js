@@ -128,198 +128,99 @@ function getQuizFilePath(techId, language) {
     return `https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main/quizzes/${techId}/${language}/${fileName}`;
 }
 
-// Enhanced markdown quiz parser with enhanced parsing and error handling
+// === NUEVO PARSER ROBUSTO CON MARKED ===
+// Requiere que 'marked' esté cargado en el HTML (CDN)
 function parseMarkdownQuiz(markdown) {
-    console.log('🔍 Starting professional markdown parsing...');
+    console.log('🔍 [PRO] Parsing quiz with marked...');
+    const html = marked.parse(markdown);
+    const container = document.createElement('div');
+    container.innerHTML = html;
     const questions = [];
-    const lines = markdown.split('\n').map(line => line.trim());
-    const parsingLog = [];
-    
-    let currentQuestion = null;
-    let currentOptions = [];
-    let currentExplanation = '';
-    let inQuestionBlock = false;
-    let inExplanationBlock = false;
-    let questionCount = 0;
-    let skipCount = 0;
-    
-    // Enhanced question detection regex with better emoji support
-    const questionRegex = /^(?:###\s*)?(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀|🎯|💡|⚡|🔥|✨|🎨|🌟)\s*(.+?)(?:\s*(🟢|🟡|🔴))?\s*$/;
-    const optionRegex = /^(?:📝|🔄|📦|🎯|⭐|🎪|🎲|🎵|🎭|🎨)\s*(.+)$/;
-    const correctAnswerRegex = /^\*\*(?:Correct Answer|Respuesta Correcta):\*\*\s*(.*)$/;
-    const explanationRegex = /^\*\*(?:Explanation|Explicación):\*\*\s*(.*)$/;
-    
-    // Skip placeholder content detection
-    if (markdown.includes('Este archivo necesita ser completado') || 
-        markdown.includes('This file needs to be completed') ||
-        markdown.includes('*This file needs to be completed*')) {
-        console.warn('📝 Placeholder content detected, returning empty quiz.');
-        return [];
+    let current = null;
+    let log = [];
+    let qCount = 0;
+    let malformed = 0;
+    let autoDifficulty = '';
+    // Helper: clean text
+    function clean(text) {
+        return text.replace(/\s+/g, ' ').trim();
     }
-    
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const nextLine = i + 1 < lines.length ? lines[i + 1] : '';
-        
-        // Skip empty lines and separators
-        if (!line || line === '---' || line.startsWith('#') && !line.includes('❓') && !line.includes('🧠')) {
-            continue;
-        }
-        
-        // Detect question start with enhanced regex
-        const questionMatch = line.match(questionRegex);
-        if (questionMatch) {
-            // Save previous question if valid
-            if (currentQuestion && currentOptions.length >= 2) {
-                currentQuestion.options = currentOptions;
-                currentQuestion.explanation = currentExplanation.trim();
-                questions.push(currentQuestion);
-                parsingLog.push(`✅ Question ${questionCount + 1}: "${currentQuestion.text.substring(0, 50)}..." - ${currentQuestion.difficulty} - ${currentOptions.length} options`);
-                questionCount++;
-            } else if (currentQuestion) {
-                parsingLog.push(`⚠️ Skipped malformed question: "${currentQuestion.text.substring(0, 50)}..." - Only ${currentOptions.length} options`);
-                skipCount++;
-            }
-            
-            // Start new question
-            const questionText = questionMatch[1].trim();
-            const difficultyEmoji = questionMatch[2];
-            
-            let difficulty = 'unknown';
-            if (difficultyEmoji) {
-                switch (difficultyEmoji) {
-                    case '🟢': difficulty = 'beginner'; break;
-                    case '🟡': difficulty = 'intermediate'; break;
-                    case '🔴': difficulty = 'advanced'; break;
-                }
-            } else {
-                // Fallback difficulty assignment based on position
-                const totalEstimated = lines.filter(l => questionRegex.test(l)).length;
-                const position = questionCount / Math.max(totalEstimated, 1);
-                if (position < 0.33) difficulty = 'beginner';
-                else if (position < 0.66) difficulty = 'intermediate';
-                else difficulty = 'advanced';
-                parsingLog.push(`🔄 Auto-assigned difficulty "${difficulty}" to question: "${questionText.substring(0, 30)}..."`);
-            }
-            
-            currentQuestion = {
-                text: questionText,
-                difficulty: difficulty,
-                options: [],
-                explanation: '',
-                id: `q_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-            };
-            currentOptions = [];
-            currentExplanation = '';
-            inQuestionBlock = true;
-            inExplanationBlock = false;
-            continue;
-        }
-        
-        // Detect options with enhanced regex
-        const optionMatch = line.match(optionRegex);
-        if (inQuestionBlock && optionMatch && !inExplanationBlock) {
-            const isCorrect = line.startsWith('📝');
-            const optionText = optionMatch[1].trim();
-            
-            // Validate option text
-            if (optionText.length > 0) {
-                currentOptions.push({
-                    text: optionText,
-                    isCorrect: isCorrect,
-                    id: `opt_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`
-                });
-            }
-            continue;
-        }
-        
-        // Detect correct answer header
-        const correctAnswerMatch = line.match(correctAnswerRegex);
-        if (correctAnswerMatch) {
-            inExplanationBlock = true;
-            continue;
-        }
-        
-        // Detect explanation header
-        const explanationMatch = line.match(explanationRegex);
-        if (explanationMatch) {
-            inExplanationBlock = true;
-            currentExplanation = explanationMatch[1] || '';
-            continue;
-        }
-        
-        // Collect explanation content
-        if (inQuestionBlock && inExplanationBlock && line.length > 0) {
-            // Skip lines that look like question headers
-            if (!questionRegex.test(line) && !line.startsWith('**') && !line.startsWith('###')) {
-                if (currentExplanation) {
-                    currentExplanation += ' ' + line;
+    // Helper: extract difficulty from emoji or tag
+    function extractDifficulty(text) {
+        if (/🏷️\s*beginner/i.test(text)) return 'beginner';
+        if (/🏷️\s*intermediate/i.test(text)) return 'intermediate';
+        if (/🏷️\s*advanced/i.test(text)) return 'advanced';
+        if (/🟢|🟩|🟦|🟨|🟧|🟪|🟫|🟤|🟠|🟣|🔵|🟡|🔴|🟠|🟣|🟤|⚪|⚫|🔶|🔷|🔸|🔹|🔺|🔻|🔲|🔳|🔴|🟠|🟡|🟢|🔵|🟣|🟤/.test(text)) return 'beginner'; // fallback
+        return '';
+    }
+    // Parse all h3 (pregunta)
+    const nodes = Array.from(container.children);
+    for (let i = 0; i < nodes.length; i++) {
+        const el = nodes[i];
+        if (el.tagName === 'H3') {
+            if (current) {
+                // Push previous
+                if (current.options.length === 4 && current.answer && current.difficulty) {
+                    questions.push(current);
+                    log.push(`✅ Q${qCount}: "${clean(current.text)}" - ${current.difficulty}`);
                 } else {
-                    currentExplanation = line;
+                    malformed++;
+                    log.push(`⚠️ Malformed Q${qCount}: "${clean(current.text)}" - ${current.options.length} options`);
                 }
             }
+            qCount++;
+            current = {
+                text: clean(el.textContent),
+                options: [],
+                answer: '',
+                explanation: '',
+                difficulty: '',
+            };
+            autoDifficulty = '';
+            // Buscar dificultad en el texto
+            current.difficulty = extractDifficulty(current.text);
+        } else if (current && el.tagName === 'P') {
+            // Opciones: buscar líneas que empiecen con A), B), C), D)
+            const lines = el.innerHTML.split(/<br\s*\/?>(?:\s*)?/i);
+            for (let line of lines) {
+                const m = line.match(/^([A-D])\)\s*(.+)$/);
+                if (m) {
+                    current.options.push(clean(m[2]));
+                } else if (/^✅\s*Correct answer:/i.test(line)) {
+                    current.answer = line.replace(/^✅\s*Correct answer:/i, '').trim();
+                } else if (/^💡\s*Explanation:/i.test(line)) {
+                    current.explanation = line.replace(/^💡\s*Explanation:/i, '').trim();
+                } else if (/🏷️/.test(line)) {
+                    current.difficulty = extractDifficulty(line);
+                }
+            }
+        } else if (current && el.tagName === 'UL') {
+            // Opciones como lista
+            for (let li of el.children) {
+                const m = li.textContent.match(/^([A-D])\)\s*(.+)$/);
+                if (m) current.options.push(clean(m[2]));
+            }
+        } else if (current && el.tagName === 'BLOCKQUOTE') {
+            // Explicación
+            current.explanation = clean(el.textContent);
         }
     }
-    
-    // Add the last question if valid
-    if (currentQuestion && currentOptions.length >= 2) {
-        currentQuestion.options = currentOptions;
-        currentQuestion.explanation = currentExplanation.trim();
-        questions.push(currentQuestion);
-        parsingLog.push(`✅ Final question: "${currentQuestion.text.substring(0, 50)}..." - ${currentQuestion.difficulty} - ${currentOptions.length} options`);
-        questionCount++;
-    } else if (currentQuestion) {
-        parsingLog.push(`⚠️ Skipped final malformed question: "${currentQuestion.text.substring(0, 50)}..." - Only ${currentOptions.length} options`);
-        skipCount++;
+    // Push last
+    if (current) {
+        if (current.options.length === 4 && current.answer && current.difficulty) {
+            questions.push(current);
+            log.push(`✅ Q${qCount}: "${clean(current.text)}" - ${current.difficulty}`);
+        } else {
+            malformed++;
+            log.push(`⚠️ Malformed Q${qCount}: "${clean(current.text)}" - ${current.options.length} options`);
+        }
     }
-    
-    // Validation and quality checks
-    const validQuestions = questions.filter(q => 
-        q.text && q.text.length > 10 &&
-        q.options && q.options.length >= 3 &&
-        q.options.some(opt => opt.isCorrect) &&
-        q.explanation && q.explanation.length > 5
-    );
-    
-    const difficultyDistribution = {
-        beginner: validQuestions.filter(q => q.difficulty === 'beginner').length,
-        intermediate: validQuestions.filter(q => q.difficulty === 'intermediate').length,
-        advanced: validQuestions.filter(q => q.difficulty === 'advanced').length,
-        unknown: validQuestions.filter(q => q.difficulty === 'unknown').length
-    };
-    
-    // Professional logging
-    console.log('📊 Parsing Results Summary:');
-    console.log(`✅ Successfully parsed: ${validQuestions.length} questions`);
-    console.log(`⚠️ Skipped malformed: ${skipCount} questions`);
-    console.log(`📈 Difficulty distribution:`, difficultyDistribution);
-    console.log(`🎯 Quality score: ${Math.round((validQuestions.length / Math.max(questionCount + skipCount, 1)) * 100)}%`);
-    
-    if (parsingLog.length > 0) {
-        console.log('📝 Detailed parsing log:');
-        parsingLog.forEach(log => console.log(`  ${log}`));
-    }
-    
-    // Handle edge cases
-    if (validQuestions.length === 0) {
-        console.error('❌ No valid questions found in markdown content');
-        return [];
-    }
-    
-    if (validQuestions.length < 5) {
-        console.warn(`⚠️ Only ${validQuestions.length} valid questions found. Consider adding more content.`);
-    }
-    
-    // Sort questions by difficulty for better UX (beginners first)
-    const sortedQuestions = [
-        ...validQuestions.filter(q => q.difficulty === 'beginner'),
-        ...validQuestions.filter(q => q.difficulty === 'intermediate'),
-        ...validQuestions.filter(q => q.difficulty === 'advanced'),
-        ...validQuestions.filter(q => q.difficulty === 'unknown')
-    ];
-    
-    console.log(`🎉 Quiz parsing completed successfully! Ready to serve ${sortedQuestions.length} high-quality questions.`);
-    return sortedQuestions;
+    // Log summary
+    console.log('📊 [PRO] Parsing Results:');
+    console.log(`  ✅ Parsed: ${questions.length}`);
+    console.log(`  ⚠️ Malformed: ${malformed}`);
+    log.forEach(l => console.log('   ', l));
+    return questions;
 }
 
 // Enhanced question display with animations and better UI
