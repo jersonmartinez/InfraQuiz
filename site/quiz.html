@@ -76,9 +76,7 @@
 
                             <!-- Quiz Content -->
                             <div id="quizContent" style="display: none;">
-                                <div class="progress mb-4" style="height: 10px;">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+                                <div id="quizProgressIndicator" class="quiz-progress-indicator mb-3"></div>
                                 <p class="lead mb-4" id="questionText"></p>
                                 <div class="list-group mb-4" id="optionsContainer">
                                     <!-- Options will be loaded here -->
@@ -94,6 +92,8 @@
                             <div id="quizResults" class="text-center py-5" style="display: none;">
                                 <h3 class="fw-bold mb-3" data-lang-key="quiz_complete_title">🎉 Quiz Completed!</h3>
                                 <p class="lead mb-4" id="finalScore"></p>
+                                <div id="leaderboardContainer"></div>
+                                <div id="shareButtonsContainer"></div>
                                 <button class="btn btn-primary btn-lg" id="restartQuizBtn" data-lang-key="restart_quiz">Restart Quiz</button>
                                 <button class="btn btn-outline-secondary btn-lg ms-3" id="backToCategoriesResultsBtn" data-lang-key="back_to_categories">Back to Categories</button>
                             </div>

@@ -595,11 +595,234 @@ function speakText(text) {
     }
 }
 
-// --- Integrate into quiz flow ---
-// (1) On quiz start, select random questions, start timer, render progress
-// (2) On each question, update progress, timer, ARIA, allow keyboard
-// (3) On finish, stop timer, save leaderboard, show share/leaderboard
-// (4) On explanation, render media, add voice button
+// --- INTEGRATION OF ADVANCED FEATURES INTO QUIZ FLOW ---
+
+// Store selected questions for this session
+let selectedQuestions = [];
+
+// Override: Enhanced quiz loading function with all integrations
+async function loadQuizPage(category, level, language) {
+    showLoading(true);
+    const filePath = getQuizFilePath(category, language);
+    try {
+        const response = await fetch(filePath);
+        if (response.ok) {
+            const markdown = await response.text();
+            const allQuestions = parseMarkdownQuiz(markdown);
+            // Filter by difficulty
+            const filteredQuestions = allQuestions.filter(q => q.difficulty === level);
+            // Select up to 21 random questions
+            selectedQuestions = selectRandomQuestions(filteredQuestions, 21);
+            if (selectedQuestions.length > 0) {
+                currentQuiz = selectedQuestions;
+                currentQuestionIndex = 0;
+                score = 0;
+                totalQuestions = currentQuiz.length;
+                startTime = Date.now();
+                quizElapsedSeconds = 0;
+                showLoading(false);
+                renderProgressIndicator();
+                startQuizTimer();
+                showQuestion();
+                setupKeyboardNavigation();
+            } else {
+                showError(`${translations[language].error_quiz_not_available(category)}. No questions found for this difficulty level.`);
+            }
+        } else {
+            showError(`${translations[language].error_quiz_not_available(category)}. Quiz file not found (HTTP ${response.status}).`);
+        }
+    } catch (error) {
+        showError(`${translations[language].error_quiz_not_available(category)}. Network error: ${error.message}`);
+    }
+}
+
+// Override: Enhanced showQuestion with progress, timer, ARIA, voice
+function showQuestion() {
+    const quizContentDiv = document.getElementById('quizContent');
+    const quizLoadingDiv = document.getElementById('quizLoading');
+    const quizResultsDiv = document.getElementById('quizResults');
+    const quizErrorDiv = document.getElementById('quizError');
+    quizLoadingDiv.style.display = 'none';
+    quizResultsDiv.style.display = 'none';
+    quizErrorDiv.style.display = 'none';
+    quizContentDiv.style.display = 'block';
+    renderProgressIndicator();
+    updateQuizTimerDisplay();
+    const questionTextElement = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const feedbackElement = document.getElementById('feedback');
+    const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+    feedbackElement.classList.add('d-none');
+    feedbackElement.innerHTML = '';
+    nextQuestionBtn.style.display = 'none';
+    if (currentQuestionIndex < totalQuestions) {
+        const question = currentQuiz[currentQuestionIndex];
+        const quizPageTitle = document.getElementById('quizPageTitle');
+        const techName = technologies.find(t => t.id === getUrlParameter('category'))?.name || 'Quiz';
+        quizPageTitle.textContent = `${techName} - ${translations[currentLanguage].question_progress(currentQuestionIndex + 1, totalQuestions)}`;
+        questionTextElement.innerHTML = question.text;
+        // Add voice button
+        questionTextElement.innerHTML += ` <button class="btn btn-sm btn-outline-secondary ms-2" aria-label="Read question aloud" onclick="window.speechSynthesis.cancel();speakText('${question.text.replace(/'/g, '\'')}')"><i class="bi bi-volume-up"></i></button>`;
+        optionsContainer.innerHTML = '';
+        question.options.forEach((option, index) => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'list-group-item list-group-item-action ripple shadow-1 quiz-option';
+            optionElement.setAttribute('data-mdb-ripple-color', 'primary');
+            optionElement.setAttribute('data-index', index);
+            optionElement.setAttribute('tabindex', '0');
+            optionElement.setAttribute('role', 'button');
+            optionElement.setAttribute('aria-label', `Option ${index+1}`);
+            optionElement.setAttribute('aria-selected', 'false');
+            optionElement.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <span class="option-letter me-3">${String.fromCharCode(65 + index)}</span>
+                    <span class="option-text">${option.text}</span>
+                    <button class="btn btn-xs btn-link ms-2 visually-hidden" tabindex="-1" aria-label="Read option aloud" onclick="window.speechSynthesis.cancel();speakText('${option.text.replace(/'/g, '\'')}')"><i class="bi bi-volume-up"></i></button>
+                </div>
+            `;
+            optionElement.addEventListener('click', selectOption);
+            optionsContainer.appendChild(optionElement);
+            setTimeout(() => {
+                optionElement.classList.add('slide-in');
+            }, index * 100);
+        });
+        applyAriaToOptions();
+        setupKeyboardNavigation();
+    } else {
+        showQuizResults();
+    }
+}
+
+// Override: Enhanced selectOption with feedback, voice, keyboard
+function selectOption(event) {
+    const selectedOptionElement = event.currentTarget;
+    const optionIndex = parseInt(selectedOptionElement.dataset.index);
+    const question = currentQuiz[currentQuestionIndex];
+    const feedbackElement = document.getElementById('feedback');
+    const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    quizOptions.forEach(opt => {
+        opt.removeEventListener('click', selectOption);
+        opt.style.cursor = 'default';
+        opt.classList.add('pe-none');
+        opt.setAttribute('aria-selected', 'false');
+    });
+    selectedOptionElement.classList.add('selected');
+    selectedOptionElement.setAttribute('aria-selected', 'true');
+    const correctOptionIndex = question.options.findIndex(option => option.isCorrect);
+    if (question.options[optionIndex].isCorrect) {
+        selectedOptionElement.classList.add('correct');
+        score++;
+        selectedOptionElement.classList.add('feedback-correct');
+        feedbackElement.innerHTML = `
+            <div class="alert alert-success border-0 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <h6 class="mb-1">${translations[currentLanguage].correct_feedback}</h6>
+                        <p class="mb-0 small">Great job! You got this one right.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="quiz-explanation mt-3">
+                <h6 class="text-primary mb-2"><i class="bi bi-lightbulb me-2"></i>Explanation <button class='btn btn-xs btn-outline-secondary ms-2' aria-label='Read explanation aloud' onclick='window.speechSynthesis.cancel();speakText("${question.explanation.replace(/"/g, '\"')}")'><i class='bi bi-volume-up'></i></button></h6>
+                <div class="mb-0">${renderExplanationWithMedia(question.explanation)}</div>
+            </div>
+        `;
+    } else {
+        selectedOptionElement.classList.add('incorrect');
+        if (correctOptionIndex !== -1) {
+            quizOptions[correctOptionIndex].classList.add('correct');
+        }
+        selectedOptionElement.classList.add('feedback-incorrect');
+        feedbackElement.innerHTML = `
+            <div class="alert alert-danger border-0 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-x-circle-fill text-danger me-3" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <h6 class="mb-1">${translations[currentLanguage].incorrect_feedback}</h6>
+                        <p class="mb-0 small">${translations[currentLanguage].correct_answer_was} <strong>${question.options[correctOptionIndex].text}</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="quiz-explanation mt-3">
+                <h6 class="text-primary mb-2"><i class="bi bi-lightbulb me-2"></i>Explanation <button class='btn btn-xs btn-outline-secondary ms-2' aria-label='Read explanation aloud' onclick='window.speechSynthesis.cancel();speakText("${question.explanation.replace(/"/g, '\"')}")'><i class='bi bi-volume-up'></i></button></h6>
+                <div class="mb-0">${renderExplanationWithMedia(question.explanation)}</div>
+            </div>
+        `;
+    }
+    feedbackElement.classList.remove('d-none');
+    feedbackElement.classList.add('slide-in-up');
+    nextQuestionBtn.style.display = 'block';
+    nextQuestionBtn.classList.add('fade-in');
+    // Allow Enter to go to next question
+    document.onkeydown = (e) => {
+        if (e.key === 'Enter') nextQuestionBtn.click();
+    };
+}
+
+// Override: Enhanced showQuizResults with leaderboard and share
+function showQuizResults() {
+    const quizContentDiv = document.getElementById('quizContent');
+    const quizResultsDiv = document.getElementById('quizResults');
+    quizContentDiv.style.display = 'none';
+    quizResultsDiv.style.display = 'block';
+    stopQuizTimer();
+    const finalScoreElement = document.getElementById('finalScore');
+    const restartQuizBtn = document.getElementById('restartQuizBtn');
+    const backToCategoriesResultsBtn = document.getElementById('backToCategoriesResultsBtn');
+    const quizCompleteTitle = document.querySelector('#quizResults h3');
+    const leaderboardContainer = document.getElementById('leaderboardContainer');
+    const shareButtonsContainer = document.getElementById('shareButtonsContainer');
+    // Calculate statistics
+    const accuracy = Math.round((score / totalQuestions) * 100);
+    const timeElapsed = quizElapsedSeconds;
+    const minutes = Math.floor(timeElapsed / 60);
+    const seconds = timeElapsed % 60;
+    quizCompleteTitle.textContent = translations[currentLanguage].quiz_complete_title;
+    finalScoreElement.innerHTML = `
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="stat-card bg-success text-white p-3 rounded-3 mb-3">
+                    <h4 class="mb-1">${score}/${totalQuestions}</h4>
+                    <small>${translations[currentLanguage].quiz_score_details(score, totalQuestions)}</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card bg-primary text-white p-3 rounded-3 mb-3">
+                    <h4 class="mb-1">${accuracy}%</h4>
+                    <small>${translations[currentLanguage].quiz_accuracy(accuracy)}</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card bg-info text-white p-3 rounded-3 mb-3">
+                    <h4 class="mb-1">${minutes}:${seconds.toString().padStart(2, '0')}</h4>
+                    <small>${translations[currentLanguage].quiz_time_taken(minutes, seconds)}</small>
+                </div>
+            </div>
+        </div>
+    `;
+    // Save and render leaderboard
+    const category = getUrlParameter('category');
+    const level = getUrlParameter('level');
+    saveLeaderboard(category, level, score, quizElapsedSeconds);
+    leaderboardContainer.innerHTML = renderLeaderboard(category, level);
+    // Render share buttons
+    shareButtonsContainer.innerHTML = renderShareButtons(score, totalQuestions, category, level, quizElapsedSeconds);
+    restartQuizBtn.addEventListener('click', restartQuiz);
+    backToCategoriesResultsBtn.addEventListener('click', () => { window.location.href = 'index.html#quizzes'; });
+}
+
+// Override: Enhanced restartQuiz
+function restartQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    quizElapsedSeconds = 0;
+    startQuizTimer();
+    renderProgressIndicator();
+    showQuestion();
+}
+
 // Enhanced quiz page initialization
 window.addEventListener('load', function() {
     setTimeout(() => {
@@ -664,44 +887,4 @@ window.addEventListener('load', function() {
             console.error("MDBootstrap (mdb object) still not found on quiz_page after delay.");
         }
     }, 100);
-});
-
-// Enhanced quiz loading function with better error handling
-async function loadQuizPage(category, level, language) {
-    showLoading(true);
-    const filePath = getQuizFilePath(category, language);
-    
-    try {
-        console.log(`Loading quiz from: ${filePath}`);
-        const response = await fetch(filePath);
-        
-        if (response.ok) {
-            const markdown = await response.text();
-            const allQuestions = parseMarkdownQuiz(markdown);
-            
-            // Filter questions by difficulty level
-            const filteredQuestions = allQuestions.filter(q => q.difficulty === level);
-            console.log(`All questions parsed: ${allQuestions.length}`);
-            console.log(`Filtered questions for level ${level}: ${filteredQuestions.length}`);
-
-            if (filteredQuestions.length > 0) {
-                currentQuiz = filteredQuestions;
-                currentQuestionIndex = 0;
-                score = 0;
-                totalQuestions = currentQuiz.length;
-                startTime = Date.now();
-                
-                showLoading(false);
-                showQuestion();
-            } else {
-                showError(`${translations[language].error_quiz_not_available(category)}. No questions found for this difficulty level.`);
-            }
-        } else {
-            console.error(`HTTP error! status: ${response.status}`);
-            showError(`${translations[language].error_quiz_not_available(category)}. Quiz file not found (HTTP ${response.status}).`);
-        }
-    } catch (error) {
-        console.error("Error loading quiz:", error);
-        showError(`${translations[language].error_quiz_not_available(category)}. Network error: ${error.message}`);
-    }
-} 
+}); 
