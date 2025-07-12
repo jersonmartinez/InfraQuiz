@@ -128,9 +128,9 @@ function getQuizFilePath(techId, language) {
     return `https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main/quizzes/${techId}/${language}/${fileName}`;
 }
 
-// === PARSER ULTRA-TOLERANTE (NO TOMA LA PREGUNTA COMO OPCIÓN) ===
+// === PARSER ULTRA-TOLERANTE (DIVIDE POR LÍNEAS) ===
 function parseMarkdownQuiz(markdown) {
-    console.log('🔍 [PRO] Parsing quiz with marked (ultra-tolerant, pregunta nunca es opción)...');
+    console.log('🔍 [PRO] Parsing quiz with marked (ultra-tolerant, divide por líneas)...');
     const html = marked.parse(markdown);
     const container = document.createElement('div');
     container.innerHTML = html;
@@ -181,23 +181,28 @@ function parseMarkdownQuiz(markdown) {
                 const n = nodes[i];
                 let raw = '';
                 if (n.nodeType === 1) {
-                    raw = n.textContent.trim();
+                    raw = n.textContent;
                 } else if (n.nodeType === 3) {
-                    raw = n.textContent.trim();
+                    raw = n.textContent;
                 }
                 if (raw) {
-                    // Solo considerar como opción si es después del <h3> y empieza con emoji
-                    const opt = extractOption(raw);
-                    if (opt !== null) {
-                        current.options.push(opt);
-                    } else if (/^(\*\*|)(Correct Answer|Respuesta Correcta):(\*\*|)/i.test(raw)) {
-                        current.answer = extractCorrect(raw);
-                    } else if (/^(\*\*|)(Explanation|Explicación):(\*\*|)/i.test(raw)) {
-                        current.explanation = extractExplanation(raw);
-                    } else if (/^💡/.test(raw)) {
-                        current.explanation = clean(raw.replace(/^💡/, ''));
-                    } else if (/🏷️|🟢|🟡|🔴/.test(raw)) {
-                        current.difficulty = extractDifficulty(raw);
+                    // Dividir por líneas y procesar cada línea
+                    const lines = raw.split(/\n|<br\s*\/?/i);
+                    for (let line of lines) {
+                        line = line.trim();
+                        if (!line) continue;
+                        const opt = extractOption(line);
+                        if (opt !== null) {
+                            current.options.push(opt);
+                        } else if (/^(\*\*|)(Correct Answer|Respuesta Correcta):(\*\*|)/i.test(line)) {
+                            current.answer = extractCorrect(line);
+                        } else if (/^(\*\*|)(Explanation|Explicación):(\*\*|)/i.test(line)) {
+                            current.explanation = extractExplanation(line);
+                        } else if (/^💡/.test(line)) {
+                            current.explanation = clean(line.replace(/^💡/, ''));
+                        } else if (/🏷️|🟢|🟡|🔴/.test(line)) {
+                            current.difficulty = extractDifficulty(line);
+                        }
                     }
                 }
                 i++;
