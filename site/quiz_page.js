@@ -128,10 +128,9 @@ function getQuizFilePath(techId, language) {
     return `https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main/quizzes/${techId}/${language}/${fileName}`;
 }
 
-// === NUEVO PARSER ROBUSTO CON MARKED ===
-// Requiere que 'marked' esté cargado en el HTML (CDN)
+// === PARSER ROBUSTO PARA OPCIONES CON EMOJIS ===
 function parseMarkdownQuiz(markdown) {
-    console.log('🔍 [PRO] Parsing quiz with marked...');
+    console.log('🔍 [PRO] Parsing quiz with marked (emoji options)...');
     const html = marked.parse(markdown);
     const container = document.createElement('div');
     container.innerHTML = html;
@@ -140,26 +139,43 @@ function parseMarkdownQuiz(markdown) {
     let log = [];
     let qCount = 0;
     let malformed = 0;
-    let autoDifficulty = '';
-    // Helper: clean text
+    // Emojis válidos para opciones
+    const optionEmojis = ['📝', '🔄', '📦', '🎯'];
+    // Helper: limpiar texto
     function clean(text) {
         return text.replace(/\s+/g, ' ').trim();
     }
-    // Helper: extract difficulty from emoji or tag
+    // Helper: extraer dificultad
     function extractDifficulty(text) {
-        if (/🏷️\s*beginner/i.test(text)) return 'beginner';
-        if (/🏷️\s*intermediate/i.test(text)) return 'intermediate';
-        if (/🏷️\s*advanced/i.test(text)) return 'advanced';
-        if (/🟢|🟩|🟦|🟨|🟧|🟪|🟫|🟤|🟠|🟣|🔵|🟡|🔴|🟠|🟣|🟤|⚪|⚫|🔶|🔷|🔸|🔹|🔺|🔻|🔲|🔳|🔴|🟠|🟡|🟢|🔵|🟣|🟤/.test(text)) return 'beginner'; // fallback
+        if (/🏷️\s*beginner/i.test(text) || /🟢/.test(text)) return 'beginner';
+        if (/🏷️\s*intermediate/i.test(text) || /🟡/.test(text)) return 'intermediate';
+        if (/🏷️\s*advanced/i.test(text) || /🔴/.test(text)) return 'advanced';
         return '';
     }
-    // Parse all h3 (pregunta)
+    // Helper: extraer texto de opción
+    function extractOption(line) {
+        for (const emoji of optionEmojis) {
+            if (line.startsWith(emoji)) {
+                return clean(line.replace(emoji, ''));
+            }
+        }
+        return null;
+    }
+    // Helper: extraer respuesta correcta
+    function extractCorrect(line) {
+        return line.replace(/^\*\*(Correct Answer|Respuesta Correcta):\*\*\s*/i, '').replace(/^📝|🔄|📦|🎯/, '').trim();
+    }
+    // Helper: extraer explicación
+    function extractExplanation(line) {
+        return line.replace(/^\*\*(Explanation|Explicación):\*\*\s*/i, '').replace(/^💡/, '').trim();
+    }
+    // Recorrer nodos
     const nodes = Array.from(container.children);
     for (let i = 0; i < nodes.length; i++) {
         const el = nodes[i];
         if (el.tagName === 'H3') {
+            // Guardar pregunta anterior
             if (current) {
-                // Push previous
                 if (current.options.length === 4 && current.answer && current.difficulty) {
                     questions.push(current);
                     log.push(`✅ Q${qCount}: "${clean(current.text)}" - ${current.difficulty}`);
@@ -174,38 +190,27 @@ function parseMarkdownQuiz(markdown) {
                 options: [],
                 answer: '',
                 explanation: '',
-                difficulty: '',
+                difficulty: extractDifficulty(el.textContent),
             };
-            autoDifficulty = '';
-            // Buscar dificultad en el texto
-            current.difficulty = extractDifficulty(current.text);
         } else if (current && el.tagName === 'P') {
-            // Opciones: buscar líneas que empiecen con A), B), C), D)
-            const lines = el.innerHTML.split(/<br\s*\/?>(?:\s*)?/i);
-            for (let line of lines) {
-                const m = line.match(/^([A-D])\)\s*(.+)$/);
-                if (m) {
-                    current.options.push(clean(m[2]));
-                } else if (/^✅\s*Correct answer:/i.test(line)) {
-                    current.answer = line.replace(/^✅\s*Correct answer:/i, '').trim();
-                } else if (/^💡\s*Explanation:/i.test(line)) {
-                    current.explanation = line.replace(/^💡\s*Explanation:/i, '').trim();
-                } else if (/🏷️/.test(line)) {
-                    current.difficulty = extractDifficulty(line);
-                }
+            // Revisar si es opción, respuesta o explicación
+            const raw = el.textContent.trim();
+            // Opciones (pueden venir varias <p> seguidas)
+            const opt = extractOption(raw);
+            if (opt !== null) {
+                current.options.push(opt);
+            } else if (/^\*\*(Correct Answer|Respuesta Correcta):\*\*/i.test(raw)) {
+                current.answer = extractCorrect(raw);
+            } else if (/^\*\*(Explanation|Explicación):\*\*/i.test(raw)) {
+                current.explanation = extractExplanation(raw);
+            } else if (/^💡/.test(raw)) {
+                current.explanation = clean(raw.replace(/^💡/, ''));
+            } else if (/🏷️|🟢|🟡|🔴/.test(raw)) {
+                current.difficulty = extractDifficulty(raw);
             }
-        } else if (current && el.tagName === 'UL') {
-            // Opciones como lista
-            for (let li of el.children) {
-                const m = li.textContent.match(/^([A-D])\)\s*(.+)$/);
-                if (m) current.options.push(clean(m[2]));
-            }
-        } else if (current && el.tagName === 'BLOCKQUOTE') {
-            // Explicación
-            current.explanation = clean(el.textContent);
         }
     }
-    // Push last
+    // Guardar última pregunta
     if (current) {
         if (current.options.length === 4 && current.answer && current.difficulty) {
             questions.push(current);
@@ -215,7 +220,7 @@ function parseMarkdownQuiz(markdown) {
             log.push(`⚠️ Malformed Q${qCount}: "${clean(current.text)}" - ${current.options.length} options`);
         }
     }
-    // Log summary
+    // Log resumen
     console.log('📊 [PRO] Parsing Results:');
     console.log(`  ✅ Parsed: ${questions.length}`);
     console.log(`  ⚠️ Malformed: ${malformed}`);
