@@ -128,9 +128,9 @@ function getQuizFilePath(techId, language) {
     return `https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main/quizzes/${techId}/${language}/${fileName}`;
 }
 
-// === PARSER ROBUSTO PARA OPCIONES CON EMOJIS Y NODOS FLEXIBLES ===
+// === PARSER ULTRA-TOLERANTE (NO TOMA LA PREGUNTA COMO OPCIÓN) ===
 function parseMarkdownQuiz(markdown) {
-    console.log('🔍 [PRO] Parsing quiz with marked (emoji options, flexible nodes)...');
+    console.log('🔍 [PRO] Parsing quiz with marked (ultra-tolerant, pregunta nunca es opción)...');
     const html = marked.parse(markdown);
     const container = document.createElement('div');
     container.innerHTML = html;
@@ -157,10 +157,10 @@ function parseMarkdownQuiz(markdown) {
         return null;
     }
     function extractCorrect(line) {
-        return line.replace(/^(\*\*|)(Correct Answer|Respuesta Correcta):(\*\*|)\s*/i, '').replace(/^📝|🔄|📦|🎯/, '').trim();
+        return line.replace(/^\*\*(Correct Answer|Respuesta Correcta):\*\*\s*/i, '').replace(/^📝|🔄|📦|🎯/, '').trim();
     }
     function extractExplanation(line) {
-        return line.replace(/^(\*\*|)(Explanation|Explicación):(\*\*|)\s*/i, '').replace(/^💡/, '').trim();
+        return line.replace(/^\*\*(Explanation|Explicación):\*\*\s*/i, '').replace(/^💡/, '').trim();
     }
     // Recorrer todos los nodos y agrupar por pregunta
     const nodes = Array.from(container.childNodes);
@@ -168,7 +168,6 @@ function parseMarkdownQuiz(markdown) {
     while (i < nodes.length) {
         const el = nodes[i];
         if (el.nodeType === 1 && el.tagName === 'H3') {
-            // Nueva pregunta
             let current = {
                 text: clean(el.textContent),
                 options: [],
@@ -180,40 +179,29 @@ function parseMarkdownQuiz(markdown) {
             // Recorrer nodos hasta el siguiente <h3> o fin
             while (i < nodes.length && !(nodes[i].nodeType === 1 && nodes[i].tagName === 'H3')) {
                 const n = nodes[i];
-                // Opciones en <p>
-                if (n.nodeType === 1 && n.tagName === 'P') {
-                    const opt = extractOption(n.textContent.trim());
+                let raw = '';
+                if (n.nodeType === 1) {
+                    raw = n.textContent.trim();
+                } else if (n.nodeType === 3) {
+                    raw = n.textContent.trim();
+                }
+                if (raw) {
+                    // Solo considerar como opción si es después del <h3> y empieza con emoji
+                    const opt = extractOption(raw);
                     if (opt !== null) {
                         current.options.push(opt);
-                    } else if (/^(\*\*|)(Correct Answer|Respuesta Correcta):(\*\*|)/i.test(n.textContent.trim())) {
-                        current.answer = extractCorrect(n.textContent.trim());
-                    } else if (/^(\*\*|)(Explanation|Explicación):(\*\*|)/i.test(n.textContent.trim())) {
-                        current.explanation = extractExplanation(n.textContent.trim());
-                    } else if (/^💡/.test(n.textContent.trim())) {
-                        current.explanation = clean(n.textContent.trim().replace(/^💡/, ''));
-                    } else if (/🏷️|🟢|🟡|🔴/.test(n.textContent.trim())) {
-                        current.difficulty = extractDifficulty(n.textContent.trim());
-                    }
-                }
-                // Opciones en <ul><li>
-                if (n.nodeType === 1 && n.tagName === 'UL') {
-                    for (const li of n.children) {
-                        const opt = extractOption(li.textContent.trim());
-                        if (opt !== null) {
-                            current.options.push(opt);
-                        }
-                    }
-                }
-                // Opciones en texto plano (nodos de texto)
-                if (n.nodeType === 3) {
-                    const opt = extractOption(n.textContent.trim());
-                    if (opt !== null) {
-                        current.options.push(opt);
+                    } else if (/^(\*\*|)(Correct Answer|Respuesta Correcta):(\*\*|)/i.test(raw)) {
+                        current.answer = extractCorrect(raw);
+                    } else if (/^(\*\*|)(Explanation|Explicación):(\*\*|)/i.test(raw)) {
+                        current.explanation = extractExplanation(raw);
+                    } else if (/^💡/.test(raw)) {
+                        current.explanation = clean(raw.replace(/^💡/, ''));
+                    } else if (/🏷️|🟢|🟡|🔴/.test(raw)) {
+                        current.difficulty = extractDifficulty(raw);
                     }
                 }
                 i++;
             }
-            // Validar y guardar pregunta
             qCount++;
             if (current.options.length === 4 && current.answer && current.difficulty) {
                 questions.push(current);
