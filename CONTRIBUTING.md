@@ -13,7 +13,7 @@
 ## 🚀 Getting Started
 
 1. **Fork the repository** - Click the "Fork" button on GitHub
-2. **Clone your fork** - `git clone https://github.com/yourusername/InfraQuiz.git`
+2. **Clone your fork** - `git clone https://github.com/jersonmartinez/InfraQuiz.git`
 3. **Create a feature branch** - `git checkout -b feature/your-feature-name`
 4. **Make your changes** - Follow the guidelines below
 5. **Test your changes** - Ensure everything works locally
@@ -95,7 +95,7 @@ Each quiz file should follow this structure:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/InfraQuiz.git
+   git clone https://github.com/jersonmartinez/InfraQuiz.git
    cd InfraQuiz
    ```
 

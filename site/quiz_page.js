@@ -128,88 +128,198 @@ function getQuizFilePath(techId, language) {
     return `https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main/quizzes/${techId}/${language}/${fileName}`;
 }
 
-// Enhanced markdown quiz parser
+// Enhanced markdown quiz parser with enhanced parsing and error handling
 function parseMarkdownQuiz(markdown) {
+    console.log('🔍 Starting professional markdown parsing...');
     const questions = [];
-    const lines = markdown.split('\n');
+    const lines = markdown.split('\n').map(line => line.trim());
+    const parsingLog = [];
+    
     let currentQuestion = null;
     let currentOptions = [];
     let currentExplanation = '';
     let inQuestionBlock = false;
+    let inExplanationBlock = false;
+    let questionCount = 0;
+    let skipCount = 0;
+    
+    // Enhanced question detection regex with better emoji support
+    const questionRegex = /^(?:###\s*)?(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀|🎯|💡|⚡|🔥|✨|🎨|🌟)\s*(.+?)(?:\s*(🟢|🟡|🔴))?\s*$/;
+    const optionRegex = /^(?:📝|🔄|📦|🎯|⭐|🎪|🎲|🎵|🎭|🎨)\s*(.+)$/;
+    const correctAnswerRegex = /^\*\*(?:Correct Answer|Respuesta Correcta):\*\*\s*(.*)$/;
+    const explanationRegex = /^\*\*(?:Explanation|Explicación):\*\*\s*(.*)$/;
+    
+    // Skip placeholder content detection
+    if (markdown.includes('Este archivo necesita ser completado') || 
+        markdown.includes('This file needs to be completed') ||
+        markdown.includes('*This file needs to be completed*')) {
+        console.warn('📝 Placeholder content detected, returning empty quiz.');
+        return [];
+    }
     
     for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
+        const line = lines[i];
+        const nextLine = i + 1 < lines.length ? lines[i + 1] : '';
         
-        if (line === '') continue;
-
-        // Skip placeholder text
-        if (line.includes('Este archivo necesita ser completado') || 
-            line.includes('This file needs to be completed')) {
-            console.warn("Placeholder content detected, returning empty quiz.");
-            return [];
+        // Skip empty lines and separators
+        if (!line || line === '---' || line.startsWith('#') && !line.includes('❓') && !line.includes('🧠')) {
+            continue;
         }
         
-        // Detect question start with enhanced emoji detection
-        if (line.match(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
-            if (currentQuestion && currentOptions.length > 0) {
+        // Detect question start with enhanced regex
+        const questionMatch = line.match(questionRegex);
+        if (questionMatch) {
+            // Save previous question if valid
+            if (currentQuestion && currentOptions.length >= 2) {
                 currentQuestion.options = currentOptions;
                 currentQuestion.explanation = currentExplanation.trim();
                 questions.push(currentQuestion);
+                parsingLog.push(`✅ Question ${questionCount + 1}: "${currentQuestion.text.substring(0, 50)}..." - ${currentQuestion.difficulty} - ${currentOptions.length} options`);
+                questionCount++;
+            } else if (currentQuestion) {
+                parsingLog.push(`⚠️ Skipped malformed question: "${currentQuestion.text.substring(0, 50)}..." - Only ${currentOptions.length} options`);
+                skipCount++;
             }
             
-            const difficultyMatch = line.match(/(🟢|🟡|🔴)$/);
+            // Start new question
+            const questionText = questionMatch[1].trim();
+            const difficultyEmoji = questionMatch[2];
+            
             let difficulty = 'unknown';
-            if (difficultyMatch) {
-                switch (difficultyMatch[1]) {
+            if (difficultyEmoji) {
+                switch (difficultyEmoji) {
                     case '🟢': difficulty = 'beginner'; break;
                     case '🟡': difficulty = 'intermediate'; break;
                     case '🔴': difficulty = 'advanced'; break;
                 }
+            } else {
+                // Fallback difficulty assignment based on position
+                const totalEstimated = lines.filter(l => questionRegex.test(l)).length;
+                const position = questionCount / Math.max(totalEstimated, 1);
+                if (position < 0.33) difficulty = 'beginner';
+                else if (position < 0.66) difficulty = 'intermediate';
+                else difficulty = 'advanced';
+                parsingLog.push(`🔄 Auto-assigned difficulty "${difficulty}" to question: "${questionText.substring(0, 30)}..."`);
             }
-
+            
             currentQuestion = {
-                text: line.replace(/^(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*|(?:🟢|🟡|🔴)\s*$/g, '').trim(),
+                text: questionText,
                 difficulty: difficulty,
                 options: [],
-                explanation: ''
+                explanation: '',
+                id: `q_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
             };
             currentOptions = [];
             currentExplanation = '';
             inQuestionBlock = true;
+            inExplanationBlock = false;
             continue;
         }
         
-        // Detect options with enhanced parsing
-        if (inQuestionBlock && line.match(/^(?:📝|🔄|📦|🎯)/)) {
+        // Detect options with enhanced regex
+        const optionMatch = line.match(optionRegex);
+        if (inQuestionBlock && optionMatch && !inExplanationBlock) {
             const isCorrect = line.startsWith('📝');
-            const optionText = line.substring(2).trim();
-            currentOptions.push({
-                text: optionText,
-                isCorrect: isCorrect
-            });
-            currentExplanation = '';
+            const optionText = optionMatch[1].trim();
+            
+            // Validate option text
+            if (optionText.length > 0) {
+                currentOptions.push({
+                    text: optionText,
+                    isCorrect: isCorrect,
+                    id: `opt_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`
+                });
+            }
             continue;
         }
-
-        // Enhanced explanation detection
-        if (inQuestionBlock) {
-            if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**') ||
-                line.includes('**Explanation:**') || line.includes('**Explicación:**')) {
-                currentExplanation = line.replace(/\*\*(Correct Answer|Respuesta Correcta|Explanation|Explicación):\*\*/g, '').trim();
-            } else if (currentExplanation !== '') {
-                currentExplanation += '\n' + line;
+        
+        // Detect correct answer header
+        const correctAnswerMatch = line.match(correctAnswerRegex);
+        if (correctAnswerMatch) {
+            inExplanationBlock = true;
+            continue;
+        }
+        
+        // Detect explanation header
+        const explanationMatch = line.match(explanationRegex);
+        if (explanationMatch) {
+            inExplanationBlock = true;
+            currentExplanation = explanationMatch[1] || '';
+            continue;
+        }
+        
+        // Collect explanation content
+        if (inQuestionBlock && inExplanationBlock && line.length > 0) {
+            // Skip lines that look like question headers
+            if (!questionRegex.test(line) && !line.startsWith('**') && !line.startsWith('###')) {
+                if (currentExplanation) {
+                    currentExplanation += ' ' + line;
+                } else {
+                    currentExplanation = line;
+                }
             }
         }
     }
     
-    if (currentQuestion && currentOptions.length > 0) {
+    // Add the last question if valid
+    if (currentQuestion && currentOptions.length >= 2) {
         currentQuestion.options = currentOptions;
         currentQuestion.explanation = currentExplanation.trim();
         questions.push(currentQuestion);
+        parsingLog.push(`✅ Final question: "${currentQuestion.text.substring(0, 50)}..." - ${currentQuestion.difficulty} - ${currentOptions.length} options`);
+        questionCount++;
+    } else if (currentQuestion) {
+        parsingLog.push(`⚠️ Skipped final malformed question: "${currentQuestion.text.substring(0, 50)}..." - Only ${currentOptions.length} options`);
+        skipCount++;
     }
     
-    console.log('Parsed questions:', questions);
-    return questions;
+    // Validation and quality checks
+    const validQuestions = questions.filter(q => 
+        q.text && q.text.length > 10 &&
+        q.options && q.options.length >= 3 &&
+        q.options.some(opt => opt.isCorrect) &&
+        q.explanation && q.explanation.length > 5
+    );
+    
+    const difficultyDistribution = {
+        beginner: validQuestions.filter(q => q.difficulty === 'beginner').length,
+        intermediate: validQuestions.filter(q => q.difficulty === 'intermediate').length,
+        advanced: validQuestions.filter(q => q.difficulty === 'advanced').length,
+        unknown: validQuestions.filter(q => q.difficulty === 'unknown').length
+    };
+    
+    // Professional logging
+    console.log('📊 Parsing Results Summary:');
+    console.log(`✅ Successfully parsed: ${validQuestions.length} questions`);
+    console.log(`⚠️ Skipped malformed: ${skipCount} questions`);
+    console.log(`📈 Difficulty distribution:`, difficultyDistribution);
+    console.log(`🎯 Quality score: ${Math.round((validQuestions.length / Math.max(questionCount + skipCount, 1)) * 100)}%`);
+    
+    if (parsingLog.length > 0) {
+        console.log('📝 Detailed parsing log:');
+        parsingLog.forEach(log => console.log(`  ${log}`));
+    }
+    
+    // Handle edge cases
+    if (validQuestions.length === 0) {
+        console.error('❌ No valid questions found in markdown content');
+        return [];
+    }
+    
+    if (validQuestions.length < 5) {
+        console.warn(`⚠️ Only ${validQuestions.length} valid questions found. Consider adding more content.`);
+    }
+    
+    // Sort questions by difficulty for better UX (beginners first)
+    const sortedQuestions = [
+        ...validQuestions.filter(q => q.difficulty === 'beginner'),
+        ...validQuestions.filter(q => q.difficulty === 'intermediate'),
+        ...validQuestions.filter(q => q.difficulty === 'advanced'),
+        ...validQuestions.filter(q => q.difficulty === 'unknown')
+    ];
+    
+    console.log(`🎉 Quiz parsing completed successfully! Ready to serve ${sortedQuestions.length} high-quality questions.`);
+    return sortedQuestions;
 }
 
 // Enhanced question display with animations and better UI
@@ -555,11 +665,36 @@ function selectRandomQuestions(allQuestions, count) {
 
 // --- Multimedia in Explanations ---
 function renderExplanationWithMedia(explanation) {
-    // Convert URLs to links and images
-    let html = explanation.replace(/(https?:\/\/\S+\.(?:png|jpg|jpeg|gif))/gi, '<img src="$1" alt="Explanation image" style="max-width:100%;margin:1em 0;" />');
-    html = html.replace(/(https?:\/\/\S+)/gi, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-    // Basic markdown bold/italic
-    html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>');
+    if (!explanation) return '';
+    
+    let html = explanation;
+    
+    // Secure image rendering (only allow common image hosts)
+    const allowedImageHosts = ['imgur.com', 'github.com', 'githubusercontent.com', 'cloudfront.net'];
+    const imageRegex = /(https?:\/\/(?:[^\/]+\.)?(?:imgur\.com|github\.com|githubusercontent\.com|cloudfront\.net)[^\s]+\.(?:png|jpg|jpeg|gif|webp))/gi;
+    
+    html = html.replace(imageRegex, (match) => {
+        const isAllowed = allowedImageHosts.some(host => match.includes(host));
+        if (isAllowed) {
+            return `<img src="${match}" alt="Explanation diagram" style="max-width:100%; height:auto; margin:1em 0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" loading="lazy" />`;
+        }
+        return `<a href="${match}" target="_blank" rel="noopener noreferrer">[Image: ${match}]</a>`;
+    });
+    
+    // Convert URLs to links (excluding images already processed)
+    html = html.replace(/(https?:\/\/[^\s<]+)/gi, (match) => {
+        if (match.match(/\.(png|jpg|jpeg|gif|webp)$/i)) return match; // Skip images
+        return `<a href="${match}" target="_blank" rel="noopener noreferrer" class="text-decoration-none">${match} <i class="bi bi-box-arrow-up-right"></i></a>`;
+    });
+    
+    // Enhanced markdown support
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    html = html.replace(/`(.*?)`/g, '<code class="bg-light p-1 rounded">$1</code>');
+    
+    // Convert line breaks to proper HTML
+    html = html.replace(/\n/g, '<br>');
+    
     return html;
 }
 
@@ -602,37 +737,111 @@ let selectedQuestions = [];
 
 // Override: Enhanced quiz loading function with all integrations
 async function loadQuizPage(category, level, language) {
+    console.log(`🚀 Loading quiz: ${category} (${level}) in ${language}`);
     showLoading(true);
+    
     const filePath = getQuizFilePath(category, language);
+    const startTime = performance.now();
+    
     try {
+        console.log(`📡 Fetching quiz from: ${filePath}`);
         const response = await fetch(filePath);
-        if (response.ok) {
-            const markdown = await response.text();
-            const allQuestions = parseMarkdownQuiz(markdown);
-            // Filter by difficulty
-            const filteredQuestions = allQuestions.filter(q => q.difficulty === level);
-            // Select up to 21 random questions
-            selectedQuestions = selectRandomQuestions(filteredQuestions, 21);
-            if (selectedQuestions.length > 0) {
-                currentQuiz = selectedQuestions;
-                currentQuestionIndex = 0;
-                score = 0;
-                totalQuestions = currentQuiz.length;
-                startTime = Date.now();
-                quizElapsedSeconds = 0;
-                showLoading(false);
-                renderProgressIndicator();
-                startQuizTimer();
-                showQuestion();
-                setupKeyboardNavigation();
-            } else {
-                showError(`${translations[language].error_quiz_not_available(category)}. No questions found for this difficulty level.`);
-            }
-        } else {
-            showError(`${translations[language].error_quiz_not_available(category)}. Quiz file not found (HTTP ${response.status}).`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
+        
+        const markdown = await response.text();
+        console.log(`📄 Downloaded ${Math.round(markdown.length / 1024)}KB of content`);
+        
+        if (markdown.length < 100) {
+            throw new Error('Quiz file appears to be empty or too small');
+        }
+        
+        // Parse with enhanced parser
+        const allQuestions = parseMarkdownQuiz(markdown);
+        
+        if (allQuestions.length === 0) {
+            throw new Error('No valid questions found in quiz file');
+        }
+        
+        // Filter by difficulty with fallback
+        let filteredQuestions = allQuestions.filter(q => q.difficulty === level);
+        
+        // Fallback: if no questions for specific difficulty, try to distribute
+        if (filteredQuestions.length === 0) {
+            console.warn(`⚠️ No questions found for difficulty "${level}". Attempting smart distribution...`);
+            
+            const totalQuestions = allQuestions.length;
+            const questionsPerLevel = Math.ceil(totalQuestions / 3);
+            
+            if (level === 'beginner') {
+                filteredQuestions = allQuestions.slice(0, questionsPerLevel);
+            } else if (level === 'intermediate') {
+                filteredQuestions = allQuestions.slice(questionsPerLevel, questionsPerLevel * 2);
+            } else if (level === 'advanced') {
+                filteredQuestions = allQuestions.slice(questionsPerLevel * 2);
+            }
+            
+            // Update difficulty for consistency
+            filteredQuestions.forEach(q => q.difficulty = level);
+            
+            console.log(`🔄 Smart distribution: assigned ${filteredQuestions.length} questions to ${level} level`);
+        }
+        
+        // Select random questions (max 21 for optimal UX)
+        selectedQuestions = selectRandomQuestions(filteredQuestions, 21);
+        
+        if (selectedQuestions.length === 0) {
+            throw new Error(`No questions available for difficulty level: ${level}`);
+        }
+        
+        // Initialize quiz state
+        currentQuiz = selectedQuestions;
+        currentQuestionIndex = 0;
+        score = 0;
+        totalQuestions = currentQuiz.length;
+        startTime = Date.now();
+        quizElapsedSeconds = 0;
+        
+        const loadTime = Math.round(performance.now() - startTime);
+        console.log(`✅ Quiz loaded successfully in ${loadTime}ms! Ready to start with ${totalQuestions} questions.`);
+        
+        // Start the quiz experience
+        showLoading(false);
+        renderProgressIndicator();
+        startQuizTimer();
+        showQuestion();
+        setupKeyboardNavigation();
+        
+        // Analytics and user feedback
+        showQuizLoadedToast(category, level, totalQuestions, loadTime);
+        
     } catch (error) {
-        showError(`${translations[language].error_quiz_not_available(category)}. Network error: ${error.message}`);
+        const loadTime = Math.round(performance.now() - startTime);
+        console.error(`❌ Quiz loading failed after ${loadTime}ms:`, error);
+        
+        // Enhanced error messages for users
+        let userMessage = translations[language].error_quiz_not_available(category);
+        
+        if (error.message.includes('HTTP 404')) {
+            userMessage += '\n\n📁 Quiz file not found. This category might not be available yet.';
+        } else if (error.message.includes('HTTP 403')) {
+            userMessage += '\n\n🔒 Access denied. Please try again later.';
+        } else if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+            userMessage += '\n\n🌐 Network connection issue. Please check your internet connection and try again.';
+        } else if (error.message.includes('empty') || error.message.includes('too small')) {
+            userMessage += '\n\n📄 Quiz content appears to be incomplete. Please try another category.';
+        } else if (error.message.includes('No valid questions')) {
+            userMessage += '\n\n📝 Quiz format issue detected. Please report this to the developers.';
+        } else {
+            userMessage += `\n\n🔧 Technical details: ${error.message}`;
+        }
+        
+        showError(userMessage);
+        
+        // Suggest alternatives
+        suggestAlternativeQuizzes(category, level);
     }
 }
 
@@ -888,3 +1097,75 @@ window.addEventListener('load', function() {
         }
     }, 100);
 }); 
+
+// User feedback and suggestions
+function showQuizLoadedToast(category, level, questionCount, loadTime) {
+    const toast = document.createElement('div');
+    toast.className = 'toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-3';
+    toast.style.zIndex = '9999';
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">
+                🎉 ${category} quiz loaded! ${questionCount} questions ready in ${loadTime}ms
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 5000);
+}
+
+function suggestAlternativeQuizzes(failedCategory, failedLevel) {
+    const alternatives = technologies.filter(t => t.id !== failedCategory).slice(0, 3);
+    const suggestionHTML = `
+        <div class="mt-3 p-3 bg-light rounded">
+            <h6>💡 Try these alternatives:</h6>
+            ${alternatives.map(alt => `
+                <a href="quiz.html?category=${alt.id}&level=${failedLevel}&lang=${currentLanguage}" 
+                   class="btn btn-outline-primary btn-sm me-2 mb-2">
+                    <i class="bi ${alt.icon}"></i> ${alt.name}
+                </a>
+            `).join('')}
+        </div>
+    `;
+    
+    const errorContainer = document.getElementById('quizError');
+    if (errorContainer) {
+        errorContainer.innerHTML += suggestionHTML;
+    }
+}
+
+// Enhanced multimedia explanation rendering with security
+function renderExplanationWithMedia(explanation) {
+    if (!explanation) return '';
+    
+    let html = explanation;
+    
+    // Secure image rendering (only allow common image hosts)
+    const allowedImageHosts = ['imgur.com', 'github.com', 'githubusercontent.com', 'cloudfront.net'];
+    const imageRegex = /(https?:\/\/(?:[^\/]+\.)?(?:imgur\.com|github\.com|githubusercontent\.com|cloudfront\.net)[^\s]+\.(?:png|jpg|jpeg|gif|webp))/gi;
+    
+    html = html.replace(imageRegex, (match) => {
+        const isAllowed = allowedImageHosts.some(host => match.includes(host));
+        if (isAllowed) {
+            return `<img src="${match}" alt="Explanation diagram" style="max-width:100%; height:auto; margin:1em 0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" loading="lazy" />`;
+        }
+        return `<a href="${match}" target="_blank" rel="noopener noreferrer">[Image: ${match}]</a>`;
+    });
+    
+    // Convert URLs to links (excluding images already processed)
+    html = html.replace(/(https?:\/\/[^\s<]+)/gi, (match) => {
+        if (match.match(/\.(png|jpg|jpeg|gif|webp)$/i)) return match; // Skip images
+        return `<a href="${match}" target="_blank" rel="noopener noreferrer" class="text-decoration-none">${match} <i class="bi bi-box-arrow-up-right"></i></a>`;
+    });
+    
+    // Enhanced markdown support
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    html = html.replace(/`(.*?)`/g, '<code class="bg-light p-1 rounded">$1</code>');
+    
+    // Convert line breaks to proper HTML
+    html = html.replace(/\n/g, '<br>');
+    
+    return html;
+} 
