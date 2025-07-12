@@ -109,6 +109,19 @@ body.dark-mode {
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Logo principal en navbar y hero */
+.navbar-brand img {
+    height: 38px;
+    width: auto;
+    vertical-align: middle;
+}
+.hero-section .infraquiz-logo {
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    height: 80px;
+    width: auto;
+}
+
 .navbar-nav .nav-link {
     font-weight: 500;
     font-size: 1.05rem;
