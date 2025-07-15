@@ -2310,6 +2310,140 @@ function renderAchievements(category) {
             `).join('')}
         </div>
     `;
+}
+
+// Actualizar las exportaciones
+window.InfraQuiz = {
+    loadQuizFile,
+    parseMarkdownQuiz,
+    translations,
+    technologies,
+    currentLanguage,
+    getUserStats,
+    saveUserStats,
+    checkAchievements,
+    getRecommendedDifficulty,
+    renderUserProgress,
+    renderAchievements
+};rmediate';
+    } else {
+        return 'beginner';
+    }
+}
+
+// Renderizar progreso del usuario
+function renderUserProgress(category, stats) {
+    if (stats.totalQuizzes === 0) {
+        return '<div class="user-progress-empty">¡Comienza tu primer quiz!</div>';
+    }
+
+    const progressPercentage = Math.min(stats.averageScore, 100);
+    
+    return `
+        <div class="user-progress mb-3">
+            <div class="progress-ring-container">
+                <svg class="progress-ring" width="60" height="60">
+                    <circle class="progress-ring-circle" cx="30" cy="30" r="25"></circle>
+                    <circle class="progress-ring-progress" cx="30" cy="30" r="25" 
+                            style="stroke-dashoffset: ${157 - (157 * progressPercentage) / 100}"></circle>
+                </svg>
+                <div class="progress-text">${stats.averageScore}%</div>
+            </div>
+            <div class="progress-stats">
+                <small class="text-muted">${stats.totalQuizzes} quizzes completados</small>
+            </div>
+        </div>
+    `;
+}
+
+// Renderizar logros de categoría
+function renderAchievements(category) {
+    const userAchievements = JSON.parse(localStorage.getItem('infraquiz_achievements') || '[]');
+    const categoryAchievements = userAchievements.filter(id => {
+        const achievement = achievements[id];
+        return achievement && (id.includes(category) || ['first_quiz', 'perfect_score', 'streak_7', 'devops_explorer', 'speed_demon'].includes(id));
+    });
+
+    if (categoryAchievements.length === 0) {
+        return '';
+    }
+
+    return `
+        <div class="category-achievements mt-2">
+            ${categoryAchievements.map(id => `
+                <span class="achievement-mini" title="${achievements[id].description[currentLanguage]}">
+                    ${achievements[id].icon}
+                </span>
+            `).join('')}
+        </div>
+    `;
+}
+
+// Actualizar las exportaciones
+window.InfraQuiz = {
+    loadQuizFile,
+    parseMarkdownQuiz,
+    translations,
+    technologies,
+    currentLanguage,
+    getUserStats,
+    saveUserStats,
+    checkAchievements,
+    getRecommendedDifficulty,
+    renderUserProgress,
+    renderAchievements
+};rmediate';
+    } else {
+        return 'beginner';
+    }
+}
+
+// Renderizar progreso del usuario
+function renderUserProgress(category, stats) {
+    if (stats.totalQuizzes === 0) {
+        return '<div class="user-progress-empty">¡Comienza tu primer quiz!</div>';
+    }
+
+    const progressPercentage = Math.min(stats.averageScore, 100);
+    
+    return `
+        <div class="user-progress mb-3">
+            <div class="progress-ring-container">
+                <svg class="progress-ring" width="60" height="60">
+                    <circle class="progress-ring-circle" cx="30" cy="30" r="25"></circle>
+                    <circle class="progress-ring-progress" cx="30" cy="30" r="25" 
+                            style="stroke-dashoffset: ${157 - (157 * progressPercentage) / 100}"></circle>
+                </svg>
+                <div class="progress-text">${stats.averageScore}%</div>
+            </div>
+            <div class="progress-stats">
+                <small class="text-muted">${stats.totalQuizzes} quizzes completados</small>
+            </div>
+        </div>
+    `;
+}
+
+// Renderizar logros de categoría
+function renderAchievements(category) {
+    const userAchievements = JSON.parse(localStorage.getItem('infraquiz_achievements') || '[]');
+    const categoryAchievements = userAchievements.filter(id => {
+        const achievement = achievements[id];
+        return achievement && (id.includes(category) || ['first_quiz', 'perfect_score', 'streak_7', 'devops_explorer', 'speed_demon'].includes(id));
+    });
+
+    if (categoryAchievements.length === 0) {
+        return '';
+    }
+
+    return `
+        <div class="category-achievements mt-2">
+            ${categoryAchievements.map(id => `
+                <span class="achievement-mini" title="${achievements[id].description[currentLanguage]}">
+                    ${achievements[id].icon}
+                </span>
+            `).join('')}
+        </div>
+    `;
 }rmediate';
     } else {
         return 'beginner';
