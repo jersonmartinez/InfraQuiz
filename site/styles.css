@@ -1,18 +1,28 @@
 /* Custom styles for InfraQuiz - Enhanced Modern Design */
 
 :root {
+    /* Colores técnicos inspirados en herramientas DevOps */
     --primary-color: #007bff;
     --secondary-color: #6c757d;
     --success-color: #28a745;
     --warning-color: #ffc107;
     --danger-color: #dc3545;
     --info-color: #17a2b8;
-    --purple-color: #6f42c1;
-    --orange-color: #fd7e14;
-    --pink-color: #e83e8c;
-    --cyan-color: #17a2b8;
-    --teal-color: #20c997;
-    --brown-color: #795548;
+    
+    /* Colores específicos de herramientas DevOps */
+    --docker-blue: #2496ED;
+    --kubernetes-blue: #326CE5;
+    --terraform-purple: #7B42BC;
+    --aws-orange: #FF9900;
+    --github-black: #24292E;
+    --ansible-red: #EE0000;
+    --bash-green: #4EAA25;
+    --python-blue: #3776AB;
+    --monitoring-orange: #FF6B35;
+    --security-red: #D63384;
+    --networking-teal: #20C997;
+    --database-brown: #8B4513;
+    --cicd-purple: #6F42C1;
     
     /* Light Mode Colors */
     --background-color-light: #f8f9fa;
@@ -265,7 +275,7 @@ body.dark-mode {
     margin-bottom: 3rem;
 }
 
-/* Quiz cards */
+/* Quiz cards with advanced micro-interactions */
 .quiz-card {
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     border: 1px solid var(--current-card-border);
@@ -278,7 +288,26 @@ body.dark-mode {
     overflow: hidden;
 }
 
+/* Rotating gradient border effect */
 .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(0,123,255,0.1), transparent);
+    animation: rotate 3s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.quiz-card:hover::before {
+    opacity: 1;
+}
+
+/* Top gradient line */
+.quiz-card::after {
     content: '';
     position: absolute;
     top: 0;
@@ -288,9 +317,10 @@ body.dark-mode {
     background: linear-gradient(90deg, var(--primary-color), var(--info-color));
     transform: scaleX(0);
     transition: transform 0.3s ease;
+    z-index: 2;
 }
 
-.quiz-card:hover::before {
+.quiz-card:hover::after {
     transform: scaleX(1);
 }
 
@@ -298,6 +328,21 @@ body.dark-mode {
     transform: translateY(-15px) scale(1.02);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
 }
+
+/* Category-specific colors for cards */
+.quiz-card[data-category="bash"] .card-body i { color: var(--bash-green) !important; }
+.quiz-card[data-category="python"] .card-body i { color: var(--python-blue) !important; }
+.quiz-card[data-category="terraform"] .card-body i { color: var(--terraform-purple) !important; }
+.quiz-card[data-category="aws"] .card-body i { color: var(--aws-orange) !important; }
+.quiz-card[data-category="docker"] .card-body i { color: var(--docker-blue) !important; }
+.quiz-card[data-category="kubernetes"] .card-body i { color: var(--kubernetes-blue) !important; }
+.quiz-card[data-category="ansible"] .card-body i { color: var(--ansible-red) !important; }
+.quiz-card[data-category="github"] .card-body i { color: var(--github-black) !important; }
+.quiz-card[data-category="cicd"] .card-body i { color: var(--cicd-purple) !important; }
+.quiz-card[data-category="monitoring"] .card-body i { color: var(--monitoring-orange) !important; }
+.quiz-card[data-category="security"] .card-body i { color: var(--security-red) !important; }
+.quiz-card[data-category="networking"] .card-body i { color: var(--networking-teal) !important; }
+.quiz-card[data-category="databases"] .card-body i { color: var(--database-brown) !important; }
 
 .quiz-card .card-body {
     padding: 3rem 2rem;
@@ -1145,4 +1190,1136 @@ html {
 
 .feedback-incorrect {
     animation: feedbackIncorrect 0.6s ease-out;
-} 
+} /* 
+Animación de rotación para efectos de carga */
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Gamification and Achievement Styles */
+.achievement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--success-color), #20c997);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: achievementPop 0.6s ease-out;
+}
+
+.achievement-badge i {
+    font-size: 1.2rem;
+}
+
+@keyframes achievementPop {
+    0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(-90deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Progress Ring for User Stats */
+.progress-ring {
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: var(--current-card-border);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.progress-ring-progress {
+    stroke: var(--primary-color);
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+/* Adaptive Quiz Difficulty Indicator */
+.difficulty-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.difficulty-beginner {
+    background: linear-gradient(135deg, var(--success-color), #20c997);
+    color: white;
+}
+
+.difficulty-intermediate {
+    background: linear-gradient(135deg, var(--warning-color), #fd7e14);
+    color: white;
+}
+
+.difficulty-advanced {
+    background: linear-gradient(135deg, var(--danger-color), #dc3545);
+    color: white;
+}
+
+/* Enhanced Explanation Styles with Media Support */
+.quiz-explanation-enhanced {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--current-card-bg);
+    border-radius: 15px;
+    border: 1px solid var(--current-card-border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.quiz-explanation-enhanced img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.quiz-explanation-enhanced code {
+    background: var(--current-quiz-explanation-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.quiz-explanation-enhanced pre {
+    background: var(--current-quiz-explanation-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Social Sharing Buttons */
+.share-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.share-btn-twitter {
+    background: linear-gradient(135deg, #1DA1F2, #0d8bd9);
+}
+
+.share-btn-linkedin {
+    background: linear-gradient(135deg, #0077B5, #005885);
+}
+
+.share-btn-copy {
+    background: linear-gradient(135deg, var(--secondary-color), #495057);
+}
+
+/* Performance Optimization - Skeleton Loading */
+.skeleton {
+    background: linear-gradient(90deg, var(--current-card-border) 25%, rgba(255,255,255,0.5) 50%, var(--current-card-border) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+    height: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+}
+
+.skeleton-title {
+    height: 2rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+}
+
+.skeleton-card {
+    height: 200px;
+    border-radius: 20px;
+    margin: 1rem 0;
+}
+
+/* Offline Mode Styles */
+.offline-indicator {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--warning-color), #fd7e14);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1050;
+    animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Quiz Editor Styles */
+.quiz-editor {
+    background: var(--current-card-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.quiz-editor-toolbar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.quiz-editor-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quiz-editor-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-editor-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--current-card-border);
+    border-radius: 10px;
+    background: var(--current-card-bg);
+    color: var(--current-text-color);
+    font-family: inherit;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.quiz-editor-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.quiz-editor-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Analytics Dashboard Styles */
+.analytics-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.analytics-card {
+    background: var(--current-card-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.analytics-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.analytics-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.analytics-label {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Learning Path Visualization */
+.learning-path {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--current-card-bg);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+.learning-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+    text-align: center;
+    position: relative;
+}
+
+.learning-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.learning-step-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.learning-step-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--current-text-color);
+}
+
+.learning-step.completed .learning-step-icon {
+    background: linear-gradient(135deg, var(--success-color), #20c997);
+}
+
+.learning-step.current .learning-step-icon {
+    background: linear-gradient(135deg, var(--warning-color), #fd7e14);
+    animation: pulse 2s infinite;
+}
+
+/* Enhanced Tooltips */
+.tooltip-enhanced {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip-enhanced::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--github-black);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.tooltip-enhanced::after {
+    content: '';
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--github-black);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.tooltip-enhanced:hover::before,
+.tooltip-enhanced:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive Improvements for New Elements */
+@media (max-width: 768px) {
+    .share-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .quiz-editor-toolbar {
+        flex-direction: column;
+    }
+    
+    .analytics-dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .learning-path {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .learning-step:not(:last-child)::after {
+        content: '↓';
+        right: auto;
+        bottom: -1.5rem;
+        top: auto;
+        transform: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .share-buttons,
+    .quiz-editor,
+    .offline-indicator {
+        display: none !important;
+    }
+    
+    .quiz-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}/*
+ Estilos para notificaciones de logros */
+.achievement-notification {
+    position: fixed;
+    top: 100px;
+    right: -400px;
+    z-index: 1060;
+    transition: right 0.3s ease-out;
+}
+
+.achievement-notification.show {
+    right: 20px;
+}
+
+.achievement-notification .achievement-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, var(--success-color), #20c997);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+}
+
+.achievement-icon {
+    font-size: 2rem;
+}
+
+.achievement-text {
+    flex: 1;
+}
+
+.achievement-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.achievement-desc {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Progreso del usuario en tarjetas */
+.user-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+.progress-ring-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-text {
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.progress-stats {
+    flex: 1;
+    text-align: center;
+}
+
+.user-progress-empty {
+    padding: 1rem;
+    text-align: center;
+    color: var(--secondary-color);
+    font-style: italic;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+/* Logros mini en tarjetas */
+.category-achievements {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.achievement-mini {
+    display: inline-block;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    border-radius: 50%;
+    background: var(--current-quiz-explanation-bg);
+    cursor: help;
+    transition: transform 0.2s ease;
+}
+
+.achievement-mini:hover {
+    transform: scale(1.2);
+}
+
+/* Botón recomendado */
+.btn.recommended {
+    position: relative;
+    overflow: visible;
+}
+
+.btn.recommended::after {
+    content: '⭐';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--warning-color);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    animation: pulse 2s infinite;
+}
+
+/* Notificaciones generales */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: -400px;
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1060;
+    transition: right 0.3s ease-out;
+    max-width: 300px;
+}
+
+.notification.show {
+    right: 20px;
+}
+
+.notification-success {
+    background: linear-gradient(135deg, var(--success-color), #20c997);
+}
+
+.notification-error {
+    background: linear-gradient(135deg, var(--danger-color), #dc3545);
+}
+
+.notification-warning {
+    background: linear-gradient(135deg, var(--warning-color), #fd7e14);
+}
+
+/* Rutas de aprendizaje */
+.learning-path-card {
+    background: var(--current-card-bg);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--current-card-border);
+}
+
+.learning-path-card h4 {
+    color: var(--current-text-color);
+    margin-bottom: 0.5rem;
+}
+
+.path-progress {
+    margin-top: 1.5rem;
+}
+
+.path-progress .progress {
+    height: 8px;
+    margin-bottom: 0.5rem;
+}
+
+/* Mejoras de accesibilidad */
+.quiz-option:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Indicadores de carga mejorados */
+.loading-skeleton {
+    background: linear-gradient(90deg, 
+        var(--current-card-border) 25%, 
+        rgba(255,255,255,0.5) 50%, 
+        var(--current-card-border) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 8px;
+}
+
+.skeleton-quiz-card {
+    height: 300px;
+    margin: 1rem 0;
+}
+
+.skeleton-question {
+    height: 60px;
+    margin: 1rem 0;
+}
+
+.skeleton-option {
+    height: 40px;
+    margin: 0.5rem 0;
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+    .quiz-card {
+        border: 3px solid var(--current-text-color);
+    }
+    
+    .btn {
+        border: 2px solid currentColor;
+    }
+    
+    .achievement-badge,
+    .notification {
+        border: 2px solid white;
+    }
+}
+
+/* Animaciones reducidas para usuarios que las prefieren */
+@media (prefers-reduced-motion: reduce) {
+    .quiz-card,
+    .btn,
+    .achievement-notification,
+    .notification,
+    .progress-bar,
+    .achievement-mini {
+        animation: none;
+        transition: none;
+    }
+    
+    .quiz-card:hover {
+        transform: none;
+    }
+}
+
+/* Mejoras para pantallas pequeñas */
+@media (max-width: 576px) {
+    .achievement-notification,
+    .notification {
+        right: -100%;
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+    
+    .achievement-notification.show,
+    .notification.show {
+        right: 10px;
+    }
+    
+    .user-progress {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .learning-path-card {
+        padding: 1.5rem;
+    }
+    
+    .share-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .share-btn {
+        justify-content: center;
+    }
+}
+
+/* Estilos para el modo oscuro específicos */
+.dark-mode .achievement-notification .achievement-badge {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .notification {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .learning-path-card {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para impresión */
+@media print {
+    .achievement-notification,
+    .notification,
+    .offline-indicator,
+    .share-buttons {
+        display: none !important;
+    }
+    
+    .quiz-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .learning-path-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}/* Q
+uiz Editor Specific Styles */
+.question-editor {
+    background: var(--current-card-bg);
+    border: 1px solid var(--current-card-border);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.question-editor:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.question-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--current-card-border);
+}
+
+.question-header h5 {
+    margin: 0;
+    color: var(--current-text-color);
+}
+
+.question-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.question-content {
+    margin-top: 1rem;
+}
+
+.options-container {
+    margin: 1.5rem 0;
+}
+
+.option-input-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.option-input-group .form-check {
+    margin: 0;
+}
+
+.option-input-group .form-check-label {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.option-input-group input[type="text"] {
+    flex: 1;
+}
+
+.explanation-container {
+    margin-top: 1.5rem;
+}
+
+.quiz-stats {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 15px;
+}
+
+/* Preview Modal Styles */
+.quiz-preview {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.preview-question {
+    padding: 1.5rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.preview-options {
+    margin: 1rem 0;
+}
+
+.preview-option {
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    background: var(--current-card-bg);
+    border: 1px solid var(--current-card-border);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.preview-option.correct-option {
+    background: linear-gradient(135deg, #d1e7dd, #c3e6cb);
+    border-color: var(--success-color);
+    font-weight: 600;
+}
+
+.preview-explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--current-card-bg);
+    border-left: 4px solid var(--primary-color);
+    border-radius: 0 8px 8px 0;
+}
+
+/* Analytics Dashboard Styles */
+.category-stat-item {
+    padding: 1rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.category-stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-item {
+    padding: 1rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+    transform: translateY(-2px);
+}
+
+.achievement-icon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--current-card-bg);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.learning-path-progress {
+    padding: 1.5rem;
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.learning-path-steps {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.learning-step-mini {
+    padding: 0.25rem 0.75rem;
+    background: var(--current-card-border);
+    color: var(--current-text-color);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.learning-step-mini.completed {
+    background: var(--success-color);
+    color: white;
+}
+
+/* Chart Container Improvements */
+.analytics-card canvas {
+    max-height: 300px;
+}
+
+/* Responsive Improvements for Editor and Analytics */
+@media (max-width: 768px) {
+    .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .question-actions {
+        align-self: flex-end;
+    }
+    
+    .option-input-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .option-input-group input[type="text"] {
+        width: 100%;
+    }
+    
+    .quiz-editor-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .quiz-editor-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .analytics-dashboard {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .learning-path-steps {
+        flex-direction: column;
+    }
+    
+    .learning-step-mini {
+        text-align: center;
+    }
+}
+
+/* Dark Mode Specific Adjustments for New Components */
+.dark-mode .question-editor {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .preview-option.correct-option {
+    background: linear-gradient(135deg, #1a4f22, #155724);
+    color: white;
+}
+
+.dark-mode .category-stat-item,
+.dark-mode .achievement-item,
+.dark-mode .learning-path-progress {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation for Chart Loading */
+.chart-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--secondary-color);
+}
+
+.chart-loading::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--current-card-border);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Enhanced Form Controls for Editor */
+.quiz-editor-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+.quiz-editor-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Success/Error States for Form Validation */
+.quiz-editor-input.is-valid {
+    border-color: var(--success-color);
+}
+
+.quiz-editor-input.is-invalid {
+    border-color: var(--danger-color);
+}
+
+.invalid-feedback {
+    display: block;
+    color: var(--danger-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.valid-feedback {
+    display: block;
+    color: var(--success-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Export/Import Styles */
+.export-import-section {
+    background: var(--current-quiz-explanation-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.file-drop-zone {
+    border: 2px dashed var(--current-card-border);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+    border-color: var(--primary-color);
+    background: rgba(0, 123, 255, 0.05);
+}
+
+.file-drop-zone i {
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+/* Accessibility Improvements */
+.quiz-editor-input:focus-visible,
+.quiz-editor-btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Print Styles for Analytics */
+@media print {
+    .analytics-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .question-editor {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .quiz-editor-toolbar,
+    .question-actions {
+        display: none;
+    }
+}

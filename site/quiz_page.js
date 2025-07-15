@@ -379,7 +379,7 @@ function nextQuestion() {
     }
 }
 
-// Enhanced quiz results with detailed statistics
+// Enhanced quiz results with detailed statistics and social features
 function showQuizResults() {
     const quizContentDiv = document.getElementById('quizContent');
     const quizResultsDiv = document.getElementById('quizResults');
@@ -397,8 +397,22 @@ function showQuizResults() {
     const timeElapsed = Math.floor((Date.now() - startTime) / 1000);
     const minutes = Math.floor(timeElapsed / 60);
     const seconds = timeElapsed % 60;
+    
+    // Get quiz parameters
+    const category = getUrlParameter('category');
+    const difficulty = getUrlParameter('level');
 
     quizCompleteTitle.textContent = translations[currentLanguage].quiz_complete_title;
+    
+    // Save user statistics and check achievements
+    if (window.InfraQuiz && window.InfraQuiz.saveUserStats) {
+        window.InfraQuiz.saveUserStats(category, score, totalQuestions, timeElapsed);
+    }
+    
+    // Track analytics
+    if (window.InfraQuiz && window.InfraQuiz.analytics) {
+        window.InfraQuiz.analytics.trackQuizCompletion(category, score, totalQuestions, timeElapsed, difficulty);
+    }
     
     finalScoreElement.innerHTML = `
         <div class="row text-center">
@@ -421,10 +435,17 @@ function showQuizResults() {
                 </div>
             </div>
         </div>
+        
+        ${renderLeaderboard(category, difficulty)}
+        ${renderShareButtons(category, score, totalQuestions, difficulty)}
+        ${renderPersonalizedRecommendations(category, accuracy)}
     `;
 
     restartQuizBtn.addEventListener('click', restartQuiz);
     backToCategoriesResultsBtn.addEventListener('click', () => { window.location.href = 'index.html#quizzes'; });
+    
+    // Setup share button listeners
+    setupShareButtons(category, score, totalQuestions, difficulty);
 }
 
 // Enhanced restart quiz function
@@ -1073,4 +1094,391 @@ function renderExplanationWithMedia(explanation) {
     html = html.replace(/\n/g, '<br>');
     
     return html;
-} 
+} /
+/ Funciones faltantes para completar la funcionalidad
+
+// Renderizar leaderboard mejorado
+function renderLeaderboard(category, difficulty) {
+    const key = `infraquiz_leaderboard_${category}_${difficulty}`;
+    let board = JSON.parse(localStorage.getItem(key) || '[]');
+    
+    // Agregar el resultado actual
+    const currentScore = Math.round((score / totalQuestions) * 100);
+    const currentTime = Math.floor((Date.now() - startTime) / 1000);
+    
+    board.push({ 
+        score: currentScore, 
+        time: currentTime, 
+        date: new Date().toISOString(),
+        isCurrentSession: true
+    });
+    
+    // Ordenar y mantener top 5
+    board = board.sort((a, b) => b.score - a.score || a.time - b.time).slice(0, 5);
+    localStorage.setItem(key, JSON.stringify(board.map(entry => ({ ...entry, isCurrentSession: false }))));
+    
+    if (board.length === 0) return '';
+    
+    const techName = technologies.find(t => t.id === category)?.name || category;
+    
+    return `
+        <div class="leaderboard mt-4">
+            <h5 class="leaderboard-title">🏆 ${currentLanguage === 'es' ? 'Top 5' : 'Top 5'} - ${techName} (${difficulty})</h5>
+            <div class="leaderboard-list">
+                ${board.map((entry, i) => `
+                    <div class="leaderboard-item ${entry.isCurrentSession ? 'current-session' : ''}">
+                        <span class="rank">#${i+1}</span>
+                        <span class="score">${entry.score}%</span>
+                        <span class="time">${Math.floor(entry.time/60)}:${(entry.time%60).toString().padStart(2,'0')}</span>
+                        ${entry.isCurrentSession ? '<span class="badge bg-success ms-2">¡Tú!</span>' : ''}
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+// Renderizar botones de compartir
+function renderShareButtons(category, score, totalQuestions, difficulty) {
+    const percentage = Math.round((score / totalQuestions) * 100);
+    const techName = technologies.find(t => t.id === category)?.name || category;
+    
+    return `
+        <div class="share-buttons mt-4">
+            <h5 class="text-center mb-3">${currentLanguage === 'es' ? '¡Comparte tu resultado!' : 'Share your result!'}</h5>
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <button class="share-btn share-btn-twitter" data-share="twitter">
+                    <i class="bi bi-twitter"></i>
+                    Twitter
+                </button>
+                <button class="share-btn share-btn-linkedin" data-share="linkedin">
+                    <i class="bi bi-linkedin"></i>
+                    LinkedIn
+                </button>
+                <button class="share-btn share-btn-copy" data-share="copy">
+                    <i class="bi bi-clipboard"></i>
+                    ${currentLanguage === 'es' ? 'Copiar' : 'Copy'}
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Renderizar recomendaciones personalizadas
+function renderPersonalizedRecommendations(category, accuracy) {
+    let recommendations = [];
+    
+    if (accuracy < 60) {
+        recommendations.push({
+            type: 'retry',
+            message: currentLanguage === 'es' ? 
+                'Considera repasar los conceptos básicos y volver a intentarlo.' :
+                'Consider reviewing the basic concepts and trying again.',
+            action: currentLanguage === 'es' ? 'Reintentar Nivel Principiante' : 'Retry Beginner Level',
+            link: `quiz.html?category=${category}&level=beginner&lang=${currentLanguage}`
+        });
+    } else if (accuracy >= 80) {
+        // Recomendar nivel siguiente o categoría relacionada
+        const relatedCategories = getRelatedCategories(category);
+        if (relatedCategories.length > 0) {
+            const nextCategory = relatedCategories[0];
+            recommendations.push({
+                type: 'advance',
+                message: currentLanguage === 'es' ? 
+                    `¡Excelente trabajo! Prueba ${nextCategory.name} para continuar aprendiendo.` :
+                    `Great job! Try ${nextCategory.name} to continue learning.`,
+                action: currentLanguage === 'es' ? `Probar ${nextCategory.name}` : `Try ${nextCategory.name}`,
+                link: `quiz.html?category=${nextCategory.id}&level=beginner&lang=${currentLanguage}`
+            });
+        }
+    }
+    
+    if (recommendations.length === 0) return '';
+    
+    return `
+        <div class="recommendations mt-4">
+            <h5 class="text-center mb-3">${currentLanguage === 'es' ? 'Recomendaciones' : 'Recommendations'}</h5>
+            ${recommendations.map(rec => `
+                <div class="recommendation-card">
+                    <p class="mb-2">${rec.message}</p>
+                    <a href="${rec.link}" class="btn btn-outline-primary btn-sm">${rec.action}</a>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+// Obtener categorías relacionadas
+function getRelatedCategories(category) {
+    const relationships = {
+        'bash': ['python', 'github'],
+        'python': ['bash', 'ansible'],
+        'docker': ['kubernetes', 'cicd'],
+        'kubernetes': ['docker', 'monitoring'],
+        'terraform': ['aws', 'ansible'],
+        'aws': ['terraform', 'monitoring'],
+        'github': ['cicd', 'bash'],
+        'cicd': ['github', 'docker'],
+        'ansible': ['terraform', 'python'],
+        'monitoring': ['kubernetes', 'aws'],
+        'security': ['docker', 'kubernetes'],
+        'networking': ['aws', 'kubernetes'],
+        'databases': ['monitoring', 'aws']
+    };
+    
+    const related = relationships[category] || [];
+    return related.map(id => technologies.find(t => t.id === id)).filter(Boolean);
+}
+
+// Configurar listeners de botones de compartir
+function setupShareButtons(category, score, totalQuestions, difficulty) {
+    const shareButtons = document.querySelectorAll('[data-share]');
+    const percentage = Math.round((score / totalQuestions) * 100);
+    const techName = technologies.find(t => t.id === category)?.name || category;
+    
+    shareButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const shareType = e.currentTarget.dataset.share;
+            const shareText = currentLanguage === 'es' ?
+                `¡Acabo de completar el quiz de ${techName} (${difficulty}) con ${percentage}% de aciertos en InfraQuiz! 🎯` :
+                `Just completed the ${techName} (${difficulty}) quiz with ${percentage}% accuracy on InfraQuiz! 🎯`;
+            const shareUrl = window.location.origin + '/InfraQuiz/site/';
+            
+            switch (shareType) {
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+                    break;
+                case 'linkedin':
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${encodeURIComponent(shareText)}`, '_blank');
+                    break;
+                case 'copy':
+                    copyToClipboard(`${shareText}\n${shareUrl}`);
+                    showNotification(currentLanguage === 'es' ? '¡Copiado al portapapeles!' : 'Copied to clipboard!', 'success');
+                    break;
+            }
+        });
+    });
+}
+
+// Copiar al portapapeles
+function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text);
+    } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        textArea.remove();
+    }
+}
+
+// Mostrar notificación
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'} me-2"></i>
+        ${message}
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Mejorar el parser para manejar mejor las opciones
+function parseMarkdownQuizEnhanced(markdown) {
+    const questions = [];
+    const lines = markdown.split('\n');
+    let currentQuestion = null;
+    let currentOptions = [];
+    let currentExplanation = '';
+    let inQuestionBlock = false;
+    let correctAnswer = '';
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        if (line === '') continue;
+
+        // Skip placeholder content
+        if (line.includes('Este archivo necesita ser completado') || 
+            line.includes('This file needs to be completed')) {
+            console.warn("Placeholder content detected, returning empty quiz.");
+            return [];
+        }
+        
+        // Detect question start (H3 with emoji)
+        if (line.match(/^### (?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
+            // Save previous question if exists
+            if (currentQuestion && currentOptions.length > 0) {
+                // Find correct option and mark it
+                const correctIndex = currentOptions.findIndex(opt => opt.text === correctAnswer);
+                if (correctIndex !== -1) {
+                    currentOptions[correctIndex].isCorrect = true;
+                }
+                
+                currentQuestion.options = currentOptions;
+                currentQuestion.explanation = currentExplanation.trim();
+                questions.push(currentQuestion);
+            }
+            
+            // Extract difficulty
+            const difficultyMatch = line.match(/(🟢|🟡|🔴)$/);
+            let difficulty = 'beginner';
+            if (difficultyMatch) {
+                switch (difficultyMatch[1]) {
+                    case '🟢': difficulty = 'beginner'; break;
+                    case '🟡': difficulty = 'intermediate'; break;
+                    case '🔴': difficulty = 'advanced'; break;
+                }
+            }
+
+            currentQuestion = {
+                text: line.replace(/^### (?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*/, '').replace(/(?:🟢|🟡|🔴)\s*$/, '').trim(),
+                difficulty: difficulty,
+                options: [],
+                explanation: ''
+            };
+            currentOptions = [];
+            currentExplanation = '';
+            correctAnswer = '';
+            inQuestionBlock = true;
+            continue;
+        }
+        
+        // Detect options
+        if (inQuestionBlock && line.match(/^(?:📝|🔄|📦|🎯)/)) {
+            const isCorrect = line.startsWith('📝');
+            const optionText = line.substring(2).trim();
+            currentOptions.push({
+                text: optionText,
+                isCorrect: isCorrect
+            });
+            continue;
+        }
+
+        // Detect correct answer section
+        if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**')) {
+            const nextLine = lines[i + 1];
+            if (nextLine && nextLine.startsWith('📝')) {
+                correctAnswer = nextLine.substring(2).trim();
+            }
+            continue;
+        }
+
+        // Detect explanation
+        if (line.includes('**Explanation:**') || line.includes('**Explicación:**')) {
+            const nextLine = lines[i + 1];
+            if (nextLine) {
+                currentExplanation = nextLine.replace(/^💡\s*/, '').trim();
+            }
+            continue;
+        }
+    }
+    
+    // Don't forget the last question
+    if (currentQuestion && currentOptions.length > 0) {
+        const correctIndex = currentOptions.findIndex(opt => opt.text === correctAnswer);
+        if (correctIndex !== -1) {
+            currentOptions[correctIndex].isCorrect = true;
+        }
+        
+        currentQuestion.options = currentOptions;
+        currentQuestion.explanation = currentExplanation.trim();
+        questions.push(currentQuestion);
+    }
+    
+    console.log(`Parsed ${questions.length} questions successfully`);
+    return questions;
+}
+
+// Inicialización mejorada de la página de quiz
+async function initializeQuizPage() {
+    const category = getUrlParameter('category');
+    const difficulty = getUrlParameter('level') || 'beginner';
+    const language = getUrlParameter('lang') || currentLanguage;
+    
+    if (!category) {
+        showError(currentLanguage === 'es' ? 
+            'No se especificó una categoría de quiz.' : 
+            'No quiz category specified.');
+        return;
+    }
+
+    try {
+        showLoading(true);
+        
+        // Track quiz start
+        if (window.InfraQuiz && window.InfraQuiz.analytics) {
+            window.InfraQuiz.analytics.trackQuizStart(category, difficulty);
+        }
+        
+        // Load quiz using cache if available
+        let quizContent;
+        if (window.InfraQuiz && window.InfraQuiz.quizCache) {
+            quizContent = await window.InfraQuiz.quizCache.getQuiz(category, language);
+        } else {
+            // Fallback to direct fetch
+            const fileName = language === 'en' ? 'questions1.md' : 'cuestionario1.md';
+            const filePath = `../quizzes/${category}/${language}/${fileName}`;
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            quizContent = await response.text();
+        }
+        
+        // Parse quiz content
+        currentQuiz = parseMarkdownQuizEnhanced(quizContent);
+        
+        if (currentQuiz.length === 0) {
+            throw new Error('No valid questions found in quiz file');
+        }
+        
+        // Filter by difficulty if needed
+        const filteredQuiz = currentQuiz.filter(q => q.difficulty === difficulty);
+        if (filteredQuiz.length > 0) {
+            currentQuiz = filteredQuiz;
+        }
+        
+        totalQuestions = currentQuiz.length;
+        currentQuestionIndex = 0;
+        score = 0;
+        startTime = Date.now();
+        
+        // Setup UI
+        renderProgressIndicator();
+        setupKeyboardNavigation();
+        startQuizTimer();
+        
+        showLoading(false);
+        showQuestion();
+        
+    } catch (error) {
+        console.error('Error loading quiz:', error);
+        showError(currentLanguage === 'es' ? 
+            `Error al cargar el quiz: ${error.message}` : 
+            `Error loading quiz: ${error.message}`);
+    }
+}
+
+// Inicializar cuando se carga la página
+document.addEventListener('DOMContentLoaded', initializeQuizPage);
