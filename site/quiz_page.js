@@ -119,13 +119,64 @@ const translations = {
 };
 
 /**
- * Constructs the file path for a quiz markdown file based on technology ID and language.
- * Updated to use the correct repository structure.
+ * Enhanced quiz loading function that tries multiple sources and paths
  */
-function getQuizFilePath(techId, language) {
-    const fileName = (language === 'en') ? 'questions1.md' : 'cuestionario1.md';
-    // Use the correct path structure for the GitHub repository
-    return `https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main/quizzes/${techId}/${language}/${fileName}`;
+async function loadQuizContent(category, language) {
+    // First try to use the main loadQuizFile function from script.js
+    if (window.InfraQuiz && window.InfraQuiz.loadQuizFile) {
+        try {
+            return await window.InfraQuiz.loadQuizFile(category, language);
+        } catch (error) {
+            console.warn('Failed to load via InfraQuiz.loadQuizFile:', error);
+        }
+    }
+    
+    // Fallback to direct loading with multiple path attempts
+    const fileName = language === 'en' ? 'questions1.md' : 'cuestionario1.md';
+    const possiblePaths = [
+        `./quizzes/${category}/${language}/${fileName}`,
+        `../quizzes/${category}/${language}/${fileName}`,
+        `/quizzes/${category}/${language}/${fileName}`,
+        `quizzes/${category}/${language}/${fileName}`,
+        // GitHub raw content as last resort
+        `https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main/quizzes/${category}/${language}/${fileName}`
+    ];
+    
+    let lastError = null;
+    
+    for (const filePath of possiblePaths) {
+        try {
+            console.log(`Attempting to load quiz from: ${filePath}`);
+            const response = await fetch(filePath);
+            if (response.ok) {
+                const content = await response.text();
+                console.log(`Successfully loaded quiz from: ${filePath}`);
+                return content;
+            }
+            lastError = new Error(`HTTP error! status: ${response.status} for path: ${filePath}`);
+        } catch (error) {
+            console.warn(`Failed to load from ${filePath}:`, error);
+            lastError = error;
+        }
+    }
+    
+    // Try localStorage for editor-created quizzes
+    try {
+        const savedQuizzes = JSON.parse(localStorage.getItem('infraquiz_saved_quizzes') || '[]');
+        const matchingQuiz = savedQuizzes.find(quiz => 
+            quiz.category === category && 
+            (quiz.language === language || !quiz.language)
+        );
+        
+        if (matchingQuiz) {
+            console.log('Loading quiz from localStorage:', matchingQuiz.title);
+            return window.InfraQuiz.generateMarkdownFromQuizData(matchingQuiz);
+        }
+    } catch (storageError) {
+        console.warn('Failed to load from localStorage:', storageError);
+    }
+    
+    throw lastError || new Error('Quiz file not found');
 }
 
 // === PARSER ULTRA-TOLERANTE (DIVIDE POR LÍNEAS) ===
@@ -1415,8 +1466,9 @@ async function initializeQuizPage() {
     const category = getUrlParameter('category');
     const difficulty = getUrlParameter('level') || 'beginner';
     const language = getUrlParameter('lang') || currentLanguage;
+    const isTestMode = getUrlParameter('test') === 'true';
     
-    if (!category) {
+    if (!category && !isTestMode) {
         showError(currentLanguage === 'es' ? 
             'No se especificó una categoría de quiz.' : 
             'No quiz category specified.');
@@ -1431,32 +1483,54 @@ async function initializeQuizPage() {
             window.InfraQuiz.analytics.trackQuizStart(category, difficulty);
         }
         
-        // Load quiz using cache if available
         let quizContent;
-        if (window.InfraQuiz && window.InfraQuiz.quizCache) {
-            quizContent = await window.InfraQuiz.quizCache.getQuiz(category, language);
-        } else {
-            // Fallback to direct fetch
-            const fileName = language === 'en' ? 'questions1.md' : 'cuestionario1.md';
-            const filePath = `../quizzes/${category}/${language}/${fileName}`;
-            const response = await fetch(filePath);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        
+        // Handle test mode (from quiz editor)
+        if (isTestMode) {
+            const testQuizData = sessionStorage.getItem('infraquiz_test_quiz');
+            if (testQuizData) {
+                const quizData = JSON.parse(testQuizData);
+                quizContent = window.InfraQuiz.generateMarkdownFromQuizData(quizData);
+                console.log('Loading test quiz from editor:', quizData.title);
+            } else {
+                throw new Error('No test quiz data found');
             }
-            quizContent = await response.text();
+        } else {
+            // Check if this is a custom quiz
+            const customQuizId = getUrlParameter('custom');
+            if (customQuizId && difficulty === 'custom') {
+                const savedQuizzes = JSON.parse(localStorage.getItem('infraquiz_saved_quizzes') || '[]');
+                const customQuiz = savedQuizzes.find(quiz => quiz.id === customQuizId);
+                if (customQuiz) {
+                    quizContent = window.InfraQuiz.generateMarkdownFromQuizData(customQuiz);
+                    console.log('Loading custom quiz:', customQuiz.title);
+                } else {
+                    throw new Error('Custom quiz not found');
+                }
+            } else {
+                // Load quiz content using enhanced loading function
+                quizContent = await loadQuizContent(category, language);
+            }
         }
         
-        // Parse quiz content
+        // Parse quiz content with enhanced parser
         currentQuiz = parseMarkdownQuizEnhanced(quizContent);
         
         if (currentQuiz.length === 0) {
             throw new Error('No valid questions found in quiz file');
         }
         
-        // Filter by difficulty if needed
-        const filteredQuiz = currentQuiz.filter(q => q.difficulty === difficulty);
-        if (filteredQuiz.length > 0) {
-            currentQuiz = filteredQuiz;
+        // Filter by difficulty if needed (skip for test mode)
+        if (!isTestMode) {
+            const filteredQuiz = currentQuiz.filter(q => q.difficulty === difficulty);
+            if (filteredQuiz.length > 0) {
+                currentQuiz = filteredQuiz;
+            }
+        }
+        
+        // Randomize questions for better experience
+        if (currentQuiz.length > 10) {
+            currentQuiz = selectRandomQuestions(currentQuiz, Math.min(20, currentQuiz.length));
         }
         
         totalQuestions = currentQuiz.length;
@@ -1472,11 +1546,19 @@ async function initializeQuizPage() {
         showLoading(false);
         showQuestion();
         
+        // Show success notification
+        showQuizLoadedToast(category, difficulty, totalQuestions, Date.now() - startTime);
+        
     } catch (error) {
         console.error('Error loading quiz:', error);
         showError(currentLanguage === 'es' ? 
             `Error al cargar el quiz: ${error.message}` : 
             `Error loading quiz: ${error.message}`);
+        
+        // Suggest alternatives
+        if (!isTestMode) {
+            suggestAlternativeQuizzes(category, difficulty);
+        }
     }
 }
 

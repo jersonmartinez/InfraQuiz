@@ -199,6 +199,28 @@ window.addEventListener('load', function() {
     }, 100);
 });
 
+// Listen for quiz saved events from the editor
+window.addEventListener('quizSaved', function(event) {
+    console.log('Quiz saved event received:', event.detail);
+    // Re-render categories to show new custom quizzes
+    renderQuizCategories();
+    
+    // Show notification if we're on the main page
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        const { quiz, action } = event.detail;
+        const message = action === 'updated' 
+            ? `Quiz "${quiz.title}" updated and is now available!`
+            : `New quiz "${quiz.title}" created and is now available!`;
+        
+        // Simple notification (you can enhance this with a proper notification system)
+        if (typeof showNotification === 'function') {
+            showNotification(message, 'success');
+        } else {
+            console.log(message);
+        }
+    }
+});
+
 // Initialize navigation
 function initializeNavigation() {
     const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
@@ -326,6 +348,17 @@ function renderQuizCategories() {
 
     container.innerHTML = '';
 
+    // Get custom quizzes from localStorage
+    const savedQuizzes = JSON.parse(localStorage.getItem('infraquiz_saved_quizzes') || '[]');
+    const customQuizzesByCategory = {};
+    
+    savedQuizzes.forEach(quiz => {
+        if (!customQuizzesByCategory[quiz.category]) {
+            customQuizzesByCategory[quiz.category] = [];
+        }
+        customQuizzesByCategory[quiz.category].push(quiz);
+    });
+
     technologies.forEach((tech, index) => {
         const col = document.createElement('div');
         col.className = 'col-md-6 col-lg-4';
@@ -333,35 +366,60 @@ function renderQuizCategories() {
         col.setAttribute('data-aos-delay', `${index * 100}`);
 
         const currentTranslations = translations[currentLanguage];
+        const customQuizzes = customQuizzesByCategory[tech.id] || [];
+        const hasCustomQuizzes = customQuizzes.length > 0;
+        
+        // Build difficulty buttons
+        let difficultyButtons = `
+            <a href="quiz.html?category=${tech.id}&level=beginner&lang=${currentLanguage}" 
+               class="btn btn-success btn-sm m-0" 
+               data-bs-toggle="tooltip" 
+               data-bs-placement="top" 
+               title="${currentTranslations.difficulty_beginner} - ${currentTranslations.questions_count(21)}">
+                ${currentTranslations.difficulty_beginner}
+            </a>
+            <a href="quiz.html?category=${tech.id}&level=intermediate&lang=${currentLanguage}" 
+               class="btn btn-warning btn-sm m-0"
+               data-bs-toggle="tooltip" 
+               data-bs-placement="top" 
+               title="${currentTranslations.difficulty_intermediate} - ${currentTranslations.questions_count(21)}">
+                ${currentTranslations.difficulty_intermediate}
+            </a>
+            <a href="quiz.html?category=${tech.id}&level=advanced&lang=${currentLanguage}" 
+               class="btn btn-danger btn-sm m-0"
+               data-bs-toggle="tooltip" 
+               data-bs-placement="top" 
+               title="${currentTranslations.difficulty_advanced} - ${currentTranslations.questions_count(21)}">
+                ${currentTranslations.difficulty_advanced}
+            </a>
+        `;
+
+        // Add custom quiz buttons if available
+        if (hasCustomQuizzes) {
+            const customQuizButtons = customQuizzes.map(quiz => `
+                <a href="quiz.html?category=${tech.id}&level=custom&lang=${currentLanguage}&custom=${quiz.id}" 
+                   class="btn btn-info btn-sm m-0 mt-2" 
+                   data-bs-toggle="tooltip" 
+                   data-bs-placement="top" 
+                   title="Custom: ${quiz.title} - ${quiz.totalQuestions} questions">
+                    <i class="bi bi-star-fill me-1"></i>${quiz.title.substring(0, 15)}${quiz.title.length > 15 ? '...' : ''}
+                </a>
+            `).join('');
+            
+            difficultyButtons += `<div class="w-100"></div>${customQuizButtons}`;
+        }
         
         col.innerHTML = `
-            <div class="card quiz-card h-100 shadow-3" data-category="${tech.id}">
+            <div class="card quiz-card h-100 shadow-3 ${hasCustomQuizzes ? 'has-custom-quizzes' : ''}" data-category="${tech.id}">
                 <div class="card-body text-center">
                     <i class="bi ${tech.icon} display-4 mb-3"></i>
-                    <h5 class="card-title fw-bold mb-2">${tech.name}</h5>
+                    <h5 class="card-title fw-bold mb-2">
+                        ${tech.name}
+                        ${hasCustomQuizzes ? '<i class="bi bi-star-fill text-warning ms-1" title="Has custom quizzes"></i>' : ''}
+                    </h5>
                     <p class="card-text text-muted"><small>${tech.description}</small></p>
                     <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
-                        <a href="quiz.html?category=${tech.id}&level=beginner&lang=${currentLanguage}" 
-                           class="btn btn-success btn-sm m-0" 
-                           data-bs-toggle="tooltip" 
-                           data-bs-placement="top" 
-                           title="${currentTranslations.difficulty_beginner} - ${currentTranslations.questions_count(21)}">
-                            ${currentTranslations.difficulty_beginner}
-                        </a>
-                        <a href="quiz.html?category=${tech.id}&level=intermediate&lang=${currentLanguage}" 
-                           class="btn btn-warning btn-sm m-0"
-                           data-bs-toggle="tooltip" 
-                           data-bs-placement="top" 
-                           title="${currentTranslations.difficulty_intermediate} - ${currentTranslations.questions_count(21)}">
-                            ${currentTranslations.difficulty_intermediate}
-                        </a>
-                        <a href="quiz.html?category=${tech.id}&level=advanced&lang=${currentLanguage}" 
-                           class="btn btn-danger btn-sm m-0"
-                           data-bs-toggle="tooltip" 
-                           data-bs-placement="top" 
-                           title="${currentTranslations.difficulty_advanced} - ${currentTranslations.questions_count(21)}">
-                            ${currentTranslations.difficulty_advanced}
-                        </a>
+                        ${difficultyButtons}
                     </div>
                 </div>
             </div>
@@ -386,22 +444,54 @@ function scrollToQuizzes() {
     }
 }
 
-// Enhanced quiz loading function with better error handling
+// Enhanced quiz loading function with better error handling and multiple path attempts
 async function loadQuizFile(category, language) {
     const fileName = language === 'en' ? 'questions1.md' : 'cuestionario1.md';
-    const filePath = `../quizzes/${category}/${language}/${fileName}`;
     
-    try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    // Try multiple path configurations to handle different deployment scenarios
+    const possiblePaths = [
+        `./quizzes/${category}/${language}/${fileName}`,
+        `../quizzes/${category}/${language}/${fileName}`,
+        `/quizzes/${category}/${language}/${fileName}`,
+        `quizzes/${category}/${language}/${fileName}`
+    ];
+    
+    let lastError = null;
+    
+    for (const filePath of possiblePaths) {
+        try {
+            console.log(`Attempting to load quiz from: ${filePath}`);
+            const response = await fetch(filePath);
+            if (response.ok) {
+                const content = await response.text();
+                console.log(`Successfully loaded quiz from: ${filePath}`);
+                return content;
+            }
+            lastError = new Error(`HTTP error! status: ${response.status} for path: ${filePath}`);
+        } catch (error) {
+            console.warn(`Failed to load from ${filePath}:`, error);
+            lastError = error;
         }
-        const content = await response.text();
-        return content;
-    } catch (error) {
-        console.error(`Error loading quiz file: ${filePath}`, error);
-        throw error;
     }
+    
+    // If all paths failed, try to load from localStorage (for editor-created quizzes)
+    try {
+        const savedQuizzes = JSON.parse(localStorage.getItem('infraquiz_saved_quizzes') || '[]');
+        const matchingQuiz = savedQuizzes.find(quiz => 
+            quiz.category === category && 
+            (quiz.language === language || !quiz.language)
+        );
+        
+        if (matchingQuiz) {
+            console.log('Loading quiz from localStorage:', matchingQuiz.title);
+            return generateMarkdownFromQuizData(matchingQuiz);
+        }
+    } catch (storageError) {
+        console.warn('Failed to load from localStorage:', storageError);
+    }
+    
+    console.error(`Failed to load quiz file for ${category}/${language}/${fileName} from all paths`);
+    throw lastError || new Error('Quiz file not found');
 }
 
 // Parse markdown quiz content with enhanced parsing
@@ -488,10 +578,59 @@ function parseMarkdownQuiz(markdown) {
     return questions;
 }
 
+// Generate markdown from quiz data (for editor-created quizzes)
+function generateMarkdownFromQuizData(quizData) {
+    const categoryEmoji = {
+        'bash': '💻',
+        'python': '🐍',
+        'terraform': '🏗️',
+        'aws': '☁️',
+        'docker': '🐳',
+        'kubernetes': '⚙️',
+        'ansible': '🔧',
+        'github': '🐙',
+        'cicd': '🔄',
+        'monitoring': '📊',
+        'security': '🔐',
+        'networking': '🌐',
+        'databases': '🗄️',
+        'mixed': '🔧'
+    }[quizData.category] || '❓';
+
+    let markdown = `# ${categoryEmoji} ${quizData.title}\n\n## Questions\n\n`;
+
+    quizData.questions.forEach((question, index) => {
+        const difficultyEmoji = {
+            'beginner': '🟢',
+            'intermediate': '🟡',
+            'advanced': '🔴'
+        }[question.difficulty];
+
+        const optionEmojis = ['📝', '🔄', '📦', '🎯'];
+
+        markdown += `### ❓ ${question.text} ${difficultyEmoji}\n\n`;
+
+        question.options.forEach((option, optIndex) => {
+            markdown += `${optionEmojis[optIndex]} ${option.text}\n`;
+        });
+
+        const correctOption = question.options.find(opt => opt.isCorrect);
+        markdown += `\n**Correct Answer:**\n📝 ${correctOption.text}\n\n`;
+        markdown += `**Explanation:**\n💡 ${question.explanation}\n\n`;
+        
+        if (index < quizData.questions.length - 1) {
+            markdown += '---\n\n';
+        }
+    });
+
+    return markdown;
+}
+
 // Export functions for use in other files
 window.InfraQuiz = {
     loadQuizFile,
     parseMarkdownQuiz,
+    generateMarkdownFromQuizData,
     translations,
     technologies,
     currentLanguage

@@ -310,19 +310,50 @@ class QuizEditor {
             return;
         }
 
-        // Save to localStorage
+        // Save to localStorage with enhanced metadata
         const savedQuizzes = JSON.parse(localStorage.getItem('infraquiz_saved_quizzes') || '[]');
         const quizId = Date.now().toString();
         
-        savedQuizzes.push({
+        const enhancedQuizData = {
             id: quizId,
             ...quizData,
+            language: this.currentLanguage,
+            isCustomQuiz: true,
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        });
+            updatedAt: new Date().toISOString(),
+            // Add metadata for better integration
+            fileName: this.currentLanguage === 'en' ? 'questions1.md' : 'cuestionario1.md',
+            totalQuestions: quizData.questions.length,
+            difficulties: {
+                beginner: quizData.questions.filter(q => q.difficulty === 'beginner').length,
+                intermediate: quizData.questions.filter(q => q.difficulty === 'intermediate').length,
+                advanced: quizData.questions.filter(q => q.difficulty === 'advanced').length
+            }
+        };
+        
+        // Remove existing quiz with same category and language if exists
+        const existingIndex = savedQuizzes.findIndex(quiz => 
+            quiz.category === quizData.category && 
+            quiz.language === this.currentLanguage
+        );
+        
+        if (existingIndex !== -1) {
+            savedQuizzes[existingIndex] = enhancedQuizData;
+            this.showNotification(`Quiz "${quizData.title}" updated successfully!`, 'success');
+        } else {
+            savedQuizzes.push(enhancedQuizData);
+            this.showNotification(`Quiz "${quizData.title}" saved successfully!`, 'success');
+        }
         
         localStorage.setItem('infraquiz_saved_quizzes', JSON.stringify(savedQuizzes));
-        this.showNotification(`Quiz "${quizData.title}" saved successfully!`, 'success');
+        
+        // Trigger a custom event to notify other parts of the app
+        window.dispatchEvent(new CustomEvent('quizSaved', { 
+            detail: { 
+                quiz: enhancedQuizData,
+                action: existingIndex !== -1 ? 'updated' : 'created'
+            } 
+        }));
     }
 
     loadQuiz() {
