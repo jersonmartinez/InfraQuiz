@@ -798,14 +798,14 @@ function selectOption(selectedIndex, isCorrect) {
             explanationHTML = `
                 <div class="explanation-content-wrapper">
                     <strong>${explanationLabel}:</strong>
-                    <div class="explanation-text mt-2">${renderedExplanation}</div>
+                    <div class="explanation-text">${renderedExplanation}</div>
                 </div>
             `;
         }
         
-        // Only show explanation without title
+        // Only show explanation without title - more compact
         feedbackElement.innerHTML = `
-            <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass} fade-in">
+            <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass} fade-in" style="padding: 0.75rem; margin-bottom: 0;">
                 ${explanationHTML}
             </div>
         `;

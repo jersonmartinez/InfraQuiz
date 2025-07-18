@@ -1637,23 +1637,60 @@ body.dark-mode .explanation-text {
     vertical-align: baseline;
 }
 
-/* Compact feedback styling */
+/* Code styling that works with Marked.js output */
+.explanation-text .quiz-code,
+.option-text .quiz-code,
+.question-text .quiz-code {
+    background: #fff3cd;
+    color: #856404;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875em;
+    font-weight: 500;
+    border: 1px solid #ffeaa7;
+    display: inline;
+    vertical-align: baseline;
+    line-height: 1;
+    margin: 0 1px;
+}
+
+body.dark-mode .explanation-text .quiz-code,
+body.dark-mode .option-text .quiz-code,
+body.dark-mode .question-text .quiz-code {
+    background: #2d3748;
+    color: #ffd93d;
+    border-color: #4a5568;
+}
+
+/* Compact feedback styling - reduced margin */
 .feedback-correct,
 .feedback-incorrect {
     animation: fadeIn 0.4s ease-out;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     max-width: 95%;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* Custom alert styling for feedback */
+.feedback-correct .alert,
+.feedback-incorrect .alert {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0;
+    border-radius: 0.375rem;
+}
+
+/* Reduced spacing for explanation wrapper */
 .explanation-content-wrapper {
-    margin-top: 0.75rem;
+    margin-top: 0.25rem;
 }
 
 .explanation-content-wrapper strong {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.125rem;
     display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
 /* Mobile responsive adjustments */
@@ -1667,6 +1704,15 @@ body.dark-mode .explanation-text {
     .feedback-correct,
     .feedback-incorrect {
         max-width: 98%;
+        margin-top: 0.375rem;
+    }
+    
+    .explanation-content-wrapper {
+        margin-top: 0.375rem;
+    }
+    
+    .explanation-content-wrapper strong {
+        margin-bottom: 0.125rem;
     }
 }
 
