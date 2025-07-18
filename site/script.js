@@ -88,7 +88,15 @@ const translations = {
         'difficulty_advanced': 'Advanced',
         'select_difficulty': 'Select Difficulty',
         'questions_available': (count) => `${count} questions available`,
-        'start_quiz': 'Start Quiz'
+        'start_quiz': 'Start Quiz',
+        'correct_feedback': 'Correct!',
+        'incorrect_feedback': 'Incorrect',
+        'explanation_label': 'Explanation',
+        'question_progress': (current, total) => `Question ${current} of ${total}`,
+        'score_progress': (score, total) => `Score: ${score}/${total}`,
+        'loading_content': 'Fetching questions from repository...',
+        'try_again': 'Try Again',
+        'debug_test': 'Debug Test'
     },
     'es': {
         'home_nav': 'Inicio',
@@ -130,7 +138,15 @@ const translations = {
         'difficulty_advanced': 'Avanzado',
         'select_difficulty': 'Seleccionar Dificultad',
         'questions_available': (count) => `${count} preguntas disponibles`,
-        'start_quiz': 'Iniciar Cuestionario'
+        'start_quiz': 'Iniciar Cuestionario',
+        'correct_feedback': '¡Correcto!',
+        'incorrect_feedback': 'Incorrecto',
+        'explanation_label': 'Explicación',
+        'question_progress': (current, total) => `Pregunta ${current} de ${total}`,
+        'score_progress': (score, total) => `Puntuación: ${score}/${total}`,
+        'loading_content': 'Obteniendo preguntas del repositorio...',
+        'try_again': 'Intentar de Nuevo',
+        'debug_test': 'Prueba de Depuración'
     }
 };
 
@@ -250,10 +266,10 @@ function parseMarkdownQuiz(markdown) {
         
         if (line === '') continue;
         
-        // Detect question start (H3 with emoji)
+        // Detect question start (H3 with emoji and number)
         if (line.match(/^### (?:\d+\.\s*)?(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
             // Save previous question if complete
-            if (currentQuestion && currentOptions.length >= 3) {
+            if (currentQuestion && currentOptions.length >= 3 && currentOptions.length <= 4) {
                 // Find and mark correct option
                 const correctIndex = currentOptions.findIndex(opt => 
                     opt.text === currentCorrectAnswer || 
@@ -271,6 +287,8 @@ function parseMarkdownQuiz(markdown) {
                 questions.push(currentQuestion);
                 
                 console.log(`✅ Added question: "${currentQuestion.text.substring(0, 50)}..." (${currentOptions.length} options)`);
+            } else if (currentQuestion) {
+                console.warn(`⚠️ Skipping malformed question: "${currentQuestion.text.substring(0, 50)}..." (${currentOptions.length} options)`);
             }
             
             // Extract difficulty from emoji
@@ -284,9 +302,22 @@ function parseMarkdownQuiz(markdown) {
                 }
             }
             
-            // Create new question
+            // Create new question - preserve the initial emoji
+            const questionTextMatch = line.match(/^### (?:\d+\.\s*)?([❓🧠💭🤔🔧⚙️🔍🚀])\s*(.+?)\s*(🟢|🟡|🔴)\s*$/);
+            let questionEmoji = '';
+            let questionText = '';
+            
+            if (questionTextMatch) {
+                questionEmoji = questionTextMatch[1];
+                questionText = questionTextMatch[2].trim();
+            } else {
+                // Fallback parsing
+                questionText = line.replace(/^### (?:\d+\.\s*)?(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*/, '').replace(/(?:🟢|🟡|🔴)\s*$/, '').trim();
+            }
+            
             currentQuestion = {
-                text: line.replace(/^### (?:\d+\.\s*)?(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*/, '').replace(/(?:🟢|🟡|🔴)\s*$/, '').trim(),
+                emoji: questionEmoji,
+                text: questionText,
                 difficulty: difficulty,
                 options: [],
                 explanation: ''
@@ -300,21 +331,27 @@ function parseMarkdownQuiz(markdown) {
             continue;
         }
         
-        // Detect options (format: A) 📝 text or just 📝 text)
-        if (inQuestionBlock) {
+        // Only process options if we're in a question block and don't have too many options already
+        if (inQuestionBlock && currentOptions.length < 4) {
             // Check for option format: A) 📝 text
-            const optionMatch = line.match(/^[A-D]\)\s*(📝|🔄|📦|🎯)\s*(.+)$/);
+            const optionMatch = line.match(/^([A-H])\)\s*(📝|🔄|📦|🎯)\s*(.+)$/);
             if (optionMatch) {
-                const emoji = optionMatch[1];
-                const optionText = optionMatch[2].trim();
+                const optionLetter = optionMatch[1];
+                const emoji = optionMatch[2];
+                const optionText = optionMatch[3].trim();
                 const isCorrect = emoji === '📝'; // First emoji is typically correct
                 
-                currentOptions.push({
-                    text: optionText,
-                    isCorrect: isCorrect
-                });
-                
-                console.log(`   Option: ${emoji} ${optionText.substring(0, 30)}... (correct: ${isCorrect})`);
+                // Check if this option letter already exists (avoid duplicates)
+                const existingOption = currentOptions.find(opt => opt.letter === optionLetter);
+                if (!existingOption) {
+                    currentOptions.push({
+                        letter: optionLetter,
+                        text: optionText,
+                        isCorrect: isCorrect
+                    });
+                    
+                    console.log(`   Option ${optionLetter}: ${emoji} ${optionText.substring(0, 30)}... (correct: ${isCorrect})`);
+                }
                 continue;
             }
             
@@ -324,18 +361,26 @@ function parseMarkdownQuiz(markdown) {
                 const isCorrect = emoji === '📝';
                 const optionText = line.substring(2).trim();
                 
-                currentOptions.push({
-                    text: optionText,
-                    isCorrect: isCorrect
-                });
+                // Generate option letter
+                const optionLetter = String.fromCharCode(65 + currentOptions.length); // A, B, C, D
                 
-                console.log(`   Option: ${emoji} ${optionText.substring(0, 30)}... (correct: ${isCorrect})`);
+                if (currentOptions.length < 4) {
+                    currentOptions.push({
+                        letter: optionLetter,
+                        text: optionText,
+                        isCorrect: isCorrect
+                    });
+                    
+                    console.log(`   Option ${optionLetter}: ${emoji} ${optionText.substring(0, 30)}... (correct: ${isCorrect})`);
+                }
                 continue;
             }
         }
         
-        // Detect correct answer
-        if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**')) {
+        // Detect correct answer - stop processing options after this
+        if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**') || line.includes('**Respuesta correcta:**')) {
+            inQuestionBlock = false; // Stop looking for more options
+            
             // Look for the answer in the same line or next line
             let answerLine = line;
             if (i + 1 < lines.length) {
@@ -343,7 +388,7 @@ function parseMarkdownQuiz(markdown) {
             }
             
             // Extract the correct answer
-            const answerMatch = answerLine.match(/(?:Correct Answer|Respuesta Correcta):\*?\*?\s*([A-D]\)?\s*)?📝\s*(.+?)(?:\n|$)/i);
+            const answerMatch = answerLine.match(/(?:Correct Answer|Respuesta Correcta|Respuesta correcta):\*?\*?\s*([A-H]\)?\s*)?📝\s*(.+?)(?:\n|$)/i);
             if (answerMatch) {
                 currentCorrectAnswer = answerMatch[2].trim();
                 console.log(`   Correct answer: ${currentCorrectAnswer.substring(0, 30)}...`);
@@ -360,7 +405,7 @@ function parseMarkdownQuiz(markdown) {
     }
     
     // Don't forget the last question
-    if (currentQuestion && currentOptions.length >= 3) {
+    if (currentQuestion && currentOptions.length >= 3 && currentOptions.length <= 4) {
         const correctIndex = currentOptions.findIndex(opt => 
             opt.text === currentCorrectAnswer || 
             opt.text.includes(currentCorrectAnswer) ||
@@ -427,7 +472,7 @@ function generateMarkdownFromQuizData(quizData) {
 
         const optionEmojis = ['📝', '🔄', '📦', '🎯'];
 
-        markdown += `### ❓ ${question.text} ${difficultyEmoji}\n\n`;
+        markdown += `### ${question.emoji} ${question.text} ${difficultyEmoji}\n\n`;
 
         question.options.forEach((option, optIndex) => {
             markdown += `${optionEmojis[optIndex]} ${option.text}\n`;

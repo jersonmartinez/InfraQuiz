@@ -31,6 +31,50 @@ function getTranslations() {
     return window.InfraQuiz?.translations || {};
 }
 
+/**
+ * Simple markdown renderer for quiz content
+ */
+function renderMarkdown(text) {
+    if (!text) return '';
+    
+    return text
+        // Bold text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Italic text
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Inline code
+        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
+        // Links
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        // Line breaks
+        .replace(/\n/g, '<br>')
+        // Preserve emojis and special characters
+        .trim();
+}
+
+/**
+ * Clean and format question text
+ */
+function formatQuestionText(text) {
+    if (!text) return '';
+    
+    // Remove question number and emoji prefix if present
+    let cleanText = text.replace(/^\d+\.\s*/, '').trim();
+    
+    // Render markdown
+    return renderMarkdown(cleanText);
+}
+
+/**
+ * Format option text with markdown rendering
+ */
+function formatOptionText(text) {
+    if (!text) return '';
+    
+    // Render markdown in option text
+    return renderMarkdown(text);
+}
+
 function showNotification(message, type = 'info') {
     console.log(`[${type.toUpperCase()}] ${message}`);
     
@@ -38,7 +82,7 @@ function showNotification(message, type = 'info') {
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
         <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'} me-2"></i>
-        ${message}
+        ${renderMarkdown(message)}
     `;
     
     document.body.appendChild(notification);
@@ -183,38 +227,88 @@ function showLoading(isLoading) {
     }
 }
 
-function showError(message) {
-    const errorElement = document.getElementById('quizError');
-    const messageElement = document.getElementById('quizErrorMessage');
-    const loadingElement = document.getElementById('quizLoading');
-    const contentElement = document.getElementById('quizContent');
+// === INITIALIZATION AND LANGUAGE SUPPORT ===
+
+function applyQuizTranslations() {
+    const currentLanguage = getCurrentLanguage();
+    const translations = getTranslations();
     
-    if (errorElement && messageElement) {
-        messageElement.textContent = message;
-        errorElement.style.display = 'block';
-        if (loadingElement) loadingElement.style.display = 'none';
-        if (contentElement) contentElement.style.display = 'none';
+    if (!translations[currentLanguage]) return;
+    
+    // Apply translations to elements with data-lang-key
+    document.querySelectorAll('[data-lang-key]').forEach(element => {
+        const key = element.getAttribute('data-lang-key');
+        const translation = translations[currentLanguage][key];
+        
+        if (translation) {
+            if (typeof translation === 'function') {
+                // For functions that need parameters, we'll handle them specifically
+                return;
+            }
+            element.textContent = translation;
+        }
+    });
+    
+    // Update page language
+    document.documentElement.lang = currentLanguage;
+}
+
+// Enhanced error display
+function showError(message) {
+    const errorDiv = document.getElementById('quizError');
+    const errorMessage = document.getElementById('quizErrorMessage');
+    const loadingDiv = document.getElementById('quizLoading');
+    
+    if (loadingDiv) loadingDiv.style.display = 'none';
+    if (errorDiv) errorDiv.style.display = 'block';
+    if (errorMessage) errorMessage.innerHTML = renderMarkdown(message);
+    
+    // Apply translations to error screen
+    applyQuizTranslations();
+}
+
+function showLoading(show) {
+    const loadingDiv = document.getElementById('quizLoading');
+    const errorDiv = document.getElementById('quizError');
+    const contentDiv = document.getElementById('quizContent');
+    
+    if (show) {
+        if (loadingDiv) loadingDiv.style.display = 'block';
+        if (errorDiv) errorDiv.style.display = 'none';
+        if (contentDiv) contentDiv.style.display = 'none';
+    } else {
+        if (loadingDiv) loadingDiv.style.display = 'none';
     }
+    
+    // Apply translations
+    applyQuizTranslations();
 }
 
 function renderProgressIndicator() {
-    const progressContainer = document.getElementById('quizProgressIndicator');
-    if (!progressContainer || !currentQuiz) return;
+    const progressIndicator = document.getElementById('quizProgressIndicator');
+    if (!progressIndicator || !currentQuiz) return;
     
-    const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    const currentLanguage = getCurrentLanguage();
+    const translations = getTranslations();
     
-    progressContainer.innerHTML = `
-        <div class="quiz-progress-info mb-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-bold">Question ${currentQuestionIndex + 1} of ${totalQuestions}</span>
-                <span class="text-muted">Score: ${score}/${currentQuestionIndex + 1}</span>
-            </div>
-            <div class="progress mt-2" style="height: 8px;">
-                <div class="progress-bar bg-primary" role="progressbar" 
-                     style="width: ${progress}%" 
-                     aria-valuenow="${progress}" 
-                     aria-valuemin="0" 
-                     aria-valuemax="100"></div>
+    const questionProgress = translations[currentLanguage]?.question_progress 
+        ? translations[currentLanguage].question_progress(currentQuestionIndex + 1, totalQuestions)
+        : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+        
+    const scoreProgress = translations[currentLanguage]?.score_progress 
+        ? translations[currentLanguage].score_progress(score, currentQuestionIndex)
+        : `Score: ${score}/${currentQuestionIndex}`;
+    
+    const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+    
+    progressIndicator.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0 fw-bold">${questionProgress}</h6>
+            <span class="badge bg-primary">${scoreProgress}</span>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: ${progressPercentage}%" 
+                 aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
             </div>
         </div>
     `;
@@ -234,8 +328,20 @@ function showQuestion() {
     
     if (!questionTextElement || !optionsContainer) return;
     
-    // Update question text
-    questionTextElement.innerHTML = `${question.text} <span class="difficulty-indicator difficulty-${question.difficulty}"></span>`;
+    // Update question text with emoji and markdown rendering
+    const questionEmoji = question.emoji || getQuestionEmoji(question.difficulty);
+    const formattedText = formatQuestionText(question.text);
+    const difficultyBadge = getDifficultyBadge(question.difficulty);
+    
+    questionTextElement.innerHTML = `
+        <div class="d-flex align-items-start gap-3 mb-3">
+            <span class="question-emoji">${questionEmoji}</span>
+            <div class="flex-grow-1">
+                <div class="question-text">${formattedText}</div>
+                <div class="mt-2">${difficultyBadge}</div>
+            </div>
+        </div>
+    `;
     
     // Clear previous options and feedback
     optionsContainer.innerHTML = '';
@@ -247,14 +353,14 @@ function showQuestion() {
         nextButton.style.display = 'none';
     }
     
-    // Render options
+    // Render options with better styling and markdown support
     question.options.forEach((option, index) => {
         const optionElement = document.createElement('button');
         optionElement.className = 'list-group-item list-group-item-action quiz-option';
         optionElement.innerHTML = `
-            <div class="d-flex align-items-center">
-                <span class="option-letter me-3">${String.fromCharCode(65 + index)}</span>
-                <span class="option-text">${option.text}</span>
+            <div class="d-flex align-items-start gap-3">
+                <span class="option-letter">${option.letter || String.fromCharCode(65 + index)}</span>
+                <div class="option-text">${formatOptionText(option.text)}</div>
             </div>
         `;
         
@@ -270,6 +376,8 @@ function selectOption(selectedIndex, isCorrect) {
     const options = document.querySelectorAll('.quiz-option');
     const feedbackElement = document.getElementById('feedback');
     const nextButton = document.getElementById('nextQuestionBtn');
+    const currentLanguage = getCurrentLanguage();
+    const translations = getTranslations();
     
     // Disable all options
     options.forEach(option => {
@@ -294,16 +402,31 @@ function selectOption(selectedIndex, isCorrect) {
         score++;
     }
     
-    // Show feedback
+    // Show feedback with markdown rendering
     if (feedbackElement) {
         const question = currentQuiz[currentQuestionIndex];
         const feedbackClass = isCorrect ? 'feedback-correct' : 'feedback-incorrect';
         const feedbackIcon = isCorrect ? '✅' : '❌';
         
+        const correctFeedback = translations[currentLanguage]?.correct_feedback || 'Correct!';
+        const incorrectFeedback = translations[currentLanguage]?.incorrect_feedback || 'Incorrect';
+        const explanationLabel = translations[currentLanguage]?.explanation_label || 'Explanation';
+        
+        const feedbackTitle = isCorrect ? correctFeedback : incorrectFeedback;
+        const explanationText = renderMarkdown(question.explanation || '');
+        
         feedbackElement.innerHTML = `
-            <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass}">
-                <h6>${feedbackIcon} ${isCorrect ? 'Correct!' : 'Incorrect'}</h6>
-                <p class="mb-0"><strong>Explanation:</strong> ${question.explanation}</p>
+            <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass} fade-in">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="feedback-icon">${feedbackIcon}</span>
+                    <h6 class="mb-0 fw-bold">${feedbackTitle}</h6>
+                </div>
+                ${explanationText ? `
+                    <div class="explanation-content">
+                        <strong>${explanationLabel}:</strong>
+                        <div class="explanation-text mt-2">${explanationText}</div>
+                    </div>
+                ` : ''}
             </div>
         `;
         feedbackElement.classList.remove('d-none');
@@ -311,6 +434,8 @@ function selectOption(selectedIndex, isCorrect) {
     
     // Show next button
     if (nextButton) {
+        const nextButtonText = translations[currentLanguage]?.next_question || 'Next Question';
+        nextButton.innerHTML = `${nextButtonText} <i class="bi bi-arrow-right ms-2"></i>`;
         nextButton.style.display = 'inline-block';
     }
 }
@@ -321,42 +446,81 @@ function nextQuestion() {
 }
 
 function showQuizResults() {
-    const resultsElement = document.getElementById('quizResults');
-    const contentElement = document.getElementById('quizContent');
-    const scoreElement = document.getElementById('finalScore');
+    const quizContent = document.getElementById('quizContent');
+    const quizResults = document.getElementById('quizResults');
+    const finalScore = document.getElementById('finalScore');
     
-    if (!resultsElement || !scoreElement) return;
+    if (!quizResults || !finalScore) return;
     
-    contentElement.style.display = 'none';
-    resultsElement.style.display = 'block';
+    // Hide quiz content and show results
+    if (quizContent) quizContent.style.display = 'none';
+    quizResults.style.display = 'block';
+    
+    const currentLanguage = getCurrentLanguage();
+    const translations = getTranslations();
     
     const percentage = Math.round((score / totalQuestions) * 100);
-    const translations = getTranslations();
-    const currentLanguage = getCurrentLanguage();
     
+    const completedTitle = translations[currentLanguage]?.quiz_complete_title || '🎉 Quiz Completed!';
+    const scoreMessage = translations[currentLanguage]?.quiz_score_message 
+        ? translations[currentLanguage].quiz_score_message(score, totalQuestions)
+        : `You scored ${score} out of ${totalQuestions} questions!`;
+    
+    // Performance evaluation
+    let performanceClass = 'text-danger';
+    let performanceEmoji = '😔';
     let performanceMessage = '';
+    
     if (percentage >= 90) {
-        performanceMessage = '🏆 Excellent work!';
+        performanceClass = 'text-success';
+        performanceEmoji = '🏆';
+        performanceMessage = currentLanguage === 'es' ? '¡Excelente trabajo!' : 'Excellent work!';
     } else if (percentage >= 75) {
-        performanceMessage = '🎉 Great job!';
+        performanceClass = 'text-info';
+        performanceEmoji = '🎯';
+        performanceMessage = currentLanguage === 'es' ? '¡Muy bien!' : 'Great job!';
     } else if (percentage >= 60) {
-        performanceMessage = '👍 Good effort!';
+        performanceClass = 'text-warning';
+        performanceEmoji = '📈';
+        performanceMessage = currentLanguage === 'es' ? 'Buen esfuerzo' : 'Good effort';
     } else {
-        performanceMessage = '📚 Keep studying!';
+        performanceMessage = currentLanguage === 'es' ? 'Sigue practicando' : 'Keep practicing';
     }
     
-    scoreElement.innerHTML = `
+    finalScore.innerHTML = `
         <div class="text-center">
-            <h4>${performanceMessage}</h4>
-            <p class="lead">You scored <strong>${score}</strong> out of <strong>${totalQuestions}</strong> questions</p>
-            <div class="score-percentage">
-                <span class="display-4 fw-bold text-primary">${percentage}%</span>
+            <div class="score-percentage ${performanceClass} mb-3">${percentage}%</div>
+            <h2 class="mb-3">${completedTitle}</h2>
+            <p class="lead mb-4">${scoreMessage}</p>
+            <div class="performance-badge">
+                <span class="display-6">${performanceEmoji}</span>
+                <p class="mt-2 fw-bold ${performanceClass}">${performanceMessage}</p>
             </div>
         </div>
     `;
     
-    // Save quiz statistics
-    saveQuizStats();
+    // Setup restart and back button functionality
+    const restartBtn = document.getElementById('restartQuizBtn');
+    const backBtn = document.getElementById('backToCategoriesResultsBtn');
+    
+    if (restartBtn) {
+        restartBtn.addEventListener('click', () => {
+            score = 0;
+            currentQuestionIndex = 0;
+            startTime = Date.now();
+            
+            quizResults.style.display = 'none';
+            if (quizContent) quizContent.style.display = 'block';
+            
+            showQuestion();
+        });
+    }
+    
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = 'index.html#quizzes';
+        });
+    }
 }
 
 function saveQuizStats() {
@@ -616,6 +780,34 @@ function setupEventListeners() {
             }
         }
     });
+}
+
+function getQuestionEmoji(difficulty) {
+    const emojis = {
+        'beginner': '🟢',
+        'intermediate': '🟡', 
+        'advanced': '🔴'
+    };
+    return emojis[difficulty] || '🟢';
+}
+
+function getDifficultyBadge(difficulty) {
+    const translations = getTranslations();
+    const currentLanguage = getCurrentLanguage();
+    
+    const difficultyLabels = {
+        'beginner': translations[currentLanguage]?.difficulty_beginner || 'Beginner',
+        'intermediate': translations[currentLanguage]?.difficulty_intermediate || 'Intermediate',
+        'advanced': translations[currentLanguage]?.difficulty_advanced || 'Advanced'
+    };
+    
+    const badgeColors = {
+        'beginner': 'success',
+        'intermediate': 'warning',
+        'advanced': 'danger'
+    };
+    
+    return `<span class="badge bg-${badgeColors[difficulty]} difficulty-badge">${difficultyLabels[difficulty]}</span>`;
 }
 
 // === INITIALIZATION ===

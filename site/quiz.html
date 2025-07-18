@@ -36,19 +36,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#home">Home</a>
+                        <a class="nav-link" href="index.html#home" data-lang-key="home_nav">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#quizzes">Quizzes</a>
+                        <a class="nav-link" href="index.html#quizzes" data-lang-key="quizzes_nav">Cuestionarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#about">About</a>
+                        <a class="nav-link" href="index.html#about" data-lang-key="about_nav">Acerca de</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="quiz-editor.html">Editor</a>
+                        <a class="nav-link" href="quiz-editor.html" data-lang-key="editor_nav">Editor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="analytics.html">Analytics</a>
+                        <a class="nav-link" href="analytics.html" data-lang-key="analytics_nav">Analíticas</a>
                     </li>
                     <!-- Dark Mode Switch -->
                     <li class="nav-item dark-mode-switch ms-lg-3">
@@ -75,27 +75,27 @@
         <!-- Loading Screen -->
         <div id="quizLoading" class="text-center py-5">
             <div class="spinner-border text-primary mb-3" role="status" style="width: 4rem; height: 4rem;">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden" data-lang-key="loading_quiz">Cargando cuestionario...</span>
             </div>
-            <h4>Loading quiz...</h4>
-            <p class="text-muted">Fetching questions from repository...</p>
+            <h4 data-lang-key="loading_quiz">Cargando cuestionario...</h4>
+            <p class="text-muted" data-lang-key="loading_content">Obteniendo preguntas del repositorio...</p>
         </div>
 
         <!-- Error Screen -->
         <div id="quizError" class="text-center py-5" style="display: none;">
             <div class="alert alert-danger mx-auto" style="max-width: 600px;">
-                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i>Oops! Something went wrong</h4>
-                <p id="quizErrorMessage">Failed to load the quiz. Please try again.</p>
+                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i><span data-lang-key="error_title">¡Ups! Algo salió mal</span></h4>
+                <p id="quizErrorMessage">Falló al cargar el cuestionario. Por favor, inténtalo de nuevo.</p>
                 <hr>
                 <div class="d-flex gap-2 justify-content-center flex-wrap">
                     <button id="errorBackToCategoriesBtn" class="btn btn-outline-primary">
-                        <i class="bi bi-arrow-left me-2"></i>Back to Categories
+                        <i class="bi bi-arrow-left me-2"></i><span data-lang-key="back_to_categories">Volver a Categorías</span>
                     </button>
                     <button class="btn btn-primary" onclick="window.location.reload()">
-                        <i class="bi bi-arrow-clockwise me-2"></i>Try Again
+                        <i class="bi bi-arrow-clockwise me-2"></i><span data-lang-key="try_again">Intentar de Nuevo</span>
                     </button>
                     <button id="debugTestBtn" class="btn btn-warning">
-                        <i class="bi bi-bug me-2"></i>Debug Test
+                        <i class="bi bi-bug me-2"></i><span data-lang-key="debug_test">Prueba de Depuración</span>
                     </button>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                     <!-- Question Card -->
                     <div class="card quiz-card">
                         <div class="card-body">
-                            <h4 id="questionText" class="card-title mb-4 fw-bold"></h4>
+                            <div id="questionText" class="card-title mb-4 fw-bold"></div>
                             
                             <!-- Options Container -->
                             <div id="optionsContainer" class="list-group list-group-flush mb-4"></div>
@@ -122,10 +122,10 @@
                             <!-- Navigation -->
                             <div class="d-flex justify-content-between align-items-center">
                                 <button id="backToCategoriesBtn" class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-left me-2"></i>Back to Categories
+                                    <i class="bi bi-arrow-left me-2"></i><span data-lang-key="back_to_categories">Volver a Categorías</span>
                                 </button>
                                 <button id="nextQuestionBtn" class="btn btn-primary" style="display: none;">
-                                    Next Question <i class="bi bi-arrow-right ms-2"></i>
+                                    <span data-lang-key="next_question">Siguiente Pregunta</span> <i class="bi bi-arrow-right ms-2"></i>
                                 </button>
                             </div>
                         </div>
@@ -144,10 +144,10 @@
                             
                             <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
                                 <button id="restartQuizBtn" class="btn btn-primary">
-                                    <i class="bi bi-arrow-clockwise me-2"></i>Restart Quiz
+                                    <i class="bi bi-arrow-clockwise me-2"></i><span data-lang-key="restart_quiz">Reiniciar Cuestionario</span>
                                 </button>
                                 <button id="backToCategoriesResultsBtn" class="btn btn-outline-primary">
-                                    <i class="bi bi-arrow-left me-2"></i>Back to Categories
+                                    <i class="bi bi-arrow-left me-2"></i><span data-lang-key="back_to_categories">Volver a Categorías</span>
                                 </button>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
     <script src="quiz_page.js"></script>
 
     <script>
-        // Debug information
+        // Debug information and setup
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             console.log('🔍 Quiz URL Parameters:');
@@ -181,6 +181,13 @@
             if (category && level) {
                 document.title = `InfraQuiz - ${category.charAt(0).toUpperCase() + category.slice(1)} (${level})`;
             }
+            
+            // Apply translations once scripts are loaded
+            setTimeout(() => {
+                if (window.InfraQuiz && window.InfraQuiz.applyTranslations) {
+                    window.InfraQuiz.applyTranslations();
+                }
+            }, 500);
             
             // Add debug test button functionality
             const debugBtn = document.getElementById('debugTestBtn');
