@@ -574,6 +574,20 @@ function initializeNavigation() {
             e.target.classList.add('active');
         });
     });
+    
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
+    
+    console.log('🧭 Navigation initialized');
 }
 
 function initializeDarkMode() {
@@ -634,12 +648,9 @@ function initializeLanguageSelector() {
     });
 }
 
-function initializeRandomQuiz() {
-    const randomQuizBtn = document.querySelector('[onclick="startRandomQuiz()"]');
-    if (randomQuizBtn) {
-        randomQuizBtn.addEventListener('click', startRandomQuiz);
-        randomQuizBtn.removeAttribute('onclick');
-    }
+// Function to get current language
+function getCurrentLanguage() {
+    return localStorage.getItem('quizLanguage') || INFRAQUIZ_CONFIG.DEFAULT_LANGUAGE;
 }
 
 // Function to start random quiz with better error handling
@@ -649,7 +660,7 @@ async function startRandomQuiz() {
     try {
         // Use only technologies we know work well
         const reliableTechs = ['bash', 'python', 'terraform', 'aws', 'docker', 'kubernetes'];
-        const currentLanguage = getCurrentLanguage();
+        const currentLang = getCurrentLanguage();
         
         // Select random technology from reliable ones
         const randomTech = reliableTechs[Math.floor(Math.random() * reliableTechs.length)];
@@ -658,15 +669,14 @@ async function startRandomQuiz() {
         const difficulties = ['beginner', 'intermediate', 'advanced'];
         const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
         
-        console.log(`🎯 Selected: ${randomTech} - ${randomDifficulty} - ${currentLanguage}`);
+        console.log(`🎯 Selected: ${randomTech} - ${randomDifficulty} - ${currentLang}`);
         
         // Navigate to quiz directly (let quiz page handle the loading)
-        const quizUrl = `quiz.html?category=${randomTech}&level=${randomDifficulty}&lang=${currentLanguage}`;
+        const quizUrl = `quiz.html?category=${randomTech}&level=${randomDifficulty}&lang=${currentLang}`;
         console.log(`🚀 Navigating to: ${quizUrl}`);
         
         // Show loading feedback
-        const translations = window.InfraQuiz?.translations || {};
-        const loadingMessage = currentLanguage === 'es' 
+        const loadingMessage = currentLang === 'es' 
             ? 'Iniciando cuestionario aleatorio...'
             : 'Starting random quiz...';
             
@@ -680,12 +690,31 @@ async function startRandomQuiz() {
     } catch (error) {
         console.error('❌ Failed to start random quiz:', error);
         
-        const currentLanguage = getCurrentLanguage();
-        const errorMessage = currentLanguage === 'es' 
+        const currentLang = getCurrentLanguage();
+        const errorMessage = currentLang === 'es' 
             ? `Error al iniciar cuestionario aleatorio: ${error.message}. Por favor, intenta seleccionar un cuestionario específico.`
             : `Failed to start random quiz: ${error.message}. Please try selecting a specific quiz.`;
             
         showNotification(errorMessage, 'error');
+    }
+}
+
+function initializeRandomQuiz() {
+    // Remove any existing onclick handlers and add proper event listener
+    const randomQuizBtn = document.querySelector('[data-lang-key="start_random_quiz"]');
+    if (randomQuizBtn) {
+        // Remove any existing onclick attribute
+        randomQuizBtn.removeAttribute('onclick');
+        
+        // Add proper event listener
+        randomQuizBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            startRandomQuiz();
+        });
+        
+        console.log('🎲 Random quiz button initialized');
+    } else {
+        console.warn('⚠️ Random quiz button not found');
     }
 }
 

@@ -81,51 +81,91 @@ class AnalyticsDashboard {
     }
 
     renderCategoryPerformanceChart() {
-        const ctx = document.getElementById('categoryPerformanceChart').getContext('2d');
+        const canvas = document.getElementById('categoryPerformanceChart');
+        if (!canvas) {
+            console.warn('Category performance chart canvas not found');
+            return;
+        }
+        
+        const ctx = canvas.getContext('2d');
         
         // Destroy existing chart if it exists
         if (this.charts.categoryPerformance) {
             this.charts.categoryPerformance.destroy();
         }
 
-        const categories = Object.keys(this.stats);
-        const scores = categories.map(cat => this.stats[cat].averageScore || 0);
-        const colors = [
-            '#4EAA25', '#3776AB', '#7B42BC', '#FF9900', '#2496ED',
-            '#326CE5', '#EE0000', '#24292E', '#6F42C1', '#FF6B35',
-            '#D63384', '#20C997', '#8B4513'
-        ];
+        // Process data by category
+        const categoryData = {};
+        this.events.filter(event => event.type === 'quiz_completion').forEach(event => {
+            const category = event.data.category;
+            if (!categoryData[category]) {
+                categoryData[category] = { total: 0, count: 0 };
+            }
+            categoryData[category].total += event.data.score;
+            categoryData[category].count++;
+        });
+
+        const labels = Object.keys(categoryData);
+        const data = labels.map(category => 
+            Math.round(categoryData[category].total / categoryData[category].count)
+        );
+
+        // Set canvas size explicitly
+        canvas.style.height = '300px';
+        canvas.style.maxHeight = '300px';
 
         this.charts.categoryPerformance = new Chart(ctx, {
-            type: 'radar',
+            type: 'doughnut',
             data: {
-                labels: categories.map(cat => this.getCategoryDisplayName(cat)),
+                labels: labels.map(cat => this.getCategoryDisplayName(cat)),
                 datasets: [{
-                    label: 'Average Score (%)',
-                    data: scores,
-                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                    borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: colors.slice(0, categories.length),
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 205, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(199, 199, 199, 0.8)',
+                        'rgba(83, 102, 255, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(199, 199, 199, 1)',
+                        'rgba(83, 102, 255, 1)'
+                    ],
+                    borderWidth: 2
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            stepSize: 20
-                        }
-                    }
-                },
+                maintainAspectRatio: true,
+                aspectRatio: 1,
                 plugins: {
                     legend: {
-                        display: false
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.parsed}%`;
+                            }
+                        }
                     }
                 }
             }
@@ -133,7 +173,13 @@ class AnalyticsDashboard {
     }
 
     renderProgressChart() {
-        const ctx = document.getElementById('progressChart').getContext('2d');
+        const canvas = document.getElementById('progressChart');
+        if (!canvas) {
+            console.warn('Progress chart canvas not found');
+            return;
+        }
+        
+        const ctx = canvas.getContext('2d');
         
         // Destroy existing chart if it exists
         if (this.charts.progress) {
@@ -143,6 +189,10 @@ class AnalyticsDashboard {
         // Process events to create timeline data
         const completionEvents = this.events.filter(event => event.type === 'quiz_completion');
         const timelineData = this.processTimelineData(completionEvents);
+
+        // Set canvas size explicitly
+        canvas.style.height = '300px';
+        canvas.style.maxHeight = '300px';
 
         this.charts.progress = new Chart(ctx, {
             type: 'line',
@@ -160,7 +210,12 @@ class AnalyticsDashboard {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -169,12 +224,32 @@ class AnalyticsDashboard {
                             callback: function(value) {
                                 return value + '%';
                             }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
                         }
                     }
                 },
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                return `Score: ${context.parsed.y}%`;
+                            }
+                        }
                     }
                 }
             }
@@ -417,30 +492,4 @@ class AnalyticsDashboard {
 
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'} me-2"></i>
-            ${message}
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.add('show');
-        }, 100);
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
-        }, 3000);
-    }
-}
-
-// Initialize the analytics dashboard when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    new AnalyticsDashboard();
-});
+        notification.className = `

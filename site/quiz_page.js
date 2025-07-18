@@ -226,6 +226,64 @@ function showLoading(isLoading) {
     }
 }
 
+// === INITIALIZATION AND LANGUAGE SUPPORT ===
+
+function applyQuizTranslations() {
+    const currentLanguage = getCurrentLanguage();
+    const translations = getTranslations();
+    
+    if (!translations[currentLanguage]) return;
+    
+    // Apply translations to elements with data-lang-key
+    document.querySelectorAll('[data-lang-key]').forEach(element => {
+        const key = element.getAttribute('data-lang-key');
+        const translation = translations[currentLanguage][key];
+        
+        if (translation) {
+            if (typeof translation === 'function') {
+                // For functions that need parameters, we'll handle them specifically
+                return;
+            }
+            element.textContent = translation;
+        }
+    });
+    
+    // Update page language
+    document.documentElement.lang = currentLanguage;
+}
+
+// Enhanced error display
+function showError(message) {
+    console.log('❌ Showing error:', message);
+    
+    const errorDiv = document.getElementById('quizError');
+    const errorMessage = document.getElementById('quizErrorMessage');
+    const loadingDiv = document.getElementById('quizLoading');
+    const contentDiv = document.getElementById('quizContent');
+    
+    // Hide loading and content
+    if (loadingDiv) {
+        loadingDiv.style.display = 'none';
+        console.log('📱 Loading screen hidden');
+    }
+    if (contentDiv) {
+        contentDiv.style.display = 'none';
+        console.log('📱 Quiz content hidden');
+    }
+    
+    // Show error
+    if (errorDiv) {
+        errorDiv.style.display = 'block';
+        console.log('📱 Error screen shown');
+    }
+    if (errorMessage) {
+        errorMessage.innerHTML = renderMarkdown(message);
+    }
+    
+    // Apply translations to error screen
+    applyQuizTranslations();
+}
+
 function showLoading(show) {
     const loadingDiv = document.getElementById('quizLoading');
     const errorDiv = document.getElementById('quizError');
@@ -238,7 +296,10 @@ function showLoading(show) {
             loadingDiv.style.display = 'block';
             console.log('📱 Loading screen shown');
         }
-        if (errorDiv) errorDiv.style.display = 'none';
+        if (errorDiv) {
+            errorDiv.style.display = 'none';
+            console.log('📱 Error screen hidden');
+        }
         if (contentDiv) {
             contentDiv.style.display = 'none';
             console.log('📱 Quiz content hidden');
@@ -248,7 +309,10 @@ function showLoading(show) {
             loadingDiv.style.display = 'none';
             console.log('📱 Loading screen hidden');
         }
-        if (errorDiv) errorDiv.style.display = 'none';
+        if (errorDiv) {
+            errorDiv.style.display = 'none';
+            console.log('📱 Error screen hidden');
+        }
         if (contentDiv) {
             contentDiv.style.display = 'block';
             console.log('📱 Quiz content shown');
