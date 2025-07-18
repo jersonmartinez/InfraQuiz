@@ -68,36 +68,31 @@
         </div>
     </nav>
 
-    <main class="container-fluid" style="margin-top: 100px; min-height: calc(100vh - 100px);">
-        <!-- Loading Screen -->
-        <div id="quizLoading" class="text-center py-5">
-            <div class="spinner-border text-primary mb-3" role="status" style="width: 4rem; height: 4rem;">
-                <span class="visually-hidden" data-lang-key="loading_quiz">Cargando cuestionario...</span>
-            </div>
-            <h4 data-lang-key="loading_quiz">Cargando cuestionario...</h4>
-            <p class="text-muted" data-lang-key="loading_content">Obteniendo preguntas del repositorio...</p>
-        </div>
-
-        <!-- Error Screen -->
-        <div id="quizError" class="text-center py-5" style="display: none;">
-            <div class="alert alert-danger mx-auto" style="max-width: 600px;">
-                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle me-2"></i><span data-lang-key="error_title">¡Ups! Algo salió mal</span></h4>
-                <p id="quizErrorMessage">Falló al cargar el cuestionario. Por favor, inténtalo de nuevo.</p>
-                <hr>
-                <div class="d-flex gap-2 justify-content-center flex-wrap">
-                    <button id="errorBackToCategoriesBtn" class="btn btn-outline-primary">
-                        <i class="bi bi-arrow-left me-2"></i><span data-lang-key="back_to_categories">Volver a Categorías</span>
-                    </button>
-                    <button class="btn btn-primary" onclick="window.location.reload()">
-                        <i class="bi bi-arrow-clockwise me-2"></i><span data-lang-key="try_again">Intentar de Nuevo</span>
-                    </button>
-                    <button id="debugTestBtn" class="btn btn-warning">
-                        <i class="bi bi-bug me-2"></i><span data-lang-key="debug_test">Prueba de Depuración</span>
-                    </button>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="quiz-card text-center">
+                        <div class="card-body">
+                            <div class="spinner-border text-primary mb-4" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <h4 class="mb-3" data-lang-key="loading_quiz">Cargando cuestionario...</h4>
+                            <p class="text-muted" data-lang-key="loading_questions">Obteniendo preguntas del repositorio...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Error Screen -->
+    <div id="errorScreen" style="display: none;" class="error-screen">
+        <!-- Error content will be dynamically inserted -->
+    </div>
+
+    <main class="container-fluid" style="margin-top: 100px; min-height: calc(100vh - 100px);">
         <!-- Quiz Content -->
         <div id="quizContent" style="display: none;" class="quiz-container">
             <div class="container">

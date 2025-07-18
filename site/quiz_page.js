@@ -15,6 +15,14 @@ let score = 0;
 let totalQuestions = 0;
 let startTime = null;
 let selectedQuestions = [];
+let userAnswers = []; // Added missing variable
+
+// === GITHUB CONFIGURATION ===
+const GITHUB_CONFIG = {
+    REPO: 'jersonmartinez/InfraQuiz',
+    BRANCH: 'main',
+    BASE_URL: 'https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main'
+};
 
 // === UTILITY FUNCTIONS ===
 function getUrlParameter(name) {
@@ -31,24 +39,35 @@ function getTranslations() {
 }
 
 /**
- * Enhanced markdown renderer for quiz content with emoji preservation
+ * Enhanced markdown renderer for quiz content with proper emoji handling
  */
 function renderMarkdown(text) {
     if (!text) return '';
     
-    // Preserve leading emoji if present
-    const emojiMatch = text.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉)\s*/u);
+    console.log('🔄 Rendering markdown:', text.substring(0, 100));
+    
+    // Clean the text first to remove any encoding issues
+    let cleanText = text
+        .replace(/[\u00c2\u00c3]/g, '') // Remove common encoding artifacts
+        .replace(/\ufffd/g, '') // Remove replacement characters
+        .trim();
+    
+    // Extract leading emoji more carefully
+    const emojiPattern = /([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉)/u;
     
     let emoji = '';
-    let cleanText = text;
+    let textContent = cleanText;
     
+    // Extract first emoji if present
+    const emojiMatch = cleanText.match(emojiPattern);
     if (emojiMatch) {
-        emoji = emojiMatch[1];
-        cleanText = text.replace(emojiMatch[0], '').trim();
+        emoji = emojiMatch[0];
+        textContent = cleanText.replace(emoji, '').trim();
+        console.log('📝 Extracted emoji:', emoji);
     }
     
     // Apply markdown formatting to the remaining text
-    const formattedText = cleanText
+    const formattedText = textContent
         // Bold text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         // Italic text
@@ -66,7 +85,12 @@ function renderMarkdown(text) {
         .trim();
     
     // Return with emoji if present
-    return emoji ? `<span class="explanation-emoji">${emoji}</span> ${formattedText}` : formattedText;
+    const result = emoji ? 
+        `<span class="explanation-emoji">${emoji}</span><span class="explanation-content">${formattedText}</span>` : 
+        formattedText;
+    
+    console.log('✅ Markdown rendered:', result.substring(0, 100));
+    return result;
 }
 
 /**
@@ -183,7 +207,7 @@ async function loadQuizContent(category, language) {
 }
 
 /**
- * Enhanced markdown parser
+ * Enhanced markdown parser with better emoji detection
  */
 function parseQuizContent(markdown) {
     console.log('📝 Parsing quiz content...');
@@ -193,63 +217,159 @@ function parseQuizContent(markdown) {
         return window.InfraQuiz.parseMarkdownQuiz(markdown);
     }
     
-    // Fallback simple parser
+    // Enhanced fallback parser
     const questions = [];
     const lines = markdown.split('\n');
     let currentQuestion = null;
     let currentOptions = [];
+    let isInExplanation = false;
+    let explanationText = '';
+    
+    // Enhanced regex patterns
+    const questionPattern = /^###\s*\d+\.\s*(.+)/;
+    const optionPattern = /^([A-D])\)\s*(.+)/;
+    const answerPattern = /^\*\*Respuesta correcta\*\*:\s*([A-D])\)/;
+    const explanationPattern = /^>\s*(.+)/;
     
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         
-        if (line.match(/^### (?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
-            if (currentQuestion && currentOptions.length === 4) {
+        // Skip empty lines
+        if (!line) {
+            if (isInExplanation && explanationText) {
+                explanationText += '\n';
+            }
+            continue;
+        }
+        
+        // Question detection
+        const questionMatch = line.match(questionPattern);
+        if (questionMatch) {
+            // Save previous question
+            if (currentQuestion && currentOptions.length > 0) {
                 currentQuestion.options = currentOptions;
+                if (explanationText.trim()) {
+                    currentQuestion.explanation = explanationText.trim();
+                }
                 questions.push(currentQuestion);
             }
             
-            const difficultyMatch = line.match(/(🟢|🟡|🔴)$/);
-            let difficulty = 'beginner';
-            if (difficultyMatch) {
-                switch (difficultyMatch[1]) {
-                    case '🟢': difficulty = 'beginner'; break;
-                    case '🟡': difficulty = 'intermediate'; break;
-                    case '🔴': difficulty = 'advanced'; break;
-                }
-            }
+            // Extract emoji and text from question
+            const fullQuestionText = questionMatch[1];
+            const { emoji, text, difficulty } = extractEmojiAndText(fullQuestionText);
             
             currentQuestion = {
-                text: line.replace(/^### (?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*/, '').replace(/(?:🟢|🟡|🔴)\s*$/, '').trim(),
-                difficulty: difficulty,
+                text: text,
+                emoji: emoji,
+                difficulty: difficulty || 'beginner',
                 options: [],
                 explanation: ''
             };
+            
             currentOptions = [];
+            isInExplanation = false;
+            explanationText = '';
+            console.log(`📋 Found question: ${text.substring(0, 50)}...`);
+            continue;
         }
         
-        if (line.match(/^(?:📝|🔄|📦|🎯)/)) {
-            const isCorrect = line.startsWith('📝');
-            const optionText = line.substring(2).trim();
+        // Option detection with emoji extraction
+        const optionMatch = line.match(optionPattern);
+        if (optionMatch && currentQuestion) {
+            const letter = optionMatch[1];
+            const fullOptionText = optionMatch[2];
+            
+            // Extract emoji from option text
+            const { emoji, text } = extractEmojiAndText(fullOptionText);
+            
             currentOptions.push({
-                text: optionText,
-                isCorrect: isCorrect
+                letter: letter,
+                text: text,
+                emoji: emoji,
+                isCorrect: false
             });
+            continue;
         }
         
-        if (line.startsWith('> 💡')) {
-            if (currentQuestion) {
-                currentQuestion.explanation = line.replace(/^> 💡\s*/, '').trim();
+        // Answer detection
+        const answerMatch = line.match(answerPattern);
+        if (answerMatch && currentOptions.length > 0) {
+            const correctLetter = answerMatch[1];
+            const correctOption = currentOptions.find(opt => opt.letter === correctLetter);
+            if (correctOption) {
+                correctOption.isCorrect = true;
+                console.log(`✅ Correct answer marked: ${correctLetter}`);
             }
+            continue;
+        }
+        
+        // Explanation detection
+        const explanationMatch = line.match(explanationPattern);
+        if (explanationMatch) {
+            isInExplanation = true;
+            if (explanationText) {
+                explanationText += ' ';
+            }
+            explanationText += explanationMatch[1];
+            continue;
+        }
+        
+        // Continue explanation on subsequent lines
+        if (isInExplanation && line.startsWith('>')) {
+            explanationText += ' ' + line.substring(1).trim();
         }
     }
     
-    if (currentQuestion && currentOptions.length === 4) {
+    // Save last question
+    if (currentQuestion && currentOptions.length > 0) {
         currentQuestion.options = currentOptions;
+        if (explanationText.trim()) {
+            currentQuestion.explanation = explanationText.trim();
+        }
         questions.push(currentQuestion);
     }
     
-    console.log(`✅ Parsed ${questions.length} questions`);
+    console.log(`✅ Parsed ${questions.length} questions with emojis`);
     return questions;
+}
+
+/**
+ * Extract emoji, text and difficulty from a text string
+ */
+function extractEmojiAndText(text) {
+    if (!text) return { emoji: '', text: '', difficulty: 'beginner' };
+    
+    // Enhanced emoji pattern
+    const emojiPattern = /([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦|❓|🧠|💭|🤔)/gu;
+    
+    // Difficulty color emojis
+    const difficultyPattern = /(🟢|🟡|🔴)/g;
+    
+    let emoji = '';
+    let cleanText = text;
+    let difficulty = 'beginner';
+    
+    // Extract main emoji (first one found)
+    const emojiMatches = text.match(emojiPattern);
+    if (emojiMatches && emojiMatches.length > 0) {
+        emoji = emojiMatches[0];
+    }
+    
+    // Extract difficulty from color emoji
+    const difficultyMatches = text.match(difficultyPattern);
+    if (difficultyMatches) {
+        const colorEmoji = difficultyMatches[0];
+        switch (colorEmoji) {
+            case '🟢': difficulty = 'beginner'; break;
+            case '🟡': difficulty = 'intermediate'; break;
+            case '🔴': difficulty = 'advanced'; break;
+        }
+    }
+    
+    // Clean text by removing emojis
+    cleanText = text.replace(emojiPattern, '').replace(difficultyPattern, '').trim();
+    
+    return { emoji, text: cleanText, difficulty };
 }
 
 // === QUIZ DISPLAY FUNCTIONS ===
@@ -290,36 +410,100 @@ function applyQuizTranslations() {
     document.documentElement.lang = currentLanguage;
 }
 
-// Enhanced error display
+/**
+ * Setup quiz navigation handlers
+ */
+function setupQuizNavigation() {
+    // Back to categories button
+    const backBtn = document.getElementById('backToCategoriesBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    }
+
+    // Back to categories from results button
+    const backFromResultsBtn = document.getElementById('backToCategoriesFromResultsBtn');
+    if (backFromResultsBtn) {
+        backFromResultsBtn.addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    }
+
+    // Restart quiz button
+    const restartBtn = document.getElementById('restartQuizBtn');
+    if (restartBtn) {
+        restartBtn.addEventListener('click', function() {
+            location.reload();
+        });
+    }
+
+    // Next question button
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            nextQuestion();
+        });
+    }
+
+    console.log('✅ Quiz navigation setup completed');
+}
+
+/**
+ * Show loading state
+ */
+function showLoadingState() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'block';
+    }
+}
+
+/**
+ * Hide loading state
+ */
+function hideLoadingState() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+    }
+}
+
+/**
+ * Show error message
+ */
 function showError(message) {
-    console.log('❌ Showing error:', message);
+    const errorScreen = document.getElementById('errorScreen');
+    const quizContent = document.getElementById('quizContent');
     
-    const errorDiv = document.getElementById('quizError');
-    const errorMessage = document.getElementById('quizErrorMessage');
-    const loadingDiv = document.getElementById('quizLoading');
-    const contentDiv = document.getElementById('quizContent');
+    if (errorScreen) {
+        errorScreen.style.display = 'block';
+        errorScreen.innerHTML = `
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="quiz-card text-center">
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                                </div>
+                                <h4 class="text-danger mb-3">Error</h4>
+                                <p class="text-muted mb-4">${message}</p>
+                                <button onclick="window.location.href='index.html'" class="btn btn-primary">
+                                    <i class="bi bi-arrow-left me-2"></i>
+                                    Volver a Categorías
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
     
-    // Hide loading and content
-    if (loadingDiv) {
-        loadingDiv.style.display = 'none';
-        console.log('📱 Loading screen hidden');
+    if (quizContent) {
+        quizContent.style.display = 'none';
     }
-    if (contentDiv) {
-        contentDiv.style.display = 'none';
-        console.log('📱 Quiz content hidden');
-    }
-    
-    // Show error
-    if (errorDiv) {
-        errorDiv.style.display = 'block';
-        console.log('📱 Error screen shown');
-    }
-    if (errorMessage) {
-        errorMessage.innerHTML = renderMarkdown(message);
-    }
-    
-    // Apply translations to error screen
-    applyQuizTranslations();
 }
 
 function showLoading(show) {
@@ -446,7 +630,7 @@ function showQuestion() {
         nextButton.style.display = 'none';
     }
     
-    // Render options with better styling and markdown support
+    // Render options with emojis and better styling
     if (question.options && question.options.length > 0) {
         question.options.forEach((option, index) => {
             const optionElement = document.createElement('button');
@@ -455,10 +639,29 @@ function showQuestion() {
             // Use option letter if available, otherwise generate one
             const optionLetter = option.letter || String.fromCharCode(65 + index);
             
+            // Format option text with emoji
+            let optionText = option.text || '';
+            let optionEmoji = option.emoji || '';
+            
+            // If no emoji extracted but text starts with emoji, try to extract it
+            if (!optionEmoji && optionText) {
+                const emojiMatch = optionText.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦)\s*/u);
+                if (emojiMatch) {
+                    optionEmoji = emojiMatch[1];
+                    optionText = optionText.replace(emojiMatch[0], '').trim();
+                }
+            }
+            
+            // Format the final option text
+            const formattedOptionText = formatOptionText(optionText);
+            
             optionElement.innerHTML = `
                 <div class="d-flex align-items-start gap-3">
                     <span class="option-letter">${optionLetter}</span>
-                    <div class="option-text">${formatOptionText(option.text)}</div>
+                    <div class="option-text">
+                        ${optionEmoji ? `<span class="option-emoji">${optionEmoji}</span>` : ''}
+                        <span class="option-content">${formattedOptionText}</span>
+                    </div>
                 </div>
             `;
             
@@ -466,7 +669,7 @@ function showQuestion() {
             optionsContainer.appendChild(optionElement);
         });
         
-        console.log(`✅ Rendered ${question.options.length} options`);
+        console.log(`✅ Rendered ${question.options.length} options with emojis`);
     } else {
         console.error('❌ No options found for question');
         optionsContainer.innerHTML = '<p class="text-danger">Error: No options available for this question.</p>';
@@ -525,10 +728,16 @@ function selectOption(selectedIndex, isCorrect) {
         
         const feedbackTitle = isCorrect ? correctFeedback : incorrectFeedback;
         
-        // Enhanced explanation rendering
-        let explanationText = '';
+        // Enhanced explanation rendering with proper emoji handling
+        let explanationHTML = '';
         if (question.explanation) {
-            explanationText = renderMarkdown(question.explanation);
+            const renderedExplanation = renderMarkdown(question.explanation);
+            explanationHTML = `
+                <div class="explanation-content-wrapper">
+                    <strong>${explanationLabel}:</strong>
+                    <div class="explanation-text mt-2">${renderedExplanation}</div>
+                </div>
+            `;
         }
         
         feedbackElement.innerHTML = `
@@ -537,12 +746,7 @@ function selectOption(selectedIndex, isCorrect) {
                     <span class="feedback-icon">${feedbackIcon}</span>
                     <h6 class="mb-0 fw-bold">${feedbackTitle}</h6>
                 </div>
-                ${explanationText ? `
-                    <div class="explanation-content">
-                        <strong>${explanationLabel}:</strong>
-                        <div class="explanation-text mt-2">${explanationText}</div>
-                    </div>
-                ` : ''}
+                ${explanationHTML}
             </div>
         `;
         feedbackElement.classList.remove('d-none');
@@ -554,6 +758,8 @@ function selectOption(selectedIndex, isCorrect) {
         nextButton.innerHTML = `${nextButtonText} <i class="bi bi-arrow-right ms-2"></i>`;
         nextButton.style.display = 'inline-block';
     }
+    
+    console.log(`📊 Answer selected: ${isCorrect ? 'Correct' : 'Incorrect'}, Score: ${score}/${currentQuestionIndex + 1}`);
 }
 
 function nextQuestion() {
@@ -1056,7 +1262,7 @@ async function loadQuiz(category, quizFile, language = null) {
     try {
         showLoadingState();
         
-        const quizUrl = `${CONFIG.GITHUB_RAW_BASE_URL}/quizzes/${category}/${langFolder}/${quizFile}`;
+        const quizUrl = `${GITHUB_CONFIG.BASE_URL}/quizzes/${category}/${langFolder}/${quizFile}`;
         console.log(`📥 Loading quiz from: ${quizUrl}`);
         
         const response = await fetch(quizUrl);
@@ -1079,6 +1285,7 @@ async function loadQuiz(category, quizFile, language = null) {
         currentQuestionIndex = 0;
         score = 0;
         userAnswers = [];
+        totalQuestions = currentQuiz.length;
         
         hideLoadingState();
         return Promise.resolve();
@@ -1137,25 +1344,80 @@ function initializeQuizPage() {
     // Setup quiz navigation
     setupQuizNavigation();
     
-    // Load quiz if category and quiz parameters are present
+    // Load quiz using existing system
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
-    const quiz = urlParams.get('quiz');
+    const level = urlParams.get('level') || 'beginner';
+    const language = urlParams.get('lang') || getCurrentLanguage();
     
-    if (category && quiz) {
-        console.log(`📚 Loading quiz: ${category}/${quiz}`);
-        loadQuiz(category, quiz)
-            .then(() => {
-                startQuiz();
-            })
-            .catch(error => {
-                console.error('❌ Error loading initial quiz:', error);
-                showError('Error loading quiz. Please try again.');
-            });
+    if (category) {
+        console.log(`📚 Loading quiz: ${category} (${level}, ${language})`);
+        startQuiz(category, level, language);
     } else {
         console.log('⚠️ No quiz parameters found in URL');
         showError('No quiz selected. Please go back to categories.');
     }
+}
+
+/**
+ * Start quiz with given parameters
+ */
+async function startQuiz(category, level, language) {
+    try {
+        showLoadingState();
+        
+        // Use existing loadQuizContent function
+        const content = await loadQuizContent(category, language);
+        currentQuiz = parseQuizContent(content);
+        
+        if (!currentQuiz || currentQuiz.length === 0) {
+            throw new Error('No valid questions found in quiz');
+        }
+        
+        // Filter by difficulty if needed
+        if (level && level !== 'all') {
+            currentQuiz = currentQuiz.filter(q => q.difficulty === level);
+        }
+        
+        if (currentQuiz.length === 0) {
+            throw new Error(`No questions found for difficulty: ${level}`);
+        }
+        
+        // Shuffle and limit questions
+        currentQuiz = shuffleArray(currentQuiz);
+        if (currentQuiz.length > config.MAX_QUESTIONS_PER_QUIZ) {
+            currentQuiz = currentQuiz.slice(0, config.MAX_QUESTIONS_PER_QUIZ);
+        }
+        
+        // Initialize quiz state
+        currentQuestionIndex = 0;
+        score = 0;
+        userAnswers = [];
+        totalQuestions = currentQuiz.length;
+        startTime = Date.now();
+        
+        console.log(`✅ Quiz started: ${totalQuestions} questions`);
+        
+        hideLoadingState();
+        showQuestion();
+        
+    } catch (error) {
+        console.error('❌ Error starting quiz:', error);
+        hideLoadingState();
+        showError('Error loading quiz. Please try again.');
+    }
+}
+
+/**
+ * Shuffle array utility
+ */
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
 }
 
 // Initialize when DOM is loaded
@@ -1167,3 +1429,38 @@ if (document.readyState === 'loading') {
 
 // Make scrollToTop globally available
 window.scrollToTop = scrollToTop;
+
+/**
+ * Initialize dark mode for quiz page
+ */
+function initializeDarkMode() {
+    // Check if dark mode is enabled
+    const isDarkMode = localStorage.getItem('infraquiz_dark_mode') === 'true';
+    
+    // Apply dark mode class
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    }
+    
+    // Setup dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+        darkModeToggle.checked = isDarkMode;
+        
+        darkModeToggle.addEventListener('change', function() {
+            const isEnabled = this.checked;
+            
+            if (isEnabled) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('infraquiz_dark_mode', 'true');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('infraquiz_dark_mode', 'false');
+            }
+            
+            console.log(`🌙 Dark mode ${isEnabled ? 'enabled' : 'disabled'}`);
+        });
+    }
+    
+    console.log(`🌙 Dark mode initialized: ${isDarkMode ? 'enabled' : 'disabled'}`);
+}
