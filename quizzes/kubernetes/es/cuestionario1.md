@@ -70,7 +70,7 @@ D) 🌐 Configuración de red
 
 **Respuesta correcta**: A) 📦 Almacenar configuración no sensible
 
-> 🔧 ConfigMaps separan la configuración del código de aplicación. ¡Como tener ajustes externos sin tocar el código!
+> 🔧 Los ConfigMaps separan la configuración del código de la aplicación. ¡Como tener configuraciones externas sin tocar el código!
 
 ### 6. 🔐 ¿Qué es un Secret? 🟡
 
@@ -80,11 +80,11 @@ B) 🔒 Contraseña de acceso
 
 C) 🛡️ Sistema de autenticación
 
-D) 🔑 Clave de encriptación
+D) 🔑 Clave de cifrado
 
 **Respuesta correcta**: A) 🔐 Almacenar información sensible de forma segura
 
-> 🔒 Los Secrets guardan datos sensibles como passwords, tokens, keys. ¡Como una caja fuerte para información crítica!
+> 🔒 Los Secrets almacenan datos sensibles como contraseñas, tokens, claves. ¡Como una caja fuerte para información crítica!
 
 ### 7. 🗂️ ¿Qué es un Namespace? 🟡
 
@@ -102,17 +102,17 @@ D) 🌐 Espacio de red
 
 ### 8. 🎯 ¿Qué es un Ingress? 🔴
 
-A) 🎯 Gestiona acceso HTTP/HTTPS externo a services
+A) 🎯 Gestiona acceso HTTP/HTTPS externo a servicios
 
 B) 🔧 Punto de entrada del clúster
 
 C) 📦 Balanceador de carga
 
-D) 🌐 Proxy reverso
+D) 🌐 Proxy inverso
 
-**Respuesta correcta**: A) 🎯 Gestiona acceso HTTP/HTTPS externo a services
+**Respuesta correcta**: A) 🎯 Gestiona acceso HTTP/HTTPS externo a servicios
 
-> 🚪 Ingress es como la recepción de un edificio, dirigiendo tráfico externo a los servicios correctos dentro del clúster.
+> 🚪 Ingress es como la recepción de un edificio, dirigiendo el tráfico externo a los servicios correctos dentro del clúster.
 
 ### 9. 💾 ¿Qué es un PersistentVolume? 🔴
 
@@ -120,7 +120,7 @@ A) 💾 Almacenamiento independiente del ciclo de vida del Pod
 
 B) 🔧 Volumen temporal
 
-C) 📦 Almacenamiento del contenedor
+C) 📦 Almacenamiento de contenedor
 
 D) 🌐 Almacenamiento de red
 
@@ -130,17 +130,17 @@ D) 🌐 Almacenamiento de red
 
 ### 10. 🔄 ¿Qué es un ReplicaSet? 🟡
 
-A) 🔄 Asegura que un número específico de Pods estén ejecutándose
+A) 🔄 Asegura que un número específico de Pods esté ejecutándose
 
-B) 🔧 Copia de seguridad de Pods
+B) 🔧 Respaldo de Pod
 
 C) 📦 Conjunto de réplicas
 
 D) 🌐 Red de réplicas
 
-**Respuesta correcta**: A) 🔄 Asegura que un número específico de Pods estén ejecutándose
+**Respuesta correcta**: A) 🔄 Asegura que un número específico de Pods esté ejecutándose
 
-> 🎭 Los ReplicaSets mantienen el número deseado de Pods idénticos. ¡Como un manager que asegura tener suficiente personal!
+> 🎭 Los ReplicaSets mantienen el número deseado de Pods idénticos. ¡Como un gerente que asegura tener suficiente personal!
 
 ### 11. 📊 ¿Qué es un DaemonSet? 🔴
 
@@ -148,150 +148,136 @@ A) 📊 Asegura que todos los nodos ejecuten una copia de un Pod
 
 B) 🔧 Demonio del sistema
 
-C) 📦 Conjunto de servicios
+C) 📦 Paquete de demonio
 
-D) 🌐 Set de configuración
+D) 🌐 Demonio de red
 
 **Respuesta correcta**: A) 📊 Asegura que todos los nodos ejecuten una copia de un Pod
 
-> 🏭 DaemonSets son perfectos para servicios que necesitan ejecutarse en cada nodo: logging, monitoring, storage drivers.
+> 🔄 Los DaemonSets ejecutan exactamente un Pod en cada nodo. ¡Como tener un guardia de seguridad en cada piso de un edificio!
 
-### 12. ⚖️ ¿Qué es un HorizontalPodAutoscaler? 🔴
+### 12. 🔧 ¿Cómo creas un Pod desde línea de comandos? 🟡
 
-A) ⚖️ Escala automáticamente Pods basado en métricas
+A) 🔧 `kubectl run mi-pod --image=nginx`
 
-B) 🔧 Balanceador horizontal
+B) 🔄 `kube create pod mi-pod nginx`
 
-C) 📦 Escalador de aplicaciones
+C) 📦 `k8s run mi-pod nginx`
 
-D) 🌐 Distribuidor de carga
+D) 🌐 `docker run mi-pod nginx`
 
-**Respuesta correcta**: A) ⚖️ Escala automáticamente Pods basado en métricas
+**Respuesta correcta**: A) 🔧 `kubectl run mi-pod --image=nginx`
 
-> 📈 HPA escala Pods según CPU, memoria o métricas custom. ¡Como contratar más personal cuando hay mucho trabajo!
+> ⚡ `kubectl run` es la forma imperativa de crear Pods. ¡Para producción, prefiere archivos YAML declarativos!
 
-### 13. 🔗 ¿Qué tipos de Services existen? 🔴
+### 13. 📋 ¿Cómo obtienes información sobre Pods? 🟢
 
-A) 🔗 ClusterIP, NodePort, LoadBalancer, ExternalName
+A) 📋 `kubectl get pods`
 
-B) 🔧 Internal, External, Public, Private
+B) 🔄 `kube list pods`
 
-C) 📦 HTTP, HTTPS, TCP, UDP
+C) 📦 `k8s show pods`
 
-D) 🌐 Frontend, Backend, Database, Cache
+D) 🌐 `docker ps pods`
 
-**Respuesta correcta**: A) 🔗 ClusterIP, NodePort, LoadBalancer, ExternalName
+**Respuesta correcta**: A) 📋 `kubectl get pods`
 
-> 🌐 Cada tipo expone servicios de manera diferente: ClusterIP (interno), NodePort (puerto del nodo), LoadBalancer (cloud), ExternalName (DNS).
+> 🔍 `kubectl get` muestra información básica. ¡Usa `kubectl describe pod <nombre>` para información detallada!
 
-### 14. 🎮 ¿Qué es kubectl? 🟢
+### 14. 🔍 ¿Cómo ves los logs de un Pod? 🟢
 
-A) 🎮 Cliente de línea de comandos para Kubernetes
+A) 🔍 `kubectl logs <nombre-pod>`
 
-B) 🔧 Componente del master
+B) 🔄 `kube logs <nombre-pod>`
 
-C) 📦 API de Kubernetes
+C) 📦 `k8s logs <nombre-pod>`
 
-D) 🌐 Dashboard web
+D) 🌐 `docker logs <nombre-pod>`
 
-**Respuesta correcta**: A) 🎮 Cliente de línea de comandos para Kubernetes
+**Respuesta correcta**: A) 🔍 `kubectl logs <nombre-pod>`
 
-> 🕹️ kubectl es tu control remoto para Kubernetes. ¡Como un mando universal para gestionar todo tu clúster!
+> 📝 Usa `kubectl logs -f <nombre-pod>` para seguir logs en tiempo real. ¡Añade `-c <nombre-contenedor>` para Pods multi-contenedor!
 
-### 15. 🏗️ ¿Qué son los nodos master y worker? 🟡
+### 15. 🏗️ ¿Cómo aplicas una configuración YAML? 🟡
 
-A) 🏗️ Master gestiona el clúster, workers ejecutan las aplicaciones
+A) 🏗️ `kubectl apply -f config.yaml`
 
-B) 🔧 Master guarda datos, workers procesan
+B) 🔄 `kube apply config.yaml`
 
-C) 📦 Master es principal, worker es secundario
+C) 📦 `k8s deploy config.yaml`
 
-D) 🌐 Master conecta, worker trabaja
+D) 🌐 `docker apply config.yaml`
 
-**Respuesta correcta**: A) 🏗️ Master gestiona el clúster, workers ejecutan las aplicaciones
+**Respuesta correcta**: A) 🏗️ `kubectl apply -f config.yaml`
 
-> 👑 El master (control plane) toma decisiones, los workers (nodos de trabajo) ejecutan los Pods. ¡Como un gerente y sus empleados!
+> 📄 `kubectl apply` es declarativo - crea o actualiza recursos. ¡Usa `kubectl create` para creación imperativa!
 
-### 16. 📋 ¿Qué es un Job en Kubernetes? 🔴
+### 16. 🗑️ ¿Cómo eliminas un Pod? 🟢
 
-A) 📋 Ejecuta Pods hasta completar una tarea específica
+A) 🗑️ `kubectl delete pod <nombre-pod>`
 
-B) 🔧 Trabajo de mantenimiento
+B) 🔄 `kube delete <nombre-pod>`
 
-C) 📦 Tarea programada
+C) 📦 `k8s remove <nombre-pod>`
 
-D) 🌐 Trabajo de red
+D) 🌐 `docker rm <nombre-pod>`
 
-**Respuesta correcta**: A) 📋 Ejecuta Pods hasta completar una tarea específica
+**Respuesta correcta**: A) 🗑️ `kubectl delete pod <nombre-pod>`
 
-> ✅ Jobs ejecutan tareas que deben completarse: procesamiento batch, migraciones, backups. ¡Como asignar una tarea específica con fecha límite!
+> ⚠️ ¡Ten cuidado! Eliminar Pods gestionados por Deployments disparará la recreación. ¡Elimina el Deployment en su lugar!
 
-### 17. ⏰ ¿Qué es un CronJob? 🔴
+### 17. 🌐 ¿Cómo expones un Deployment como Service? 🟡
 
-A) ⏰ Job que se ejecuta según un horario programado
+A) 🌐 `kubectl expose deployment <nombre> --type=LoadBalancer --port=80`
 
-B) 🔧 Tarea cron del sistema
+B) 🔄 `kube expose <nombre> --port=80`
 
-C) 📦 Trabajo cronometrado
+C) 📦 `k8s service <nombre> --port=80`
 
-D) 🌐 Planificador de tareas
+D) 🔧 `docker expose <nombre> --port=80`
 
-**Respuesta correcta**: A) ⏰ Job que se ejecuta según un horario programado
+**Respuesta correcta**: A) 🌐 `kubectl expose deployment <nombre> --type=LoadBalancer --port=80`
 
-> 📅 CronJobs son como tareas programadas: backups diarios, reportes semanales, limpiezas mensuales. ¡Automatización temporal!
+> 🚪 Esto crea un Service que enruta tráfico a Pods gestionados por el Deployment. ¡Elige el tipo de servicio correcto para tus necesidades!
 
-### 18. 🔧 ¿Qué componentes tiene el Control Plane? 🔴
+### 18. 🔧 ¿Cómo escalas un Deployment? 🟡
 
-A) 🔧 API Server, etcd, Scheduler, Controller Manager
+A) 🔧 `kubectl scale deployment <nombre> --replicas=5`
 
-B) 🏗️ Master, Worker, Storage, Network
+B) 🔄 `kube scale <nombre> --replicas=5`
 
-C) 📦 Frontend, Backend, Database, Cache
+C) 📦 `k8s scale <nombre> 5`
 
-D) 🌐 Load Balancer, Proxy, Gateway, Router
+D) 🌐 `docker scale <nombre> 5`
 
-**Respuesta correcta**: A) 🔧 API Server, etcd, Scheduler, Controller Manager
+**Respuesta correcta**: A) 🔧 `kubectl scale deployment <nombre> --replicas=5`
 
-> 🧠 El Control Plane es el cerebro: API Server (comunica), etcd (almacena), Scheduler (planifica), Controller Manager (mantiene estado).
+> 📈 El escalado ajusta el número de réplicas de Pod. ¡Kubernetes creará o destruirá Pods para coincidir con el conteo deseado!
 
-### 19. 🌐 ¿Qué es un CNI en Kubernetes? 🔴
+### 19. 🔍 ¿Cómo obtienes información detallada sobre un recurso? 🟡
 
-A) 🌐 Interface estándar para plugins de red
+A) 🔍 `kubectl describe <tipo-recurso> <nombre>`
 
-B) 🔧 Componente de red interno
+B) 🔄 `kube describe <nombre>`
 
-C) 📦 Controlador de red
+C) 📦 `k8s info <nombre>`
 
-D) 🎯 API de red
+D) 🌐 `docker inspect <nombre>`
 
-**Respuesta correcta**: A) 🌐 Interface estándar para plugins de red
+**Respuesta correcta**: A) 🔍 `kubectl describe <tipo-recurso> <nombre>`
 
-> 🔌 CNI (Container Network Interface) permite diferentes soluciones de red: Calico, Flannel, Weave. ¡Como diferentes tipos de conexión de internet!
+> 📋 `kubectl describe` muestra información detallada incluyendo eventos. ¡Muy útil para resolución de problemas!
 
-### 20. 🛡️ ¿Qué es RBAC en Kubernetes? 🔴
+### 20. ⚙️ ¿Cómo editas un recurso directamente? 🔴
 
-A) 🛡️ Control de acceso basado en roles
+A) ⚙️ `kubectl edit <tipo-recurso> <nombre>`
 
-B) 🔧 Sistema de autenticación
+B) 🔄 `kube edit <nombre>`
 
-C) 📦 Configuración de roles
+C) 📦 `k8s modify <nombre>`
 
-D) 🌐 Control de red
+D) 🌐 `vim <nombre>`
 
-**Respuesta correcta**: A) 🛡️ Control de acceso basado en roles
+**Respuesta correcta**: A) ⚙️ `kubectl edit <tipo-recurso> <nombre>`
 
-> 🔐 RBAC define quién puede hacer qué en el clúster. Roles + RoleBindings = permisos específicos. ¡Como badges de acceso en una empresa!
-
-### 21. 🎯 ¿Cuáles son las mejores prácticas para Kubernetes? 🔴
-
-A) 🎯 Usar namespaces, limits de recursos, health checks, políticas de seguridad
-
-B) 🔧 Solo usar Pods directamente
-
-C) 📦 No usar Services
-
-D) 🌐 Evitar ConfigMaps
-
-**Respuesta correcta**: A) 🎯 Usar namespaces, limits de recursos, health checks, políticas de seguridad
-
-> 🏆 Mejores prácticas: organizar con namespaces, definir resource limits, implementar liveness/readiness probes, usar RBAC, aplicar network policies. ¡Kubernetes profesional!
+> ✏️ Abre el recurso en tu editor predeterminado. Los cambios se aplican inmediatamente. ¡Prefiere archivos YAML declarativos para producción!

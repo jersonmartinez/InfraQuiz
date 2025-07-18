@@ -52,246 +52,232 @@ B) 🔄 Amazon EC2
 
 C) 📦 Amazon RDS
 
-D) 🎯 Amazon VPC
+D) 🎯 Amazon Lambda
 
 **Correct Answer**: A) 📝 Amazon S3
 
-> 💡 Amazon S3 (Simple Storage Service) is designed for storing and retrieving any amount of data from anywhere. Perfect for backups, static websites, and data archiving!
+> ☁️ Amazon S3 (Simple Storage Service) is designed for storing and retrieving any amount of data from anywhere. Perfect for backups, static websites, and data archiving!
 
-### 5. ❓ What is the purpose of a Kubernetes Pod? 🟡
+### 5. ❓ What is the purpose of `kubectl` in Kubernetes? 🟡
 
-A) 📝 Group one or more containers that share resources
+A) 📝 Command-line tool for interacting with Kubernetes clusters
 
-B) 🔄 Store application configuration
+B) 🔄 Configuration file format
 
-C) 📦 Manage network traffic
+C) 📦 Container runtime
 
-D) 🎯 Monitor cluster health
+D) 🎯 Network plugin
 
-**Correct Answer**: A) 📝 Group one or more containers that share resources
+**Correct Answer**: A) 📝 Command-line tool for interacting with Kubernetes clusters
 
-> 💡 Pods are the smallest deployable units in Kubernetes, containing one or more containers that share storage and network. Like roommates sharing an apartment!
+> ☸️ `kubectl` is your primary interface to Kubernetes clusters. Like a remote control for your containerized applications!
 
-### 6. ❓ What is the default port for HTTPS? 🟢
+### 6. ❓ Which command creates a new branch in Git? 🟢
 
-A) 📝 443
+A) 📝 `git branch new-feature` or `git checkout -b new-feature`
 
-B) 🔄 80
+B) 🔄 `git create branch new-feature`
 
-C) 📦 8080
+C) 📦 `git new-branch new-feature`
 
-D) 🎯 22
+D) 🎯 `git add branch new-feature`
 
-**Correct Answer**: A) 📝 443
+**Correct Answer**: A) 📝 `git branch new-feature` or `git checkout -b new-feature`
 
-> 💡 HTTPS uses port 443 by default, while HTTP uses port 80. Remembering these numbers is essential for network administration!
+> 🌳 `git branch` creates without switching, while `git checkout -b` creates and switches in one command. Modern Git also supports `git switch -c`!
 
-### 7. ❓ What is a CI/CD pipeline? 🟡
+### 7. ❓ What is the primary purpose of Ansible? 🟡
 
-A) 📝 Automated process for continuous integration and deployment
+A) 📝 Configuration management and automation
 
-B) 🔄 Application monitoring system
+B) 🔄 Container orchestration
 
-C) 📦 Database management tool
+C) 📦 Version control
 
-D) 🎯 Network communication protocol
+D) 🎯 Database management
 
-**Correct Answer**: A) 📝 Automated process for continuous integration and deployment
+**Correct Answer**: A) 📝 Configuration management and automation
 
-> 💡 CI/CD automates building, testing, and deploying code. Like an assembly line for software!
+> 🔧 Ansible automates software provisioning, configuration management, and application deployment using simple YAML playbooks. Agentless and powerful!
 
-### 8. ❓ What's the main difference between TCP and UDP? 🟡
+### 8. ❓ Which protocol is commonly used for secure remote access? 🟢
 
-A) 📝 TCP is reliable and connection-oriented, UDP is fast but unreliable
+A) 📝 SSH (Secure Shell)
 
-B) 🔄 TCP is slower, UDP is for video
+B) 🔄 HTTP
 
-C) 📦 TCP is for internet, UDP for local networks
+C) 📦 FTP
 
-D) 🎯 There's no significant difference
+D) 🎯 Telnet
 
-**Correct Answer**: A) 📝 TCP is reliable and connection-oriented, UDP is fast but unreliable
+**Correct Answer**: A) 📝 SSH (Secure Shell)
 
-> 💡 TCP guarantees data delivery but is slower. UDP is fast but may lose packets. Like certified mail vs. regular mail!
+> 🔒 SSH provides encrypted communication between computers over an insecure network. The backbone of secure remote administration!
 
-### 9. ❓ What is Ansible? 🟢
+### 9. ❓ What does CI/CD stand for? 🟡
 
-A) 📝 Configuration automation tool
+A) 📝 Continuous Integration / Continuous Deployment
 
-B) 🔄 NoSQL database
+B) 🔄 Code Integration / Code Deployment
 
-C) 📦 Programming language
+C) 📦 Continuous Improvement / Continuous Development
 
-D) 🎯 Operating system
+D) 🎯 Central Integration / Central Deployment
 
-**Correct Answer**: A) 📝 Configuration automation tool
+**Correct Answer**: A) 📝 Continuous Integration / Continuous Deployment
 
-> 💡 Ansible automates configuration, provisioning, and system management using simple YAML files. Like having an assistant that configures servers!
+> 🔄 CI/CD automates the software delivery process, enabling teams to deliver features faster and more reliably through automated testing and deployment!
 
-### 10. ❓ What is the purpose of a Load Balancer? 🟡
+### 10. ❓ Which file typically contains environment variables in Docker? 🟡
 
-A) 📝 Distribute traffic across multiple servers
+A) 📝 `.env` file or environment variables in `docker-compose.yml`
 
-B) 🔄 Store application data
+B) 🔄 `config.txt`
 
-C) 📦 Monitor system performance
+C) 📦 `settings.ini`
 
-D) 🎯 Manage users and permissions
+D) 🎯 `variables.conf`
 
-**Correct Answer**: A) 📝 Distribute traffic across multiple servers
+**Correct Answer**: A) 📝 `.env` file or environment variables in `docker-compose.yml`
 
-> 💡 Load Balancers distribute incoming requests across multiple servers to improve availability and performance. Like a traffic director for your application!
+> 🌍 Environment variables help configure applications without hardcoding values. Docker Compose automatically loads `.env` files!
 
-### 11. ❓ What is SSL/TLS? 🟡
+### 11. ❓ What is the default port for HTTP traffic? 🟢
 
-A) 📝 Security protocol for internet communications
+A) 📝 Port 80
 
-B) 🔄 Database management system
+B) 🔄 Port 443
 
-C) 📦 Data query language
+C) 📦 Port 22
 
-D) 🎯 Monitoring tool
+D) 🎯 Port 8080
 
-**Correct Answer**: A) 📝 Security protocol for internet communications
+**Correct Answer**: A) 📝 Port 80
 
-> 💡 SSL/TLS encrypts communications between client and server, ensuring data cannot be intercepted. Like a secure tunnel for your data!
+> 🌐 Port 80 is the standard for HTTP traffic, while 443 is for HTTPS. Port 22 is for SSH, and 8080 is often used for development servers!
 
-### 12. ❓ What's the difference between a container and a virtual machine? 🔴
+### 12. ❓ Which command shows running processes in Linux? 🟢
 
-A) 📝 Containers share the OS kernel, VMs have complete OS
+A) 📝 `ps` or `ps aux`
 
-B) 🔄 Containers are slower than VMs
+B) 🔄 `list processes`
 
-C) 📦 VMs use fewer resources than containers
+C) 📦 `show processes`
 
-D) 🎯 There's no practical difference
+D) 🎯 `processes`
 
-**Correct Answer**: A) 📝 Containers share the OS kernel, VMs have complete OS
+**Correct Answer**: A) 📝 `ps` or `ps aux`
 
-> 💡 Containers are more efficient because they share the host's kernel, while VMs need a complete OS each. Containers = apartments, VMs = individual houses!
+> 💻 `ps aux` shows all processes with detailed information. Also try `top` or `htop` for real-time process monitoring!
 
-### 13. ❓ What is DevOps? 🟢
+### 13. ❓ What is the purpose of load balancing? 🟡
 
-A) 📝 Culture that unites development and operations to accelerate delivery
+A) 📝 Distribute incoming requests across multiple servers
 
-B) 🔄 New programming tool
+B) 🔄 Balance the load on the CPU
 
-C) 📦 Specialized operating system
+C) 📦 Manage memory usage
 
-D) 🎯 Configuration language
+D) 🎯 Control network bandwidth
 
-**Correct Answer**: A) 📝 Culture that unites development and operations to accelerate delivery
+**Correct Answer**: A) 📝 Distribute incoming requests across multiple servers
 
-> 💡 DevOps is a culture and set of practices that combine software development and IT operations to shorten development cycles. Teamwork makes the dream work!
+> ⚖️ Load balancing ensures no single server is overwhelmed while improving availability and response times. Essential for scalable applications!
 
-### 14. ❓ What is the main purpose of Prometheus? 🔴
+### 14. ❓ Which command checks network connectivity to a host? 🟢
 
-A) 📝 Monitoring and alerting system
+A) 📝 `ping`
 
-B) 🔄 Relational database
+B) 🔄 `connect`
 
-C) 📦 Container orchestrator
+C) 📦 `network`
 
-D) 🎯 Web server
+D) 🎯 `check`
 
-**Correct Answer**: A) 📝 Monitoring and alerting system
+**Correct Answer**: A) 📝 `ping`
 
-> 💡 Prometheus collects metrics from applications and systems, enabling real-time monitoring and alerting. Like the nervous system of your infrastructure!
+> 🏓 `ping` sends ICMP packets to test network connectivity and measure round-trip time. Your first tool for network troubleshooting!
 
-### 15. ❓ What is a microservice? 🔴
+### 15. ❓ What is the main purpose of monitoring in DevOps? 🟡
 
-A) 📝 Architecture where applications are divided into small, independent services
+A) 📝 Track system performance and detect issues proactively
 
-B) 🔄 Service that's very small in file size
+B) 🔄 Monitor employee productivity
 
-C) 📦 Service that uses few resources
+C) 📦 Watch network traffic only
 
-D) 🎯 Service that only works in containers
+D) 🎯 Control access permissions
 
-**Correct Answer**: A) 📝 Architecture where applications are divided into small, independent services
+**Correct Answer**: A) 📝 Track system performance and detect issues proactively
 
-> 💡 Microservices decompose monolithic applications into independent services that communicate via APIs. Like a team where each member has their specialty!
+> 📊 Monitoring provides visibility into system health, enabling teams to detect and resolve issues before they impact users. Prevention is better than cure!
 
-### 16. ❓ What's the difference between git merge and git rebase? 🔴
+### 16. ❓ Which tool is commonly used for container orchestration? 🟡
 
-A) 📝 Merge preserves history, rebase rewrites history linearly
+A) 📝 Kubernetes
 
-B) 🔄 Merge is faster, rebase is slower
+B) 🔄 Git
 
-C) 📦 Merge is for local branches, rebase for remote
+C) 📦 Jenkins
 
-D) 🎯 There's no functional difference
+D) 🎯 Terraform
 
-**Correct Answer**: A) 📝 Merge preserves history, rebase rewrites history linearly
+**Correct Answer**: A) 📝 Kubernetes
 
-> 💡 Merge preserves exact history with merge commits, rebase rewrites commits to create a cleaner linear history. Choose based on whether you prefer accuracy or clarity!
+> ☸️ Kubernetes automates deployment, scaling, and management of containerized applications. The de facto standard for container orchestration!
 
-### 17. ❓ What is horizontal vs vertical scaling? 🔴
+### 17. ❓ What is the purpose of a firewall? 🟢
 
-A) 📝 Horizontal: more servers, Vertical: more power to same server
+A) 📝 Control incoming and outgoing network traffic based on security rules
 
-B) 🔄 Horizontal: faster, Vertical: slower
+B) 🔄 Prevent fires in data centers
 
-C) 📦 Horizontal: for databases, Vertical: for web
+C) 📦 Speed up network connections
 
-D) 🎯 Horizontal: AWS, Vertical: Azure
+D) 🎯 Manage user authentication
 
-**Correct Answer**: A) 📝 Horizontal: more servers, Vertical: more power to same server
+**Correct Answer**: A) 📝 Control incoming and outgoing network traffic based on security rules
 
-> 💡 Scaling horizontally is adding more machines, vertically is improving the existing machine. Like hiring more employees vs. training current ones better!
+> 🛡️ Firewalls act as barriers between trusted and untrusted networks, filtering traffic based on predetermined security rules. Your first line of defense!
 
-### 18. ❓ What is a webhook? 🔴
+### 18. ❓ Which command is used to change file permissions in Linux? 🟢
 
-A) 📝 Mechanism to notify HTTP events in real-time
+A) 📝 `chmod`
 
-B) 🔄 Special type of URL
+B) 🔄 `chown`
 
-C) 📦 Debugging tool
+C) 📦 `permission`
 
-D) 🎯 Network protocol
+D) 🎯 `access`
 
-**Correct Answer**: A) 📝 Mechanism to notify HTTP events in real-time
+**Correct Answer**: A) 📝 `chmod`
 
-> 💡 Webhooks allow applications to automatically notify each other when events occur. Like having a doorbell that rings when something important happens!
+> 🔒 `chmod` (change mode) modifies file permissions. Remember: `chown` changes ownership, `chmod` changes permissions!
 
-### 19. ❓ What is the purpose of an API Gateway? 🔴
+### 19. ❓ What does API stand for? 🟢
 
-A) 📝 Single entry point that manages and routes requests to microservices
+A) 📝 Application Programming Interface
 
-B) 🔄 Database for APIs
+B) 🔄 Automated Program Integration
 
-C) 📦 API testing tool
+C) 📦 Advanced Programming Implementation
 
-D) 🎯 Specialized web server
+D) 🎯 Application Protocol Interface
 
-**Correct Answer**: A) 📝 Single entry point that manages and routes requests to microservices
+**Correct Answer**: A) 📝 Application Programming Interface
 
-> 💡 An API Gateway acts as a reverse proxy, handling authentication, rate limiting, and routing to backend services. Like the reception desk of an office building!
+> 🔌 APIs enable different software applications to communicate with each other. Like bridges connecting different systems and services!
 
-### 20. ❓ What is Infrastructure as Code (IaC)? 🔴
+### 20. ❓ Which HTTP status code indicates a successful request? 🟡
 
-A) 📝 Managing infrastructure using versionable configuration files
+A) 📝 200 OK
 
-B) 🔄 Programming applications that manage infrastructure
+B) 🔄 404 Not Found
 
-C) 📦 Documenting infrastructure in code
+C) 📦 500 Internal Server Error
 
-D) 🎯 Automating only deployment
+D) 🎯 301 Moved Permanently
 
-**Correct Answer**: A) 📝 Managing infrastructure using versionable configuration files
+**Correct Answer**: A) 📝 200 OK
 
-> 💡 IaC allows you to version, review, and reproduce infrastructure like any source code. Like having construction blueprints for your infrastructure!
-
-### 21. ❓ What's the best practice for secrets in containers? 🔴
-
-A) 📝 Use external secret management systems, never hardcode
-
-B) 🔄 Store secrets in environment variables
-
-C) 📦 Include secrets in container image
-
-D) 🎯 Use configuration files
-
-**Correct Answer**: A) 📝 Use external secret management systems, never hardcode
-
-> 💡 Secrets should be handled with specialized tools like Kubernetes Secrets, HashiCorp Vault, AWS Secrets Manager. Security is non-negotiable!
+> ✅ HTTP 200 means "everything is fine!" Other common codes: 404 (not found), 500 (server error), 301 (redirect). Know your status codes!

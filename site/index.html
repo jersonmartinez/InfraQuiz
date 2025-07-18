@@ -7,7 +7,6 @@
     <title>InfraQuiz - DevOps Learning Platform</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
-    <!-- Generic brain emoji favicon -->
 
     <!-- Google Fonts - Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -29,13 +28,7 @@
             <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
                 <span style="font-size:2rem;line-height:1;display:flex;align-items:center;gap:0.5rem;">
                     <span style="display:inline-block;vertical-align:middle;">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            style="vertical-align:middle;">
-                            <rect x="2" y="2" width="28" height="28" rx="6" fill="#fff" stroke="#222"
-                                stroke-width="2" />
-                            <rect x="8" y="8" width="16" height="16" rx="4" fill="#222" />
-                            <rect x="12" y="12" width="8" height="8" rx="2" fill="#fff" />
-                        </svg>
+                        <!-- Logo will be injected by JavaScript -->
                     </span>
                     <span class="fw-bold" style="font-size:1.8rem; letter-spacing:0.5px;">InfraQuiz</span>
                 </span>
@@ -87,12 +80,7 @@
             <div class="row align-items-center py-5 justify-content-center">
                 <div class="col-lg-8 text-center" data-aos="fade-down" data-aos-duration="1000">
                     <span class="infraquiz-logo" style="display:block;margin:0 auto 1.5rem auto;">
-                        <svg width="80" height="80" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="2" y="2" width="28" height="28" rx="6" fill="#fff" stroke="#222"
-                                stroke-width="2" />
-                            <rect x="8" y="8" width="16" height="16" rx="4" fill="#222" />
-                            <rect x="12" y="12" width="8" height="8" rx="2" fill="#fff" />
-                        </svg>
+                        <!-- Large logo will be injected by JavaScript -->
                     </span>
                     <h1 class="display-3 fw-bold mb-4" data-lang-key="hero_title">
                         🚀 Master DevOps with Interactive Quizzes
@@ -101,13 +89,11 @@
                         Learn Bash scripting, Python automation, Terraform, AWS, and more through engaging,
                         bite-sized quizzes designed for DevOps professionals.
                     </p>
-                    <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <button class="btn btn-primary btn-lg shadow-2" onclick="startRandomQuiz()"
-                            data-lang-key="start_random_quiz">
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <button class="btn btn-outline-light btn-lg px-4 py-3" onclick="startRandomQuiz()" data-lang-key="start_random_quiz">
                             <i class="bi bi-play-circle me-2"></i> Start Random Quiz
                         </button>
-                        <button class="btn btn-outline-light btn-lg" onclick="scrollToQuizzes()"
-                            data-lang-key="browse_categories">
+                        <button class="btn btn-primary btn-lg px-4 py-3" onclick="scrollToQuizzes()" data-lang-key="browse_categories">
                             <i class="bi bi-list-check me-2"></i> Browse Categories
                         </button>
                     </div>
@@ -118,59 +104,45 @@
 
     <!-- Quiz Categories Section -->
     <section id="quizzes" class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-5" data-aos="fade-up">
-                    <h2 class="display-5 fw-bold mb-3" data-lang-key="quiz_categories_title">📚 Quiz Categories</h2>
-                    <p class="lead text-muted" data-lang-key="quiz_categories_subtitle">Choose your learning path or
-                        take a mixed quiz</p>
-                </div>
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-4 fw-bold mb-3" data-lang-key="quiz_categories_title">📚 Quiz Categories</h2>
+                <p class="lead" data-lang-key="quiz_categories_subtitle">Choose your learning path or take a mixed quiz</p>
             </div>
-
-            <div class="row g-4" id="quiz-categories-container">
-                <!-- Categories will be dynamically loaded here by JavaScript -->
+            <div class="row g-4" id="quiz-categories-container" data-aos="fade-up" data-aos-delay="200">
+                <!-- Quiz categories will be dynamically loaded here -->
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-5" data-aos="fade-up">
-                    <h2 class="display-5 fw-bold" data-lang-key="about_infraquiz_title">About InfraQuiz</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8 mx-auto" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card shadow-sm border-0 rounded-3">
-                        <div class="card-body p-4">
-                            <p class="lead mb-4" data-lang-key="about_description_1">
-                                InfraQuiz is a public repository containing interactive quizzes about DevOps tools and
-                                methodologies.
-                                Perfect for reinforcing knowledge, interview preparation, or certification study.
-                            </p>
-                            <p class="mb-4" data-lang-key="about_description_2">
-                                Each quiz includes:
-                            </p>
-                            <ul class="list-unstyled mb-4">
-                                <li data-lang-key="about_feature_1"><i class="bi bi-check-circle text-success me-2"></i>
-                                    1 correct answer per question</li>
-                                <li data-lang-key="about_feature_2"><i class="bi bi-check-circle text-success me-2"></i>
-                                    Brief technical explanations</li>
-                                <li data-lang-key="about_feature_3"><i class="bi bi-check-circle text-success me-2"></i>
-                                    Visual and engaging format with emojis</li>
-                                <li data-lang-key="about_feature_4"><i class="bi bi-check-circle text-success me-2"></i>
-                                    Mixed or random categories to test your knowledge</li>
-                            </ul>
-                            <div class="text-center mt-4">
-                                <a href="https://github.com/jersonmartinez/InfraQuiz"
-                                    class="btn btn-outline-primary btn-lg shadow-2" data-lang-key="view_on_github">
-                                    <i class="bi bi-github me-2"></i> View on GitHub
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+    <section id="about" class="py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <h2 class="display-5 fw-bold mb-4" data-lang-key="about_infraquiz_title">About InfraQuiz</h2>
+                    <p class="lead mb-4" data-lang-key="about_description_1">
+                        InfraQuiz is a public repository containing interactive quizzes about DevOps tools and methodologies. 
+                        Perfect for reinforcing knowledge, interview preparation, or certification study.
+                    </p>
+                    <p class="mb-4" data-lang-key="about_description_2">Each quiz includes:</p>
+                    <ul class="list-unstyled mb-5">
+                        <li class="mb-2" data-lang-key="about_feature_1">
+                            <i class="bi bi-check-circle text-success me-2"></i> 1 correct answer per question
+                        </li>
+                        <li class="mb-2" data-lang-key="about_feature_2">
+                            <i class="bi bi-check-circle text-success me-2"></i> Brief technical explanations
+                        </li>
+                        <li class="mb-2" data-lang-key="about_feature_3">
+                            <i class="bi bi-check-circle text-success me-2"></i> Visual and engaging format with emojis
+                        </li>
+                        <li class="mb-2" data-lang-key="about_feature_4">
+                            <i class="bi bi-check-circle text-success me-2"></i> Mixed or random categories to test your knowledge
+                        </li>
+                    </ul>
+                    <a href="https://github.com/jersonmartinez/InfraQuiz" target="_blank" class="btn btn-primary btn-lg" data-lang-key="view_on_github">
+                        <i class="bi bi-github me-2"></i> View on GitHub
+                    </a>
                 </div>
             </div>
         </div>
@@ -181,13 +153,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="mb-0" data-lang-key="footer_text">&copy; 2024 InfraQuiz. Made with ❤️ for the DevOps
-                        community.</p>
+                    <p class="mb-0" data-lang-key="footer_text">© 2024 InfraQuiz. Made with ❤️ for the DevOps community.</p>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <!-- MDBootstrap JS -->
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>

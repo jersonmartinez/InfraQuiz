@@ -48,250 +48,96 @@ D) 🎯 Type of protocol
 
 A) 📝 7-layer model for network communication
 
-B) 🔄 Internet protocol
+B) 🔄 Operating system interface
 
-C) 📦 Type of cable
+C) 📦 Network security protocol
 
-D) 🎯 Network operating system
+D) 🎯 Router configuration standard
 
 **Correct Answer**: A) 📝 7-layer model for network communication
 
-> 🎯 The 7 OSI layers: Physical, Data Link, Network, Transport, Session, Presentation, Application. Like a communications building!
+> 📖 OSI: Physical, Data Link, Network, Transport, Session, Presentation, Application. Like layers of an onion for networking!
 
-### 5. 🔄 What is TCP? 🟡
+### 5. 🔧 What is DNS? 🟢
 
-A) 📝 Reliable transport protocol
+A) 📝 Domain Name System - translates domain names to IP addresses
 
-B) 🔄 Type of network cable
+B) 🔄 Dynamic Network Service
 
-C) 📦 Operating system
+C) 📦 Data Network Standard
 
-D) 🎯 Type of router
+D) 🎯 Device Name System
 
-**Correct Answer**: A) 📝 Reliable transport protocol
+**Correct Answer**: A) 📝 Domain Name System - translates domain names to IP addresses
 
-> 🤝 TCP guarantees data arrives complete and in order. Like certified mail that confirms delivery!
+> 🌍 DNS is like a phone book for the internet. You type google.com, DNS finds the IP address for you!
 
-### 6. ⚡ What is UDP? 🟡
+### 6. 🌉 What is a subnet? 🟡
 
-A) 📝 Fast but unreliable protocol
+A) 📝 Network subdivision using subnet masks
 
-B) 🔄 Type of secure connection
+B) 🔄 Underwater network cable
 
-C) 📦 File system
+C) 📦 Security network protocol
 
-D) 🎯 Email protocol
+D) 🎯 Network speed measurement
 
-**Correct Answer**: A) 📝 Fast but unreliable protocol
+**Correct Answer**: A) 📝 Network subdivision using subnet masks
 
-> 🏃‍♂️ UDP is fast but may lose data. Perfect for live video/audio where speed > perfection. Like regular postal mail!
+> 🏘️ Subnets divide large networks into smaller, manageable pieces. Like dividing a neighborhood into blocks!
 
-### 7. 🌐 What is DNS? 🟢
+### 7. 🔄 What is DHCP? 🟡
 
-A) 📝 System that translates names to IP addresses
+A) 📝 Dynamic Host Configuration Protocol - automatically assigns IP addresses
 
-B) 🔄 Security protocol
+B) 🔄 Direct Host Connection Protocol
 
-C) 📦 Type of server
+C) 📦 Device Hardware Control Protocol
 
-D) 🎯 File system
+D) 🎯 Data Host Communication Protocol
 
-**Correct Answer**: A) 📝 System that translates names to IP addresses
+**Correct Answer**: A) 📝 Dynamic Host Configuration Protocol - automatically assigns IP addresses
 
-> 📞 DNS is like the internet's phone book. Converts "google.com" to "142.250.191.14". So you don't have to memorize numbers!
+> 🏠 DHCP is like an automatic postal service that assigns house numbers to new residents. No manual configuration needed!
 
-### 8. 🛡️ What is a firewall? 🟡
+### 8. 🔥 What is a firewall? 🟢
 
-A) 📝 System that controls network traffic
+A) 📝 Network security system that monitors and controls traffic
 
-B) 🔄 Type of shielded cable
+B) 🔄 Fire protection system
 
-C) 📦 Antivirus software
+C) 📦 Network speed controller
 
-D) 🎯 Backup system
+D) 🎯 Data encryption tool
 
-**Correct Answer**: A) 📝 System that controls network traffic
+**Correct Answer**: A) 📝 Network security system that monitors and controls traffic
 
-> 🚧 A firewall is like a security guard that decides what traffic can pass and what can't. Protects your network from intruders!
+> 🛡️ Firewalls are like security guards at the entrance of a building, checking who can enter and leave!
 
-### 9. 🔀 What is a router? 🟢
+### 9. 🌐 What is NAT? 🟡
 
-A) 📝 Device that directs traffic between networks
+A) 📝 Network Address Translation - maps private IPs to public IPs
 
-B) 🔄 Connection cable
+B) 🔄 Network Access Tool
 
-C) 📦 Type of server
+C) 📦 Network Administration Technology
 
-D) 🎯 Network software
+D) 🎯 Network Automation Technology
 
-**Correct Answer**: A) 📝 Device that directs traffic between networks
+**Correct Answer**: A) 📝 Network Address Translation - maps private IPs to public IPs
 
-> 🚦 A router is like a traffic director that decides the best path for your data to arrive. The GPS of the internet!
+> 🏢 NAT allows multiple devices to share one public IP address. Like an apartment building with one street address but many units!
 
-### 10. 🔄 What is a switch? 🟡
+### 10. 🔍 What is the ping command used for? 🟢
 
-A) 📝 Device that connects devices on the same network
+A) 📝 Test network connectivity to a host
 
-B) 🔄 Power switch
+B) 🔄 Measure network speed
 
-C) 📦 Type of cable
+C) 📦 Configure network settings
 
-D) 🎯 Network protocol
+D) 🎯 Monitor network traffic
 
-**Correct Answer**: A) 📝 Device that connects devices on the same network
+**Correct Answer**: A) 📝 Test network connectivity to a host
 
-> 🌟 A switch connects multiple devices on a local network. Like a power strip multiplier but for network!
-
-### 11. 📡 What is DHCP? 🟡
-
-A) 📝 Protocol that assigns IP addresses automatically
-
-B) 🔄 Type of wireless connection
-
-C) 📦 Security system
-
-D) 🎯 Email protocol
-
-**Correct Answer**: A) 📝 Protocol that assigns IP addresses automatically
-
-> 🎫 DHCP is like an automatic number dispenser. Assigns you an IP automatically when you connect. No more manual configuration!
-
-### 12. 🔐 What is HTTPS? 🟡
-
-A) 📝 HTTP with SSL/TLS encryption
-
-B) 🔄 Faster version of HTTP
-
-C) 📦 New Google protocol
-
-D) 🎯 HTTP for mobile
-
-**Correct Answer**: A) 📝 HTTP with SSL/TLS encryption
-
-> 🔒 HTTPS is HTTP with a security layer. Like sending a letter in a sealed envelope instead of an open postcard!
-
-### 13. 🏠 What is a LAN? 🟢
-
-A) 📝 Local Area Network
-
-B) 🔄 Wide Area Network
-
-C) 📦 Internet protocol
-
-D) 🎯 Type of cable
-
-**Correct Answer**: A) 📝 Local Area Network
-
-> 🏢 LAN is your home or office network. Connects nearby devices. Like an intercom system for a building!
-
-### 14. 🌍 What is a WAN? 🟡
-
-A) 📝 Wide Area Network
-
-B) 🔄 Wireless network
-
-C) 📦 Access network
-
-D) 🎯 Local network
-
-**Correct Answer**: A) 📝 Wide Area Network
-
-> 🌎 WAN connects distant networks. The internet is the largest WAN. Like the worldwide postal system connecting cities!
-
-### 15. 📏 What is a subnet mask? 🔴
-
-A) 📝 Defines which part of IP identifies network vs host
-
-B) 🔄 Type of network cable
-
-C) 📦 Security software
-
-D) 🎯 Routing protocol
-
-**Correct Answer**: A) 📝 Defines which part of IP identifies network vs host
-
-> 🎭 Subnet mask is like a filter separating the "city" (network) address from the "house number" (host). Ex: 255.255.255.0
-
-### 16. 🛣️ What is a gateway? 🔴
-
-A) 📝 Entry/exit point between different networks
-
-B) 🔄 Special type of router
-
-C) 📦 Connection software
-
-D) 🎯 Network protocol
-
-**Correct Answer**: A) 📝 Entry/exit point between different networks
-
-> 🚪 A gateway is like the main door of your network to the internet. The portal between your LAN and the outside world!
-
-### 17. ⚖️ What is a Load Balancer? 🔴
-
-A) 📝 Distributes traffic across multiple servers
-
-B) 🔄 Balances network speed
-
-C) 📦 Balances CPU usage
-
-D) 🎯 Distributes storage
-
-**Correct Answer**: A) 📝 Distributes traffic across multiple servers
-
-> 🎪 A Load Balancer is like a circus director assigning audience to different tents to avoid overcrowding. Distributes the workload!
-
-### 18. 🔄 What is NAT? 🔴
-
-A) 📝 Translates private IP addresses to public ones
-
-B) 🔄 Routing protocol
-
-C) 📦 Type of firewall
-
-D) 🎯 Name system
-
-**Correct Answer**: A) 📝 Translates private IP addresses to public ones
-
-> 🏢 NAT allows multiple devices with private IPs (192.168.x.x) to share one public IP. Like a building with many apartments but one postal address!
-
-### 19. 📊 What is VLAN? 🔴
-
-A) 📝 Virtual Local Area Network that segments traffic
-
-B) 🔄 Type of virtual cable
-
-C) 📦 Encryption protocol
-
-D) 🎯 Monitoring system
-
-**Correct Answer**: A) 📝 Virtual Local Area Network that segments traffic
-
-> 🏗️ VLANs divide a physical network into separate logical networks. Like having separate departments in the same building!
-
-### 20. 🛰️ What is CDN? 🔴
-
-A) 📝 Content Delivery Network to accelerate content delivery
-
-B) 🔄 Type of satellite connection
-
-C) 📦 Download protocol
-
-D) 🎯 Backup system
-
-**Correct Answer**: A) 📝 Content Delivery Network to accelerate content delivery
-
-> 🚀 CDN puts content copies close to users. Like having local stores instead of buying everything from a distant store!
-
-### 21. 🎯 What are networking best practices? 🔴
-
-A) 📝 Segmentation, redundancy, monitoring, documentation, security
-
-B) 🔄 Only use high-speed cables
-
-C) 📦 Connect everything in one network
-
-D) 🎯 Avoid routing protocols
-
-**Correct Answer**: A) 📝 Segmentation, redundancy, monitoring, documentation, security
-
-> 🏆 Robust networks need: segmentation (VLANs), redundancy (multiple paths), constant monitoring, clear documentation, and layered security. Professional networking!
+> 🏓 `ping` sends packets to check if a host is reachable and measures response time. Your first tool for network troubleshooting!

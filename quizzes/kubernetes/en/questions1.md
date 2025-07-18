@@ -148,150 +148,136 @@ A) 📊 Ensures all nodes run a copy of a Pod
 
 B) 🔧 System daemon
 
-C) 📦 Service set
+C) 📦 Daemon package
 
-D) 🌐 Configuration set
+D) 🌐 Network daemon
 
 **Correct Answer**: A) 📊 Ensures all nodes run a copy of a Pod
 
-> 🏭 DaemonSets are perfect for services that need to run on every node: logging, monitoring, storage drivers.
+> 🔄 DaemonSets run exactly one Pod on each node. Like having a security guard on each floor of a building!
 
-### 12. ⚖️ What is a HorizontalPodAutoscaler? 🔴
+### 12. 🔧 How do you create a Pod from command line? 🟡
 
-A) ⚖️ Automatically scales Pods based on metrics
+A) 🔧 `kubectl run my-pod --image=nginx`
 
-B) 🔧 Horizontal balancer
+B) 🔄 `kube create pod my-pod nginx`
 
-C) 📦 Application scaler
+C) 📦 `k8s run my-pod nginx`
 
-D) 🌐 Load distributor
+D) 🌐 `docker run my-pod nginx`
 
-**Correct Answer**: A) ⚖️ Automatically scales Pods based on metrics
+**Correct Answer**: A) 🔧 `kubectl run my-pod --image=nginx`
 
-> 📈 HPA scales Pods based on CPU, memory, or custom metrics. Like hiring more staff when there's lots of work!
+> ⚡ `kubectl run` is the imperative way to create Pods. For production, prefer declarative YAML files!
 
-### 13. 🔗 What types of Services exist? 🔴
+### 13. 📋 How do you get information about Pods? 🟢
 
-A) 🔗 ClusterIP, NodePort, LoadBalancer, ExternalName
+A) 📋 `kubectl get pods`
 
-B) 🔧 Internal, External, Public, Private
+B) 🔄 `kube list pods`
 
-C) 📦 HTTP, HTTPS, TCP, UDP
+C) 📦 `k8s show pods`
 
-D) 🌐 Frontend, Backend, Database, Cache
+D) 🌐 `docker ps pods`
 
-**Correct Answer**: A) 🔗 ClusterIP, NodePort, LoadBalancer, ExternalName
+**Correct Answer**: A) 📋 `kubectl get pods`
 
-> 🌐 Each type exposes services differently: ClusterIP (internal), NodePort (node port), LoadBalancer (cloud), ExternalName (DNS).
+> 🔍 `kubectl get` shows basic information. Use `kubectl describe pod <name>` for detailed information!
 
-### 14. 🎮 What is kubectl? 🟢
+### 14. 🔍 How do you see Pod logs? 🟢
 
-A) 🎮 Command-line client for Kubernetes
+A) 🔍 `kubectl logs <pod-name>`
 
-B) 🔧 Master component
+B) 🔄 `kube logs <pod-name>`
 
-C) 📦 Kubernetes API
+C) 📦 `k8s logs <pod-name>`
 
-D) 🌐 Web dashboard
+D) 🌐 `docker logs <pod-name>`
 
-**Correct Answer**: A) 🎮 Command-line client for Kubernetes
+**Correct Answer**: A) 🔍 `kubectl logs <pod-name>`
 
-> 🕹️ kubectl is your remote control for Kubernetes. Like a universal remote for managing your entire cluster!
+> 📝 Use `kubectl logs -f <pod-name>` to follow logs in real-time. Add `-c <container-name>` for multi-container Pods!
 
-### 15. 🏗️ What are master and worker nodes? 🟡
+### 15. 🏗️ How do you apply a YAML configuration? 🟡
 
-A) 🏗️ Master manages cluster, workers run applications
+A) 🏗️ `kubectl apply -f config.yaml`
 
-B) 🔧 Master stores data, workers process
+B) 🔄 `kube apply config.yaml`
 
-C) 📦 Master is primary, worker is secondary
+C) 📦 `k8s deploy config.yaml`
 
-D) 🌐 Master connects, worker works
+D) 🌐 `docker apply config.yaml`
 
-**Correct Answer**: A) 🏗️ Master manages cluster, workers run applications
+**Correct Answer**: A) 🏗️ `kubectl apply -f config.yaml`
 
-> 👑 The master (control plane) makes decisions, workers (worker nodes) execute Pods. Like a manager and their employees!
+> 📄 `kubectl apply` is declarative - it creates or updates resources. Use `kubectl create` for imperative creation!
 
-### 16. 📋 What is a Job in Kubernetes? 🔴
+### 16. 🗑️ How do you delete a Pod? 🟢
 
-A) 📋 Runs Pods until completing a specific task
+A) 🗑️ `kubectl delete pod <pod-name>`
 
-B) 🔧 Maintenance work
+B) 🔄 `kube delete <pod-name>`
 
-C) 📦 Scheduled task
+C) 📦 `k8s remove <pod-name>`
 
-D) 🌐 Network job
+D) 🌐 `docker rm <pod-name>`
 
-**Correct Answer**: A) 📋 Runs Pods until completing a specific task
+**Correct Answer**: A) 🗑️ `kubectl delete pod <pod-name>`
 
-> ✅ Jobs execute tasks that must complete: batch processing, migrations, backups. Like assigning a specific task with a deadline!
+> ⚠️ Be careful! Deleting Pods managed by Deployments will trigger recreation. Delete the Deployment instead!
 
-### 17. ⏰ What is a CronJob? 🔴
+### 17. 🌐 How do you expose a Deployment as a Service? 🟡
 
-A) ⏰ Job that runs on a scheduled time
+A) 🌐 `kubectl expose deployment <name> --type=LoadBalancer --port=80`
 
-B) 🔧 System cron task
+B) 🔄 `kube expose <name> --port=80`
 
-C) 📦 Timed job
+C) 📦 `k8s service <name> --port=80`
 
-D) 🌐 Task scheduler
+D) 🔧 `docker expose <name> --port=80`
 
-**Correct Answer**: A) ⏰ Job that runs on a scheduled time
+**Correct Answer**: A) 🌐 `kubectl expose deployment <name> --type=LoadBalancer --port=80`
 
-> 📅 CronJobs are like scheduled tasks: daily backups, weekly reports, monthly cleanups. Temporal automation!
+> 🚪 This creates a Service that routes traffic to Pods managed by the Deployment. Choose the right service type for your needs!
 
-### 18. 🔧 What components does the Control Plane have? 🔴
+### 18. 🔧 How do you scale a Deployment? 🟡
 
-A) 🔧 API Server, etcd, Scheduler, Controller Manager
+A) 🔧 `kubectl scale deployment <name> --replicas=5`
 
-B) 🏗️ Master, Worker, Storage, Network
+B) 🔄 `kube scale <name> --replicas=5`
 
-C) 📦 Frontend, Backend, Database, Cache
+C) 📦 `k8s scale <name> 5`
 
-D) 🌐 Load Balancer, Proxy, Gateway, Router
+D) 🌐 `docker scale <name> 5`
 
-**Correct Answer**: A) 🔧 API Server, etcd, Scheduler, Controller Manager
+**Correct Answer**: A) 🔧 `kubectl scale deployment <name> --replicas=5`
 
-> 🧠 The Control Plane is the brain: API Server (communicates), etcd (stores), Scheduler (plans), Controller Manager (maintains state).
+> 📈 Scaling adjusts the number of Pod replicas. Kubernetes will create or destroy Pods to match the desired count!
 
-### 19. 🌐 What is CNI in Kubernetes? 🔴
+### 19. 🔍 How do you get detailed information about a resource? 🟡
 
-A) 🌐 Standard interface for network plugins
+A) 🔍 `kubectl describe <resource-type> <name>`
 
-B) 🔧 Internal network component
+B) 🔄 `kube describe <name>`
 
-C) 📦 Network controller
+C) 📦 `k8s info <name>`
 
-D) 🎯 Network API
+D) 🌐 `docker inspect <name>`
 
-**Correct Answer**: A) 🌐 Standard interface for network plugins
+**Correct Answer**: A) 🔍 `kubectl describe <resource-type> <name>`
 
-> 🔌 CNI (Container Network Interface) enables different network solutions: Calico, Flannel, Weave. Like different types of internet connection!
+> 📋 `kubectl describe` shows detailed information including events. Very useful for troubleshooting!
 
-### 20. 🛡️ What is RBAC in Kubernetes? 🔴
+### 20. ⚙️ How do you edit a resource directly? 🔴
 
-A) 🛡️ Role-based access control
+A) ⚙️ `kubectl edit <resource-type> <name>`
 
-B) 🔧 Authentication system
+B) 🔄 `kube edit <name>`
 
-C) 📦 Role configuration
+C) 📦 `k8s modify <name>`
 
-D) 🌐 Network control
+D) 🌐 `vim <name>`
 
-**Correct Answer**: A) 🛡️ Role-based access control
+**Correct Answer**: A) ⚙️ `kubectl edit <resource-type> <name>`
 
-> 🔐 RBAC defines who can do what in the cluster. Roles + RoleBindings = specific permissions. Like access badges in a company!
-
-### 21. 🎯 What are Kubernetes best practices? 🔴
-
-A) 🎯 Use namespaces, resource limits, health checks, security policies
-
-B) 🔧 Only use Pods directly
-
-C) 📦 Don't use Services
-
-D) 🌐 Avoid ConfigMaps
-
-**Correct Answer**: A) 🎯 Use namespaces, resource limits, health checks, security policies
-
-> 🏆 Best practices: organize with namespaces, define resource limits, implement liveness/readiness probes, use RBAC, apply network policies. Professional Kubernetes!
+> ✏️ Opens the resource in your default editor. Changes are applied immediately. Prefer declarative YAML files for production!

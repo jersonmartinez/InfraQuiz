@@ -52,246 +52,232 @@ B) 🔄 Amazon EC2
 
 C) 📦 Amazon RDS
 
-D) 🎯 Amazon VPC
+D) 🎯 Amazon Lambda
 
 **Respuesta correcta**: A) 📝 Amazon S3
 
-> 💡 Amazon S3 (Simple Storage Service) está diseñado para almacenar y recuperar cualquier cantidad de datos desde cualquier lugar. ¡Perfecto para backups, sitios web estáticos y archivado de datos!
+> ☁️ Amazon S3 (Simple Storage Service) está diseñado para almacenar y recuperar cualquier cantidad de datos desde cualquier lugar. ¡Perfecto para backups, sitios web estáticos y archivado de datos!
 
-### 5. ❓ ¿Cuál es el propósito de un Pod en Kubernetes? 🟡
+### 5. ❓ ¿Cuál es el propósito de `kubectl` en Kubernetes? 🟡
 
-A) 📝 Agrupar uno o más contenedores que comparten recursos
+A) 📝 Herramienta de línea de comandos para interactuar con clústeres de Kubernetes
 
-B) 🔄 Almacenar configuración de aplicaciones
+B) 🔄 Formato de archivo de configuración
 
-C) 📦 Gestionar el tráfico de red
+C) 📦 Runtime de contenedor
 
-D) 🎯 Monitorear el estado del clúster
+D) 🎯 Plugin de red
 
-**Respuesta correcta**: A) 📝 Agrupar uno o más contenedores que comparten recursos
+**Respuesta correcta**: A) 📝 Herramienta de línea de comandos para interactuar con clústeres de Kubernetes
 
-> 💡 Los Pods son la unidad de despliegue más pequeña en Kubernetes, conteniendo uno o más contenedores que comparten almacenamiento y red. ¡Como roommates que comparten apartamento!
+> ☸️ `kubectl` es tu interfaz principal para clústeres de Kubernetes. ¡Como un control remoto para tus aplicaciones en contenedores!
 
-### 6. ❓ ¿Cuál es el puerto por defecto para HTTPS? 🟢
+### 6. ❓ ¿Qué comando crea una nueva rama en Git? 🟢
 
-A) 📝 443
+A) 📝 `git branch nueva-caracteristica` o `git checkout -b nueva-caracteristica`
 
-B) 🔄 80
+B) 🔄 `git create branch nueva-caracteristica`
 
-C) 📦 8080
+C) 📦 `git new-branch nueva-caracteristica`
 
-D) 🎯 22
+D) 🎯 `git add branch nueva-caracteristica`
 
-**Respuesta correcta**: A) 📝 443
+**Respuesta correcta**: A) 📝 `git branch nueva-caracteristica` o `git checkout -b nueva-caracteristica`
 
-> 💡 HTTPS usa el puerto 443 por defecto, mientras HTTP usa el 80. ¡Recordar estos números es esencial para administración de redes!
+> 🌳 `git branch` crea sin cambiar, mientras que `git checkout -b` crea y cambia en un comando. ¡Git moderno también soporta `git switch -c`!
 
-### 7. ❓ ¿Qué es un CI/CD pipeline? 🟡
+### 7. ❓ ¿Cuál es el propósito principal de Ansible? 🟡
 
-A) 📝 Proceso automatizado para integración y despliegue continuo
+A) 📝 Gestión de configuración y automatización
 
-B) 🔄 Sistema de monitoreo de aplicaciones
+B) 🔄 Orquestación de contenedores
 
-C) 📦 Herramienta de gestión de bases de datos
+C) 📦 Control de versiones
 
-D) 🎯 Protocolo de comunicación de red
+D) 🎯 Gestión de bases de datos
 
-**Respuesta correcta**: A) 📝 Proceso automatizado para integración y despliegue continuo
+**Respuesta correcta**: A) 📝 Gestión de configuración y automatización
 
-> 💡 CI/CD automatiza la construcción, prueba y despliegue de código. ¡Como una línea de ensamblaje para software!
+> 🔧 Ansible automatiza el aprovisionamiento de software, gestión de configuración y despliegue de aplicaciones usando simples playbooks YAML. ¡Sin agentes y poderoso!
 
-### 8. ❓ ¿Cuál es la diferencia principal entre TCP y UDP? 🟡
+### 8. ❓ ¿Qué protocolo se usa comúnmente para acceso remoto seguro? 🟢
 
-A) 📝 TCP es confiable y orientado a conexión, UDP es rápido pero no confiable
+A) 📝 SSH (Secure Shell)
 
-B) 🔄 TCP es más lento, UDP es para video
+B) 🔄 HTTP
 
-C) 📦 TCP es para internet, UDP para redes locales
+C) 📦 FTP
 
-D) 🎯 No hay diferencia significativa
+D) 🎯 Telnet
 
-**Respuesta correcta**: A) 📝 TCP es confiable y orientado a conexión, UDP es rápido pero no confiable
+**Respuesta correcta**: A) 📝 SSH (Secure Shell)
 
-> 💡 TCP garantiza la entrega de datos pero es más lento. UDP es rápido pero puede perder paquetes. ¡Como correo certificado vs. postal normal!
+> 🔒 SSH proporciona comunicación cifrada entre computadoras sobre una red insegura. ¡La columna vertebral de la administración remota segura!
 
-### 9. ❓ ¿Qué es Ansible? 🟢
+### 9. ❓ ¿Qué significa CI/CD? 🟡
 
-A) 📝 Herramienta de automatización de configuración
+A) 📝 Integración Continua / Despliegue Continuo
 
-B) 🔄 Base de datos NoSQL
+B) 🔄 Integración de Código / Despliegue de Código
 
-C) 📦 Lenguaje de programación
+C) 📦 Mejora Continua / Desarrollo Continuo
 
-D) 🎯 Sistema operativo
+D) 🎯 Integración Central / Despliegue Central
 
-**Respuesta correcta**: A) 📝 Herramienta de automatización de configuración
+**Respuesta correcta**: A) 📝 Integración Continua / Despliegue Continuo
 
-> 💡 Ansible automatiza la configuración, aprovisionamiento y gestión de sistemas usando archivos YAML simples. ¡Como tener un asistente que configura servidores!
+> 🔄 CI/CD automatiza el proceso de entrega de software, permitiendo a los equipos entregar características más rápido y confiablemente a través de pruebas y despliegue automatizados!
 
-### 10. ❓ ¿Cuál es el propósito de un Load Balancer? 🟡
+### 10. ❓ ¿Qué archivo contiene típicamente variables de entorno en Docker? 🟡
 
-A) 📝 Distribuir tráfico entre múltiples servidores
+A) 📝 Archivo `.env` o variables de entorno en `docker-compose.yml`
 
-B) 🔄 Almacenar datos de aplicaciones
+B) 🔄 `config.txt`
 
-C) 📦 Monitorear el rendimiento del sistema
+C) 📦 `settings.ini`
 
-D) 🎯 Gestionar usuarios y permisos
+D) 🎯 `variables.conf`
 
-**Respuesta correcta**: A) 📝 Distribuir tráfico entre múltiples servidores
+**Respuesta correcta**: A) 📝 Archivo `.env` o variables de entorno en `docker-compose.yml`
 
-> 💡 Los Load Balancers distribuyen las solicitudes entrantes entre varios servidores para mejorar disponibilidad y rendimiento. ¡Como un director de tráfico para tu aplicación!
+> 🌍 Las variables de entorno ayudan a configurar aplicaciones sin hardcodear valores. ¡Docker Compose carga automáticamente archivos `.env`!
 
-### 11. ❓ ¿Qué es el SSL/TLS? 🟡
+### 11. ❓ ¿Cuál es el puerto predeterminado para tráfico HTTP? 🟢
 
-A) 📝 Protocolo de seguridad para comunicaciones en internet
+A) 📝 Puerto 80
 
-B) 🔄 Sistema de gestión de bases de datos
+B) 🔄 Puerto 443
 
-C) 📦 Lenguaje de consulta de datos
+C) 📦 Puerto 22
 
-D) 🎯 Herramienta de monitoreo
+D) 🎯 Puerto 8080
 
-**Respuesta correcta**: A) 📝 Protocolo de seguridad para comunicaciones en internet
+**Respuesta correcta**: A) 📝 Puerto 80
 
-> 💡 SSL/TLS cifra las comunicaciones entre cliente y servidor, asegurando que los datos no puedan ser interceptados. ¡Como un túnel seguro para tus datos!
+> 🌐 El puerto 80 es el estándar para tráfico HTTP, mientras que 443 es para HTTPS. Puerto 22 es para SSH, ¡y 8080 se usa a menudo para servidores de desarrollo!
 
-### 12. ❓ ¿Cuál es la diferencia entre un contenedor y una máquina virtual? 🔴
+### 12. ❓ ¿Qué comando muestra procesos en ejecución en Linux? 🟢
 
-A) 📝 Los contenedores comparten el kernel del SO, las VMs tienen SO completo
+A) 📝 `ps` o `ps aux`
 
-B) 🔄 Los contenedores son más lentos que las VMs
+B) 🔄 `list processes`
 
-C) 📦 Las VMs usan menos recursos que los contenedores
+C) 📦 `show processes`
 
-D) 🎯 No hay diferencia práctica
+D) 🎯 `processes`
 
-**Respuesta correcta**: A) 📝 Los contenedores comparten el kernel del SO, las VMs tienen SO completo
+**Respuesta correcta**: A) 📝 `ps` o `ps aux`
 
-> 💡 Los contenedores son más eficientes porque comparten el kernel del host, mientras las VMs necesitan un SO completo cada una. ¡Contenedores = apartamentos, VMs = casas individuales!
+> 💻 `ps aux` muestra todos los procesos con información detallada. ¡También prueba `top` o `htop` para monitoreo de procesos en tiempo real!
 
-### 13. ❓ ¿Qué es DevOps? 🟢
+### 13. ❓ ¿Cuál es el propósito del balanceador de carga? 🟡
 
-A) 📝 Cultura que une desarrollo y operaciones para acelerar entregas
+A) 📝 Distribuir solicitudes entrantes entre múltiples servidores
 
-B) 🔄 Nueva herramienta de programación
+B) 🔄 Balancear la carga en la CPU
 
-C) 📦 Sistema operativo especializado
+C) 📦 Gestionar el uso de memoria
 
-D) 🎯 Lenguaje de configuración
+D) 🎯 Controlar el ancho de banda de red
 
-**Respuesta correcta**: A) 📝 Cultura que une desarrollo y operaciones para acelerar entregas
+**Respuesta correcta**: A) 📝 Distribuir solicitudes entrantes entre múltiples servidores
 
-> 💡 DevOps es una cultura y conjunto de prácticas que combinan desarrollo de software y operaciones IT para acortar ciclos de desarrollo. ¡Teamwork makes the dream work!
+> ⚖️ El balanceador de carga asegura que ningún servidor se sobrecargue mientras mejora la disponibilidad y tiempos de respuesta. ¡Esencial para aplicaciones escalables!
 
-### 14. ❓ ¿Cuál es el propósito principal de Prometheus? 🔴
+### 14. ❓ ¿Qué comando verifica la conectividad de red a un host? 🟢
 
-A) 📝 Sistema de monitoreo y alertas
+A) 📝 `ping`
 
-B) 🔄 Base de datos relacional
+B) 🔄 `connect`
 
-C) 📦 Orquestador de contenedores
+C) 📦 `network`
 
-D) 🎯 Servidor web
+D) 🎯 `check`
 
-**Respuesta correcta**: A) 📝 Sistema de monitoreo y alertas
+**Respuesta correcta**: A) 📝 `ping`
 
-> 💡 Prometheus recolecta métricas de aplicaciones y sistemas, permitiendo monitoreo y alertas en tiempo real. ¡Como el sistema nervioso de tu infraestructura!
+> 🏓 `ping` envía paquetes ICMP para probar conectividad de red y medir tiempo de ida y vuelta. ¡Tu primera herramienta para resolución de problemas de red!
 
-### 15. ❓ ¿Qué es un microservicio? 🔴
+### 15. ❓ ¿Cuál es el propósito principal del monitoreo en DevOps? 🟡
 
-A) 📝 Arquitectura donde la aplicación se divide en servicios pequeños e independientes
+A) 📝 Rastrear rendimiento del sistema y detectar problemas proactivamente
 
-B) 🔄 Servicio muy pequeño en tamaño de archivo
+B) 🔄 Monitorear productividad de empleados
 
-C) 📦 Servicio que usa pocos recursos
+C) 📦 Observar solo tráfico de red
 
-D) 🎯 Servicio que solo funciona en containers
+D) 🎯 Controlar permisos de acceso
 
-**Respuesta correcta**: A) 📝 Arquitectura donde la aplicación se divide en servicios pequeños e independientes
+**Respuesta correcta**: A) 📝 Rastrear rendimiento del sistema y detectar problemas proactivamente
 
-> 💡 Los microservicios descomponen aplicaciones monolíticas en servicios independientes que se comunican vía APIs. ¡Como un equipo donde cada miembro tiene su especialidad!
+> 📊 El monitoreo proporciona visibilidad del estado del sistema, permitiendo a los equipos detectar y resolver problemas antes de que impacten a los usuarios. ¡Prevenir es mejor que curar!
 
-### 16. ❓ ¿Cuál es la diferencia entre git merge y git rebase? 🔴
+### 16. ❓ ¿Qué herramienta se usa comúnmente para orquestación de contenedores? 🟡
 
-A) 📝 Merge conserva historial, rebase reescribe historial de forma lineal
+A) 📝 Kubernetes
 
-B) 🔄 Merge es más rápido, rebase es más lento
+B) 🔄 Git
 
-C) 📦 Merge es para ramas locales, rebase para remotas
+C) 📦 Jenkins
 
-D) 🎯 No hay diferencia funcional
+D) 🎯 Terraform
 
-**Respuesta correcta**: A) 📝 Merge conserva historial, rebase reescribe historial de forma lineal
+**Respuesta correcta**: A) 📝 Kubernetes
 
-> 💡 Merge preserva la historia exacta con commits de merge, rebase reescribe commits para crear un historial lineal más limpio. ¡Elige según si prefieres precisión o claridad!
+> ☸️ Kubernetes automatiza el despliegue, escalado y gestión de aplicaciones en contenedores. ¡El estándar de facto para orquestación de contenedores!
 
-### 17. ❓ ¿Qué es la escalabilidad horizontal vs vertical? 🔴
+### 17. ❓ ¿Cuál es el propósito de un firewall? 🟢
 
-A) 📝 Horizontal: más servidores, Vertical: más potencia al mismo servidor
+A) 📝 Controlar tráfico de red entrante y saliente basado en reglas de seguridad
 
-B) 🔄 Horizontal: más rápido, Vertical: más lento
+B) 🔄 Prevenir incendios en centros de datos
 
-C) 📦 Horizontal: para bases de datos, Vertical: para web
+C) 📦 Acelerar conexiones de red
 
-D) 🎯 Horizontal: AWS, Vertical: Azure
+D) 🎯 Gestionar autenticación de usuarios
 
-**Respuesta correcta**: A) 📝 Horizontal: más servidores, Vertical: más potencia al mismo servidor
+**Respuesta correcta**: A) 📝 Controlar tráfico de red entrante y saliente basado en reglas de seguridad
 
-> 💡 Escalar horizontalmente es añadir más máquinas, verticalmente es mejorar la máquina existente. ¡Como contratar más empleados vs. entrenar mejor a los actuales!
+> 🛡️ Los firewalls actúan como barreras entre redes confiables y no confiables, filtrando tráfico basado en reglas de seguridad predeterminadas. ¡Tu primera línea de defensa!
 
-### 18. ❓ ¿Qué es un webhook? 🔴
+### 18. ❓ ¿Qué comando se usa para cambiar permisos de archivo en Linux? 🟢
 
-A) 📝 Mecanismo para notificar eventos HTTP en tiempo real
+A) 📝 `chmod`
 
-B) 🔄 Tipo especial de URL
+B) 🔄 `chown`
 
-C) 📦 Herramienta de debugging
+C) 📦 `permission`
 
-D) 🎯 Protocolo de red
+D) 🎯 `access`
 
-**Respuesta correcta**: A) 📝 Mecanismo para notificar eventos HTTP en tiempo real
+**Respuesta correcta**: A) 📝 `chmod`
 
-> 💡 Los webhooks permiten que aplicaciones se notifiquen automáticamente cuando ocurren eventos. ¡Como tener un timbre que suena cuando algo importante sucede!
+> 🔒 `chmod` (change mode) modifica permisos de archivo. ¡Recuerda: `chown` cambia propietario, `chmod` cambia permisos!
 
-### 19. ❓ ¿Cuál es el propósito de un API Gateway? 🔴
+### 19. ❓ ¿Qué significa API? 🟢
 
-A) 📝 Punto de entrada único que gestiona y enruta solicitudes a microservicios
+A) 📝 Interfaz de Programación de Aplicaciones
 
-B) 🔄 Base de datos para APIs
+B) 🔄 Integración de Programa Automatizado
 
-C) 📦 Herramienta de testing de APIs
+C) 📦 Implementación de Programación Avanzada
 
-D) 🎯 Servidor web especializado
+D) 🎯 Interfaz de Protocolo de Aplicación
 
-**Respuesta correcta**: A) 📝 Punto de entrada único que gestiona y enruta solicitudes a microservicios
+**Respuesta correcta**: A) 📝 Interfaz de Programación de Aplicaciones
 
-> 💡 Un API Gateway actúa como proxy reverso, manejando autenticación, rate limiting, y enrutamiento a servicios backend. ¡Como la recepción de un edificio de oficinas!
+> 🔌 Las APIs permiten que diferentes aplicaciones de software se comuniquen entre sí. ¡Como puentes que conectan diferentes sistemas y servicios!
 
-### 20. ❓ ¿Qué es Infrastructure as Code (IaC)? 🔴
+### 20. ❓ ¿Qué código de estado HTTP indica una solicitud exitosa? 🟡
 
-A) 📝 Gestionar infraestructura usando archivos de configuración versionables
+A) 📝 200 OK
 
-B) 🔄 Programar aplicaciones que gestionan infraestructura
+B) 🔄 404 Not Found
 
-C) 📦 Documentar infraestructura en código
+C) 📦 500 Internal Server Error
 
-D) 🎯 Automatizar solo el despliegue
+D) 🎯 301 Moved Permanently
 
-**Respuesta correcta**: A) 📝 Gestionar infraestructura usando archivos de configuración versionables
+**Respuesta correcta**: A) 📝 200 OK
 
-> 💡 IaC permite versionar, revisar y reproducir infraestructura como cualquier código fuente. ¡Como tener planos de construcción para tu infraestructura!
-
-### 21. ❓ ¿Cuál es la mejor práctica para secretos en contenedores? 🔴
-
-A) 📝 Usar sistemas de gestión de secretos externos, nunca hardcodear
-
-B) 🔄 Guardar secretos en variables de entorno
-
-C) 📦 Incluir secretos en la imagen del contenedor
-
-D) 🎯 Usar archivos de configuración
-
-**Respuesta correcta**: A) 📝 Usar sistemas de gestión de secretos externos, nunca hardcodear
-
-> 💡 Los secretos deben manejarse con herramientas especializadas como Kubernetes Secrets, HashiCorp Vault, AWS Secrets Manager. ¡La seguridad no es negociable!
+> ✅ HTTP 200 significa "¡todo está bien!" Otros códigos comunes: 404 (no encontrado), 500 (error del servidor), 301 (redirección). ¡Conoce tus códigos de estado!
