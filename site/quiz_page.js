@@ -31,12 +31,24 @@ function getTranslations() {
 }
 
 /**
- * Enhanced markdown renderer for quiz content
+ * Enhanced markdown renderer for quiz content with emoji preservation
  */
 function renderMarkdown(text) {
     if (!text) return '';
     
-    return text
+    // Preserve leading emoji if present
+    const emojiMatch = text.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉)\s*/u);
+    
+    let emoji = '';
+    let cleanText = text;
+    
+    if (emojiMatch) {
+        emoji = emojiMatch[1];
+        cleanText = text.replace(emojiMatch[0], '').trim();
+    }
+    
+    // Apply markdown formatting to the remaining text
+    const formattedText = cleanText
         // Bold text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         // Italic text
@@ -51,8 +63,10 @@ function renderMarkdown(text) {
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
         // Line breaks
         .replace(/\n/g, '<br>')
-        // Preserve emojis and special characters
         .trim();
+    
+    // Return with emoji if present
+    return emoji ? `<span class="explanation-emoji">${emoji}</span> ${formattedText}` : formattedText;
 }
 
 /**
@@ -72,16 +86,30 @@ function formatQuestionText(text) {
 }
 
 /**
- * Optimized markdown for options - minimal styling
+ * Enhanced markdown for options - preserves emojis and formatting
  */
 function formatOptionText(text) {
     if (!text) return '';
     
-    // Very light markdown for options to maintain readability
-    return text
+    // Preserve leading emoji if present
+    const emojiMatch = text.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉)\s*/u);
+    
+    let emoji = '';
+    let cleanText = text;
+    
+    if (emojiMatch) {
+        emoji = emojiMatch[1];
+        cleanText = text.replace(emojiMatch[0], '').trim();
+    }
+    
+    // Apply light markdown to the remaining text
+    const formattedText = cleanText
         .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .trim();
+    
+    // Return with emoji if present
+    return emoji ? `<span class="option-emoji">${emoji}</span> ${formattedText}` : formattedText;
 }
 
 function showNotification(message, type = 'info') {
@@ -933,8 +961,209 @@ function getDifficultyBadge(difficulty) {
     return `<span class="badge bg-${badgeColors[difficulty]} difficulty-badge">${difficultyLabels[difficulty]}</span>`;
 }
 
-// === INITIALIZATION ===
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('📚 Quiz page DOM loaded, initializing...');
-    initializeQuiz();
-});
+/**
+ * Handle language change during quiz
+ */
+function handleLanguageChange() {
+    const languageSelect = document.getElementById('languageSelect');
+    if (!languageSelect) return;
+    
+    languageSelect.addEventListener('change', function() {
+        const newLanguage = this.value;
+        const currentLanguage = getCurrentLanguage();
+        
+        if (newLanguage !== currentLanguage) {
+            console.log(`🌍 Language changed from ${currentLanguage} to ${newLanguage}`);
+            
+            // Update localStorage
+            localStorage.setItem('infraquiz_language', newLanguage);
+            
+            // If we're in a quiz, reload the quiz in the new language
+            if (currentQuiz && currentQuiz.length > 0) {
+                const currentCategory = getCurrentQuizCategory();
+                const currentQuizFile = getCurrentQuizFile();
+                
+                if (currentCategory && currentQuizFile) {
+                    console.log(`🔄 Reloading quiz in ${newLanguage}: ${currentCategory}/${currentQuizFile}`);
+                    
+                    // Save current state
+                    const savedState = {
+                        questionIndex: currentQuestionIndex,
+                        score: score,
+                        answers: userAnswers.slice() // Copy array
+                    };
+                    
+                    // Load quiz in new language
+                    loadQuiz(currentCategory, currentQuizFile, newLanguage)
+                        .then(() => {
+                            // Restore state if quiz loaded successfully
+                            if (savedState.questionIndex < currentQuiz.length) {
+                                currentQuestionIndex = savedState.questionIndex;
+                                score = savedState.score;
+                                userAnswers = savedState.answers;
+                                
+                                // Show current question
+                                showQuestion();
+                                console.log(`✅ Quiz state restored at question ${currentQuestionIndex + 1}`);
+                            } else {
+                                // Start from beginning if state is invalid
+                                console.log(`⚠️ Invalid state, starting from beginning`);
+                                startQuiz();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('❌ Error reloading quiz in new language:', error);
+                            showError('Error loading quiz in the selected language. Please try again.');
+                        });
+                } else {
+                    console.log('🔄 Not in quiz, just applying translations');
+                }
+            }
+            
+            // Apply translations to current page
+            applyQuizTranslations();
+        }
+    });
+}
+
+/**
+ * Get current quiz category from URL or stored state
+ */
+function getCurrentQuizCategory() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('category') || localStorage.getItem('infraquiz_current_category');
+}
+
+/**
+ * Get current quiz file from URL or stored state
+ */
+function getCurrentQuizFile() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('quiz') || localStorage.getItem('infraquiz_current_quiz');
+}
+
+/**
+ * Enhanced loadQuiz function with language parameter
+ */
+async function loadQuiz(category, quizFile, language = null) {
+    const lang = language || getCurrentLanguage();
+    const langFolder = lang === 'en' ? 'en' : 'es';
+    
+    // Store current quiz info
+    localStorage.setItem('infraquiz_current_category', category);
+    localStorage.setItem('infraquiz_current_quiz', quizFile);
+    
+    try {
+        showLoadingState();
+        
+        const quizUrl = `${CONFIG.GITHUB_RAW_BASE_URL}/quizzes/${category}/${langFolder}/${quizFile}`;
+        console.log(`📥 Loading quiz from: ${quizUrl}`);
+        
+        const response = await fetch(quizUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const content = await response.text();
+        console.log(`✅ Quiz content loaded (${content.length} characters)`);
+        
+        currentQuiz = parseQuizContent(content);
+        
+        if (!currentQuiz || currentQuiz.length === 0) {
+            throw new Error('No valid questions found in quiz file');
+        }
+        
+        console.log(`✅ Quiz parsed successfully: ${currentQuiz.length} questions`);
+        
+        // Reset quiz state
+        currentQuestionIndex = 0;
+        score = 0;
+        userAnswers = [];
+        
+        hideLoadingState();
+        return Promise.resolve();
+        
+    } catch (error) {
+        console.error('❌ Error loading quiz:', error);
+        hideLoadingState();
+        throw error;
+    }
+}
+
+/**
+ * Scroll to top functionality
+ */
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+/**
+ * Show/hide scroll to top button based on scroll position
+ */
+function handleScrollToTop() {
+    const scrollBtn = document.getElementById('scrollToTopBtn');
+    if (!scrollBtn) return;
+    
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            scrollBtn.classList.add('visible');
+        } else {
+            scrollBtn.classList.remove('visible');
+        }
+    });
+}
+
+/**
+ * Enhanced initialization with all event handlers
+ */
+function initializeQuizPage() {
+    console.log('🚀 Initializing quiz page...');
+    
+    // Initialize dark mode
+    initializeDarkMode();
+    
+    // Apply initial translations
+    applyQuizTranslations();
+    
+    // Setup language change handler
+    handleLanguageChange();
+    
+    // Setup scroll to top
+    handleScrollToTop();
+    
+    // Setup quiz navigation
+    setupQuizNavigation();
+    
+    // Load quiz if category and quiz parameters are present
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const quiz = urlParams.get('quiz');
+    
+    if (category && quiz) {
+        console.log(`📚 Loading quiz: ${category}/${quiz}`);
+        loadQuiz(category, quiz)
+            .then(() => {
+                startQuiz();
+            })
+            .catch(error => {
+                console.error('❌ Error loading initial quiz:', error);
+                showError('Error loading quiz. Please try again.');
+            });
+    } else {
+        console.log('⚠️ No quiz parameters found in URL');
+        showError('No quiz selected. Please go back to categories.');
+    }
+}
+
+// Initialize when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeQuizPage);
+} else {
+    initializeQuizPage();
+}
+
+// Make scrollToTop globally available
+window.scrollToTop = scrollToTop;

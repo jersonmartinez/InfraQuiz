@@ -99,31 +99,29 @@
         </div>
 
         <!-- Quiz Content -->
-        <div id="quizContent" style="display: none;">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-xl-7">
-                    <!-- Progress Indicator -->
-                    <div id="quizProgressIndicator" class="quiz-progress-indicator mb-4"></div>
-
-                    <!-- Question Card -->
-                    <div class="card quiz-card">
-                        <div class="card-body">
-                            <div id="questionText" class="card-title mb-4 fw-bold"></div>
-                            
-                            <!-- Options Container -->
-                            <div id="optionsContainer" class="list-group list-group-flush mb-4"></div>
-                            
-                            <!-- Feedback Section -->
-                            <div id="feedback" class="d-none"></div>
-                            
-                            <!-- Navigation -->
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button id="backToCategoriesBtn" class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-left me-2"></i><span data-lang-key="back_to_categories">Volver a Categorías</span>
-                                </button>
-                                <button id="nextQuestionBtn" class="btn btn-primary" style="display: none;">
-                                    <span data-lang-key="next_question">Siguiente Pregunta</span> <i class="bi bi-arrow-right ms-2"></i>
-                                </button>
+        <div id="quizContent" style="display: none;" class="quiz-container">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-md-10">
+                        <!-- Progress Indicator -->
+                        <div id="progressIndicator" class="quiz-progress-indicator"></div>
+                        
+                        <!-- Quiz Card -->
+                        <div class="quiz-card">
+                            <div class="card-body">
+                                <div id="questionText"></div>
+                                <div id="optionsContainer" class="list-group mt-4"></div>
+                                <div id="feedback" class="d-none"></div>
+                                <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <button id="backToCategoriesBtn" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left me-2"></i>
+                                        <span data-lang-key="back_to_categories">Volver a Categorías</span>
+                                    </button>
+                                    <button id="nextQuestionBtn" class="btn btn-primary" style="display: none;">
+                                        <span data-lang-key="next_question">Siguiente Pregunta</span>
+                                        <i class="bi bi-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -131,27 +129,44 @@
             </div>
         </div>
 
-        <!-- Quiz Results -->
-        <div id="quizResults" class="text-center py-5" style="display: none;">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="card quiz-card">
-                        <div class="card-body">
-                            <div id="finalScore"></div>
-                            
-                            <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
-                                <button id="restartQuizBtn" class="btn btn-primary">
-                                    <i class="bi bi-arrow-clockwise me-2"></i><span data-lang-key="restart_quiz">Reiniciar Cuestionario</span>
-                                </button>
-                                <button id="backToCategoriesResultsBtn" class="btn btn-outline-primary">
-                                    <i class="bi bi-arrow-left me-2"></i><span data-lang-key="back_to_categories">Volver a Categorías</span>
-                                </button>
+        <!-- Results Screen -->
+        <div id="resultsScreen" style="display: none;" class="quiz-results-container">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="quiz-card text-center">
+                            <div class="card-body">
+                                <div id="resultsContent"></div>
+                                <div class="mt-4">
+                                    <button id="restartQuizBtn" class="btn btn-primary me-3">
+                                        <i class="bi bi-arrow-repeat me-2"></i>
+                                        <span data-lang-key="restart_quiz">Reiniciar Quiz</span>
+                                    </button>
+                                    <button id="backToCategoriesFromResultsBtn" class="btn btn-outline-secondary">
+                                        <i class="bi bi-grid me-2"></i>
+                                        <span data-lang-key="back_to_categories">Volver a Categorías</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="quiz-footer">
+            <div class="container">
+                <div class="text-center">
+                    <button id="scrollToTopBtn" class="btn-scroll-top" onclick="scrollToTop()">
+                        <i class="bi bi-arrow-up"></i>
+                    </button>
+                    <p class="footer-text">
+                        <span data-lang-key="footer_text">InfraQuiz - Mejora tus conocimientos de infraestructura</span>
+                    </p>
+                </div>
+            </div>
+        </footer>
     </main>
 
     <!-- Scripts -->
