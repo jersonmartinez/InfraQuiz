@@ -39,7 +39,7 @@ function getTranslations() {
 }
 
 /**
- * Enhanced markdown renderer for quiz content with proper emoji handling
+ * Enhanced markdown renderer that preserves original structure
  */
 function renderMarkdown(text) {
     if (!text) return '';
@@ -52,27 +52,13 @@ function renderMarkdown(text) {
         .replace(/\ufffd/g, '') // Remove replacement characters
         .trim();
     
-    // Extract leading emoji more carefully
-    const emojiPattern = /([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉)/u;
-    
-    let emoji = '';
-    let textContent = cleanText;
-    
-    // Extract first emoji if present
-    const emojiMatch = cleanText.match(emojiPattern);
-    if (emojiMatch) {
-        emoji = emojiMatch[0];
-        textContent = cleanText.replace(emoji, '').trim();
-        console.log('📝 Extracted emoji:', emoji);
-    }
-    
-    // Apply markdown formatting to the remaining text
-    const formattedText = textContent
+    // Apply markdown formatting preserving the original structure
+    const formattedText = cleanText
         // Bold text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         // Italic text
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        // Inline code - improved with length detection
+        // Inline code - improved with better alignment
         .replace(/`([^`]+)`/g, (match, code) => {
             const isLong = code.length > 20;
             const className = isLong ? 'quiz-code long-code' : 'quiz-code';
@@ -84,13 +70,8 @@ function renderMarkdown(text) {
         .replace(/\n/g, '<br>')
         .trim();
     
-    // Return with emoji if present
-    const result = emoji ? 
-        `<span class="explanation-emoji">${emoji}</span><span class="explanation-content">${formattedText}</span>` : 
-        formattedText;
-    
-    console.log('✅ Markdown rendered:', result.substring(0, 100));
-    return result;
+    console.log('✅ Markdown rendered preserving structure');
+    return formattedText;
 }
 
 /**
@@ -116,7 +97,7 @@ function formatOptionText(text) {
     if (!text) return '';
     
     // Preserve leading emoji if present
-    const emojiMatch = text.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉)\s*/u);
+    const emojiMatch = text.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦)\s*/u);
     
     let emoji = '';
     let cleanText = text;
@@ -546,33 +527,33 @@ function showLoading(show) {
 }
 
 function renderProgressIndicator() {
-    const progressIndicator = document.getElementById('quizProgressIndicator');
-    if (!progressIndicator || !currentQuiz) return;
+    const progressIndicator = document.getElementById('progressIndicator');
+    if (!progressIndicator || !currentQuiz) {
+        console.warn('Progress indicator element not found or quiz not loaded');
+        return;
+    }
     
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
     
-    const questionProgress = translations[currentLanguage]?.question_progress 
-        ? translations[currentLanguage].question_progress(currentQuestionIndex + 1, totalQuestions)
-        : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
-        
-    const scoreProgress = translations[currentLanguage]?.score_progress 
-        ? translations[currentLanguage].score_progress(score, currentQuestionIndex)
-        : `Score: ${score}/${currentQuestionIndex}`;
+    const questionProgressText = `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`;
+    const scoreProgressText = `Puntuación: ${score}/${currentQuestionIndex}`;
     
     const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
     
     progressIndicator.innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h6 class="mb-0 fw-bold">${questionProgress}</h6>
-            <span class="badge bg-primary">${scoreProgress}</span>
+            <h6 class="mb-0 fw-bold">${questionProgressText}</h6>
+            <span class="badge bg-primary">${scoreProgressText}</span>
         </div>
         <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: ${progressPercentage}%" 
+            <div class="progress-bar bg-primary" role="progressbar" style="width: ${progressPercentage}%" 
                  aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
             </div>
         </div>
     `;
+    
+    console.log(`📊 Progress updated: ${currentQuestionIndex + 1}/${totalQuestions}, Score: ${score}`);
 }
 
 function showQuestion() {
@@ -716,17 +697,11 @@ function selectOption(selectedIndex, isCorrect) {
         score++;
     }
     
-    // Show feedback with enhanced markdown rendering
+    // Show compact feedback with only explanation
     if (feedbackElement) {
         const question = currentQuiz[currentQuestionIndex];
         const feedbackClass = isCorrect ? 'feedback-correct' : 'feedback-incorrect';
-        const feedbackIcon = isCorrect ? '✅' : '❌';
-        
-        const correctFeedback = translations[currentLanguage]?.correct_feedback || '¡Correcto!';
-        const incorrectFeedback = translations[currentLanguage]?.incorrect_feedback || 'Incorrecto';
         const explanationLabel = translations[currentLanguage]?.explanation_label || 'Explicación';
-        
-        const feedbackTitle = isCorrect ? correctFeedback : incorrectFeedback;
         
         // Enhanced explanation rendering with proper emoji handling
         let explanationHTML = '';
@@ -740,12 +715,9 @@ function selectOption(selectedIndex, isCorrect) {
             `;
         }
         
+        // Only show explanation without title
         feedbackElement.innerHTML = `
             <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass} fade-in">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <span class="feedback-icon">${feedbackIcon}</span>
-                    <h6 class="mb-0 fw-bold">${feedbackTitle}</h6>
-                </div>
                 ${explanationHTML}
             </div>
         `;
