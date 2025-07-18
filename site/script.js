@@ -490,6 +490,55 @@ function generateMarkdownFromQuizData(quizData) {
     return markdown;
 }
 
+/**
+ * Show notification to user
+ */
+function showNotification(message, type = 'info') {
+    console.log(`[${type.toUpperCase()}] ${message}`);
+    
+    // Remove any existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => {
+        notification.remove();
+    });
+    
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    
+    const iconMap = {
+        'success': 'check-circle',
+        'error': 'x-circle',
+        'warning': 'exclamation-triangle',
+        'info': 'info-circle'
+    };
+    
+    const icon = iconMap[type] || 'info-circle';
+    
+    notification.innerHTML = `
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-${icon}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Show with animation
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    // Auto hide after 4 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 4000);
+}
+
 // === INITIALIZATION ===
 function applyTranslations() {
     const elements = document.querySelectorAll('[data-lang-key]');
@@ -528,25 +577,48 @@ function initializeNavigation() {
 }
 
 function initializeDarkMode() {
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (!darkModeToggle) return;
+    console.log('🌙 Initializing dark mode...');
     
-    // Apply saved dark mode preference
-    if (localStorage.getItem('darkMode') === 'enabled') {
+    // Check for saved dark mode preference
+    const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+    
+    // Apply dark mode immediately if saved
+    if (isDarkMode) {
         document.body.classList.add('dark-mode');
-        darkModeToggle.checked = true;
+        console.log('🌙 Dark mode applied from localStorage');
     }
-
-    // Handle dark mode toggle
-    darkModeToggle.addEventListener('change', function() {
-        if (this.checked) {
-            document.body.classList.add('dark-mode');
-            localStorage.setItem('darkMode', 'enabled');
-        } else {
-            document.body.classList.remove('dark-mode');
-            localStorage.setItem('darkMode', 'disabled');
-        }
-    });
+    
+    // Find dark mode toggle on current page
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    
+    if (darkModeToggle) {
+        // Set toggle state
+        darkModeToggle.checked = isDarkMode;
+        
+        // Add event listener
+        darkModeToggle.addEventListener('change', function() {
+            console.log('🌙 Dark mode toggle changed:', this.checked);
+            
+            if (this.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+                console.log('🌙 Dark mode enabled');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', 'disabled');
+                console.log('☀️ Dark mode disabled');
+            }
+            
+            // Trigger custom event for other components
+            window.dispatchEvent(new CustomEvent('darkModeChanged', {
+                detail: { enabled: this.checked }
+            }));
+        });
+        
+        console.log('🌙 Dark mode toggle initialized');
+    } else {
+        console.warn('⚠️ Dark mode toggle not found on this page');
+    }
 }
 
 function initializeLanguageSelector() {
@@ -570,13 +642,51 @@ function initializeRandomQuiz() {
     }
 }
 
-function startRandomQuiz() {
-    // Get a random category (exclude mixed)
-    const availableCategories = technologies.filter(tech => tech.id !== 'mixed');
-    const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-    const randomDifficulty = ['beginner', 'intermediate', 'advanced'][Math.floor(Math.random() * 3)];
+// Function to start random quiz with better error handling
+async function startRandomQuiz() {
+    console.log('🎲 Starting random quiz...');
     
-    window.location.href = `quiz.html?category=${randomCategory.id}&level=${randomDifficulty}&lang=${currentLanguage}`;
+    try {
+        // Use only technologies we know work well
+        const reliableTechs = ['bash', 'python', 'terraform', 'aws', 'docker', 'kubernetes'];
+        const currentLanguage = getCurrentLanguage();
+        
+        // Select random technology from reliable ones
+        const randomTech = reliableTechs[Math.floor(Math.random() * reliableTechs.length)];
+        
+        // Select random difficulty
+        const difficulties = ['beginner', 'intermediate', 'advanced'];
+        const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+        
+        console.log(`🎯 Selected: ${randomTech} - ${randomDifficulty} - ${currentLanguage}`);
+        
+        // Navigate to quiz directly (let quiz page handle the loading)
+        const quizUrl = `quiz.html?category=${randomTech}&level=${randomDifficulty}&lang=${currentLanguage}`;
+        console.log(`🚀 Navigating to: ${quizUrl}`);
+        
+        // Show loading feedback
+        const translations = window.InfraQuiz?.translations || {};
+        const loadingMessage = currentLanguage === 'es' 
+            ? 'Iniciando cuestionario aleatorio...'
+            : 'Starting random quiz...';
+            
+        showNotification(loadingMessage, 'info');
+        
+        // Navigate after brief delay to show the notification
+        setTimeout(() => {
+            window.location.href = quizUrl;
+        }, 500);
+        
+    } catch (error) {
+        console.error('❌ Failed to start random quiz:', error);
+        
+        const currentLanguage = getCurrentLanguage();
+        const errorMessage = currentLanguage === 'es' 
+            ? `Error al iniciar cuestionario aleatorio: ${error.message}. Por favor, intenta seleccionar un cuestionario específico.`
+            : `Failed to start random quiz: ${error.message}. Please try selecting a specific quiz.`;
+            
+        showNotification(errorMessage, 'error');
+    }
 }
 
 function renderQuizCategories() {

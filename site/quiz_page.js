@@ -1,21 +1,20 @@
 // quiz_page.js: Enhanced quiz page functionality - Optimized Version
 
-// === GLOBAL QUIZ STATE ===
-let currentQuiz = null;
+// === CONFIGURATION ===
+const config = {
+    MAX_QUESTIONS_PER_QUIZ: 21,
+    GITHUB_REPO: 'jersonmartinez/InfraQuiz',
+    GITHUB_BRANCH: 'main',
+    QUIZ_BASE_PATH: '../quizzes'
+};
+
+// === GLOBAL VARIABLES ===
+let currentQuiz = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let totalQuestions = 0;
 let startTime = null;
-let quizTimer = null;
-let quizElapsedSeconds = 0;
 let selectedQuestions = [];
-
-// Get configuration from main script
-const config = window.InfraQuiz?.config || {
-    GITHUB_REPO: 'jersonmartinez/InfraQuiz',
-    GITHUB_BRANCH: 'main',
-    MAX_QUESTIONS_PER_QUIZ: 21
-};
 
 // === UTILITY FUNCTIONS ===
 function getUrlParameter(name) {
@@ -227,57 +226,33 @@ function showLoading(isLoading) {
     }
 }
 
-// === INITIALIZATION AND LANGUAGE SUPPORT ===
-
-function applyQuizTranslations() {
-    const currentLanguage = getCurrentLanguage();
-    const translations = getTranslations();
-    
-    if (!translations[currentLanguage]) return;
-    
-    // Apply translations to elements with data-lang-key
-    document.querySelectorAll('[data-lang-key]').forEach(element => {
-        const key = element.getAttribute('data-lang-key');
-        const translation = translations[currentLanguage][key];
-        
-        if (translation) {
-            if (typeof translation === 'function') {
-                // For functions that need parameters, we'll handle them specifically
-                return;
-            }
-            element.textContent = translation;
-        }
-    });
-    
-    // Update page language
-    document.documentElement.lang = currentLanguage;
-}
-
-// Enhanced error display
-function showError(message) {
-    const errorDiv = document.getElementById('quizError');
-    const errorMessage = document.getElementById('quizErrorMessage');
-    const loadingDiv = document.getElementById('quizLoading');
-    
-    if (loadingDiv) loadingDiv.style.display = 'none';
-    if (errorDiv) errorDiv.style.display = 'block';
-    if (errorMessage) errorMessage.innerHTML = renderMarkdown(message);
-    
-    // Apply translations to error screen
-    applyQuizTranslations();
-}
-
 function showLoading(show) {
     const loadingDiv = document.getElementById('quizLoading');
     const errorDiv = document.getElementById('quizError');
     const contentDiv = document.getElementById('quizContent');
     
+    console.log(`🔄 showLoading(${show}) called`);
+    
     if (show) {
-        if (loadingDiv) loadingDiv.style.display = 'block';
+        if (loadingDiv) {
+            loadingDiv.style.display = 'block';
+            console.log('📱 Loading screen shown');
+        }
         if (errorDiv) errorDiv.style.display = 'none';
-        if (contentDiv) contentDiv.style.display = 'none';
+        if (contentDiv) {
+            contentDiv.style.display = 'none';
+            console.log('📱 Quiz content hidden');
+        }
     } else {
-        if (loadingDiv) loadingDiv.style.display = 'none';
+        if (loadingDiv) {
+            loadingDiv.style.display = 'none';
+            console.log('📱 Loading screen hidden');
+        }
+        if (errorDiv) errorDiv.style.display = 'none';
+        if (contentDiv) {
+            contentDiv.style.display = 'block';
+            console.log('📱 Quiz content shown');
+        }
     }
     
     // Apply translations
@@ -370,6 +345,13 @@ function showQuestion() {
     
     // Update progress
     renderProgressIndicator();
+    
+    // Make sure quiz content is visible
+    const quizContent = document.getElementById('quizContent');
+    if (quizContent) {
+        quizContent.style.display = 'block';
+        console.log('✅ Quiz content displayed');
+    }
 }
 
 function selectOption(selectedIndex, isCorrect) {

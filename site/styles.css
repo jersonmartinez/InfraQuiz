@@ -942,3 +942,141 @@ body.dark-mode .performance-badge {
 @keyframes spinner-border {
     to { transform: rotate(360deg); }
 }
+
+/* === DARK MODE SWITCH === */
+.dark-mode-switch {
+    position: relative;
+}
+
+.dark-mode-switch .form-check {
+    margin: 0;
+    padding: 0;
+}
+
+.dark-mode-switch .form-check-input {
+    width: 50px;
+    height: 26px;
+    border-radius: 13px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    margin: 0;
+}
+
+.dark-mode-switch .form-check-input:checked {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.dark-mode-switch .form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+}
+
+.dark-mode-switch .form-check-input::before {
+    content: '🌙';
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.dark-mode-switch .form-check-input:checked::before {
+    content: '☀️';
+    left: calc(100% - 20px);
+}
+
+.dark-mode-switch .form-check-label {
+    display: none;
+}
+
+/* === HERO SECTION DARK MODE === */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+body.dark-mode .hero-section {
+    background: linear-gradient(135deg, #1a1d23 0%, #2c3e50 100%);
+}
+
+body.dark-mode .hero-section::before {
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.02)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+}
+
+/* === BUTTON HOVER FIXES === */
+.btn-outline-light {
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    color: white;
+    background: transparent;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary), var(--info));
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--info), var(--primary));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+}
+
+/* === QUIZ CATEGORIES DARK MODE === */
+body.dark-mode .quiz-categories {
+    background: #1a1d23;
+}
+
+body.dark-mode .quiz-category-card {
+    background: #2c3136;
+    border-color: #495057;
+}
+
+body.dark-mode .quiz-category-card:hover {
+    background: #34383e;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* === ABOUT SECTION DARK MODE === */
+body.dark-mode .about-section {
+    background: #212529;
+}
+
+body.dark-mode .about-section .lead {
+    color: #e9ecef;
+}
+
+/* === FOOTER DARK MODE === */
+body.dark-mode .footer {
+    background: #1a1d23;
+    border-top: 1px solid #495057;
+}
