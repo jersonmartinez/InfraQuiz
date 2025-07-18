@@ -39,82 +39,170 @@ function getTranslations() {
 }
 
 /**
- * Enhanced markdown renderer that preserves original structure
+ * Robust markdown renderer that handles different Marked.js versions
  */
 function renderMarkdown(text) {
     if (!text) return '';
     
     console.log('🔄 Rendering markdown:', text.substring(0, 100));
     
-    // Clean the text first to remove any encoding issues
-    let cleanText = text
-        .replace(/[\u00c2\u00c3]/g, '') // Remove common encoding artifacts
-        .replace(/\ufffd/g, '') // Remove replacement characters
-        .trim();
-    
-    // Apply markdown formatting preserving the original structure
-    const formattedText = cleanText
-        // Bold text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        // Italic text
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        // Inline code - improved with better alignment
-        .replace(/`([^`]+)`/g, (match, code) => {
-            const isLong = code.length > 20;
-            const className = isLong ? 'quiz-code long-code' : 'quiz-code';
-            return `<code class="${className}">${code}</code>`;
-        })
-        // Links
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-        // Line breaks
-        .replace(/\n/g, '<br>')
-        .trim();
-    
-    console.log('✅ Markdown rendered preserving structure');
-    return formattedText;
+    try {
+        // Clean the text first
+        let cleanText = text
+            .replace(/[\u00c2\u00c3]/g, '') // Remove encoding artifacts
+            .replace(/\ufffd/g, '') // Remove replacement characters
+            .trim();
+        
+        // Try to use Marked.js
+        if (typeof marked !== 'undefined') {
+            let rendered;
+            
+            // Handle different Marked.js versions
+            if (typeof marked.parse === 'function') {
+                // v4+ API
+                try {
+                    rendered = marked.parse(cleanText, { 
+                        breaks: true,
+                        gfm: true,
+                        silent: true
+                    });
+                } catch (e) {
+                    console.warn('Marked.parse failed, trying legacy API:', e);
+                    rendered = marked(cleanText);
+                }
+            } else if (typeof marked === 'function') {
+                // Legacy API
+                rendered = marked(cleanText);
+            } else {
+                console.warn('Unknown Marked.js API');
+                return fallbackMarkdownRender(cleanText);
+            }
+            
+            // Ensure we have a string
+            if (typeof rendered !== 'string') {
+                console.warn('Marked.js returned non-string:', typeof rendered);
+                return fallbackMarkdownRender(cleanText);
+            }
+            
+            // Remove wrapping paragraph tags for inline content
+            if (rendered.startsWith('<p>') && rendered.endsWith('</p>\n')) {
+                rendered = rendered.slice(3, -5);
+            } else if (rendered.startsWith('<p>') && rendered.endsWith('</p>')) {
+                rendered = rendered.slice(3, -4);
+            }
+            
+            // Apply custom code styling
+            rendered = rendered.replace(
+                /<code([^>]*)>(.*?)<\/code>/g, 
+                (match, attrs, code) => {
+                    const isLong = code.length > 20;
+                    const className = isLong ? 'quiz-code long-code' : 'quiz-code';
+                    return `<code class="${className}">${code}</code>`;
+                }
+            );
+            
+            console.log('✅ Markdown rendered successfully');
+            return rendered;
+        } else {
+            console.warn('Marked.js not available, using fallback');
+            return fallbackMarkdownRender(cleanText);
+        }
+        
+    } catch (error) {
+        console.error('Error rendering markdown:', error);
+        return fallbackMarkdownRender(text);
+    }
 }
 
 /**
- * Optimized markdown for questions - more conservative
+ * Simple inline markdown renderer for questions and options
+ */
+function renderInlineMarkdown(text) {
+    if (!text) return '';
+    
+    try {
+        // Clean text
+        let cleanText = text
+            .replace(/[\u00c2\u00c3]/g, '')
+            .replace(/\ufffd/g, '')
+            .trim();
+        
+        // Try Marked.js for inline content
+        if (typeof marked !== 'undefined') {
+            let rendered;
+            
+            if (typeof marked.parseInline === 'function') {
+                rendered = marked.parseInline(cleanText);
+            } else if (typeof marked.parse === 'function') {
+                rendered = marked.parse(cleanText, { breaks: false });
+                // Remove paragraph wrapper
+                if (rendered.startsWith('<p>') && rendered.endsWith('</p>\n')) {
+                    rendered = rendered.slice(3, -5);
+                } else if (rendered.startsWith('<p>') && rendered.endsWith('</p>')) {
+                    rendered = rendered.slice(3, -4);
+                }
+            } else {
+                rendered = marked(cleanText);
+                // Remove paragraph wrapper
+                if (rendered.startsWith('<p>') && rendered.endsWith('</p>\n')) {
+                    rendered = rendered.slice(3, -5);
+                } else if (rendered.startsWith('<p>') && rendered.endsWith('</p>')) {
+                    rendered = rendered.slice(3, -4);
+                }
+            }
+            
+            // Ensure string
+            if (typeof rendered !== 'string') {
+                return fallbackMarkdownRender(cleanText);
+            }
+            
+            // Apply custom code styling
+            rendered = rendered.replace(
+                /<code([^>]*)>(.*?)<\/code>/g, 
+                (match, attrs, code) => `<code class="quiz-code">${code}</code>`
+            );
+            
+            return rendered;
+        }
+        
+        return fallbackMarkdownRender(cleanText);
+        
+    } catch (error) {
+        console.error('Error rendering inline markdown:', error);
+        return fallbackMarkdownRender(text);
+    }
+}
+
+/**
+ * Fallback markdown renderer in case Marked.js fails
+ */
+function fallbackMarkdownRender(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/\n/g, '<br>')
+        .trim();
+}
+
+/**
+ * Updated formatQuestionText using inline renderer
  */
 function formatQuestionText(text) {
     if (!text) return '';
     
-    // Remove question number and emoji prefix if present
+    // Remove question number prefix
     let cleanText = text.replace(/^\d+\.\s*/, '').trim();
-    
-    // Light markdown rendering for questions
-    return cleanText
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
-        .trim();
+    return renderInlineMarkdown(cleanText);
 }
 
 /**
- * Enhanced markdown for options - preserves emojis and formatting
+ * Updated formatOptionText using inline renderer
  */
 function formatOptionText(text) {
     if (!text) return '';
-    
-    // Preserve leading emoji if present
-    const emojiMatch = text.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦)\s*/u);
-    
-    let emoji = '';
-    let cleanText = text;
-    
-    if (emojiMatch) {
-        emoji = emojiMatch[1];
-        cleanText = text.replace(emojiMatch[0], '').trim();
-    }
-    
-    // Apply light markdown to the remaining text
-    const formattedText = cleanText
-        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .trim();
-    
-    // Return with emoji if present
-    return emoji ? `<span class="option-emoji">${emoji}</span> ${formattedText}` : formattedText;
+    return renderInlineMarkdown(text);
 }
 
 function showNotification(message, type = 'info') {
@@ -321,7 +409,7 @@ function extractEmojiAndText(text) {
     if (!text) return { emoji: '', text: '', difficulty: 'beginner' };
     
     // Enhanced emoji pattern
-    const emojiPattern = /([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦|❓|🧠|💭|🤔)/gu;
+    const emojiPattern = /([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦)\s*/u;
     
     // Difficulty color emojis
     const difficultyPattern = /(🟢|🟡|🔴)/g;
@@ -574,7 +662,7 @@ function showQuestion() {
     }
     
     console.log('📝 Showing question:', {
-        text: question.text,
+        text: question.text?.substring(0, 50) + '...',
         emoji: question.emoji,
         difficulty: question.difficulty,
         optionsCount: question.options?.length
@@ -633,14 +721,14 @@ function showQuestion() {
                 }
             }
             
-            // Format the final option text
+            // Format the final option text with Marked.js
             const formattedOptionText = formatOptionText(optionText);
             
             optionElement.innerHTML = `
                 <div class="d-flex align-items-start gap-3">
                     <span class="option-letter">${optionLetter}</span>
                     <div class="option-text">
-                        ${optionEmoji ? `<span class="option-emoji">${optionEmoji}</span>` : ''}
+                        ${optionEmoji ? `<span class="option-emoji">${optionEmoji}</span> ` : ''}
                         <span class="option-content">${formattedOptionText}</span>
                     </div>
                 </div>
@@ -1296,10 +1384,27 @@ function handleScrollToTop() {
 }
 
 /**
- * Enhanced initialization with all event handlers
+ * Enhanced initialization with Marked.js verification
  */
 function initializeQuizPage() {
     console.log('🚀 Initializing quiz page...');
+    
+    // Verify Marked.js is available and check version
+    if (typeof marked !== 'undefined') {
+        console.log('✅ Marked.js is available');
+        
+        // Check available methods
+        if (typeof marked.parse === 'function') {
+            console.log('📋 Marked version: v4+ (has parse method)');
+        } else if (typeof marked === 'function') {
+            console.log('📋 Marked version: Legacy (marked is function)');
+        }
+        
+        // Log available methods for debugging
+        console.log('🔧 Available marked methods:', Object.getOwnPropertyNames(marked));
+    } else {
+        console.warn('⚠️ Marked.js not available - using fallback renderer');
+    }
     
     // Initialize dark mode
     initializeDarkMode();

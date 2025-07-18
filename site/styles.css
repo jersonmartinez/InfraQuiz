@@ -1601,7 +1601,7 @@ body.dark-mode .analytics-label {
     border-radius: 0.375rem;
     border-left: 3px solid var(--info);
     font-size: 0.875rem;
-    line-height: 1.4;
+    line-height: 1.5;
     max-width: 90%;
     margin: 0 auto;
     text-align: left;
@@ -1611,17 +1611,57 @@ body.dark-mode .explanation-text {
     background: rgba(255, 255, 255, 0.03);
 }
 
-/* Remove emoji separation - keep everything inline as in markdown */
-.explanation-emoji {
-    display: inline;
-    font-size: inherit;
+/* === SIMPLIFIED EXPLANATION STYLING FOR MARKED.JS === */
+.explanation-text {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    border-left: 3px solid var(--info);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    max-width: 90%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+body.dark-mode .explanation-text {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Ensure all content flows naturally */
+.explanation-text p {
     margin: 0;
+    line-height: inherit;
+}
+
+.explanation-text * {
     vertical-align: baseline;
 }
 
-.explanation-content {
+/* Code styling that works with Marked.js output */
+.explanation-text .quiz-code,
+.option-text .quiz-code,
+.question-text .quiz-code {
+    background: #fff3cd;
+    color: #856404;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875em;
+    font-weight: 500;
+    border: 1px solid #ffeaa7;
     display: inline;
-    line-height: inherit;
+    vertical-align: baseline;
+    line-height: 1;
+    margin: 0 1px;
+}
+
+body.dark-mode .explanation-text .quiz-code,
+body.dark-mode .option-text .quiz-code,
+body.dark-mode .question-text .quiz-code {
+    background: #2d3748;
+    color: #ffd93d;
+    border-color: #4a5568;
 }
 
 /* Compact feedback styling */
@@ -1638,10 +1678,18 @@ body.dark-mode .explanation-text {
     margin-top: 0.75rem;
 }
 
-/* Remove extra spacing */
 .explanation-content-wrapper strong {
     margin-bottom: 0.5rem;
     display: block;
+}
+
+/* Remove complex emoji handling - let Marked.js handle it */
+.explanation-emoji,
+.option-emoji {
+    display: inline;
+    font-size: inherit;
+    margin: 0;
+    vertical-align: baseline;
 }
 
 /* Mobile responsive adjustments */
@@ -1655,6 +1703,13 @@ body.dark-mode .explanation-text {
     .feedback-correct,
     .feedback-incorrect {
         max-width: 98%;
+    }
+    
+    .explanation-text .quiz-code,
+    .option-text .quiz-code,
+    .question-text .quiz-code {
+        font-size: 0.8em;
+        padding: 0.1rem 0.3rem;
     }
 }
 
