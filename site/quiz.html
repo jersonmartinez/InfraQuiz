@@ -196,37 +196,37 @@
         async function runDebugTest() {
             console.log('🧪 Running debug test...');
             
-            const testContent = `# 🐚 Bash Scripting - Questions 1
+            const testContent = `# ☸️ Kubernetes - Cuestionario 1
 
-## Questions
+## Preguntas
 
-### 1. ❓ What's the correct way to check if a file exists in Bash? 🟢
+### 1. ☸️ ¿Qué es Kubernetes? 🟢
 
-A) 📝 \`if [ -f "file.txt" ]; then\`
+A) ☸️ Plataforma de orquestación de contenedores
 
-B) 🔄 if file "file.txt" exists; then
+B) 🔧 Sistema de virtualización
 
-C) 📦 if exists "file.txt"; then
+C) 📦 Gestor de paquetes
 
-D) 🎯 if check "file.txt"; then
+D) 🌐 Servidor web
 
-**Correct Answer**: A) 📝 \`if [ -f "file.txt" ]; then\`
+**Respuesta correcta**: A) ☸️ Plataforma de orquestación de contenedores
 
-> 💡 The \`-f\` test operator checks if a file exists and is a regular file.
+> 💡 Kubernetes automatiza el despliegue, escalado y gestión de aplicaciones en contenedores.
 
-### 2. 🧠 How do you assign a value to a variable in Bash? 🟢
+### 2. 🐳 ¿Qué es un Pod en Kubernetes? 🟢
 
-A) 📝 \`variable=value\` (no spaces)
+A) 🐳 Unidad más pequeña de despliegue
 
-B) 🔄 variable = value (with spaces)
+B) 🔧 Contenedor individual
 
-C) 📦 set variable=value
+C) 📦 Paquete de aplicación
 
-D) 🎯 let variable=value
+D) 🌐 Servicio de red
 
-**Correct Answer**: A) 📝 \`variable=value\` (no spaces)
+**Respuesta correcta**: A) 🐳 Unidad más pequeña de despliegue
 
-> ⚡ Bash variable assignment requires NO spaces around the equals sign.`;
+> 📘 Un Pod puede contener uno o más contenedores que comparten recursos.`;
 
             try {
                 if (!window.InfraQuiz?.parseMarkdownQuiz) {
@@ -238,7 +238,7 @@ D) 🎯 let variable=value
                 console.log('✅ Parser result:', questions);
                 
                 if (questions.length > 0) {
-                    alert(`✅ Debug test successful! Found ${questions.length} questions.\n\nFirst question: ${questions[0].text}`);
+                    alert(`✅ Debug test successful! Found ${questions.length} questions.\n\nFirst question: ${questions[0].text}\nEmoji: ${questions[0].emoji}\nOptions: ${questions[0].options.length}`);
                     
                     // Try to initialize a simple quiz with these questions
                     window.currentQuiz = questions;
@@ -258,6 +258,8 @@ D) 🎯 let variable=value
                     
                 } else {
                     alert('❌ Debug test failed: No questions found');
+                    console.log('Debug: Testing content parsing...');
+                    console.log('Content preview:', testContent.substring(0, 200));
                 }
                 
             } catch (error) {

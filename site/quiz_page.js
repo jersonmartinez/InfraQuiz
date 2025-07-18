@@ -31,7 +31,7 @@ function getTranslations() {
 }
 
 /**
- * Simple markdown renderer for quiz content
+ * Enhanced markdown renderer for quiz content
  */
 function renderMarkdown(text) {
     if (!text) return '';
@@ -41,8 +41,12 @@ function renderMarkdown(text) {
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         // Italic text
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        // Inline code
-        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
+        // Inline code - improved with length detection
+        .replace(/`([^`]+)`/g, (match, code) => {
+            const isLong = code.length > 20;
+            const className = isLong ? 'quiz-code long-code' : 'quiz-code';
+            return `<code class="${className}">${code}</code>`;
+        })
         // Links
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
         // Line breaks
@@ -52,7 +56,7 @@ function renderMarkdown(text) {
 }
 
 /**
- * Clean and format question text
+ * Optimized markdown for questions - more conservative
  */
 function formatQuestionText(text) {
     if (!text) return '';
@@ -60,18 +64,24 @@ function formatQuestionText(text) {
     // Remove question number and emoji prefix if present
     let cleanText = text.replace(/^\d+\.\s*/, '').trim();
     
-    // Render markdown
-    return renderMarkdown(cleanText);
+    // Light markdown rendering for questions
+    return cleanText
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
+        .trim();
 }
 
 /**
- * Format option text with markdown rendering
+ * Optimized markdown for options - minimal styling
  */
 function formatOptionText(text) {
     if (!text) return '';
     
-    // Render markdown in option text
-    return renderMarkdown(text);
+    // Very light markdown for options to maintain readability
+    return text
+        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .trim();
 }
 
 function showNotification(message, type = 'info') {
@@ -365,16 +375,32 @@ function showQuestion() {
     const feedbackElement = document.getElementById('feedback');
     const nextButton = document.getElementById('nextQuestionBtn');
     
-    if (!questionTextElement || !optionsContainer) return;
+    if (!questionTextElement || !optionsContainer) {
+        console.error('Required elements not found');
+        return;
+    }
     
-    // Update question text with emoji and markdown rendering
-    const questionEmoji = question.emoji || getQuestionEmoji(question.difficulty);
+    console.log('📝 Showing question:', {
+        text: question.text,
+        emoji: question.emoji,
+        difficulty: question.difficulty,
+        optionsCount: question.options?.length
+    });
+    
+    // Get question emoji - prioritize question.emoji, then difficulty-based
+    let displayEmoji = question.emoji || getCategoryEmoji('mixed');
+    if (!displayEmoji || displayEmoji.length === 0) {
+        displayEmoji = getQuestionEmoji(question.difficulty);
+    }
+    
+    // Format question text
     const formattedText = formatQuestionText(question.text);
     const difficultyBadge = getDifficultyBadge(question.difficulty);
     
+    // Update question display with proper emoji positioning
     questionTextElement.innerHTML = `
         <div class="d-flex align-items-start gap-3 mb-3">
-            <span class="question-emoji">${questionEmoji}</span>
+            <span class="question-emoji">${displayEmoji}</span>
             <div class="flex-grow-1">
                 <div class="question-text">${formattedText}</div>
                 <div class="mt-2">${difficultyBadge}</div>
@@ -393,19 +419,30 @@ function showQuestion() {
     }
     
     // Render options with better styling and markdown support
-    question.options.forEach((option, index) => {
-        const optionElement = document.createElement('button');
-        optionElement.className = 'list-group-item list-group-item-action quiz-option';
-        optionElement.innerHTML = `
-            <div class="d-flex align-items-start gap-3">
-                <span class="option-letter">${option.letter || String.fromCharCode(65 + index)}</span>
-                <div class="option-text">${formatOptionText(option.text)}</div>
-            </div>
-        `;
+    if (question.options && question.options.length > 0) {
+        question.options.forEach((option, index) => {
+            const optionElement = document.createElement('button');
+            optionElement.className = 'list-group-item list-group-item-action quiz-option';
+            
+            // Use option letter if available, otherwise generate one
+            const optionLetter = option.letter || String.fromCharCode(65 + index);
+            
+            optionElement.innerHTML = `
+                <div class="d-flex align-items-start gap-3">
+                    <span class="option-letter">${optionLetter}</span>
+                    <div class="option-text">${formatOptionText(option.text)}</div>
+                </div>
+            `;
+            
+            optionElement.addEventListener('click', () => selectOption(index, option.isCorrect));
+            optionsContainer.appendChild(optionElement);
+        });
         
-        optionElement.addEventListener('click', () => selectOption(index, option.isCorrect));
-        optionsContainer.appendChild(optionElement);
-    });
+        console.log(`✅ Rendered ${question.options.length} options`);
+    } else {
+        console.error('❌ No options found for question');
+        optionsContainer.innerHTML = '<p class="text-danger">Error: No options available for this question.</p>';
+    }
     
     // Update progress
     renderProgressIndicator();
@@ -448,18 +485,23 @@ function selectOption(selectedIndex, isCorrect) {
         score++;
     }
     
-    // Show feedback with markdown rendering
+    // Show feedback with enhanced markdown rendering
     if (feedbackElement) {
         const question = currentQuiz[currentQuestionIndex];
         const feedbackClass = isCorrect ? 'feedback-correct' : 'feedback-incorrect';
         const feedbackIcon = isCorrect ? '✅' : '❌';
         
-        const correctFeedback = translations[currentLanguage]?.correct_feedback || 'Correct!';
-        const incorrectFeedback = translations[currentLanguage]?.incorrect_feedback || 'Incorrect';
-        const explanationLabel = translations[currentLanguage]?.explanation_label || 'Explanation';
+        const correctFeedback = translations[currentLanguage]?.correct_feedback || '¡Correcto!';
+        const incorrectFeedback = translations[currentLanguage]?.incorrect_feedback || 'Incorrecto';
+        const explanationLabel = translations[currentLanguage]?.explanation_label || 'Explicación';
         
         const feedbackTitle = isCorrect ? correctFeedback : incorrectFeedback;
-        const explanationText = renderMarkdown(question.explanation || '');
+        
+        // Enhanced explanation rendering
+        let explanationText = '';
+        if (question.explanation) {
+            explanationText = renderMarkdown(question.explanation);
+        }
         
         feedbackElement.innerHTML = `
             <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass} fade-in">
@@ -480,7 +522,7 @@ function selectOption(selectedIndex, isCorrect) {
     
     // Show next button
     if (nextButton) {
-        const nextButtonText = translations[currentLanguage]?.next_question || 'Next Question';
+        const nextButtonText = translations[currentLanguage]?.next_question || 'Siguiente Pregunta';
         nextButton.innerHTML = `${nextButtonText} <i class="bi bi-arrow-right ms-2"></i>`;
         nextButton.style.display = 'inline-block';
     }
@@ -707,10 +749,25 @@ async function initializeQuiz() {
             console.error('❌ No questions parsed - detailed content analysis:');
             console.log('First 500 chars:', quizContent.substring(0, 500));
             console.log('Content includes ### headers:', quizContent.includes('###'));
-            console.log('Content includes emojis:', /[📝🔄📦🎯]/.test(quizContent));
+            console.log('Content includes question emojis:', /[❓🧠💭🤔🔧⚙️🔍🚀☸️🐳🔄🌐]/.test(quizContent));
+            console.log('Content includes difficulty emojis:', /[🟢🟡🔴]/.test(quizContent));
+            console.log('Content includes option emojis:', /[📝🔄📦🎯☸️🐳🌐🔧]/.test(quizContent));
             console.log('Lines starting with ###:', quizContent.split('\n').filter(line => line.trim().startsWith('###')).slice(0, 5));
             
-            throw new Error('No valid questions found in quiz file. Parser may need adjustment.');
+            // More specific error message based on content analysis
+            let specificError = 'No valid questions found in quiz file.';
+            
+            if (!quizContent.includes('###')) {
+                specificError = 'No question headers (###) found in the quiz file.';
+            } else if (!/[🟢🟡🔴]/.test(quizContent)) {
+                specificError = 'No difficulty indicators (🟢🟡🔴) found in questions.';
+            } else if (!/[📝🔄📦🎯☸️🐳🌐🔧]/.test(quizContent)) {
+                specificError = 'No option emojis found in the quiz content.';
+            } else if (!quizContent.includes('**Respuesta correcta**') && !quizContent.includes('**Correct Answer**')) {
+                specificError = 'No correct answer indicators found in the quiz.';
+            }
+            
+            throw new Error(`${specificError} The quiz format may need adjustment for category: ${category}.`);
         }
         
         // Log first question for verification
@@ -835,6 +892,26 @@ function getQuestionEmoji(difficulty) {
         'advanced': '🔴'
     };
     return emojis[difficulty] || '🟢';
+}
+
+function getCategoryEmoji(category) {
+    const categoryEmojis = {
+        'bash': '🐚',
+        'python': '🐍',
+        'terraform': '🏗️',
+        'aws': '☁️',
+        'docker': '🐳',
+        'kubernetes': '☸️',
+        'ansible': '🔧',
+        'github': '🐙',
+        'cicd': '🔄',
+        'monitoring': '📊',
+        'security': '🛡️',
+        'networking': '🌐',
+        'databases': '🗄️',
+        'mixed': '🔧'
+    };
+    return categoryEmojis[category] || '❓';
 }
 
 function getDifficultyBadge(difficulty) {
