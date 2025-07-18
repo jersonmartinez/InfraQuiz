@@ -5,8 +5,11 @@
 ### 1. 🏢 ¿Qué es Amazon Web Services (AWS)? 🟢
 
 A) ☁️ `Plataforma de computación en la nube`
+
 B) 🔧 `Sistema operativo`
+
 C) ⚙️ `Base de datos local`
+
 D) 📦 `Servidor físico`
 
 **Respuesta correcta**: A) ☁️ `Plataforma de computación en la nube`
@@ -16,8 +19,11 @@ D) 📦 `Servidor físico`
 ### 2. 🖥️ ¿Qué es Amazon EC2? 🟢
 
 A) ⚡ `Servicio de servidores virtuales`
+
 B) 🔧 `Base de datos`
+
 C) 📦 `Almacenamiento de archivos`
+
 D) 🌐 `Servicio de red`
 
 **Respuesta correcta**: A) ⚡ `Servicio de servidores virtuales`
@@ -27,8 +33,11 @@ D) 🌐 `Servicio de red`
 ### 3. 💾 ¿Qué es Amazon S3? 🟢
 
 A) 📦 `Servicio de almacenamiento de objetos`
+
 B) 🗄️ `Base de datos relacional`
+
 C) 🔧 `Servidor web`
+
 D) ⚙️ `Servicio de cómputo`
 
 **Respuesta correcta**: A) 📦 `Servicio de almacenamiento de objetos`
@@ -38,8 +47,11 @@ D) ⚙️ `Servicio de cómputo`
 ### 4. 🗄️ ¿Qué es Amazon RDS? 🟢
 
 A) 🗄️ `Servicio de bases de datos relacionales`
+
 B) 📦 `Almacenamiento de archivos`
+
 C) ⚡ `Servidor virtual`
+
 D) 🌐 `Servicio de red`
 
 **Respuesta correcta**: A) 🗄️ `Servicio de bases de datos relacionales`
@@ -49,8 +61,11 @@ D) 🌐 `Servicio de red`
 ### 5. 🌐 ¿Qué es Amazon VPC? 🟡
 
 A) 🔒 `Red privada virtual en la nube`
+
 B) 🌐 `Servicio de DNS`
+
 C) 🔧 `Firewall de aplicaciones`
+
 D) ⚙️ `Balanceador de carga`
 
 **Respuesta correcta**: A) 🔒 `Red privada virtual en la nube`
@@ -60,8 +75,11 @@ D) ⚙️ `Balanceador de carga`
 ### 6. 🔐 ¿Qué es AWS IAM? 🟡
 
 A) 🔐 `Servicio de gestión de identidades y acceso`
+
 B) 🔒 `Firewall de red`
+
 C) 🛡️ `Antivirus en la nube`
+
 D) 🔑 `Gestor de contraseñas`
 
 **Respuesta correcta**: A) 🔐 `Servicio de gestión de identidades y acceso`
@@ -71,8 +89,11 @@ D) 🔑 `Gestor de contraseñas`
 ### 7. ⚡ ¿Qué es AWS Lambda? 🟡
 
 A) ⚡ `Servicio de computación sin servidor`
+
 B) 🔧 `Servidor virtual`
+
 C) 📦 `Almacenamiento`
+
 D) 🌐 `Servicio de red`
 
 **Respuesta correcta**: A) ⚡ `Servicio de computación sin servidor`
@@ -82,8 +103,11 @@ D) 🌐 `Servicio de red`
 ### 8. 🔄 ¿Qué es Auto Scaling? 🟡
 
 A) 🔄 `Escalado automático de recursos`
+
 B) 🔧 `Backup automático`
+
 C) ⚙️ `Actualización automática`
+
 D) 📊 `Monitoreo automático`
 
 **Respuesta correcta**: A) 🔄 `Escalado automático de recursos`
@@ -93,8 +117,11 @@ D) 📊 `Monitoreo automático`
 ### 9. 🌍 ¿Qué es Amazon CloudFront? 🟢
 
 A) 🌍 `Servicio de distribución de contenido`
+
 B) 🌐 `Servidor web`
+
 C) 📦 `Almacenamiento`
+
 D) 🔧 `Base de datos`
 
 **Respuesta correcta**: A) 🌍 `Servicio de distribución de contenido`
@@ -104,8 +131,11 @@ D) 🔧 `Base de datos`
 ### 10. 🗄️ ¿Qué es Amazon DynamoDB? 🟡
 
 A) 🗄️ `Base de datos NoSQL gestionada`
+
 B) 📦 `Almacenamiento de archivos`
+
 C) 🔧 `Servidor virtual`
+
 D) 🌐 `Servicio de red`
 
 **Respuesta correcta**: A) 🗄️ `Base de datos NoSQL gestionada`
@@ -115,8 +145,11 @@ D) 🌐 `Servicio de red`
 ### 11. 🔒 ¿Qué es AWS WAF? 🟡
 
 A) 🛡️ `Firewall de aplicaciones web`
+
 B) 🔐 `Servicio de encriptación`
+
 C) 🔑 `Gestor de claves`
+
 D) 🚪 `Proxy inverso`
 
 **Respuesta correcta**: A) 🛡️ `Firewall de aplicaciones web`
@@ -126,8 +159,11 @@ D) 🚪 `Proxy inverso`
 ### 12. 📊 ¿Qué es Amazon CloudWatch? 🟢
 
 A) 📊 `Servicio de monitoreo y observabilidad`
+
 B) 📈 `Herramienta de análisis`
+
 C) 🔍 `Servicio de búsqueda`
+
 D) 📋 `Gestor de logs`
 
 **Respuesta correcta**: A) 📊 `Servicio de monitoreo y observabilidad`
@@ -137,8 +173,11 @@ D) 📋 `Gestor de logs`
 ### 13. 🔄 ¿Qué es AWS Elastic Beanstalk? 🟡
 
 A) 🚀 `Servicio de despliegue y gestión de aplicaciones`
+
 B) 🔧 `Servidor de aplicaciones`
+
 C) 📦 `Contenedor de aplicaciones`
+
 D) ⚙️ `Orquestador de contenedores`
 
 **Respuesta correcta**: A) 🚀 `Servicio de despliegue y gestión de aplicaciones`
@@ -148,8 +187,11 @@ D) ⚙️ `Orquestador de contenedores`
 ### 14. 🗄️ ¿Qué es Amazon ElastiCache? 🟢
 
 A) 🗄️ `Servicio de caché en memoria`
+
 B) 📦 `Almacenamiento temporal`
+
 C) 🔧 `Base de datos rápida`
+
 D) ⚙️ `Servidor de sesiones`
 
 **Respuesta correcta**: A) 🗄️ `Servicio de caché en memoria`
@@ -159,8 +201,11 @@ D) ⚙️ `Servidor de sesiones`
 ### 15. 🔐 ¿Qué es AWS KMS? 🟡
 
 A) 🔑 `Servicio de gestión de claves`
+
 B) 🔒 `Servicio de encriptación`
+
 C) 🛡️ `Firewall de red`
+
 D) 🔐 `Gestor de contraseñas`
 
 **Respuesta correcta**: A) 🔑 `Servicio de gestión de claves`
@@ -170,8 +215,11 @@ D) 🔐 `Gestor de contraseñas`
 ### 16. 🌐 ¿Qué es Amazon Route 53? 🟢
 
 A) 🌐 `Servicio de DNS web escalable`
+
 B) 🔧 `Servidor web`
+
 C) 📦 `Almacenamiento`
+
 D) ⚙️ `Balanceador de carga`
 
 **Respuesta correcta**: A) 🌐 `Servicio de DNS web escalable`
@@ -181,8 +229,11 @@ D) ⚙️ `Balanceador de carga`
 ### 17. 🔄 ¿Qué es AWS CloudFormation? 🟡
 
 A) 📋 `Servicio de infraestructura como código`
+
 B) 🔧 `Gestor de configuración`
+
 C) ⚙️ `Orquestador de servicios`
+
 D) 📦 `Templater de recursos`
 
 **Respuesta correcta**: A) 📋 `Servicio de infraestructura como código`
@@ -192,8 +243,11 @@ D) 📦 `Templater de recursos`
 ### 18. 🗄️ ¿Qué es Amazon Aurora? 🟡
 
 A) 🗄️ `Base de datos relacional compatible con MySQL/PostgreSQL`
+
 B) 📦 `Almacenamiento de archivos`
+
 C) 🔧 `Servidor de base de datos`
+
 D) ⚙️ `Servicio de backup`
 
 **Respuesta correcta**: A) 🗄️ `Base de datos relacional compatible con MySQL/PostgreSQL`
@@ -203,8 +257,11 @@ D) ⚙️ `Servicio de backup`
 ### 19. 🔒 ¿Qué es AWS Shield? 🟢
 
 A) 🛡️ `Servicio de protección contra DDoS`
+
 B) 🔐 `Firewall de red`
+
 C) 🚪 `Proxy de seguridad`
+
 D) 🔑 `Gestor de certificados`
 
 **Respuesta correcta**: A) 🛡️ `Servicio de protección contra DDoS`
@@ -214,8 +271,11 @@ D) 🔑 `Gestor de certificados`
 ### 20. 📦 ¿Qué es Amazon EBS? 🟢
 
 A) 💾 `Servicio de almacenamiento en bloque`
+
 B) 📦 `Almacenamiento de objetos`
+
 C) 🗄️ `Base de datos`
+
 D) 🔧 `Servidor de archivos`
 
 **Respuesta correcta**: A) 💾 `Servicio de almacenamiento en bloque`
@@ -225,8 +285,11 @@ D) 🔧 `Servidor de archivos`
 ### 21. 🔄 ¿Qué es AWS CodeDeploy? 🟡
 
 A) 🚀 `Servicio de despliegue automatizado`
+
 B) 🔧 `Servidor de aplicaciones`
+
 C) 📦 `Contenedor de despliegue`
+
 D) ⚙️ `Gestor de versiones`
 
 **Respuesta correcta**: A) 🚀 `Servicio de despliegue automatizado`

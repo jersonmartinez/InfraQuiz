@@ -4,231 +4,294 @@
 
 ### 1. 📊 What is system monitoring? 🟢
 
-A) 📊 `Observe and measure system performance`
-B) 🔧 `Configure servers`
-C) 📦 `Install software`
-D) 🌐 `Connect networks`
+A) 📊 Observe and measure system performance
 
-**Correct Answer**: A) 📊 `Observe and measure system performance`
+B) 🔧 Configure servers
+
+C) 📦 Install software
+
+D) 🌐 Connect networks
+
+**Correct Answer**: A) 📊 Observe and measure system performance
 
 > 💡 Monitoring allows detecting problems and optimizing system performance. Like having a control panel for your infrastructure!
 
 ### 2. 📈 What are metrics? 🟢
 
-A) 📈 `Quantitative system measurements`
-B) 🔧 `System configurations`
-C) 📦 `Performance data`
-D) 🌐 `Network statistics`
+A) 📈 Quantitative system measurements
 
-**Correct Answer**: A) 📈 `Quantitative system measurements`
+B) 🔧 System configurations
+
+C) 📦 Performance data
+
+D) 🌐 Network statistics
+
+**Correct Answer**: A) 📈 Quantitative system measurements
 
 > 📘 Metrics are numbers that indicate system status (CPU, memory, etc.). Like the speedometer of your car!
 
 ### 3. 🔔 What is an alert? 🟡
 
-A) 🔔 `Notification when something goes wrong`
-B) 🔧 `System message`
-C) 📦 `Package warning`
-D) 🌐 `Network alarm`
+A) 🔔 Notification when something goes wrong
 
-**Correct Answer**: A) 🔔 `Notification when something goes wrong`
+B) 🔧 System message
+
+C) 📦 Package warning
+
+D) 🌐 Network alarm
+
+**Correct Answer**: A) 🔔 Notification when something goes wrong
 
 > ⚡ Alerts notify you when there are problems that need attention. Like a smoke detector for your systems!
 
 ### 4. 📊 What is a dashboard? 🟢
 
-A) 📊 `Visual interface to display metrics`
-B) 🔧 `Control panel`
-C) 📦 `Data view`
-D) 🌐 `Network monitor`
+A) 📊 Visual interface to display metrics
 
-**Correct Answer**: A) 📊 `Visual interface to display metrics`
+B) 🔧 Control panel
+
+C) 📦 Data view
+
+D) 🌐 Network monitor
+
+**Correct Answer**: A) 📊 Visual interface to display metrics
 
 > 💡 Dashboards show important information visually and easy to understand. Like a GPS for your infrastructure!
 
 ### 5. 🔍 What is logging? 🟢
 
-A) 🔍 `Record system events`
-B) 🔧 `Configuration file`
-C) 📦 `Package log`
-D) 🌐 `Network log`
+A) 🔍 Record system events
 
-**Correct Answer**: A) 🔍 `Record system events`
+B) 🔧 Configuration file
+
+C) 📦 Package log
+
+D) 🌐 Network log
+
+**Correct Answer**: A) 🔍 Record system events
 
 > 🎯 Logs record everything that happens in the system to investigate problems. Like a diary of your application!
 
 ### 6. 📊 What is Prometheus? 🟡
 
-A) 📊 `Monitoring and alerting system`
-B) 🔧 `Configuration tool`
-C) 📦 `Metrics manager`
-D) 🌐 `Monitoring server`
+A) 📊 Monitoring and alerting system
 
-**Correct Answer**: A) 📊 `Monitoring and alerting system`
+B) 🔧 Configuration tool
 
-> 📘 Prometheus is a popular tool for collecting and storing metrics. Like an automatic data collector!
+C) 📦 Metrics manager
+
+D) 🌐 Monitoring server
+
+**Correct Answer**: A) 📊 Monitoring and alerting system
+
+> ⚡ Prometheus collects and stores metrics in time series format. The most popular monitoring solution in the cloud-native world!
 
 ### 7. 📊 What is Grafana? 🟡
 
-A) 📊 `Data visualization platform`
-B) 🔧 `Graphing tool`
-C) 📦 `Metrics visualizer`
-D) 🌐 `Network dashboard`
+A) 📊 Visualization and analytics platform
 
-**Correct Answer**: A) 📊 `Data visualization platform`
+B) 🔧 Data collector
 
-> ⚡ Grafana creates beautiful dashboards to visualize metrics. Like an artist who paints your data!
+C) 📦 Metrics storage
 
-### 8. 🔍 What is a log level? 🟡
+D) 🌐 Monitoring agent
 
-A) 🔍 `Importance level of a log message`
-B) 🔧 `Configuration level`
-C) 📦 `Package level`
-D) 🌐 `Network level`
+**Correct Answer**: A) 📊 Visualization and analytics platform
 
-**Correct Answer**: A) 🔍 `Importance level of a log message`
+> 📘 Grafana creates beautiful dashboards to visualize your data. Like an artist that turns numbers into pretty pictures!
 
-> 💡 Log levels (DEBUG, INFO, WARN, ERROR) indicate the importance of the message. Like using different colors for different types of messages!
+### 8. 🔔 What is Alertmanager? 🟡
+
+A) 🔔 Handles alerts sent by Prometheus
+
+B) 🔧 Creates alerts
+
+C) 📦 Stores alerts
+
+D) 🌐 Sends metrics
+
+**Correct Answer**: A) 🔔 Handles alerts sent by Prometheus
+
+> 💡 Alertmanager manages alerts: groups them, routes them, and sends notifications. Like a smart mail system for your alerts!
 
 ### 9. 📊 What is an SLA? 🟡
 
-A) 📊 `Service level agreement`
-B) 🔧 `Quality standard`
-C) 📦 `Performance agreement`
-D) 🌐 `Service contract`
+A) 📊 Service Level Agreement
 
-**Correct Answer**: A) 📊 `Service level agreement`
+B) 🔧 System Level Analysis
 
-> 🎯 SLAs define the service level you must provide. Like a quality promise for your users!
+C) 📦 Server Level Automation
 
-### 10. 🔍 What is a health check? 🟢
+D) 🌐 Service Level Alert
 
-A) 🔍 `Verify if a service is working`
-B) 🔧 `System review`
-C) 📦 `Package verification`
-D) 🌐 `Network check`
+**Correct Answer**: A) 📊 Service Level Agreement
 
-**Correct Answer**: A) 🔍 `Verify if a service is working`
+> 🎯 SLA defines the expected level of service. Like a contract that promises how well your system will work!
 
-> 📘 Health checks verify that applications are responding correctly. Like making a call to see if someone answers!
+### 10. 📈 What is an SLI? 🟡
 
-### 11. 📊 What is APM? 🟡
+A) 📈 Service Level Indicator
 
-A) 📊 `Application performance monitoring`
-B) 🔧 `Application manager`
-C) 📦 `Package monitor`
-D) 🌐 `Network analyzer`
+B) 🔧 System Level Interface
 
-**Correct Answer**: A) 📊 `Application performance monitoring`
+C) 📦 Server Level Index
 
-> ⚡ APM monitors application performance in real time. Like having a doctor who checks your app's health!
+D) 🌐 Service Level Integration
 
-### 12. 🔍 What is a trace? 🟡
+**Correct Answer**: A) 📈 Service Level Indicator
 
-A) 🔍 `Follow the path of a request`
-B) 🔧 `File trace`
-C) 📦 `Package trace`
-D) 🌐 `Network route`
+> ⚡ SLI is a specific metric that measures service performance. Like the actual measurements that show if you're meeting your promises!
 
-**Correct Answer**: A) 🔍 `Follow the path of a request`
+### 11. 🎯 What is an SLO? 🟡
 
-> 💡 Traces show how a request travels through different services. Like following a detective's footsteps!
+A) 🎯 Service Level Objective
 
-### 13. 📊 What is an SLO? 🟡
+B) 🔧 System Level Operation
 
-A) 📊 `Service level objective`
-B) 🔧 `Quality objective`
-C) 📦 `Performance objective`
-D) 🌐 `Service goal`
+C) 📦 Server Level Organization
 
-**Correct Answer**: A) 📊 `Service level objective`
+D) 🌐 Service Level Optimization
 
-> 🎯 SLOs define specific performance objectives you must meet. Like having clear goals for your team!
+**Correct Answer**: A) 🎯 Service Level Objective
 
-### 14. 🔍 What is an error rate? 🟢
+> 📘 SLO is the target value for SLI. Like the goal you want to achieve!
 
-A) 🔍 `Percentage of errors in a system`
-B) 🔧 `Failure rate`
-C) 📦 `Error ratio`
-D) 🌐 `Failure percentage`
+### 12. 📊 What is uptime? 🟢
 
-**Correct Answer**: A) 🔍 `Percentage of errors in a system`
+A) 📊 Time when system is available and working
 
-> 📘 Error rate measures how many errors occur relative to total requests. Like measuring how many times something fails!
+B) 🔧 System startup time
 
-### 15. 📊 What is latency? 🟢
+C) 📦 Update time
 
-A) 📊 `System response time`
-B) 🔧 `System delay`
-C) 📦 `Package time`
-D) 🌐 `Network delay`
+D) 🌐 Network connection time
 
-**Correct Answer**: A) 📊 `System response time`
+**Correct Answer**: A) 📊 Time when system is available and working
 
-> ⚡ Latency measures how long the system takes to respond. Like measuring how long your order takes to arrive!
+> 💡 Uptime measures system availability. Usually expressed as a percentage (99.9% uptime = very good!)
 
-### 16. 📊 What is throughput? 🟡
+### 13. 🔍 What is a log aggregator? 🟡
 
-A) 📊 `Amount of work a system can process`
-B) 🔧 `System capacity`
-C) 📦 `Package performance`
-D) 🌐 `Network capacity`
+A) 🔍 System that collects logs from multiple sources
 
-**Correct Answer**: A) 📊 `Amount of work a system can process`
+B) 🔧 Log file
 
-> 💡 Throughput measures how many requests the system can handle per second. Like measuring how many customers a restaurant can serve!
+C) 📦 Log format
 
-### 17. 🔍 What is log aggregation? 🟡
+D) 🌐 Log viewer
 
-A) 🔍 `Collect logs from multiple sources`
-B) 🔧 `Add log files`
-C) 📦 `Join package logs`
-D) 🌐 `Centralize network logs`
+**Correct Answer**: A) 🔍 System that collects logs from multiple sources
 
-**Correct Answer**: A) 🔍 `Collect logs from multiple sources`
+> 🎯 Log aggregators like ELK Stack collect logs from everywhere in one place. Like having all your books in one library!
 
-> 🎯 Log aggregation centralizes logs from different services in one place. Like having a central library for all your books!
+### 14. 📈 What is synthetic monitoring? 🟡
 
-### 18. 📊 What is metric collection? 🟡
+A) 📈 Simulated tests to check system behavior
 
-A) 📊 `Collect metrics from different sources`
-B) 🔧 `Collect system data`
-C) 📦 `Add package metrics`
-D) 🌐 `Centralize network metrics`
+B) 🔧 Real user monitoring
 
-**Correct Answer**: A) 📊 `Collect metrics from different sources`
+C) 📦 Natural monitoring
 
-> 📘 Metric collection gathers performance data from different services. Like having sensors throughout your house!
+D) 🌐 Manual monitoring
 
-### 19. 🔍 What is an alert threshold? 🟡
+**Correct Answer**: A) 📈 Simulated tests to check system behavior
 
-A) 🔍 `Limit that triggers an alert`
-B) 🔧 `Configuration threshold`
-C) 📦 `Package limit`
-D) 🌐 `Network threshold`
+> ⚡ Synthetic monitoring runs automated tests to detect problems before users do. Like having a robot customer testing your store!
 
-**Correct Answer**: A) 🔍 `Limit that triggers an alert`
+### 15. 👥 What is RUM? 🟡
 
-> ⚡ Alert thresholds define when an alert should be triggered. Like setting the temperature at which the air conditioning turns on!
+A) 👥 Real User Monitoring
 
-### 20. 📊 What is a monitoring stack? 🟡
+B) 🔧 Resource Usage Monitoring
 
-A) 📊 `Set of monitoring tools`
-B) 🔧 `Configuration stack`
-C) 📦 `Package set`
-D) 🌐 `Network stack`
+C) 📦 Runtime Usage Metrics
 
-**Correct Answer**: A) 📊 `Set of monitoring tools`
+D) 🌐 Remote User Management
 
-> 💡 A monitoring stack combines different tools to completely monitor your system. Like having a complete surveillance team!
+**Correct Answer**: A) 👥 Real User Monitoring
 
-### 21. 🔍 What is log parsing? 🟡
+> 📘 RUM measures actual user experience. Like having a spy that watches how your customers really use your application!
 
-A) 🔍 `Extract structured information from logs`
-B) 🔧 `Analyze log files`
-C) 📦 `Process package logs`
-D) 🌐 `Analyze network logs`
+### 16. ⚠️ What is MTTR? 🟡
 
-**Correct Answer**: A) 🔍 `Extract structured information from logs`
+A) ⚠️ Mean Time To Repair/Recovery
 
-> 📘 Log parsing converts unstructured logs into useful data. Like translating a foreign language into one you understand!
+B) 🔧 Maximum Time To Respond
+
+C) 📦 Minimum Time To Restart
+
+D) 🌐 Manual Time To Review
+
+**Correct Answer**: A) ⚠️ Mean Time To Repair/Recovery
+
+> 💡 MTTR measures how quickly you fix problems. Lower is better - like being a fast mechanic!
+
+### 17. 💥 What is MTBF? 🟡
+
+A) 💥 Mean Time Between Failures
+
+B) 🔧 Maximum Time Before Failure
+
+C) 📦 Minimum Time Between Fixes
+
+D) 🌐 Manual Time Before Freeze
+
+**Correct Answer**: A) 💥 Mean Time Between Failures
+
+> 🎯 MTBF measures how often things break. Higher is better - like having a reliable car!
+
+### 18. 📊 What is a time series database? 🟡
+
+A) 📊 Database optimized for time-stamped data
+
+B) 🔧 Database for storing time
+
+C) 📦 Database with time functions
+
+D) 🌐 Database for scheduling
+
+**Correct Answer**: A) 📊 Database optimized for time-stamped data
+
+> ⚡ Time series databases like InfluxDB are perfect for storing metrics over time. Like a specialized filing cabinet for historical data!
+
+### 19. 🔍 What is APM? 🟡
+
+A) 🔍 Application Performance Monitoring
+
+B) 🔧 Automated Process Management
+
+C) 📦 Application Package Manager
+
+D) 🌐 Advanced Performance Metrics
+
+**Correct Answer**: A) 🔍 Application Performance Monitoring
+
+> 📘 APM monitors application performance and user experience. Like having a performance coach for your application!
+
+### 20. 📊 What is distributed tracing? 🔴
+
+A) 📊 Track requests across multiple services
+
+B) 🔧 Trace network connections
+
+C) 📦 Track file distributions
+
+D) 🌐 Trace user paths
+
+**Correct Answer**: A) 📊 Track requests across multiple services
+
+> 💡 Distributed tracing follows requests through microservices. Like following a letter through the postal system!
+
+### 21. 📈 What are golden signals? 🔴
+
+A) 📈 Latency, traffic, errors, and saturation
+
+B) 🔧 CPU, memory, disk, and network
+
+C) 📦 Up, down, slow, and fast
+
+D) 🌐 Start, stop, pause, and resume
+
+**Correct Answer**: A) 📈 Latency, traffic, errors, and saturation
+
+> 🏆 The four golden signals are the most important metrics to monitor. Like the vital signs for your system health!

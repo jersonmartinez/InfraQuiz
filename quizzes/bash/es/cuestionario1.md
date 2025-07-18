@@ -14,9 +14,9 @@ D) 🎯 `if check "archivo.txt"; then`
 
 **Respuesta correcta**: A) 📝 `if [ -f "archivo.txt" ]; then`
 
-> 💡 El operador `-f` verifica si existe un archivo regular. Los corchetes `[ ]` son la sintaxis del comando test en Bash. ¡Simple pero esencial para operaciones con archivos! 🎯
+> 💡 El operador de prueba `-f` verifica si un archivo existe y es un archivo regular. Los corchetes `[ ]` son la sintaxis del comando test en Bash. ¡Simple pero esencial para operaciones con archivos! 🎯
 
-### 2. 🧠 ¿Cómo se asigna un valor a una variable en Bash? 🟢
+### 2. 🧠 ¿Cómo asignas un valor a una variable en Bash? 🟢
 
 A) 📝 `variable=valor` (sin espacios)
 
@@ -28,7 +28,7 @@ D) 🎯 `let variable=valor`
 
 **Respuesta correcta**: A) 📝 `variable=valor` (sin espacios)
 
-> ⚡ La asignación en Bash NO permite espacios alrededor del igual. Con espacios, Bash pensaría que ejecutas un comando llamado `variable`. ¡Error clásico de principiantes! 😅
+> ⚡ La asignación de variables en Bash NO requiere espacios alrededor del signo igual. Los espacios harían que Bash piense que estás ejecutando un comando llamado `variable` con argumentos. ¡Error clásico! 😅
 
 ### 3. 💭 ¿Qué representa `$?` en Bash? 🟢
 
@@ -42,9 +42,9 @@ D) 🎯 Directorio de trabajo actual
 
 **Respuesta correcta**: A) 📝 Estado de salida del último comando
 
-> 🔍 `$?` contiene el código de salida (0 para éxito, no-cero para error) del comando más reciente. ¡Esencial para manejo de errores y lógica condicional! 🎯
+> 🔍 `$?` contiene el código de salida (0 para éxito, no-cero para fallo) del comando ejecutado más recientemente. ¡Esencial para manejo de errores y lógica condicional! 🎯
 
-### 4. 🤔 ¿Cómo se lee entrada del usuario en una variable? 🟡
+### 4. 🤔 ¿Cómo lees entrada del usuario en una variable? 🟡
 
 A) 📝 `read nombre_variable`
 
@@ -56,111 +56,125 @@ D) 🎯 `scanf nombre_variable`
 
 **Respuesta correcta**: A) 📝 `read nombre_variable`
 
-> 💡 El comando `read` espera entrada del usuario y la almacena en la variable especificada. También puedes usar `read -p "prompt" variable` para un mensaje personalizado! 🎯
+> 💡 El comando `read` espera la entrada del usuario y la almacena en la variable especificada. ¡También puedes usar `read -p "prompt" variable` para un prompt personalizado! 🎯
 
 ### 5. 🔧 ¿Cuál es la diferencia entre `$*` y `$@`? 🟡
 
 A) 📝 `$*` es una cadena, `$@` preserva espacios
 
-B) 🔄 `$*` es más rápido, `$@` es más lento
+B) 🔄 No hay diferencia entre ellos
 
-C) 📦 `$*` incluye el nombre del script, `$@` no
+C) 📦 `$*` es para arrays, `$@` para cadenas
 
-D) 🎯 No hay diferencia
+D) 🎯 `$@` está obsoleto, usa `$*`
 
 **Respuesta correcta**: A) 📝 `$*` es una cadena, `$@` preserva espacios
 
-> ⚡ `$*` une todos los argumentos en una cadena, `$@` los mantiene como argumentos separados. ¡Crucial para scripts que procesan múltiples argumentos!
+> ⚡ `$*` trata todos los argumentos como una sola cadena, mientras que `$@` preserva argumentos individuales. ¡Usa `"$@"` para manejar correctamente argumentos con espacios!
 
-### 6. 🎯 ¿Cómo redirigir tanto stdout como stderr a un archivo? 🟡
+### 6. 🎯 ¿Cómo creas un bucle for en Bash? 🟡
 
-A) 📝 `comando > archivo 2>&1`
+A) 📝 `for elemento in lista; do comandos; done`
 
-B) 🔄 `comando >> archivo 2>> archivo`
+B) 🔄 `for (elemento in lista) { comandos }`
 
-C) 📦 `comando &> archivo`
+C) 📦 `foreach elemento in lista: comandos`
 
-D) 🎯 `comando > archivo 2> archivo`
+D) 🎯 `for elemento of lista do comandos end`
 
-**Respuesta correcta**: A) 📝 `comando > archivo 2>&1`
+**Respuesta correcta**: A) 📝 `for elemento in lista; do comandos; done`
 
-> 🔄 `2>&1` redirige stderr (2) al mismo lugar que stdout (1). ¡También puedes usar `&>` como atajo en Bash moderno!
+> 🔄 El bucle `for` en Bash usa esta sintaxis específica. ¡Puedes iterar sobre archivos, números o cualquier lista de elementos!
 
-### 7. 🚀 ¿Cómo crear una función en Bash? 🟡
+### 7. 🚀 ¿Qué hace el shebang `#!/bin/bash`? 🟢
 
-A) 📝 `function nombre() { comandos; }`
+A) 📝 Indica al sistema qué intérprete usar
 
-B) 🔄 `def nombre() { comandos; }`
+B) 🔄 Comenta la primera línea
 
-C) 📦 `function nombre { comandos; }`
+C) 📦 Define la versión del script
 
-D) 🎯 `nombre() => { comandos; }`
+D) 🎯 Establece los permisos del script
 
-**Respuesta correcta**: A) 📝 `function nombre() { comandos; }`
+**Respuesta correcta**: A) 📝 Indica al sistema qué intérprete usar
 
-> 💡 Las funciones en Bash pueden definirse con `function nombre()` o simplemente `nombre()`. ¡Útil para código reutilizable!
+> 💡 El shebang (`#!`) le dice al sistema que use `/bin/bash` para ejecutar el script. ¡Como decirle a alguien en qué idioma estás hablando!
 
-### 8. 🔍 ¿Cómo verificar si una variable está vacía? 🟡
+### 8. 🔍 ¿Cómo verificas si una variable está vacía? 🟡
 
 A) 📝 `if [ -z "$variable" ]; then`
 
-B) 🔄 `if [ $variable == "" ]; then`
+B) 🔄 `if variable está vacía; then`
 
-C) 📦 `if [ empty "$variable" ]; then`
+C) 📦 `if vacía($variable); then`
 
-D) 🎯 `if [ null "$variable" ]; then`
+D) 🎯 `if !variable; then`
 
 **Respuesta correcta**: A) 📝 `if [ -z "$variable" ]; then`
 
-> 🔍 `-z` verifica si la variable está vacía (zero length). `-n` verifica lo contrario (not zero length). ¡Siempre usa comillas!
+> 🎯 La prueba `-z` devuelve verdadero si la longitud de la cadena es cero. ¡Siempre pon tus variables entre comillas para manejar espacios correctamente!
 
-### 9. 🎯 ¿Cómo obtener la longitud de una cadena? 🟡
+### 9. 📦 ¿Cómo obtienes la longitud de una cadena? 🟡
 
 A) 📝 `${#cadena}`
 
-B) 🔄 `length($cadena)`
+B) 🔄 `longitud(cadena)`
 
-C) 📦 `$cadena.length`
+C) 📦 `cadena.longitud`
 
 D) 🎯 `len($cadena)`
 
 **Respuesta correcta**: A) 📝 `${#cadena}`
 
-> ⚡ La sintaxis `${#variable}` devuelve la longitud de la cadena. ¡Útil para validaciones y loops!
+> ⚡ La sintaxis `${#variable}` devuelve la longitud del valor de la variable. ¡Simple y integrado en Bash!
 
-### 10. 🔄 ¿Cómo crear un loop for sobre archivos? 🟡
+### 10. 🔄 ¿Cómo creas un bucle while? 🟡
+
+A) 📝 `while condición; do comandos; done`
+
+B) 🔄 `while (condición) { comandos }`
+
+C) 📦 `while condición: comandos`
+
+D) 🎯 `while condición do comandos end`
+
+**Respuesta correcta**: A) 📝 `while condición; do comandos; done`
+
+> 📘 Los bucles while continúan mientras la condición sea verdadera. ¡Geniales para leer archivos línea por línea o esperar condiciones!
+
+### 11. 🌟 ¿Cómo iteras a través de archivos? 🟡
 
 A) 📝 `for archivo in *.txt; do echo $archivo; done`
 
-B) 🔄 `for (archivo in *.txt) { echo $archivo }`
+B) 🔄 `loop archivos *.txt; echo archivo; end`
 
-C) 📦 `for archivo = *.txt; echo $archivo; next`
+C) 📦 `for archivo = *.txt; echo $archivo; siguiente`
 
 D) 🎯 `foreach archivo in *.txt; echo $archivo; end`
 
 **Respuesta correcta**: A) 📝 `for archivo in *.txt; do echo $archivo; done`
 
-> 🔄 El loop `for` en Bash usa la sintaxis `for item in lista; do comandos; done`. ¡El globbing `*.txt` se expande automáticamente!
+> 🔄 El bucle `for` en Bash usa la sintaxis `for elemento in lista; do comandos; done`. ¡El globbing `*.txt` se expande automáticamente!
 
-### 11. 🚀 ¿Cómo hacer un script más seguro? 🔴
+### 12. 🚀 ¿Cómo haces un script más seguro? 🔴
 
-A) 📝 `set -euo pipefail` al inicio
+A) 📝 `set -euo pipefail` al principio
 
-B) 🔄 `secure_mode on`
+B) 🔄 `modo_seguro on`
 
 C) 📦 `bash --safe script.sh`
 
 D) 🎯 `#!/bin/bash --secure`
 
-**Respuesta correcta**: A) 📝 `set -euo pipefail` al inicio
+**Respuesta correcta**: A) 📝 `set -euo pipefail` al principio
 
-> 🛡️ `set -e` sale en error, `set -u` sale en variable no definida, `set -o pipefail` falla si cualquier comando en pipe falla. ¡La triple protección!
+> 🛡️ `set -e` sale en error, `set -u` sale en variable indefinida, `set -o pipefail` falla si cualquier comando en un pipe falla. ¡La triple protección!
 
-### 12. 🔧 ¿Cómo generar números aleatorios? 🟡
+### 13. 🔧 ¿Cómo generas números aleatorios? 🟡
 
 A) 📝 `$RANDOM`
 
-B) 🔄 `$(random)`
+B) 🔄 `$(aleatorio)`
 
 C) 📦 `rand()`
 
@@ -168,9 +182,9 @@ D) 🎯 `$RAND`
 
 **Respuesta correcta**: A) 📝 `$RANDOM`
 
-> 🎲 `$RANDOM` genera números entre 0-32767. Para otros rangos usa `$((RANDOM % max + min))`. ¡Para mayor calidad usa `/dev/random`!
+> 🎲 `$RANDOM` genera números entre 0-32767. Para otros rangos usa `$((RANDOM % max + min))`. ¡Para mejor calidad usa `/dev/random`!
 
-### 13. 🎯 ¿Cómo ejecutar comandos en paralelo? 🔴
+### 14. 🎯 ¿Cómo ejecutas comandos en paralelo? 🔴
 
 A) 📝 `comando1 & comando2 & wait`
 
@@ -182,9 +196,9 @@ D) 🎯 `comando1 && comando2`
 
 **Respuesta correcta**: A) 📝 `comando1 & comando2 & wait`
 
-> ⚡ El `&` ejecuta en background, `wait` espera a que terminen todos. ¡Para casos complejos usa GNU `parallel`!
+> ⚡ El `&` ejecuta en segundo plano, `wait` espera a que todos terminen. ¡Para casos complejos usa GNU `parallel`!
 
-### 14. 🔍 ¿Cómo obtener argumentos posicionales? 🟢
+### 15. 🔍 ¿Cómo obtienes argumentos posicionales? 🟢
 
 A) 📝 `$1, $2, $3...`
 
@@ -198,7 +212,7 @@ D) 🎯 `param1, param2, param3...`
 
 > 📋 `$1` es el primer argumento, `$2` el segundo, etc. `$0` es el nombre del script. ¡Para más de 9 usa `${10}`!
 
-### 15. 🚀 ¿Cómo hacer debugging en Bash? 🔴
+### 16. 🚀 ¿Cómo depuras scripts de Bash? 🔴
 
 A) 📝 `bash -x script.sh` o `set -x`
 
@@ -210,63 +224,49 @@ D) 🎯 `trace script.sh`
 
 **Respuesta correcta**: A) 📝 `bash -x script.sh` o `set -x`
 
-> 🐛 La opción `-x` muestra cada comando antes de ejecutarlo. ¡Perfecto para encontrar dónde falla tu script!
+> 🔍 La opción `-x` muestra cada comando antes de ejecutarlo. ¡Como tener un narrador para tu script!
 
-### 16. 🔧 ¿Cómo trabajar con arrays? 🔴
+### 17. 📦 ¿Cómo manejas opciones de línea de comandos? 🔴
 
-A) 📝 `array=(item1 item2 item3); echo ${array[0]}`
+A) 📝 `getopts` o análisis manual con `case`
 
-B) 🔄 `array[0]=item1; array[1]=item2; echo $array[0]`
+B) 🔄 función `getopt()`
 
-C) 📦 `declare array=(item1 item2 item3); echo array[0]`
+C) 📦 función `parse_args()`
 
-D) 🎯 `set array item1 item2 item3; echo $array[0]`
+D) 🎯 módulo `argparse`
 
-**Respuesta correcta**: A) 📝 `array=(item1 item2 item3); echo ${array[0]}`
+**Respuesta correcta**: A) 📝 `getopts` o análisis manual con `case`
 
-> 📚 Los arrays en Bash usan sintaxis especial: `array=(...)` para crear, `${array[index]}` para acceder. ¡Nota las llaves!
+> 💡 `getopts` está integrado en Bash para análisis simple de opciones. ¡Para casos complejos, usa una declaración `case` o herramientas externas!
 
-### 17. 🎯 ¿Cómo hacer sustitución de cadenas? 🔴
+### 18. 🔧 ¿Cómo rediriges la salida? 🟢
 
-A) 📝 `${variable/old/new}` para primera, `${variable//old/new}` para todas
+A) 📝 `comando > archivo` (stdout), `comando 2> archivo` (stderr)
 
-B) 🔄 `$variable.replace(old, new)`
+B) 🔄 `comando >> archivo` (solo stdout)
 
-C) 📦 `replace($variable, old, new)`
+C) 📦 `redirect comando to archivo`
 
-D) 🎯 `substitute $variable old new`
+D) 🎯 `comando | archivo`
 
-**Respuesta correcta**: A) 📝 `${variable/old/new}` para primera, `${variable//old/new}` para todas
+**Respuesta correcta**: A) 📝 `comando > archivo` (stdout), `comando 2> archivo` (stderr)
 
-> 🔄 La expansión de parámetros permite manipular cadenas sin comandos externos. ¡Más rápido que `sed` para casos simples!
+> 📘 `>` redirige stdout, `2>` redirige stderr, `&>` redirige ambos. ¡El `>>` añade en lugar de sobrescribir!
 
-### 18. 🚀 ¿Cómo manejar señales en scripts? 🔴
+### 19. 🎯 ¿Cómo creas funciones? 🟡
 
-A) 📝 `trap 'cleanup' EXIT INT TERM`
+A) 📝 `nombre_función() { comandos; }` o `function nombre_función { comandos; }`
 
-B) 🔄 `signal_handler EXIT INT TERM`
+B) 🔄 `def nombre_función(): comandos`
 
-C) 📦 `on_signal cleanup EXIT INT TERM`
+C) 📦 `function nombre_función(args) comandos end`
 
-D) 🎯 `catch EXIT INT TERM cleanup`
+D) 🎯 `crear nombre_función { comandos }`
 
-**Respuesta correcta**: A) 📝 `trap 'cleanup' EXIT INT TERM`
+**Respuesta correcta**: A) 📝 `nombre_función() { comandos; }` o `function nombre_función { comandos; }`
 
-> 🎯 `trap` permite capturar señales y ejecutar código de limpieza. ¡Esencial para scripts robustos que manejan recursos!
-
-### 19. 🔍 ¿Cómo trabajar con archivos temporales seguramente? 🔴
-
-A) 📝 `mktemp` para crear archivos temporales únicos
-
-B) 🔄 `touch /tmp/temp$$`
-
-C) 📦 `tempfile=$(date +%s)`
-
-D) 🎯 `temp=/tmp/temp.txt`
-
-**Respuesta correcta**: A) 📝 `mktemp` para crear archivos temporales únicos
-
-> 🔐 `mktemp` crea archivos con nombres únicos y permisos seguros. ¡Evita condiciones de carrera y conflictos de nombres!
+> ⚡ ¡Ambas sintaxis funcionan! Las funciones ayudan a organizar código y hacerlo reutilizable. ¡Como tener tus propios comandos personalizados!
 
 ### 20. 🔧 ¿Cuál es la diferencia entre `source` y ejecutar un script? 🔴
 
@@ -274,7 +274,7 @@ A) 📝 `source` ejecuta en el shell actual, ejecutar crea subshell
 
 B) 🔄 `source` es más rápido que ejecutar
 
-C) 📦 `source` solo funciona con scripts .sh
+C) 📦 `source` solo funciona con scripts `.sh`
 
 D) 🎯 No hay diferencia
 
@@ -294,4 +294,4 @@ D) 🎯 No usar variables
 
 **Respuesta correcta**: A) 📝 Usar `set -euo pipefail`, validar entradas, manejar errores, documentar
 
-> 🎯 Scripts de producción necesitan: modo estricto, validación de entrada, manejo de errores, logging, cleanup con trap, y documentación clara. ¡La robustez es clave!
+> 🎯 Los scripts de producción necesitan: modo estricto, validación de entradas, manejo de errores, logging, limpieza con trap, y documentación clara. ¡La robustez es clave!

@@ -1,297 +1,297 @@
-# 🔐 Security - Questions 1
+# 🔒 Security - Questions 1
 
 ## Questions
 
-### 1. 🔐 What is cybersecurity? 🟢
+### 1. 🔒 What is cybersecurity? 🟢
 
-A) 🔐 Protection of computer systems against threats
+A) 🔒 Protection of digital systems from threats
 
-B) 🔧 Security configuration
+B) 🔧 Computer repair service
 
-C) 📦 Package protection
+C) 📦 Software installation
 
-D) 🌐 Network security
+D) 🌐 Internet browsing
 
-**Correct Answer**: A) 🔐 Protection of computer systems against threats
+**Correct Answer**: A) 🔒 Protection of digital systems from threats
 
-> 💡 Cybersecurity protects systems, networks, and data against digital attacks. Like having a security guard for your digital world!
+> 💡 Cybersecurity defends computers, servers, networks, and data from malicious attacks. Like a digital security guard!
 
-### 2. 🔒 What is encryption? 🟢
+### 2. 🛡️ What is authentication? 🟢
 
-A) 🔒 Process of converting information into secret code
+A) 🛡️ Verifying user identity
 
-B) 🔧 Data encoding
+B) 🔧 System authorization
 
-C) 📦 File protection
+C) 📦 Data encryption
 
-D) 🌐 Network security
+D) 🌐 Network monitoring
 
-**Correct Answer**: A) 🔒 Process of converting information into secret code
+**Correct Answer**: A) 🛡️ Verifying user identity
 
-> 📘 Encryption converts data into code that only those with the key can read. Like writing in a secret language!
+> ⚡ Authentication confirms you are who you claim to be. Like showing your ID at a secure building!
 
-### 3. 🔑 What is a private key? 🟡
+### 3. 🔑 What is authorization? 🟢
 
-A) 🔑 Secret key that only the owner knows
+A) 🔑 Granting access permissions to authenticated users
 
-B) 🔒 Personal password
+B) 🔧 User registration process
 
-C) 🛡️ Security key
+C) 📦 Password creation
 
-D) 🔐 Access key
+D) 🌐 Login verification
 
-**Correct Answer**: A) 🔑 Secret key that only the owner knows
+**Correct Answer**: A) 🔑 Granting access permissions to authenticated users
 
-> ⚡ Private keys must be kept secret to protect information. Like your house key that you shouldn't share!
+> 📘 Authorization determines what authenticated users can do. Like getting a key card with specific building access!
 
-### 4. 🔑 What is a public key? 🟡
+### 4. 🔐 What is encryption? 🟢
 
-A) 🔑 Key that can be shared publicly
+A) 🔐 Converting data into unreadable format
 
-B) 🔒 Public access key
+B) 🔧 Data compression
 
-C) 🛡️ Security key
+C) 📦 File storage
 
-D) 🔐 Shared key
+D) 🌐 Data transmission
 
-**Correct Answer**: A) 🔑 Key that can be shared publicly
+**Correct Answer**: A) 🔐 Converting data into unreadable format
 
-> 💡 Public keys can be shared so others can send you secure information. Like your mailing address!
+> 🎯 Encryption scrambles data so only authorized parties can read it. Like writing in secret code!
 
-### 5. 🔐 What is SSL/TLS? 🟡
+### 5. 🕷️ What is a vulnerability? 🟡
 
-A) 🔐 Security protocols for internet communications
+A) 🕷️ Security weakness that can be exploited
 
-B) 🔧 Secure network protocol
+B) 🔧 System error
 
-C) 📦 Package security
-
-D) 🌐 Secure web protocol
-
-**Correct Answer**: A) 🔐 Security protocols for internet communications
-
-> 🔒 SSL/TLS encrypt communication between browser and server. Like speaking in secret code over the phone!
-
-### 6. 🛡️ What is a firewall? 🟢
-
-A) 🛡️ System that filters network traffic
-
-B) 🔧 Antivirus software
-
-C) 📦 Backup system
-
-D) 🌐 Network protocol
-
-**Correct Answer**: A) 🛡️ System that filters network traffic
-
-> 🚧 A firewall is like a bouncer who decides who can enter your network. Blocks malicious traffic!
-
-### 7. 🎣 What is phishing? 🟢
-
-A) 🎣 Attempt to steal information through deception
-
-B) 🔧 Type of virus
-
-C) 📦 Network protocol
-
-D) 🌐 Encryption method
-
-**Correct Answer**: A) 🎣 Attempt to steal information through deception
-
-> ⚠️ Phishing uses fake emails/sites to steal credentials. Like fishermen using fake bait to catch victims!
-
-### 8. 🦠 What is malware? 🟢
-
-A) 🦠 Malicious software designed to damage systems
-
-B) 🔧 Security software
-
-C) 📦 Defective program
-
-D) 🌐 Network virus
-
-**Correct Answer**: A) 🦠 Malicious software designed to damage systems
-
-> 💀 Malware includes viruses, trojans, ransomware, spyware. Software with bad intentions for your system!
-
-### 9. 🔐 What is two-factor authentication (2FA)? 🟡
-
-A) 🔐 Method requiring two forms of verification
-
-B) 🔧 Double password
-
-C) 📦 Two types of encryption
-
-D) 🌐 Two security servers
-
-**Correct Answer**: A) 🔐 Method requiring two forms of verification
-
-> 🛡️ 2FA combines something you know (password) + something you have (phone/token). Double layer protection!
-
-### 10. 🏛️ What is a digital certificate? 🟡
-
-A) 🏛️ Electronic document that verifies identity
-
-B) 🔧 Configuration file
-
-C) 📦 Software license
-
-D) 🌐 Web document
-
-**Correct Answer**: A) 🏛️ Electronic document that verifies identity
-
-> 📜 Digital certificates are like electronic IDs that prove you are who you say you are. Digital trust!
-
-### 11. 🔍 What is a hash? 🟡
-
-A) 🔍 Function that converts data into unique fixed-size value
-
-B) 🔧 Type of encryption
-
-C) 📦 Verification code
-
-D) 🌐 Security protocol
-
-**Correct Answer**: A) 🔍 Function that converts data into unique fixed-size value
-
-> 🧬 A hash is like a fingerprint of data. SHA-256, MD5 are common types. Detects if something changed!
-
-### 12. 🔓 What is a vulnerability? 🟡
-
-A) 🔓 Weakness that can be exploited by attackers
-
-B) 🔧 Programming error
-
-C) 📦 System failure
+C) 📦 Software bug
 
 D) 🌐 Network problem
 
-**Correct Answer**: A) 🔓 Weakness that can be exploited by attackers
+**Correct Answer**: A) 🕷️ Security weakness that can be exploited
 
-> 🕳️ Vulnerabilities are like holes in security that attackers can exploit. Need to patch them quickly!
+> ⚡ Vulnerabilities are security flaws that attackers can exploit. Like a crack in your digital armor!
 
-### 13. 🎯 What is an exploit? 🔴
+### 6. 🎯 What is a threat? 🟡
 
-A) 🎯 Code that takes advantage of a vulnerability
+A) 🎯 Potential danger to information systems
 
-B) 🔧 Hacking tool
+B) 🔧 System warning
 
-C) 📦 Advanced virus
+C) 📦 Error message
 
-D) 🌐 Network attack
+D) 🌐 Network alert
 
-**Correct Answer**: A) 🎯 Code that takes advantage of a vulnerability
+**Correct Answer**: A) 🎯 Potential danger to information systems
 
-> ⚔️ An exploit is like a master key that opens doors that should be closed. Takes advantage of known weaknesses!
+> 💡 Threats are potential attacks or harmful events. Like storm clouds on the horizon!
 
-### 14. 🏴‍☠️ What is ransomware? 🔴
+### 7. 🚨 What is malware? 🟢
 
-A) 🏴‍☠️ Malware that encrypts data and demands ransom
+A) 🚨 Malicious software designed to harm systems
 
-B) 🔧 Virus that steals information
+B) 🔧 System maintenance tool
 
-C) 📦 Cleaning software
+C) 📦 File organizer
 
-D) 🌐 Payment protocol
+D) 🌐 Network utility
 
-**Correct Answer**: A) 🏴‍☠️ Malware that encrypts data and demands ransom
+**Correct Answer**: A) 🚨 Malicious software designed to harm systems
 
-> 🏴‍☠️ Ransomware is like digital kidnappers: they take your files hostage and demand money. Backups are your insurance!
+> 📘 Malware includes viruses, trojans, ransomware, spyware. Your digital enemies!
 
-### 15. 🔬 What is penetration testing? 🔴
+### 8. 🎣 What is phishing? 🟡
 
-A) 🔬 Security assessment simulating real attacks
+A) 🎣 Deceptive attempts to steal sensitive information
 
-B) 🔧 Performance testing
+B) 🔧 Network fishing for data
 
-C) 📦 Software testing
+C) 📦 Email management
 
-D) 🌐 Network testing
+D) 🌐 Website development
 
-**Correct Answer**: A) 🔬 Security assessment simulating real attacks
+**Correct Answer**: A) 🎣 Deceptive attempts to steal sensitive information
 
-> 🕵️ Pen testing is like hiring ethical thieves to find ways into your house before real thieves do.
+> 🚨 Phishing uses fake emails/websites to trick users into revealing credentials. Like digital con artists!
 
-### 16. 🔐 What is HTTPS? 🟢
+### 9. 🔥 What is a firewall? 🟢
 
-A) 🔐 HTTP with SSL/TLS encryption
+A) 🔥 Network security barrier that controls traffic
 
-B) 🔧 Improved version of HTTP
+B) 🔧 Fire suppression system
 
-C) 📦 Google protocol
+C) 📦 System backup
 
-D) 🌐 HTTP secure by default
+D) 🌐 Internet blocker
 
-**Correct Answer**: A) 🔐 HTTP with SSL/TLS encryption
+**Correct Answer**: A) 🔥 Network security barrier that controls traffic
 
-> 🛡️ HTTPS ensures no one can read your communication with the server. Look for the green lock in your browser!
+> 🎯 Firewalls monitor and control incoming/outgoing network traffic. Your digital bouncer!
 
-### 17. 🚨 What is an IDS? 🔴
+### 10. 🔍 What is antivirus software? 🟢
 
-A) 🚨 Intrusion Detection System
+A) 🔍 Program that detects and removes malware
 
-B) 🔧 Identification system
+B) 🔧 System optimizer
 
-C) 📦 Secure database
+C) 📦 File cleaner
 
-D) 🌐 Security protocol
+D) 🌐 Network scanner
 
-**Correct Answer**: A) 🚨 Intrusion Detection System
+**Correct Answer**: A) 🔍 Program that detects and removes malware
 
-> 👁️ An IDS is like an alarm system that detects suspicious activity on your network. All-seeing eyes!
+> ⚡ Antivirus software protects against malicious software. Like having a digital immune system!
 
-### 18. 🛡️ What is a VPN? 🟡
+### 11. 🔐 What is two-factor authentication (2FA)? 🟡
 
-A) 🛡️ Virtual Private Network that encrypts connections
+A) 🔐 Security using two different verification methods
 
-B) 🔧 Fast network protocol
+B) 🔧 Double password system
 
-C) 📦 Connectivity software
+C) 📦 Two-step login
 
-D) 🌐 Virtual area network
+D) 🌐 Dual network access
 
-**Correct Answer**: A) 🛡️ Virtual Private Network that encrypts connections
+**Correct Answer**: A) 🔐 Security using two different verification methods
 
-> 🚇 A VPN is like a secret tunnel on the internet. Hides your location and encrypts your traffic. Private browsing!
+> 💡 2FA combines something you know (password) with something you have (phone). Double the security!
 
-### 19. 🎪 What is social engineering? 🔴
+### 12. 🗝️ What is a VPN? 🟡
 
-A) 🎪 Psychological manipulation to obtain information
+A) 🗝️ Virtual Private Network for secure connections
 
-B) 🔧 Social network engineering
+B) 🔧 Very Private Network
 
-C) 📦 Social application development
+C) 📦 Virtual Public Network
 
-D) 🌐 Communication protocol
+D) 🌐 Verified Private Network
 
-**Correct Answer**: A) 🎪 Psychological manipulation to obtain information
+**Correct Answer**: A) 🗝️ Virtual Private Network for secure connections
 
-> 🎭 Social engineering exploits human nature instead of technical vulnerabilities. The most dangerous hackers are psychologists!
+> 📘 VPNs create encrypted tunnels for safe internet browsing. Like having a private highway on the internet!
 
-### 20. 🔐 What is Zero Trust? 🔴
+### 13. 🔒 What is SSL/TLS? 🟡
 
-A) 🔐 Security model that trusts nothing by default
+A) 🔒 Encryption protocols for secure web communication
 
-B) 🔧 Protocol without trust
+B) 🔧 System language specifications
 
-C) 📦 System without credentials
+C) 📦 Software licensing standards
 
-D) 🌐 Network without authentication
+D) 🌐 Server location services
 
-**Correct Answer**: A) 🔐 Security model that trusts nothing by default
+**Correct Answer**: A) 🔒 Encryption protocols for secure web communication
 
-> 🔍 Zero Trust verifies EVERYTHING: "Never trust, always verify". Doesn't even trust your own internal network. Productive paranoia!
+> 🚀 SSL/TLS encrypts data between browsers and servers. Look for the lock icon in your browser!
 
-### 21. 🎯 What are security best practices? 🔴
+### 14. 🕳️ What is a zero-day attack? 🔴
 
-A) 🎯 Regular patches, backups, 2FA, least privilege principle, education
+A) 🕳️ Attack exploiting unknown vulnerabilities
 
-B) 🔧 Only use antivirus
+B) 🔧 First-day system attack
 
-C) 📦 Change passwords daily
+C) 📦 Initial malware infection
 
-D) 🌐 Disconnect everything from internet
+D) 🌐 Immediate network breach
 
-**Correct Answer**: A) 🎯 Regular patches, backups, 2FA, least privilege principle, education
+**Correct Answer**: A) 🕳️ Attack exploiting unknown vulnerabilities
 
-> 🏆 Robust security requires: constant updates, regular backups, multi-factor authentication, minimum necessary access, and user training. Security is everyone's responsibility!
+> ⚡ Zero-day attacks use vulnerabilities unknown to vendors. Like being attacked with a secret weapon!
+
+### 15. 🔍 What is penetration testing? 🔴
+
+A) 🔍 Authorized testing to find security weaknesses
+
+B) 🔧 System performance testing
+
+C) 📦 Software penetration analysis
+
+D) 🌐 Network speed testing
+
+**Correct Answer**: A) 🔍 Authorized testing to find security weaknesses
+
+> 🎯 Pen testing simulates attacks to find vulnerabilities. Like hiring friendly hackers to test your defenses!
+
+### 16. 🏰 What is a DMZ in network security? 🔴
+
+A) 🏰 Demilitarized Zone - buffer network between internal and external
+
+B) 🔧 Data Management Zone
+
+C) 📦 Digital Media Zone
+
+D) 🌐 Direct Memory Zone
+
+**Correct Answer**: A) 🏰 Demilitarized Zone - buffer network between internal and external
+
+> 💡 DMZ isolates public services from internal networks. Like having a lobby before the secure areas!
+
+### 17. 🔑 What is PKI? 🔴
+
+A) 🔑 Public Key Infrastructure for managing digital certificates
+
+B) 🔧 Private Key Integration
+
+C) 📦 Public Key Identification
+
+D) 🌐 Protected Key Interface
+
+**Correct Answer**: A) 🔑 Public Key Infrastructure for managing digital certificates
+
+> 📘 PKI manages digital certificates and encryption keys. The foundation of modern web security!
+
+### 18. 🚨 What is a DDoS attack? 🟡
+
+A) 🚨 Distributed Denial of Service - overwhelming servers with traffic
+
+B) 🔧 Direct Data of Service
+
+C) 📦 Distributed Data over Service
+
+D) 🌐 Dynamic Denial of Systems
+
+**Correct Answer**: A) 🚨 Distributed Denial of Service - overwhelming servers with traffic
+
+> 🌊 DDoS attacks flood servers with traffic to make them unavailable. Like a digital traffic jam!
+
+### 19. 🔐 What is encryption at rest? 🔴
+
+A) 🔐 Encrypting stored data on disks/databases
+
+B) 🔧 Encrypting inactive systems
+
+C) 📦 Encrypting backup files
+
+D) 🌐 Encrypting offline networks
+
+**Correct Answer**: A) 🔐 Encrypting stored data on disks/databases
+
+> ⚡ Encryption at rest protects data when it's stored. Like locking your valuables in a safe!
+
+### 20. 🌐 What is encryption in transit? 🔴
+
+A) 🌐 Encrypting data while being transmitted
+
+B) 🔧 Encrypting moving systems
+
+C) 📦 Encrypting transferred files
+
+D) 🔒 Encrypting temporary data
+
+**Correct Answer**: A) 🌐 Encrypting data while being transmitted
+
+> 🚚 Encryption in transit protects data while moving between systems. Like an armored truck for your data!
+
+### 21. 🔍 What is the principle of least privilege? 🔴
+
+A) 🔍 Granting minimum access rights necessary for job functions
+
+B) 🔧 Reducing system privileges
+
+C) 📦 Limiting software permissions
+
+D) 🌐 Minimizing network access
+
+**Correct Answer**: A) 🔍 Granting minimum access rights necessary for job functions
+
+> 🎯 Least privilege reduces attack surface by limiting access. Like giving people only the keys they actually need!

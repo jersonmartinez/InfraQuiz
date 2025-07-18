@@ -1,234 +1,297 @@
-# 🐙 GitHub - Questions 1
+# 📊 GitHub & Git - Questions 1
 
 ## Questions
 
-### 1. 🐙 What is GitHub? 🟢
+### 1. 📊 What is Git? 🟢
 
-A) 🐙 `Platform for hosting Git repositories`
-B) 🔧 `Version control system`
-C) 📦 `Package manager`
-D) 🌐 `Web server`
+A) 📊 Distributed version control system
 
-**Correct Answer**: A) 🐙 `Platform for hosting Git repositories`
+B) 🔧 File storage system
 
-> 💡 GitHub is the most popular platform for hosting and collaborating on code projects. Like a social network for developers!
+C) 📦 Package manager
 
-### 2. 🔄 What is Git? 🟢
+D) 🌐 Web hosting service
 
-A) 🔄 `Distributed version control system`
-B) 🔧 `Programming language`
-C) 📦 `File manager`
-D) 🌐 `Network protocol`
+**Correct Answer**: A) 📊 Distributed version control system
 
-**Correct Answer**: A) 🔄 `Distributed version control system`
+> 💡 Git tracks changes in source code during software development. ¡Like having a time machine for your code!
 
-> 📘 Git allows tracking changes in code and collaborating with other developers. Like having a complete history of your project!
+### 2. 🌐 What is GitHub? 🟢
 
-### 3. 📝 What is a commit? 🟢
+A) 🌐 Cloud-based hosting service for Git repositories
 
-A) 📝 `Save changes to the repository`
-B) 🔧 `Send code`
-C) 📦 `Upload files`
-D) 🌐 `Connect repositories`
+B) 🔧 Local Git installation
 
-**Correct Answer**: A) 📝 `Save changes to the repository`
+C) 📦 Git alternative
 
-> ⚡ A commit is like saving a version of your work with a descriptive message. Like taking a snapshot of your progress!
+D) 📊 Version control system
 
-### 4. 🌿 What is a branch? 🟡
+**Correct Answer**: A) 🌐 Cloud-based hosting service for Git repositories
 
-A) 🌿 `Independent development line`
-B) 🔧 `File folder`
-C) 📦 `Project version`
-D) 🌐 `Network connection`
+> ⚡ GitHub is a platform that uses Git for version control and adds collaboration features. Like Google Docs for programmers!
 
-**Correct Answer**: A) 🌿 `Independent development line`
+### 3. 🔧 How do you initialize a Git repository? 🟢
 
-> 💡 Branches allow working on new features without affecting the main code. Like having a separate working copy!
+A) 🔧 `git init`
 
-### 5. 🔀 What is a merge? 🟡
+B) 📦 git create
 
-A) 🔀 `Combine changes from different branches`
-B) 🔧 `Join files`
-C) 📦 `Merge projects`
-D) 🌐 `Connect servers`
+C) 🌐 git new
 
-**Correct Answer**: A) 🔀 `Combine changes from different branches`
+D) 📊 git start
 
-> 🎯 Merge integrates changes from one branch to another. Like combining two versions of a recipe!
+**Correct Answer**: A) 🔧 `git init`
 
-### 6. 🔄 What is a pull request? 🟡
+> 📘 `git init` creates a new Git repository in the current directory. The beginning of every Git project!
 
-A) 🔄 `Request to integrate changes`
-B) 🔧 `Ask for files`
-C) 📦 `Request packages`
-D) 🌐 `Connect repositories`
+### 4. 📦 How do you add files to staging? 🟢
 
-**Correct Answer**: A) 🔄 `Request to integrate changes`
+A) 📦 `git add filename` or `git add .`
 
-> 📘 Pull requests allow reviewing code before integrating it. Like asking for permission before making changes!
+B) 🔧 git stage filename
 
-### 7. 🔍 What is a fork? 🟢
+C) 🌐 git include filename
 
-A) 🔍 `Personal copy of a repository`
-B) 🔧 `Fork code`
-C) 📦 `Split project`
-D) 🌐 `Separate network`
+D) 📊 git prepare filename
 
-**Correct Answer**: A) 🔍 `Personal copy of a repository`
+**Correct Answer**: A) 📦 `git add filename` or `git add .`
 
-> ⚡ A fork creates your own copy of a project to work independently. Like having your own copy of a book!
+> 🎯 `git add` stages changes for commit. Use `git add .` to add all files in current directory!
 
-### 8. 🔍 What is a clone? 🟢
+### 5. 💾 How do you commit changes? 🟢
 
-A) 🔍 `Download complete repository`
-B) 🔧 `Copy files`
-C) 📦 `Duplicate project`
-D) 🌐 `Replicate server`
+A) 💾 `git commit -m "message"`
 
-**Correct Answer**: A) 🔍 `Download complete repository`
+B) 🔧 git save -m "message"
 
-> 💡 Clone downloads the entire repository history to your computer. Like downloading a complete library!
+C) 📦 git store -m "message"
 
-### 9. 📤 What is push? 🟢
+D) 🌐 git record -m "message"
 
-A) 📤 `Upload changes to remote repository`
-B) 🔧 `Push files`
-C) 📦 `Send packages`
-D) 🌐 `Connect network`
+**Correct Answer**: A) 💾 `git commit -m "message"`
 
-**Correct Answer**: A) 📤 `Upload changes to remote repository`
+> ⚡ `git commit` saves your staged changes with a descriptive message. Like taking a snapshot of your work!
 
-> 🎯 Push sends your local commits to the repository on GitHub. Like uploading your photos to the cloud!
+### 6. 🔍 How do you check repository status? 🟢
 
-### 10. 📥 What is pull? 🟢
+A) 🔍 `git status`
 
-A) 📥 `Download changes from remote repository`
-B) 🔧 `Pull files`
-C) 📦 `Get packages`
-D) 🌐 `Connect server`
+B) 🔧 git info
 
-**Correct Answer**: A) 📥 `Download changes from remote repository`
+C) 📦 git check
 
-> 📘 Pull updates your local repository with the latest changes. Like syncing your phone!
+D) 🌐 git state
 
-### 11. 🔍 What is an issue? 🟡
+**Correct Answer**: A) 🔍 `git status`
 
-A) 🔍 `Problem report or feature request`
-B) 🔧 `System error`
-C) 📦 `Package problem`
-D) 🌐 `Network failure`
+> 💡 `git status` shows which files are modified, staged, or untracked. Your Git health dashboard!
 
-**Correct Answer**: A) 🔍 `Problem report or feature request`
+### 7. 📚 How do you view commit history? 🟡
 
-> ⚡ Issues allow reporting bugs or requesting new features. Like a ticket system for the project!
+A) 📚 `git log`
 
-### 12. 🏷️ What is a tag? 🟡
+B) 🔧 git history
 
-A) 🏷️ `Label to mark specific versions`
-B) 🔧 `File mark`
-C) 📦 `Package label`
-D) 🌐 `Network label`
+C) 📦 git commits
 
-**Correct Answer**: A) 🏷️ `Label to mark specific versions`
+D) 🌐 git timeline
 
-> 💡 Tags mark important points in history, like release versions. Like putting a bookmark on an important page!
+**Correct Answer**: A) 📚 `git log`
 
-### 13. 🔍 What is a repository? 🟢
+> 🔄 `git log` displays commit history with messages, authors, and dates. Add `--oneline` for compact view!
 
-A) 🔍 `Storage for project code and files`
-B) 🔧 `File storage`
-C) 📦 `Package storage`
-D) 🌐 `File server`
+### 8. 🌿 How do you create a new branch? 🟡
 
-**Correct Answer**: A) 🔍 `Storage for project code and files`
+A) 🌿 `git branch branch_name` or `git checkout -b branch_name`
 
-> 🎯 A repository contains all the code, history, and metadata of the project. Like a safe for your code!
+B) 🔧 git new branch_name
 
-### 14. 🔍 What is a README? 🟢
+C) 📦 git create branch_name
 
-A) 🔍 `File that describes the project`
-B) 🔧 `Configuration document`
-C) 📦 `Installation manual`
-D) 🌐 `Network guide`
+D) 🌐 git start branch_name
 
-**Correct Answer**: A) 🔍 `File that describes the project`
+**Correct Answer**: A) 🌿 `git branch branch_name` or `git checkout -b branch_name`
 
-> 📘 The README is the first impression of your project. Like the cover of a book!
+> 📘 Branches let you work on features independently. `git checkout -b` creates and switches in one command!
 
-### 15. 🔍 What is .gitignore? 🟡
+### 9. 🔄 How do you switch between branches? 🟡
 
-A) 🔍 `File that specifies which files to ignore`
-B) 🔧 `Git configuration`
-C) 📦 `Exclusion list`
-D) 🌐 `Network filter`
+A) 🔄 `git checkout branch_name` or `git switch branch_name`
 
-**Correct Answer**: A) 🔍 `File that specifies which files to ignore`
+B) 🔧 git change branch_name
 
-> ⚡ .gitignore prevents unnecessary files from being uploaded to the repository. Like a list of things you don't want to pack!
+C) 📦 git move branch_name
 
-### 16. 🔍 What is a conflict? 🟡
+D) 🌐 git goto branch_name
 
-A) 🔍 `When Git cannot automatically combine changes`
-B) 🔧 `System error`
-C) 📦 `Package problem`
-D) 🌐 `Network failure`
+**Correct Answer**: A) 🔄 `git checkout branch_name` or `git switch branch_name`
 
-**Correct Answer**: A) 🔍 `When Git cannot automatically combine changes`
+> 🎯 Both commands work. `git switch` is newer and more intuitive for branch switching!
 
-> 💡 Conflicts occur when two people modify the same line. Like when two people write on the same page!
+### 10. 🔗 How do you merge branches? 🟡
 
-### 17. 🔍 What is a stash? 🟡
+A) 🔗 `git merge branch_name`
 
-A) 🔍 `Temporarily save changes without committing`
-B) 🔧 `Hide files`
-C) 📦 `Store packages`
-D) 🌐 `Save connection`
+B) 🔧 git combine branch_name
 
-**Correct Answer**: A) 🔍 `Temporarily save changes without committing`
+C) 📦 git join branch_name
 
-> 🎯 Stash saves your work in progress to change it later. Like saving your place in a book!
+D) 🌐 git unite branch_name
 
-### 18. 🔍 What is a remote? 🟢
+**Correct Answer**: A) 🔗 `git merge branch_name`
 
-A) 🔍 `Connection to a remote repository`
-B) 🔧 `Remote server`
-C) 📦 `Remote package`
-D) 🌐 `Network connection`
+> ⚡ `git merge` combines changes from another branch into current branch. Switch to target branch first!
 
-**Correct Answer**: A) 🔍 `Connection to a remote repository`
+### 11. ☁️ How do you clone a repository? 🟢
 
-> 📘 Remotes connect your local repository with GitHub. Like having your house address in the cloud!
+A) ☁️ `git clone repository_url`
 
-### 19. 🔍 What is a commit hash? 🟡
+B) 🔧 git download repository_url
 
-A) 🔍 `Unique identifier of a commit`
-B) 🔧 `File code`
-C) 📦 `Package ID`
-D) 🌐 `Network address`
+C) 📦 git copy repository_url
 
-**Correct Answer**: A) 🔍 `Unique identifier of a commit`
+D) 🌐 git get repository_url
 
-> ⚡ The hash is like the ID card of each commit. Like having a unique code for each version!
+**Correct Answer**: A) ☁️ `git clone repository_url`
 
-### 20. 🔍 What is a rebase? 🟡
+> 💡 `git clone` downloads a complete copy of a remote repository to your local machine!
 
-A) 🔍 `Rewrite commit history`
-B) 🔧 `Reorganize files`
-C) 📦 `Repackage project`
-D) 🌐 `Reconnect network`
+### 12. 📤 How do you push changes to remote? 🟡
 
-**Correct Answer**: A) 🔍 `Rewrite commit history`
+A) 📤 `git push origin branch_name`
 
-> 💡 Rebase reorganizes commits to have a cleaner history. Like rewriting a story to flow better!
+B) 🔧 git upload origin branch_name
 
-### 21. 🔍 What is GitHub Actions? 🟡
+C) 📦 git send origin branch_name
 
-A) 🔍 `GitHub automation system`
-B) 🔧 `System actions`
-C) 📦 `Package automation`
-D) 🌐 `Network automation`
+D) 🌐 git publish origin branch_name
 
-**Correct Answer**: A) 🔍 `GitHub automation system`
+**Correct Answer**: A) 📤 `git push origin branch_name`
 
-> 📘 GitHub Actions automates tasks like testing and deployments. Like having an automatic assistant for your project!
+> 🚀 `git push` uploads your local commits to the remote repository. Share your work with the team!
+
+### 13. 📥 How do you pull changes from remote? 🟡
+
+A) 📥 `git pull origin branch_name`
+
+B) 🔧 git download origin branch_name
+
+C) 📦 git get origin branch_name
+
+D) 🌐 git fetch origin branch_name
+
+**Correct Answer**: A) 📥 `git pull origin branch_name`
+
+> 📘 `git pull` downloads and merges remote changes into your local branch. Stay updated with team changes!
+
+### 14. 🔧 What is a pull request? 🟡
+
+A) 🔧 Request to merge changes into main branch
+
+B) 📦 Request to download code
+
+C) 🌐 Request to pull repository
+
+D) 📊 Request to update files
+
+**Correct Answer**: A) 🔧 Request to merge changes into main branch
+
+> 🎯 Pull requests enable code review and discussion before merging. Essential for team collaboration!
+
+### 15. 🏷️ How do you create a tag? 🟡
+
+A) 🏷️ `git tag tag_name`
+
+B) 🔧 git label tag_name
+
+C) 📦 git mark tag_name
+
+D) 🌐 git version tag_name
+
+**Correct Answer**: A) 🏷️ `git tag tag_name`
+
+> ⚡ Tags mark specific points in history, usually for releases. Use `git tag v1.0.0` for version tags!
+
+### 16. 🔍 How do you view differences? 🟡
+
+A) 🔍 `git diff`
+
+B) 🔧 git compare
+
+C) 📦 git changes
+
+D) 🌐 git delta
+
+**Correct Answer**: A) 🔍 `git diff`
+
+> 💡 `git diff` shows changes between commits, branches, or working directory. Your code comparison tool!
+
+### 17. ↩️ How do you undo last commit? 🔴
+
+A) ↩️ `git reset HEAD~1` (soft) or `git reset --hard HEAD~1` (hard)
+
+B) 🔧 git undo
+
+C) 📦 git revert
+
+D) 🌐 git back
+
+**Correct Answer**: A) ↩️ `git reset HEAD~1` (soft) or `git reset --hard HEAD~1` (hard)
+
+> 🔄 Soft reset keeps changes in working directory, hard reset discards them. Use carefully!
+
+### 18. 🔍 How do you search commit history? 🔴
+
+A) 🔍 `git log --grep="search_term"`
+
+B) 🔧 git search "search_term"
+
+C) 📦 git find "search_term"
+
+D) 🌐 git query "search_term"
+
+**Correct Answer**: A) 🔍 `git log --grep="search_term"`
+
+> 📘 `git log --grep` searches commit messages. Use `git log -S "code"` to search for code changes!
+
+### 19. 🌿 What is Git Flow? 🔴
+
+A) 🌿 Branching model with feature, develop, and master branches
+
+B) 🔧 Git command flow
+
+C) 📦 Git workflow tool
+
+D) 🌐 GitHub feature
+
+**Correct Answer**: A) 🌿 Branching model with feature, develop, and master branches
+
+> 🎯 Git Flow defines a strict branching model for releases. Popular for structured development workflows!
+
+### 20. 🔒 What is a Git hook? 🔴
+
+A) 🔒 Script that runs automatically on Git events
+
+B) 🔧 Git attachment
+
+C) 📦 Git plugin
+
+D) 🌐 Git connection
+
+**Correct Answer**: A) 🔒 Script that runs automatically on Git events
+
+> ⚡ Hooks run on events like commit, push, merge. Use for automated testing, formatting, or deployment!
+
+### 21. 🚀 What are GitHub Actions? 🔴
+
+A) 🚀 CI/CD platform for automated workflows
+
+B) 🔧 GitHub commands
+
+C) 📦 Repository actions
+
+D) 🌐 User actions
+
+**Correct Answer**: A) 🚀 CI/CD platform for automated workflows
+
+> 🏗️ GitHub Actions automate testing, building, and deployment directly from your repository. DevOps made easy!

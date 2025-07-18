@@ -5,8 +5,11 @@
 ### 1. 🏢 What is Amazon Web Services (AWS)? 🟢
 
 A) ☁️ `Cloud computing platform`
+
 B) 🔧 `Operating system`
+
 C) ⚙️ `Local database`
+
 D) 📦 `Physical server`
 
 **Correct Answer**: A) ☁️ `Cloud computing platform`
@@ -16,8 +19,11 @@ D) 📦 `Physical server`
 ### 2. 🖥️ What is Amazon EC2? 🟢
 
 A) ⚡ `Virtual server service`
+
 B) 🔧 `Database`
+
 C) 📦 `File storage`
+
 D) 🌐 `Network service`
 
 **Correct Answer**: A) ⚡ `Virtual server service`
@@ -27,8 +33,11 @@ D) 🌐 `Network service`
 ### 3. 💾 What is Amazon S3? 🟢
 
 A) 📦 `Object storage service`
+
 B) 🗄️ `Relational database`
+
 C) 🔧 `Web server`
+
 D) ⚙️ `Compute service`
 
 **Correct Answer**: A) 📦 `Object storage service`
@@ -38,8 +47,11 @@ D) ⚙️ `Compute service`
 ### 4. 🗄️ What is Amazon RDS? 🟢
 
 A) 🗄️ `Relational database service`
+
 B) 📦 `File storage`
+
 C) ⚡ `Virtual server`
+
 D) 🌐 `Network service`
 
 **Correct Answer**: A) 🗄️ `Relational database service`
@@ -49,8 +61,11 @@ D) 🌐 `Network service`
 ### 5. 🌐 What is Amazon VPC? 🟡
 
 A) 🔒 `Virtual private cloud`
+
 B) 🌐 `DNS service`
+
 C) 🔧 `Application firewall`
+
 D) ⚙️ `Load balancer`
 
 **Correct Answer**: A) 🔒 `Virtual private cloud`
@@ -60,8 +75,11 @@ D) ⚙️ `Load balancer`
 ### 6. 🔐 What is AWS IAM? 🟡
 
 A) 🔐 `Identity and access management service`
+
 B) 🔒 `Network firewall`
+
 C) 🛡️ `Cloud antivirus`
+
 D) 🔑 `Password manager`
 
 **Correct Answer**: A) 🔐 `Identity and access management service`
@@ -71,8 +89,11 @@ D) 🔑 `Password manager`
 ### 7. ⚡ What is AWS Lambda? 🟡
 
 A) ⚡ `Serverless computing service`
+
 B) 🔧 `Virtual server`
+
 C) 📦 `Storage`
+
 D) 🌐 `Network service`
 
 **Correct Answer**: A) ⚡ `Serverless computing service`
@@ -82,8 +103,11 @@ D) 🌐 `Network service`
 ### 8. 🔄 What is Auto Scaling? 🟡
 
 A) 🔄 `Automatic resource scaling`
+
 B) 🔧 `Automatic backup`
+
 C) ⚙️ `Automatic update`
+
 D) 📊 `Automatic monitoring`
 
 **Correct Answer**: A) 🔄 `Automatic resource scaling`
@@ -93,8 +117,11 @@ D) 📊 `Automatic monitoring`
 ### 9. 🌍 What is Amazon CloudFront? 🟢
 
 A) 🌍 `Content delivery service`
+
 B) 🌐 `Web server`
+
 C) 📦 `Storage`
+
 D) 🔧 `Database`
 
 **Correct Answer**: A) 🌍 `Content delivery service`
@@ -104,8 +131,11 @@ D) 🔧 `Database`
 ### 10. 🗄️ What is Amazon DynamoDB? 🟡
 
 A) 🗄️ `Managed NoSQL database`
+
 B) 📦 `File storage`
-C) �� `Virtual server`
+
+C) 🔧 `Virtual server`
+
 D) 🌐 `Network service`
 
 **Correct Answer**: A) 🗄️ `Managed NoSQL database`
@@ -115,8 +145,11 @@ D) 🌐 `Network service`
 ### 11. 🔒 What is AWS WAF? 🟡
 
 A) 🛡️ `Web application firewall`
+
 B) 🔐 `Encryption service`
+
 C) 🔑 `Key manager`
+
 D) 🚪 `Reverse proxy`
 
 **Correct Answer**: A) 🛡️ `Web application firewall`
@@ -126,8 +159,11 @@ D) 🚪 `Reverse proxy`
 ### 12. 📊 What is Amazon CloudWatch? 🟢
 
 A) 📊 `Monitoring and observability service`
+
 B) 📈 `Analytics tool`
+
 C) 🔍 `Search service`
+
 D) 📋 `Log manager`
 
 **Correct Answer**: A) 📊 `Monitoring and observability service`
@@ -137,8 +173,11 @@ D) 📋 `Log manager`
 ### 13. 🔄 What is AWS Elastic Beanstalk? 🟡
 
 A) 🚀 `Application deployment and management service`
+
 B) 🔧 `Application server`
+
 C) 📦 `Application container`
+
 D) ⚙️ `Container orchestrator`
 
 **Correct Answer**: A) 🚀 `Application deployment and management service`
@@ -148,8 +187,11 @@ D) ⚙️ `Container orchestrator`
 ### 14. 🗄️ What is Amazon ElastiCache? 🟢
 
 A) 🗄️ `In-memory caching service`
+
 B) 📦 `Temporary storage`
+
 C) 🔧 `Fast database`
+
 D) ⚙️ `Session server`
 
 **Correct Answer**: A) 🗄️ `In-memory caching service`
@@ -159,8 +201,11 @@ D) ⚙️ `Session server`
 ### 15. 🔐 What is AWS KMS? 🟡
 
 A) 🔑 `Key management service`
+
 B) 🔒 `Encryption service`
+
 C) 🛡️ `Network firewall`
+
 D) 🔐 `Password manager`
 
 **Correct Answer**: A) 🔑 `Key management service`
@@ -170,8 +215,11 @@ D) 🔐 `Password manager`
 ### 16. 🌐 What is Amazon Route 53? 🟢
 
 A) 🌐 `Scalable web DNS service`
+
 B) 🔧 `Web server`
+
 C) 📦 `Storage`
+
 D) ⚙️ `Load balancer`
 
 **Correct Answer**: A) 🌐 `Scalable web DNS service`
@@ -181,8 +229,11 @@ D) ⚙️ `Load balancer`
 ### 17. 🔄 What is AWS CloudFormation? 🟡
 
 A) 📋 `Infrastructure as code service`
+
 B) 🔧 `Configuration manager`
+
 C) ⚙️ `Service orchestrator`
+
 D) 📦 `Resource templater`
 
 **Correct Answer**: A) 📋 `Infrastructure as code service`
@@ -192,8 +243,11 @@ D) 📦 `Resource templater`
 ### 18. 🗄️ What is Amazon Aurora? 🟡
 
 A) 🗄️ `MySQL/PostgreSQL compatible relational database`
+
 B) 📦 `File storage`
+
 C) 🔧 `Database server`
+
 D) ⚙️ `Backup service`
 
 **Correct Answer**: A) 🗄️ `MySQL/PostgreSQL compatible relational database`
@@ -203,8 +257,11 @@ D) ⚙️ `Backup service`
 ### 19. 🔒 What is AWS Shield? 🟢
 
 A) 🛡️ `DDoS protection service`
+
 B) 🔐 `Network firewall`
+
 C) 🚪 `Security proxy`
+
 D) 🔑 `Certificate manager`
 
 **Correct Answer**: A) 🛡️ `DDoS protection service`
@@ -214,8 +271,11 @@ D) 🔑 `Certificate manager`
 ### 20. 📦 What is Amazon EBS? 🟢
 
 A) 💾 `Block storage service`
+
 B) 📦 `Object storage`
+
 C) 🗄️ `Database`
+
 D) 🔧 `File server`
 
 **Correct Answer**: A) 💾 `Block storage service`
@@ -225,8 +285,11 @@ D) 🔧 `File server`
 ### 21. 🔄 What is AWS CodeDeploy? 🟡
 
 A) 🚀 `Automated deployment service`
+
 B) 🔧 `Application server`
+
 C) 📦 `Deployment container`
+
 D) ⚙️ `Version manager`
 
 **Correct Answer**: A) 🚀 `Automated deployment service`

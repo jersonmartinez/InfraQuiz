@@ -1,234 +1,297 @@
-# 🐙 GitHub - Cuestionario 1
+# 📊 GitHub & Git - Cuestionario 1
 
 ## Preguntas
 
-### 1. 🐙 ¿Qué es GitHub? 🟢
+### 1. 📊 ¿Qué es Git? 🟢
 
-A) 🐙 `Plataforma de hosting para repositorios Git`
-B) 🔧 `Sistema de control de versiones`
-C) 📦 `Gestor de paquetes`
-D) 🌐 `Servidor web`
+A) 📊 Sistema de control de versiones distribuido
 
-**Respuesta correcta**: A) 🐙 `Plataforma de hosting para repositorios Git`
+B) 🔧 Sistema de almacenamiento de archivos
 
-> 💡 GitHub es la plataforma más popular para alojar y colaborar en proyectos de código. ¡Como una red social para desarrolladores!
+C) 📦 Gestor de paquetes
 
-### 2. 🔄 ¿Qué es Git? 🟢
+D) 🌐 Servicio de alojamiento web
 
-A) 🔄 `Sistema de control de versiones distribuido`
-B) 🔧 `Lenguaje de programación`
-C) 📦 `Gestor de archivos`
-D) 🌐 `Protocolo de red`
+**Respuesta correcta**: A) 📊 Sistema de control de versiones distribuido
 
-**Respuesta correcta**: A) 🔄 `Sistema de control de versiones distribuido`
+> 💡 Git rastrea cambios en el código fuente durante el desarrollo de software. ¡Como tener una máquina del tiempo para tu código!
 
-> 📘 Git permite rastrear cambios en el código y colaborar con otros desarrolladores. ¡Como tener un historial completo de tu proyecto!
+### 2. 🌐 ¿Qué es GitHub? 🟢
 
-### 3. 📝 ¿Qué es un commit? 🟢
+A) 🌐 Servicio de alojamiento basado en la nube para repositorios Git
 
-A) 📝 `Guardar cambios en el repositorio`
-B) 🔧 `Enviar código`
-C) 📦 `Subir archivos`
-D) 🌐 `Conectar repositorios`
+B) 🔧 Instalación local de Git
 
-**Respuesta correcta**: A) 📝 `Guardar cambios en el repositorio`
+C) 📦 Alternativa a Git
 
-> ⚡ Un commit es como guardar una versión de tu trabajo con un mensaje descriptivo. ¡Como hacer una foto de tu progreso!
+D) 📊 Sistema de control de versiones
 
-### 4. 🌿 ¿Qué es una rama (branch)? 🟡
+**Respuesta correcta**: A) 🌐 Servicio de alojamiento basado en la nube para repositorios Git
 
-A) 🌿 `Línea de desarrollo independiente`
-B) 🔧 `Carpeta de archivos`
-C) 📦 `Versión del proyecto`
-D) 🌐 `Conexión de red`
+> ⚡ GitHub es una plataforma que usa Git para control de versiones y añade características de colaboración. ¡Como Google Docs para programadores!
 
-**Respuesta correcta**: A) 🌿 `Línea de desarrollo independiente`
+### 3. 🔧 ¿Cómo inicializas un repositorio Git? 🟢
 
-> 💡 Las ramas permiten trabajar en nuevas características sin afectar el código principal. ¡Como tener una copia de trabajo separada!
+A) 🔧 `git init`
 
-### 5. 🔀 ¿Qué es un merge? 🟡
+B) 📦 git crear
 
-A) 🔀 `Combinar cambios de diferentes ramas`
-B) 🔧 `Unir archivos`
-C) 📦 `Fusionar proyectos`
-D) 🌐 `Conectar servidores`
+C) 🌐 git nuevo
 
-**Respuesta correcta**: A) 🔀 `Combinar cambios de diferentes ramas`
+D) 📊 git iniciar
 
-> 🎯 El merge integra cambios de una rama a otra. ¡Como juntar dos versiones de una receta!
+**Respuesta correcta**: A) 🔧 `git init`
 
-### 6. 🔄 ¿Qué es un pull request? 🟡
+> 📘 `git init` crea un nuevo repositorio Git en el directorio actual. ¡El comienzo de todo proyecto Git!
 
-A) 🔄 `Solicitud para integrar cambios`
-B) 🔧 `Pedir archivos`
-C) 📦 `Solicitar paquetes`
-D) 🌐 `Conectar repositorios`
+### 4. 📦 ¿Cómo añades archivos al staging? 🟢
 
-**Respuesta correcta**: A) 🔄 `Solicitud para integrar cambios`
+A) 📦 `git add nombre_archivo` o `git add .`
 
-> 📘 Los pull requests permiten revisar código antes de integrarlo. ¡Como pedir permiso antes de hacer cambios!
+B) 🔧 git stage nombre_archivo
 
-### 7. 🔍 ¿Qué es un fork? 🟢
+C) 🌐 git incluir nombre_archivo
 
-A) 🔍 `Copia personal de un repositorio`
-B) 🔧 `Bifurcar código`
-C) 📦 `Dividir proyecto`
-D) 🌐 `Separar red`
+D) 📊 git preparar nombre_archivo
 
-**Respuesta correcta**: A) 🔍 `Copia personal de un repositorio`
+**Respuesta correcta**: A) 📦 `git add nombre_archivo` o `git add .`
 
-> ⚡ Un fork crea tu propia copia de un proyecto para trabajar independientemente. ¡Como tener tu propia copia de un libro!
+> 🎯 `git add` prepara cambios para commit. ¡Usa `git add .` para añadir todos los archivos del directorio actual!
 
-### 8. 🔍 ¿Qué es un clone? 🟢
+### 5. 💾 ¿Cómo haces commit de los cambios? 🟢
 
-A) 🔍 `Descargar repositorio completo`
-B) 🔧 `Copiar archivos`
-C) 📦 `Duplicar proyecto`
-D) 🌐 `Replicar servidor`
+A) 💾 `git commit -m "mensaje"`
 
-**Respuesta correcta**: A) 🔍 `Descargar repositorio completo`
+B) 🔧 git guardar -m "mensaje"
 
-> 💡 Clone descarga todo el historial del repositorio a tu computadora. ¡Como descargar una biblioteca completa!
+C) 📦 git almacenar -m "mensaje"
 
-### 9. 📤 ¿Qué es push? 🟢
+D) 🌐 git registrar -m "mensaje"
 
-A) 📤 `Subir cambios al repositorio remoto`
-B) 🔧 `Empujar archivos`
-C) 📦 `Enviar paquetes`
-D) 🌐 `Conectar red`
+**Respuesta correcta**: A) 💾 `git commit -m "mensaje"`
 
-**Respuesta correcta**: A) 📤 `Subir cambios al repositorio remoto`
+> ⚡ `git commit` guarda tus cambios preparados con un mensaje descriptivo. ¡Como tomar una foto instantánea de tu trabajo!
 
-> 🎯 Push envía tus commits locales al repositorio en GitHub. ¡Como subir tus fotos a la nube!
+### 6. 🔍 ¿Cómo verificas el estado del repositorio? 🟢
 
-### 10. 📥 ¿Qué es pull? 🟢
+A) 🔍 `git status`
 
-A) 📥 `Descargar cambios del repositorio remoto`
-B) 🔧 `Jalar archivos`
-C) 📦 `Obtener paquetes`
-D) 🌐 `Conectar servidor`
+B) 🔧 git info
 
-**Respuesta correcta**: A) 📥 `Descargar cambios del repositorio remoto`
+C) 📦 git verificar
 
-> 📘 Pull actualiza tu repositorio local con los cambios más recientes. ¡Como sincronizar tu teléfono!
+D) 🌐 git estado
 
-### 11. 🔍 ¿Qué es un issue? 🟡
+**Respuesta correcta**: A) 🔍 `git status`
 
-A) 🔍 `Reporte de problema o solicitud de mejora`
-B) 🔧 `Error del sistema`
-C) 📦 `Problema de paquete`
-D) 🌐 `Fallo de red`
+> 💡 `git status` muestra qué archivos están modificados, preparados o sin rastrear. ¡Tu panel de salud de Git!
 
-**Respuesta correcta**: A) 🔍 `Reporte de problema o solicitud de mejora`
+### 7. 📚 ¿Cómo ves el historial de commits? 🟡
 
-> ⚡ Los issues permiten reportar bugs o solicitar nuevas características. ¡Como un sistema de tickets para el proyecto!
+A) 📚 `git log`
 
-### 12. 🏷️ ¿Qué es un tag? 🟡
+B) 🔧 git historial
 
-A) 🏷️ `Etiqueta para marcar versiones específicas`
-B) 🔧 `Marca de archivo`
-C) 📦 `Etiqueta de paquete`
-D) 🌐 `Etiqueta de red`
+C) 📦 git commits
 
-**Respuesta correcta**: A) 🏷️ `Etiqueta para marcar versiones específicas`
+D) 🌐 git línea_tiempo
 
-> 💡 Los tags marcan puntos importantes en el historial, como versiones de lanzamiento. ¡Como poner un marcador en una página importante!
+**Respuesta correcta**: A) 📚 `git log`
 
-### 13. 🔍 ¿Qué es un repository? 🟢
+> 🔄 `git log` muestra el historial de commits con mensajes, autores y fechas. ¡Añade `--oneline` para vista compacta!
 
-A) 🔍 `Almacén de código y archivos del proyecto`
-B) 🔧 `Depósito de archivos`
-C) 📦 `Almacén de paquetes`
-D) 🌐 `Servidor de archivos`
+### 8. 🌿 ¿Cómo creas una nueva rama? 🟡
 
-**Respuesta correcta**: A) 🔍 `Almacén de código y archivos del proyecto`
+A) 🌿 `git branch nombre_rama` o `git checkout -b nombre_rama`
 
-> 🎯 Un repository contiene todo el código, historial y metadatos del proyecto. ¡Como una caja fuerte para tu código!
+B) 🔧 git nueva nombre_rama
 
-### 14. 🔍 ¿Qué es un README? 🟢
+C) 📦 git crear nombre_rama
 
-A) 🔍 `Archivo que describe el proyecto`
-B) 🔧 `Documento de configuración`
-C) 📦 `Manual de instalación`
-D) 🌐 `Guía de red`
+D) 🌐 git iniciar nombre_rama
 
-**Respuesta correcta**: A) 🔍 `Archivo que describe el proyecto`
+**Respuesta correcta**: A) 🌿 `git branch nombre_rama` o `git checkout -b nombre_rama`
 
-> 📘 El README es la primera impresión de tu proyecto. ¡Como la portada de un libro!
+> 📘 Las ramas te permiten trabajar en características independientemente. ¡`git checkout -b` crea y cambia en un comando!
 
-### 15. 🔍 ¿Qué es .gitignore? 🟡
+### 9. 🔄 ¿Cómo cambias entre ramas? 🟡
 
-A) 🔍 `Archivo que especifica qué archivos ignorar`
-B) 🔧 `Configuración de Git`
-C) 📦 `Lista de exclusiones`
-D) 🌐 `Filtro de red`
+A) 🔄 `git checkout nombre_rama` o `git switch nombre_rama`
 
-**Respuesta correcta**: A) 🔍 `Archivo que especifica qué archivos ignorar`
+B) 🔧 git cambiar nombre_rama
 
-> ⚡ .gitignore evita que archivos innecesarios se suban al repositorio. ¡Como una lista de cosas que no quieres empacar!
+C) 📦 git mover nombre_rama
 
-### 16. 🔍 ¿Qué es un conflict? 🟡
+D) 🌐 git ir_a nombre_rama
 
-A) 🔍 `Cuando Git no puede combinar cambios automáticamente`
-B) 🔧 `Error de sistema`
-C) 📦 `Problema de paquete`
-D) 🌐 `Fallo de red`
+**Respuesta correcta**: A) 🔄 `git checkout nombre_rama` o `git switch nombre_rama`
 
-**Respuesta correcta**: A) 🔍 `Cuando Git no puede combinar cambios automáticamente`
+> 🎯 Ambos comandos funcionan. ¡`git switch` es más nuevo y más intuitivo para cambiar ramas!
 
-> 💡 Los conflictos ocurren cuando dos personas modifican la misma línea. ¡Como cuando dos personas escriben en la misma página!
+### 10. 🔗 ¿Cómo fusionas ramas? 🟡
 
-### 17. 🔍 ¿Qué es un stash? 🟡
+A) 🔗 `git merge nombre_rama`
 
-A) 🔍 `Guardar cambios temporalmente sin hacer commit`
-B) 🔧 `Ocultar archivos`
-C) 📦 `Almacenar paquetes`
-D) 🌐 `Guardar conexión`
+B) 🔧 git combinar nombre_rama
 
-**Respuesta correcta**: A) 🔍 `Guardar cambios temporalmente sin hacer commit`
+C) 📦 git unir nombre_rama
 
-> 🎯 Stash guarda tu trabajo en progreso para cambiarlo más tarde. ¡Como guardar tu lugar en un libro!
+D) 🌐 git fusionar nombre_rama
 
-### 18. 🔍 ¿Qué es un remote? 🟢
+**Respuesta correcta**: A) 🔗 `git merge nombre_rama`
 
-A) 🔍 `Conexión a un repositorio remoto`
-B) 🔧 `Servidor remoto`
-C) 📦 `Paquete remoto`
-D) 🌐 `Conexión de red`
+> ⚡ `git merge` combina cambios de otra rama en la rama actual. ¡Cambia a la rama destino primero!
 
-**Respuesta correcta**: A) 🔍 `Conexión a un repositorio remoto`
+### 11. ☁️ ¿Cómo clonas un repositorio? 🟢
 
-> 📘 Los remotes conectan tu repositorio local con GitHub. ¡Como tener la dirección de tu casa en la nube!
+A) ☁️ `git clone url_repositorio`
 
-### 19. 🔍 ¿Qué es un commit hash? 🟡
+B) 🔧 git descargar url_repositorio
 
-A) 🔍 `Identificador único de un commit`
-B) 🔧 `Código de archivo`
-C) 📦 `ID de paquete`
-D) 🌐 `Dirección de red`
+C) 📦 git copiar url_repositorio
 
-**Respuesta correcta**: A) 🔍 `Identificador único de un commit`
+D) 🌐 git obtener url_repositorio
 
-> ⚡ El hash es como el DNI de cada commit. ¡Como tener un código único para cada versión!
+**Respuesta correcta**: A) ☁️ `git clone url_repositorio`
 
-### 20. 🔍 ¿Qué es un rebase? 🟡
+> 💡 `git clone` descarga una copia completa de un repositorio remoto a tu máquina local!
 
-A) 🔍 `Reescribir el historial de commits`
-B) 🔧 `Reorganizar archivos`
-C) 📦 `Reempaquetar proyecto`
-D) 🌐 `Reconectar red`
+### 12. 📤 ¿Cómo subes cambios al remoto? 🟡
 
-**Respuesta correcta**: A) 🔍 `Reescribir el historial de commits`
+A) 📤 `git push origin nombre_rama`
 
-> 💡 Rebase reorganiza commits para tener un historial más limpio. ¡Como reescribir una historia para que fluya mejor!
+B) 🔧 git subir origin nombre_rama
 
-### 21. 🔍 ¿Qué es GitHub Actions? 🟡
+C) 📦 git enviar origin nombre_rama
 
-A) 🔍 `Sistema de automatización de GitHub`
-B) 🔧 `Acciones del sistema`
-C) 📦 `Automatización de paquetes`
-D) 🌐 `Automatización de red`
+D) 🌐 git publicar origin nombre_rama
 
-**Respuesta correcta**: A) 🔍 `Sistema de automatización de GitHub`
+**Respuesta correcta**: A) 📤 `git push origin nombre_rama`
 
-> 📘 GitHub Actions automatiza tareas como pruebas y despliegues. ¡Como tener un asistente automático para tu proyecto!
+> 🚀 `git push` sube tus commits locales al repositorio remoto. ¡Comparte tu trabajo con el equipo!
+
+### 13. 📥 ¿Cómo descargas cambios del remoto? 🟡
+
+A) 📥 `git pull origin nombre_rama`
+
+B) 🔧 git descargar origin nombre_rama
+
+C) 📦 git obtener origin nombre_rama
+
+D) 🌐 git traer origin nombre_rama
+
+**Respuesta correcta**: A) 📥 `git pull origin nombre_rama`
+
+> 📘 `git pull` descarga y fusiona cambios remotos en tu rama local. ¡Mantente actualizado con los cambios del equipo!
+
+### 14. 🔧 ¿Qué es un pull request? 🟡
+
+A) 🔧 Solicitud para fusionar cambios en la rama principal
+
+B) 📦 Solicitud para descargar código
+
+C) 🌐 Solicitud para extraer repositorio
+
+D) 📊 Solicitud para actualizar archivos
+
+**Respuesta correcta**: A) 🔧 Solicitud para fusionar cambios en la rama principal
+
+> 🎯 Los pull requests permiten revisión de código y discusión antes de fusionar. ¡Esencial para colaboración en equipo!
+
+### 15. 🏷️ ¿Cómo creas una etiqueta? 🟡
+
+A) 🏷️ `git tag nombre_etiqueta`
+
+B) 🔧 git etiquetar nombre_etiqueta
+
+C) 📦 git marcar nombre_etiqueta
+
+D) 🌐 git versión nombre_etiqueta
+
+**Respuesta correcta**: A) 🏷️ `git tag nombre_etiqueta`
+
+> ⚡ Las etiquetas marcan puntos específicos en el historial, usualmente para releases. ¡Usa `git tag v1.0.0` para etiquetas de versión!
+
+### 16. 🔍 ¿Cómo ves las diferencias? 🟡
+
+A) 🔍 `git diff`
+
+B) 🔧 git comparar
+
+C) 📦 git cambios
+
+D) 🌐 git diferencias
+
+**Respuesta correcta**: A) 🔍 `git diff`
+
+> 💡 `git diff` muestra cambios entre commits, ramas o directorio de trabajo. ¡Tu herramienta de comparación de código!
+
+### 17. ↩️ ¿Cómo deshaces el último commit? 🔴
+
+A) ↩️ `git reset HEAD~1` (suave) o `git reset --hard HEAD~1` (duro)
+
+B) 🔧 git deshacer
+
+C) 📦 git revertir
+
+D) 🌐 git regresar
+
+**Respuesta correcta**: A) ↩️ `git reset HEAD~1` (suave) o `git reset --hard HEAD~1` (duro)
+
+> 🔄 Reset suave mantiene cambios en directorio de trabajo, reset duro los descarta. ¡Usa con cuidado!
+
+### 18. 🔍 ¿Cómo buscas en el historial de commits? 🔴
+
+A) 🔍 `git log --grep="término_búsqueda"`
+
+B) 🔧 git buscar "término_búsqueda"
+
+C) 📦 git encontrar "término_búsqueda"
+
+D) 🌐 git consultar "término_búsqueda"
+
+**Respuesta correcta**: A) 🔍 `git log --grep="término_búsqueda"`
+
+> 📘 `git log --grep` busca en mensajes de commit. ¡Usa `git log -S "código"` para buscar cambios de código!
+
+### 19. 🌿 ¿Qué es Git Flow? 🔴
+
+A) 🌿 Modelo de ramificación con ramas feature, develop y master
+
+B) 🔧 Flujo de comandos Git
+
+C) 📦 Herramienta de flujo de trabajo Git
+
+D) 🌐 Característica de GitHub
+
+**Respuesta correcta**: A) 🌿 Modelo de ramificación con ramas feature, develop y master
+
+> 🎯 Git Flow define un modelo estricto de ramificación para releases. ¡Popular para flujos de desarrollo estructurados!
+
+### 20. 🔒 ¿Qué es un Git hook? 🔴
+
+A) 🔒 Script que se ejecuta automáticamente en eventos Git
+
+B) 🔧 Adjunto de Git
+
+C) 📦 Plugin de Git
+
+D) 🌐 Conexión de Git
+
+**Respuesta correcta**: A) 🔒 Script que se ejecuta automáticamente en eventos Git
+
+> ⚡ Los hooks se ejecutan en eventos como commit, push, merge. ¡Úsalos para pruebas automatizadas, formateo o despliegue!
+
+### 21. 🚀 ¿Qué son GitHub Actions? 🔴
+
+A) 🚀 Plataforma CI/CD para flujos de trabajo automatizados
+
+B) 🔧 Comandos de GitHub
+
+C) 📦 Acciones de repositorio
+
+D) 🌐 Acciones de usuario
+
+**Respuesta correcta**: A) 🚀 Plataforma CI/CD para flujos de trabajo automatizados
+
+> 🏗️ GitHub Actions automatiza pruebas, construcción y despliegue directamente desde tu repositorio. ¡DevOps hecho fácil!

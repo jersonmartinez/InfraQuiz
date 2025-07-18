@@ -1,297 +1,297 @@
-# 🚀 CI/CD - Cuestionario 1
+# 🔄 CI/CD - Cuestionario 1
 
 ## Preguntas
 
-### 1. 🚀 ¿Qué significa CI/CD? 🟢
+### 1. 🔄 ¿Qué es CI/CD? 🟢
 
-A) 📝 Integración Continua / Despliegue Continuo
+A) 🔄 Integración Continua/Despliegue Continuo
 
-B) 🔄 Control de Integración / Control de Despliegue
+B) 🔧 Integración de Código/Despliegue de Código
 
-C) 📦 Código Integrado / Código Desplegado
+C) 📦 Integración Central/Despliegue Central
 
-D) 🎯 Compilación Integrada / Distribución Continua
+D) 🌐 Integración de Computador/Despliegue de Computador
 
-**Respuesta correcta**: A) 📝 Integración Continua / Despliegue Continuo
+**Respuesta correcta**: A) 🔄 Integración Continua/Despliegue Continuo
 
-> 💡 CI/CD automatiza la integración de código y su despliegue, acelerando la entrega de software. ¡Como una línea de ensamblaje para aplicaciones!
+> 💡 CI/CD automatiza la construcción, pruebas y despliegue de código. ¡Como tener un asistente robot para tu flujo de desarrollo!
 
-### 2. 🔧 ¿Cuál es el objetivo principal de la Integración Continua? 🟢
+### 2. 🏗️ ¿Qué es la Integración Continua? 🟢
 
-A) 📝 Detectar problemas de integración tempranamente
+A) 🏗️ Construcción y pruebas automáticas de cambios de código
 
-B) 🔄 Reducir el tamaño del código
+B) 🔧 Proceso manual de revisión de código
 
-C) 📦 Aumentar la seguridad
+C) 📦 Entorno de desarrollo integrado
 
-D) 🎯 Mejorar la interfaz de usuario
+D) 🌐 Sistema de monitoreo continuo
 
-**Respuesta correcta**: A) 📝 Detectar problemas de integración tempranamente
+**Respuesta correcta**: A) 🏗️ Construcción y pruebas automáticas de cambios de código
 
-> ⚡ CI integra código frecuentemente y ejecuta tests automáticamente para detectar conflictos rápido. ¡Prevenir es mejor que curar!
+> ⚡ CI asegura que los cambios de código se prueben automáticamente al hacer commit. ¡Atrapa bugs temprano y mantiene al equipo sincronizado!
 
-### 3. 🎯 ¿Qué es un pipeline de CI/CD? 🟢
+### 3. 🚀 ¿Qué es el Despliegue Continuo? 🟢
 
-A) 📝 Serie automatizada de pasos desde código hasta producción
+A) 🚀 Despliegue automático de código a producción
 
-B) 🔄 Herramienta de gestión de versiones
+B) 🔧 Proceso manual de despliegue
 
-C) 📦 Sistema de monitoreo
+C) 📦 Despliegue una vez por semana
 
-D) 🎯 Base de datos de despliegues
+D) 🌐 Estrategia de respaldo de despliegue
 
-**Respuesta correcta**: A) 📝 Serie automatizada de pasos desde código hasta producción
+**Respuesta correcta**: A) 🚀 Despliegue automático de código a producción
 
-> 🔄 Un pipeline automatiza build, test, y deploy. ¡Como una cadena de montaje que convierte código en aplicaciones funcionando!
+> 📘 CD toma código probado y lo despliega automáticamente en entornos de producción. ¡Releases rápidos y confiables!
 
-### 4. 🔍 ¿Qué es un build en CI/CD? 🟢
+### 4. 🔧 ¿Qué es Jenkins? 🟡
 
-A) 📝 Proceso de compilar y empaquetar el código
+A) 🔧 Servidor de automatización de código abierto para CI/CD
 
-B) 🔄 Proceso de testing
+B) 📦 Sistema de control de versiones
 
-C) 📦 Proceso de despliegue
+C) 🌐 Plataforma de orquestación de contenedores
 
-D) 🎯 Proceso de documentación
+D) 📊 Herramienta de monitoreo
 
-**Respuesta correcta**: A) 📝 Proceso de compilar y empaquetar el código
+**Respuesta correcta**: A) 🔧 Servidor de automatización de código abierto para CI/CD
 
-> 💡 El build convierte código fuente en una aplicación ejecutable. ¡Como cocinar los ingredientes para hacer un plato!
+> 🎯 Jenkins automatiza la construcción, pruebas y despliegue de aplicaciones. ¡Una de las herramientas CI/CD más populares!
 
-### 5. 🧪 ¿Qué tipos de tests se ejecutan típicamente en CI? 🟡
+### 5. 📦 ¿Qué es Docker en el contexto de CI/CD? 🟡
 
-A) 📝 Tests unitarios, integración y funcionales
+A) 📦 Plataforma de contenedorización para entornos consistentes
 
-B) 🔄 Solo tests unitarios
+B) 🔧 Framework de pruebas
 
-C) 📦 Solo tests manuales
+C) 🌐 Script de despliegue
 
-D) 🎯 Solo tests de rendimiento
+D) 📊 Herramienta de análisis de código
 
-**Respuesta correcta**: A) 📝 Tests unitarios, integración y funcionales
+**Respuesta correcta**: A) 📦 Plataforma de contenedorización para entornos consistentes
 
-> 🔬 Una buena estrategia de testing incluye múltiples niveles: unit tests (rápidos), integration tests (componentes), functional tests (end-to-end).
+> ⚡ Docker asegura que tu aplicación funcione igual en todas partes - desarrollo, pruebas y producción!
 
-### 6. 🌿 ¿Qué es un trigger en CI/CD? 🟡
+### 6. 🌐 ¿Qué es un pipeline? 🟢
 
-A) 📝 Evento que inicia automáticamente el pipeline
+A) 🌐 Secuencia automatizada de pasos de CI/CD
 
-B) 🔄 Error en el pipeline
+B) 🔧 Conexión de red
 
-C) 📦 Herramienta de debugging
+C) 📦 Mecanismo de transferencia de archivos
 
-D) 🎯 Tipo de test
+D) 📊 Línea de procesamiento de datos
 
-**Respuesta correcta**: A) 📝 Evento que inicia automáticamente el pipeline
+**Respuesta correcta**: A) 🌐 Secuencia automatizada de pasos de CI/CD
 
-> ⚡ Los triggers pueden ser commits, pull requests, horarios programados, o eventos externos. ¡Como interruptores automáticos para tu pipeline!
+> 💡 Los pipelines definen el flujo de trabajo: construir → probar → desplegar. ¡Como una línea de ensamblaje para software!
 
-### 7. 🎭 ¿Qué es Blue-Green Deployment? 🟡
+### 7. 🧪 ¿Qué son las pruebas automatizadas en CI/CD? 🟢
 
-A) 📝 Estrategia con dos entornos idénticos para despliegue sin downtime
+A) 🧪 Ejecutar pruebas automáticamente en cambios de código
 
-B) 🔄 Despliegue con colores específicos
+B) 🔧 Garantía de calidad manual
 
-C) 📦 Tipo de monitoreo
+C) 📦 Documentación de código
 
-D) 🎯 Estrategia de backup
+D) 🌐 Monitoreo de rendimiento
 
-**Respuesta correcta**: A) 📝 Estrategia con dos entornos idénticos para despliegue sin downtime
+**Respuesta correcta**: A) 🧪 Ejecutar pruebas automáticamente en cambios de código
 
-> 🎯 Blue-Green permite cambiar tráfico instantáneamente entre versiones. Azul (actual) y Verde (nueva). ¡Como tener dos escenarios listos!
+> 📘 Las pruebas automatizadas atrapan bugs antes de que lleguen a producción. ¡Tu red de seguridad para la calidad del código!
 
-### 8. 🎪 ¿Qué es Canary Deployment? 🟡
+### 8. 🔍 ¿Qué es GitHub Actions? 🟡
 
-A) 📝 Despliegue gradual a un subconjunto de usuarios
+A) 🔍 Plataforma CI/CD integrada de GitHub
 
-B) 🔄 Despliegue solo en horarios específicos
+B) 🔧 Editor de código de GitHub
 
-C) 📦 Despliegue con rollback automático
+C) 📦 Gestor de paquetes de GitHub
 
-D) 🎯 Despliegue en múltiples regiones
+D) 🌐 Herramienta de monitoreo de GitHub
 
-**Respuesta correcta**: A) 📝 Despliegue gradual a un subconjunto de usuarios
+**Respuesta correcta**: A) 🔍 Plataforma CI/CD integrada de GitHub
 
-> 🐤 Como un canario en una mina, se expone una pequeña parte del tráfico a la nueva versión para detectar problemas temprano.
+> 🚀 GitHub Actions ejecuta flujos de trabajo directamente desde tu repositorio. ¡Integración perfecta con GitHub!
 
-### 9. 🔄 ¿Qué es un rollback? 🟢
+### 9. 📊 ¿Qué es GitLab CI? 🟡
 
-A) 📝 Volver a una versión anterior cuando hay problemas
+A) 📊 Solución CI/CD integrada de GitLab
 
-B) 🔄 Avanzar a la siguiente versión
+B) 🔧 Herramienta de revisión de código de GitLab
 
-C) 📦 Reiniciar el pipeline
+C) 📦 Rastreador de issues de GitLab
 
-D) 🎯 Actualizar dependencias
+D) 🌐 Sistema wiki de GitLab
 
-**Respuesta correcta**: A) 📝 Volver a una versión anterior cuando hay problemas
+**Respuesta correcta**: A) 📊 Solución CI/CD integrada de GitLab
 
-> 🚨 Los rollbacks son cruciales para recuperarse rápidamente de despliegues problemáticos. ¡Como un botón de deshacer para producción!
+> ⚡ GitLab CI está integrado en GitLab, proporcionando capacidades DevOps completas en una plataforma!
 
-### 10. 📊 ¿Qué son los artefactos en CI/CD? 🟡
+### 10. 🔧 ¿Qué es un build en CI/CD? 🟢
 
-A) 📝 Archivos generados por el build que se pueden desplegar
+A) 🔧 Proceso de compilar y empaquetar código
 
-B) 🔄 Logs del pipeline
+B) 📦 Crear documentación
 
-C) 📦 Configuraciones del sistema
+C) 🌐 Configurar servidores
 
-D) 🎯 Tests automatizados
+D) 📊 Analizar rendimiento
 
-**Respuesta correcta**: A) 📝 Archivos generados por el build que se pueden desplegar
+**Respuesta correcta**: A) 🔧 Proceso de compilar y empaquetar código
 
-> 📦 Los artefactos son el "producto" del build: JARs, containers, paquetes. ¡Como productos terminados listos para enviar!
+> 🎯 El build transforma código fuente en artefactos ejecutables. ¡El primer paso en la mayoría de pipelines CI/CD!
 
-### 11. 🌐 ¿Qué es un webhook en CI/CD? 🟡
+### 11. 🧪 ¿Qué son las pruebas unitarias? 🟡
 
-A) 📝 Mecanismo para notificar eventos HTTP automáticamente
+A) 🧪 Pruebas para componentes individuales de código
 
-B) 🔄 Herramienta de debugging
+B) 🔧 Pruebas para toda la aplicación
 
-C) 📦 Tipo de test
+C) 📦 Pruebas para interfaz de usuario
 
-D) 🎯 Sistema de monitoreo
+D) 🌐 Pruebas para conectividad de red
 
-**Respuesta correcta**: A) 📝 Mecanismo para notificar eventos HTTP automáticamente
+**Respuesta correcta**: A) 🧪 Pruebas para componentes individuales de código
 
-> 🔔 Los webhooks permiten que Git notifique al sistema CI cuando hay cambios. ¡Como un timbre que avisa cuando llega código nuevo!
+> 💡 Las pruebas unitarias verifican que pequeñas partes del código funcionen correctamente. ¡Rápidas, enfocadas y fundamentales!
 
-### 12. 🏗️ ¿Qué es Infrastructure as Code en CI/CD? 🔴
+### 12. 🔄 ¿Qué son las pruebas de integración? 🟡
 
-A) 📝 Gestionar infraestructura con archivos de configuración versionados
+A) 🔄 Probar cómo diferentes componentes trabajan juntos
 
-B) 🔄 Documentar infraestructura
+B) 🔧 Probar funciones individuales
 
-C) 📦 Monitorear infraestructura
+C) 📦 Probar interfaces de usuario
 
-D) 🎯 Automatizar solo aplicaciones
+D) 🌐 Probar rendimiento del servidor
 
-**Respuesta correcta**: A) 📝 Gestionar infraestructura con archivos de configuración versionados
+**Respuesta correcta**: A) 🔄 Probar cómo diferentes componentes trabajan juntos
 
-> 🏗️ IaC permite versionar y automatizar infraestructura como código. Herramientas: Terraform, CloudFormation, Ansible. ¡Infraestructura reproducible!
+> 📘 Las pruebas de integración aseguran que diferentes partes de tu aplicación se comuniquen apropiadamente. ¡Coordinación de equipo para código!
 
-### 13. 🔐 ¿Cómo se manejan secretos en pipelines CI/CD? 🔴
+### 13. 🌍 ¿Qué es el entorno de staging? 🟡
 
-A) 📝 Variables de entorno seguras y gestores de secretos
+A) 🌍 Entorno similar a producción para pruebas finales
 
-B) 🔄 Hardcodeados en el código
+B) 🔧 Entorno de desarrollo
 
-C) 📦 En archivos de configuración públicos
+C) 📦 Entorno de pruebas
 
-D) 🎯 En comentarios del código
+D) 🌐 Entorno de respaldo
 
-**Respuesta correcta**: A) 📝 Variables de entorno seguras y gestores de secretos
+**Respuesta correcta**: A) 🌍 Entorno similar a producción para pruebas finales
 
-> 🔐 NUNCA hardcodees secretos. Usa variables encriptadas, Azure Key Vault, AWS Secrets Manager, HashiCorp Vault. ¡Seguridad primero!
+> ⚡ Staging es tu ensayo final antes de producción. ¡Atrapa problemas en un entorno seguro!
 
-### 14. 🎯 ¿Qué es un stage en un pipeline? 🟡
+### 14. 🔄 ¿Qué es el despliegue blue-green? 🔴
 
-A) 📝 Fase del pipeline que agrupa tareas relacionadas
+A) 🔄 Estrategia de despliegue con dos entornos idénticos
 
-B) 🔄 Tipo de entorno
+B) 🔧 Sistema de despliegue con códigos de colores
 
-C) 📦 Herramienta de CI/CD
+C) 📦 Estrategia de despliegue gradual
 
-D) 🎯 Tipo de test
+D) 🌐 Método de despliegue de respaldo
 
-**Respuesta correcta**: A) 📝 Fase del pipeline que agrupa tareas relacionadas
+**Respuesta correcta**: A) 🔄 Estrategia de despliegue con dos entornos idénticos
 
-> 📋 Los stages organizan el pipeline: Build → Test → Deploy. Cada stage puede tener múltiples jobs. ¡Como actos en una obra de teatro!
+> 🚀 Los despliegues blue-green permiten rollbacks instantáneos y despliegues sin tiempo de inactividad. ¡Cambia entre entornos sin problemas!
 
-### 15. 🔧 ¿Qué son los runners/agents en CI/CD? 🟡
+### 15. 🎯 ¿Qué es el despliegue canary? 🔴
 
-A) 📝 Máquinas que ejecutan los trabajos del pipeline
+A) 🎯 Despliegue gradual a un subconjunto pequeño de usuarios
 
-B) 🔄 Desarrolladores que ejecutan deploys
+B) 🔧 Proceso de despliegue de emergencia
 
-C) 📦 Scripts de automatización
+C) 📦 Estrategia de despliegue de respaldo
 
-D) 🎯 Herramientas de monitoreo
+D) 🌐 Método de despliegue de desarrollo
 
-**Respuesta correcta**: A) 📝 Máquinas que ejecutan los trabajos del pipeline
+**Respuesta correcta**: A) 🎯 Despliegue gradual a un subconjunto pequeño de usuarios
 
-> ⚙️ Los runners pueden ser VMs, containers, o máquinas físicas. GitHub Actions usa runners, GitLab usa runners, Jenkins usa agents.
+> 💡 Los despliegues canary prueban nuevas versiones con usuarios limitados primero. ¡Como tener catadores de tu software!
 
-### 16. 🚀 ¿Qué es GitOps? 🔴
+### 16. 📊 ¿Qué es un artefacto en CI/CD? 🟡
 
-A) 📝 Metodología que usa Git como única fuente de verdad para infraestructura
+A) 📊 Salida producida por el proceso de build
 
-B) 🔄 Herramienta de Git avanzada
+B) 🔧 Archivo de código fuente
 
-C) 📦 Proceso de desarrollo con Git
+C) 📦 Archivo de configuración
 
-D) 🎯 Sistema de monitoreo para Git
+D) 🌐 Archivo de log
 
-**Respuesta correcta**: A) 📝 Metodología que usa Git como única fuente de verdad para infraestructura
+**Respuesta correcta**: A) 📊 Salida producida por el proceso de build
 
-> 🔄 GitOps usa pull requests para cambios de infraestructura. Herramientas: ArgoCD, Flux. ¡Git como centro de control universal!
+> 📘 Los artefactos son los resultados compilados y empaquetados listos para despliegue. ¡La forma final de tu software!
 
-### 17. 📊 ¿Qué métricas son importantes en CI/CD? 🔴
+### 17. 🔍 ¿Qué es el análisis estático de código? 🟡
 
-A) 📝 Lead time, deployment frequency, MTTR, change failure rate
+A) 🔍 Analizar código sin ejecutarlo
 
-B) 🔄 Solo líneas de código
+B) 🔧 Ejecutar código en producción
 
-C) 📦 Solo tiempo de ejecución
+C) 📦 Probar rendimiento del código
 
-D) 🎯 Solo número de commits
+D) 🌐 Monitorear ejecución del código
 
-**Respuesta correcta**: A) 📝 Lead time, deployment frequency, MTTR, change failure rate
+**Respuesta correcta**: A) 🔍 Analizar código sin ejecutarlo
 
-> 📈 Las 4 métricas DORA: Lead time (idea→producción), Deploy frequency, Mean time to recovery, Change failure rate. ¡Mide para mejorar!
+> 🎯 El análisis estático encuentra bugs, problemas de seguridad y calidad del código antes de la ejecución. ¡Prevenir es mejor que curar!
 
-### 18. 🔄 ¿Qué es el paralelismo en pipelines? 🟡
+### 18. 🔄 ¿Qué es un webhook? 🟡
 
-A) 📝 Ejecutar múltiples tareas simultáneamente para acelerar el pipeline
+A) 🔄 Callback HTTP activado por eventos
 
-B) 🔄 Ejecutar tareas en diferentes servidores
+B) 🔧 Herramienta de desarrollo web
 
-C) 📦 Duplicar el pipeline
+C) 📦 Hook del servidor web
 
-D) 🎯 Ejecutar el pipeline múltiples veces
+D) 🌐 Extensión del navegador web
 
-**Respuesta correcta**: A) 📝 Ejecutar múltiples tareas simultáneamente para acelerar el pipeline
+**Respuesta correcta**: A) 🔄 Callback HTTP activado por eventos
 
-> ⚡ Tests unitarios pueden ejecutarse en paralelo. Different stages pueden tener jobs paralelos. ¡Velocidad sin sacrificar calidad!
+> ⚡ Los webhooks activan pipelines CI/CD cuando se empuja código. ¡Activación instantánea de automatización!
 
-### 19. 🛡️ ¿Qué es shift-left security? 🔴
+### 19. 📦 ¿Qué es Infraestructura como Código (IaC)? 🔴
 
-A) 📝 Integrar seguridad temprano en el pipeline de desarrollo
+A) 📦 Gestionar infraestructura a través de código
 
-B) 🔄 Mover seguridad al final del proceso
+B) 🔧 Escribir documentación de infraestructura
 
-C) 📦 Usar herramientas de seguridad de terceros
+C) 🌐 Codificar en servidores de infraestructura
 
-D) 🎯 Tercerizar la seguridad
+D) 📊 Código de monitoreo de infraestructura
 
-**Respuesta correcta**: A) 📝 Integrar seguridad temprano en el pipeline de desarrollo
+**Respuesta correcta**: A) 📦 Gestionar infraestructura a través de código
 
-> 🔒 Incluye SAST, DAST, dependency scanning, container scanning en el pipeline. ¡Detectar vulnerabilidades antes de producción!
+> 🏗️ IaC trata servidores e infraestructura como código - versionado, probado y automatizado. ¡Consistencia en todas partes!
 
-### 20. 📦 ¿Qué es un registry en CI/CD? 🔴
+### 20. 🔧 ¿Qué es la gestión de configuración? 🔴
 
-A) 📝 Repositorio para almacenar artefactos construidos
+A) 🔧 Gestión automatizada de configuraciones del sistema
 
-B) 🔄 Lista de pipelines
+B) 📦 Configuración manual del servidor
 
-C) 📦 Base de datos de configuraciones
+C) 🌐 Herramienta de configuración de red
 
-D) 🎯 Sistema de logs
+D) 📊 Configuración de rendimiento
 
-**Respuesta correcta**: A) 📝 Repositorio para almacenar artefactos construidos
+**Respuesta correcta**: A) 🔧 Gestión automatizada de configuraciones del sistema
 
-> 📚 Docker Registry para containers, npm registry para paquetes, Maven repository para JARs. ¡Almacén de productos terminados!
+> 💡 La gestión de configuración asegura que todos los entornos estén configurados consistentemente. ¡Se acabó el "funciona en mi máquina"!
 
-### 21. 🎯 ¿Cuáles son las mejores prácticas para pipelines CI/CD? 🔴
+### 21. 🚀 ¿Cuál es el principal beneficio de CI/CD? 🟢
 
-A) 📝 Fail fast, feedback rápido, builds reproducibles, testing automatizado
+A) 🚀 Entrega de software más rápida y confiable
 
-B) 🔄 Solo builds manuales
+B) 🔧 Costos de desarrollo más baratos
 
-C) 📦 Tests solo en producción
+C) 📦 Mejor documentación de código
 
-D) 🎯 Deploys solo los viernes
+D) 🌐 Interfaces de usuario mejoradas
 
-**Respuesta correcta**: A) 📝 Fail fast, feedback rápido, builds reproducibles, testing automatizado
+**Respuesta correcta**: A) 🚀 Entrega de software más rápida y confiable
 
-> 🏆 Pipelines efectivos: fallan rápido, dan feedback inmediato, son reproducibles, incluyen tests automáticos, y permiten rollbacks rápidos. ¡Excelencia operacional!
+> 🎯 CI/CD reduce trabajo manual, atrapa bugs temprano y permite releases rápidos y confiables. ¡Velocidad con confianza!
