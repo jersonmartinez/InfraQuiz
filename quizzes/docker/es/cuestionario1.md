@@ -2,233 +2,296 @@
 
 ## Preguntas
 
-### 1. 📊 ¿Qué comando nos da las estadísticas en tiempo real de un contenedor con alto consumo de CPU? 🟢
+### 1. 🐳 ¿Qué es Docker? 🟢
 
-A) ⚡ `docker stats`
-B) 🔧 `docker top`
-C) 🛠️ `docker info`
-D) 📊 `docker metrics`
+A) 📝 Plataforma de containerización para empaquetar aplicaciones
 
-**Respuesta correcta**: A) ⚡ `docker stats`
+B) 🔄 Sistema operativo para servidores
 
-> 💡 `docker stats` muestra el uso de CPU, memoria y red en tiempo real. ¡Como un monitor de recursos para tus contenedores!
+C) 📦 Base de datos distribuida
 
-### 2. 📂 ¿Qué hace la instrucción WORKDIR en el Dockerfile? 🟢
+D) 🎯 Lenguaje de programación
 
-A) 🎯 `Establece el directorio de trabajo`
-B) 🔧 `Crea un volumen`
-C) ⚙️ `Instala dependencias`
-D) 📂 `Copia archivos`
+**Respuesta correcta**: A) 📝 Plataforma de containerización para empaquetar aplicaciones
 
-**Respuesta correcta**: A) 🎯 `Establece el directorio de trabajo`
+> 💡 Docker permite empaquetar aplicaciones con sus dependencias en containers portátiles. ¡Como cajas de envío estándar para software!
 
-> 📘 `WORKDIR` define el directorio base para las siguientes instrucciones. ¡Como un cd pero para tu contenedor!
+### 2. 🔧 ¿Cuál es la diferencia principal entre containers y VMs? 🟢
 
-### 3. 💾 ¿Qué bandera de docker run limita la memoria de un contenedor? 🟡
+A) 📝 Los containers comparten el kernel del OS, las VMs tienen OS completo
 
-A) 💾 `--memory`
-B) 🔧 `--mem`
-C) ⚙️ `--ram`
-D) 📊 `--limit`
+B) 🔄 Los containers son más lentos que las VMs
 
-**Respuesta correcta**: A) 💾 `--memory`
+C) 📦 Las VMs usan menos recursos
 
-> ⚡ `--memory` establece el límite de RAM. ¡Para que ningún contenedor se vuelva un glotón de recursos!
+D) 🎯 No hay diferencia práctica
 
-### 4. 🔌 ¿Cómo mapeas el puerto 80 del contenedor al 8080 del host? 🟢
+**Respuesta correcta**: A) 📝 Los containers comparten el kernel del OS, las VMs tienen OS completo
 
-A) 🔌 `-p 8080:80`
-B) 🛠️ `-p 80:8080`
-C) 🔧 `--port 80:8080`
-D) ⚙️ `--expose 8080:80`
+> ⚡ Los containers son más eficientes porque comparten el kernel del host. ¡Como apartamentos vs. casas individuales!
 
-**Respuesta correcta**: A) 🔌 `-p 8080:80`
+### 3. 🖼️ ¿Qué es una imagen Docker? 🟢
 
-> 🎯 `-p HOST:CONTAINER` es el formato. ¡Como un portero dirigiendo el tráfico al lugar correcto!
+A) 📝 Template de solo lectura para crear containers
 
-### 5. 📦 ¿Qué instrucción del Dockerfile es la más eficiente para instalar paquetes? 🟡
+B) 🔄 Container en ejecución
 
-A) ⚡ `RUN apt-get update && apt-get install`
-B) 🔧 `RUN apt-get install`
-C) 📦 `COPY && RUN`
-D) ⚙️ `ADD && INSTALL`
+C) 📦 Archivo de configuración
 
-**Respuesta correcta**: A) ⚡ `RUN apt-get update && apt-get install`
+D) 🎯 Sistema de monitoreo
 
-> 💡 Combinar comandos reduce capas y tamaño. ¡Como hacer la compra de una vez en lugar de varios viajes!
+**Respuesta correcta**: A) 📝 Template de solo lectura para crear containers
 
-### 6. 🔐 ¿Qué comando inspecciona los secretos de un contenedor? 🟡
+> 🎯 Las imágenes son como moldes o plantillas. Los containers son instancias ejecutándose de esas imágenes. ¡Como un plano vs. la casa construida!
 
-A) 🕵️ `docker inspect`
-B) 🔧 `docker secrets`
-C) ⚙️ `docker check`
-D) 🛠️ `docker audit`
+### 4. 📦 ¿Qué es un container Docker? 🟢
 
-**Respuesta correcta**: A) 🕵️ `docker inspect`
+A) 📝 Instancia ejecutable de una imagen Docker
 
-> 📘 `docker inspect` revela configuración y secretos. ¡Como un detective para tus contenedores!
+B) 🔄 Archivo de configuración Docker
 
-### 7. 🔄 ¿Qué hace la opción --restart=always? 🟢
+C) 📦 Registro de imágenes
 
-A) 🔄 `Reinicia el contenedor si se detiene`
-B) ⚙️ `Reinicia Docker daemon`
-C) 🔧 `Actualiza la imagen`
-D) 🛠️ `Recarga la configuración`
+D) 🎯 Herramienta de monitoreo
 
-**Respuesta correcta**: A) 🔄 `Reinicia el contenedor si se detiene`
+**Respuesta correcta**: A) 📝 Instancia ejecutable de una imagen Docker
 
-> ⚡ Mantiene el contenedor vivo automáticamente. ¡Como un guardián incansable!
+> 🏃‍♂️ Un container es una imagen "viva" - en ejecución. Puedes tener múltiples containers de la misma imagen. ¡Como múltiples Apps de la misma descarga!
 
-### 8. 🏷️ ¿Cuál es la mejor práctica para etiquetar imágenes? 🟡
+### 5. 📄 ¿Qué es un Dockerfile? 🟢
 
-A) 📌 `nombre:versión`
-B) 🏷️ `nombre_versión`
-C) ⚙️ `nombre-fecha`
-D) 🔧 `nombreV1`
+A) 📝 Archivo de texto con instrucciones para construir una imagen
 
-**Respuesta correcta**: A) 📌 `nombre:versión`
+B) 🔄 Container en ejecución
 
-> 💡 `nombre:versión` es el estándar. ¡Como una biblioteca bien organizada, cada libro en su lugar!
+C) 📦 Registro de cambios
 
-### 9. 🔍 ¿Qué comando muestra las capas de una imagen? 🟡
+D) 🎯 Herramienta de debugging
 
-A) 🎯 `docker history`
-B) 📊 `docker layers`
-C) ⚙️ `docker inspect`
-D) 🔧 `docker show`
+**Respuesta correcta**: A) 📝 Archivo de texto con instrucciones para construir una imagen
 
-**Respuesta correcta**: A) 🎯 `docker history`
+> 📋 Un Dockerfile es como una receta paso a paso para crear una imagen Docker. ¡Instrucciones claras para cocinar tu aplicación!
 
-> 📘 `docker history` revela la construcción capa por capa. ¡Como una radiografía de tu imagen!
+### 6. 🔨 ¿Qué comando construye una imagen desde un Dockerfile? 🟢
 
-### 10. 🚫 ¿Qué hace el flag --no-cache al construir una imagen? 🟡
+A) 📝 `docker build -t nombre .`
 
-A) 🚫 `Ignora la caché de construcción`
-B) 🔧 `No guarda la imagen`
-C) ⚙️ `No usa red`
-D) 📦 `No comprime`
+B) 🔄 `docker create -t nombre .`
 
-**Respuesta correcta**: A) 🚫 `Ignora la caché de construcción`
+C) 📦 `docker make -t nombre .`
 
-> ⚡ Construye desde cero, ignorando capas cacheadas. ¡Útil para builds totalmente frescos!
+D) 🎯 `docker compile -t nombre .`
 
-### 11. 🌐 ¿Cómo crear una red personalizada para contenedores? 🟢
+**Respuesta correcta**: A) 📝 `docker build -t nombre .`
 
-A) 🔌 `docker network create`
-B) 🔧 `docker create network`
-C) ⚙️ `docker new network`
-D) 🛠️ `docker network add`
+> 🏗️ `docker build` lee el Dockerfile y crea la imagen. El `-t` asigna un tag/nombre, el `.` indica el contexto actual.
 
-**Respuesta correcta**: A) 🔌 `docker network create`
+### 7. 🚀 ¿Qué comando ejecuta un container? 🟢
 
-> 🎯 `docker network create` genera una red aislada. ¡Como crear un vecindario privado para contenedores!
+A) 📝 `docker run imagen`
 
-### 12. ⚡ ¿Qué comando ejecuta un comando en un contenedor en ejecución? 🟢
+B) 🔄 `docker start imagen`
 
-A) ⚡ `docker exec`
-B) 🔧 `docker run`
-C) ⚙️ `docker do`
-D) 🛠️ `docker cmd`
+C) 📦 `docker execute imagen`
 
-**Respuesta correcta**: A) ⚡ `docker exec`
+D) 🎯 `docker launch imagen`
 
-> 💡 `docker exec` ejecuta comandos en contenedores activos. ¡Como enviar instrucciones a distancia!
+**Respuesta correcta**: A) 📝 `docker run imagen`
 
-### 13. 👤 ¿Qué hace la instrucción USER en un Dockerfile? 🟡
+> 🎬 `docker run` crea Y ejecuta un container de una imagen. Para containers existentes usa `docker start`.
 
-A) 👤 `Cambia el usuario para los comandos`
-B) 🔧 `Crea un usuario`
-C) ⚙️ `Borra un usuario`
-D) 🛠️ `Lista usuarios`
+### 8. 📋 ¿Qué comando lista containers en ejecución? 🟢
 
-**Respuesta correcta**: A) 👤 `Cambia el usuario para los comandos`
+A) 📝 `docker ps`
 
-> 📘 `USER` define quién ejecuta los comandos siguientes. ¡Como cambiar de identidad en el contenedor!
+B) 🔄 `docker list`
 
-### 14. ⚙️ ¿Qué comando actualiza la configuración de un contenedor? 🟡
+C) 📦 `docker show`
 
-A) ⚙️ `docker update`
-B) 🔧 `docker config`
-C) 🛠️ `docker modify`
-D) 📊 `docker change`
+D) 🎯 `docker containers`
 
-**Respuesta correcta**: A) ⚙️ `docker update`
+**Respuesta correcta**: A) 📝 `docker ps`
 
-> 💡 `docker update` modifica recursos en caliente. ¡Como actualizar las reglas del juego sin parar el partido!
+> 👀 `docker ps` muestra containers activos. Usa `docker ps -a` para ver TODOS (incluyendo detenidos).
 
-### 15. 🏷️ ¿Qué hace la instrucción LABEL en Dockerfile? 🟢
+### 9. 🛑 ¿Cómo detienes un container? 🟢
 
-A) 🏷️ `Agrega metadatos a la imagen`
-B) 📝 `Etiqueta el contenedor`
-C) ⚙️ `Nombra la imagen`
-D) 🔧 `Versiona el build`
+A) 📝 `docker stop container_id`
 
-**Respuesta correcta**: A) 🏷️ `Agrega metadatos a la imagen`
+B) 🔄 `docker kill container_id`
 
-> 📘 `LABEL` añade información descriptiva. ¡Como poner post-its en tu imagen!
+C) 📦 `docker pause container_id`
 
-### 16. 🧹 ¿Qué comando limpia todos los recursos Docker no usados? 🟡
+D) 🎯 `docker halt container_id`
 
-A) 🧹 `docker system prune`
-B) 🔧 `docker clean`
-C) ⚙️ `docker remove all`
-D) 🛠️ `docker cleanup`
+**Respuesta correcta**: A) 📝 `docker stop container_id`
 
-**Respuesta correcta**: A) 🧹 `docker system prune`
+> ⏹️ `docker stop` envía SIGTERM (apagado graceful). `docker kill` envía SIGKILL (forzado). ¡Siempre intenta stop primero!
 
-> 💡 `docker system prune` elimina recursos huérfanos. ¡Como una limpieza de primavera para Docker!
+### 10. 🗑️ ¿Cómo eliminas un container? 🟡
 
-### 17. 🔐 ¿Cómo se pasan variables de entorno a un contenedor? 🟢
+A) 📝 `docker rm container_id`
 
-A) ⚡ `-e VARIABLE=valor`
-B) 🔧 `--env=VARIABLE`
-C) ⚙️ `-v VARIABLE`
-D) 🛠️ `--var VARIABLE`
+B) 🔄 `docker delete container_id`
 
-**Respuesta correcta**: A) ⚡ `-e VARIABLE=valor`
+C) 📦 `docker remove container_id`
 
-> 🎯 `-e` establece variables de entorno. ¡Como darle instrucciones secretas a tu contenedor!
+D) 🎯 `docker destroy container_id`
 
-### 18. ⏸️ ¿Qué hace el comando docker pause? 🟢
+**Respuesta correcta**: A) 📝 `docker rm container_id`
 
-A) ⏸️ `Suspende todos los procesos`
-B) 🔧 `Detiene el contenedor`
-C) ⚙️ `Reinicia procesos`
-D) 🛠️ `Mata procesos`
+> 🗂️ `docker rm` elimina containers (deben estar detenidos). `docker rmi` elimina imágenes. ¡Diferentes comandos para diferentes objetos!
 
-**Respuesta correcta**: A) ⏸️ `Suspende todos los procesos`
+### 11. 🔍 ¿Qué comando ejecuta comandos dentro de un container? 🟡
 
-> 💡 Congela los procesos del contenedor. ¡Como poner tu contenedor en modo siesta!
+A) 📝 `docker exec -it container_id comando`
 
-### 19. 💻 ¿Qué bandera limita el uso de CPU de un contenedor? 🟡
+B) 🔄 `docker run -it container_id comando`
 
-A) ⚡ `--cpus`
-B) 🔧 `--cpu-limit`
-C) ⚙️ `--processor`
-D) 🛠️ `--cores`
+C) 📦 `docker attach container_id comando`
 
-**Respuesta correcta**: A) ⚡ `--cpus`
+D) 🎯 `docker connect container_id comando`
 
-> 📘 `--cpus` establece el límite de CPU. ¡Para que todos tengan su parte justa del pastel!
+**Respuesta correcta**: A) 📝 `docker exec -it container_id comando`
 
-### 20. 💓 ¿Qué hace HEALTHCHECK en un Dockerfile? 🟡
+> 🚪 `docker exec` ejecuta comandos en containers EN EJECUCIÓN. El `-it` proporciona terminal interactivo. ¡Como entrar a una habitación ya ocupada!
 
-A) 💓 `Verifica si el contenedor está sano`
-B) 🔧 `Escanea virus`
-C) ⚙️ `Chequea memoria`
-D) 🛠️ `Monitorea red`
+### 12. 📁 ¿Qué son los volúmenes Docker? 🟡
 
-**Respuesta correcta**: A) 💓 `Verifica si el contenedor está sano`
+A) 📝 Mecanismo para persistir datos fuera del container
 
-> ⚡ `HEALTHCHECK` ejecuta pruebas de salud periódicas. ¡Como un doctor para tu contenedor!
+B) 🔄 Archivos de configuración
 
-### 21. 🌐 ¿Qué comando muestra los detalles de red de un contenedor? 🟡
+C) 📦 Imágenes comprimidas
 
-A) 🌐 `docker network inspect`
-B) 🔧 `docker net show`
-C) ⚙️ `docker inspect network`
-D) 🛠️ `docker show network`
+D) 🎯 Logs del sistema
 
-**Respuesta correcta**: A) 🌐 `docker network inspect`
+**Respuesta correcta**: A) 📝 Mecanismo para persistir datos fuera del container
 
-> 🎯 `docker network inspect` muestra toda la configuración de red. ¡Como un mapa detallado de las conexiones!
+> 💾 Los volúmenes permiten que los datos sobrevivan al container. ¡Como un disco duro externo que persiste cuando apagas la computadora!
+
+### 13. 🌐 ¿Qué es el port mapping? 🟡
+
+A) 📝 Exponer puertos del container al host
+
+B) 🔄 Configurar DNS del container
+
+C) 📦 Mapear archivos entre container y host
+
+D) 🎯 Configurar variables de entorno
+
+**Respuesta correcta**: A) 📝 Exponer puertos del container al host
+
+> 🚪 Port mapping conecta puertos del container con el host. `-p 8080:80` mapea puerto 80 del container al 8080 del host.
+
+### 14. 🔗 ¿Qué son las redes Docker? 🟡
+
+A) 📝 Sistema para conectar containers entre sí
+
+B) 🔄 Configuración de internet
+
+C) 📦 Archivos de red
+
+D) 🎯 Protocolos de comunicación
+
+**Respuesta correcta**: A) 📝 Sistema para conectar containers entre sí
+
+> 🌉 Las redes Docker permiten comunicación entre containers. ¡Como crear un vecindario donde las casas pueden hablar entre sí!
+
+### 15. 📚 ¿Qué es Docker Hub? 🟡
+
+A) 📝 Registro público de imágenes Docker
+
+B) 🔄 Herramienta de desarrollo local
+
+C) 📦 Sistema de monitoreo
+
+D) 🎯 Editor de Dockerfiles
+
+**Respuesta correcta**: A) 📝 Registro público de imágenes Docker
+
+> 🏪 Docker Hub es como una tienda de aplicaciones para imágenes Docker. ¡Millones de imágenes listas para usar!
+
+### 16. 🎛️ ¿Qué son las variables de entorno en Docker? 🟡
+
+A) 📝 Configuraciones que se pasan al container
+
+B) 🔄 Variables del Dockerfile
+
+C) 📦 Configuraciones de red
+
+D) 🎯 Variables del host
+
+**Respuesta correcta**: A) 📝 Configuraciones que se pasan al container
+
+> ⚙️ Variables de entorno (`-e VAR=valor`) configuran aplicaciones sin modificar código. ¡Como ajustar la configuración desde afuera!
+
+### 17. 🔄 ¿Qué es Docker Compose? 🔴
+
+A) 📝 Herramienta para definir aplicaciones multi-container
+
+B) 🔄 Editor de Dockerfiles
+
+C) 📦 Sistema de monitoreo
+
+D) 🎯 Herramienta de debugging
+
+**Respuesta correcta**: A) 📝 Herramienta para definir aplicaciones multi-container
+
+> 🎼 Docker Compose orquesta múltiples containers con un archivo YAML. ¡Como dirigir una sinfonía de servicios!
+
+### 18. 🏗️ ¿Qué es multi-stage build? 🔴
+
+A) 📝 Técnica para crear imágenes optimizadas usando múltiples etapas
+
+B) 🔄 Construir múltiples imágenes simultáneamente
+
+C) 📦 Usar múltiples Dockerfiles
+
+D) 🎯 Construir en múltiples servidores
+
+**Respuesta correcta**: A) 📝 Técnica para crear imágenes optimizadas usando múltiples etapas
+
+> 🎯 Multi-stage permite compilar en una etapa y copiar solo binarios a la imagen final. ¡Imágenes más pequeñas y seguras!
+
+### 19. 🔒 ¿Cuáles son las mejores prácticas de seguridad en Docker? 🔴
+
+A) 📝 Usar usuarios no-root, imágenes mínimas, escanear vulnerabilidades
+
+B) 🔄 Solo usar imágenes oficiales
+
+C) 📦 Usar solo containers privilegiados
+
+D) 🎯 No usar volúmenes
+
+**Respuesta correcta**: A) 📝 Usar usuarios no-root, imágenes mínimas, escanear vulnerabilidades
+
+> 🛡️ Seguridad: corre como non-root, usa imágenes base mínimas (alpine), escanea vulnerabilidades, actualiza regularmente.
+
+### 20. 📦 ¿Qué es un registro privado Docker? 🔴
+
+A) 📝 Servidor interno para almacenar imágenes privadas de la organización
+
+B) 🔄 Versión pagada de Docker Hub
+
+C) 📦 Docker Hub con autenticación
+
+D) 🎯 Sistema de backup para imágenes
+
+**Respuesta correcta**: A) 📝 Servidor interno para almacenar imágenes privadas de la organización
+
+> 🏢 Registros privados (Harbor, AWS ECR, Azure ACR) permiten control total sobre imágenes corporativas. ¡Tu propia tienda privada de apps!
+
+### 21. 🎯 ¿Cuáles son las mejores prácticas para Dockerfiles? 🔴
+
+A) 📝 Usar .dockerignore, minimizar capas, orden correcto de comandos, imágenes base específicas
+
+B) 🔄 Usar siempre FROM ubuntu:latest
+
+C) 📦 Instalar todo en una sola línea RUN
+
+D) 🎯 No usar COPY ni ADD
+
+**Respuesta correcta**: A) 📝 Usar .dockerignore, minimizar capas, orden correcto de comandos, imágenes base específicas
+
+> 🏆 Dockerfiles eficientes: usa .dockerignore, combina RUN commands, ordena por frecuencia de cambio, usa tags específicos, no latest. ¡Calidad desde el principio!

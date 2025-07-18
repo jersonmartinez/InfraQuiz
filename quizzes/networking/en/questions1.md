@@ -2,233 +2,296 @@
 
 ## Questions
 
-### 1. 🌐 What is a computer network? 🟢
+### 1. 🌐 What is an IP address? 🟢
 
-A) 🌐 `System of connected devices to share resources`
-B) 🔧 `Server connection`
-C) 📦 `Package system`
-D) ⚙️ `Device configuration`
+A) 📝 Unique identifier for devices on a network
 
-**Correct Answer**: A) 🌐 `System of connected devices to share resources`
+B) 🔄 Internet protocol
 
-> 💡 A network allows devices to communicate and share information. Like a digital highway for your data!
+C) 📦 Type of network cable
 
-### 2. 🔌 What is a switch? 🟢
+D) 🎯 Connectivity software
 
-A) 🔌 `Device that connects devices in a local network`
-B) 🔧 `Network switch`
-C) 📦 `Package connector`
-D) 🌐 `Network router`
+**Correct Answer**: A) 📝 Unique identifier for devices on a network
 
-**Correct Answer**: A) 🔌 `Device that connects devices in a local network`
+> 💡 An IP address is like your house's postal address, but for devices on the internet. Each device needs one to communicate!
 
-> 📘 Switches direct traffic between devices on the same network. Like a traffic director at an intersection!
+### 2. 🔢 What's the difference between IPv4 and IPv6? 🟢
 
-### 3. 🌐 What is a router? 🟢
+A) 📝 IPv4 uses 32 bits, IPv6 uses 128 bits
 
-A) 🌐 `Device that connects different networks`
-B) 🔧 `Network connector`
-C) 📦 `Package manager`
-D) ⚙️ `Network configurator`
+B) 🔄 IPv4 is newer than IPv6
 
-**Correct Answer**: A) 🌐 `Device that connects different networks`
+C) 📦 IPv6 is slower than IPv4
 
-> ⚡ Routers direct traffic between different networks. Like a GPS that finds the best route for your data!
+D) 🎯 There's no practical difference
 
-### 4. 🔍 What is an IP address? 🟢
+**Correct Answer**: A) 📝 IPv4 uses 32 bits, IPv6 uses 128 bits
 
-A) 🔍 `Unique identifier of a device on the network`
-B) 🔧 `Network code`
-C) 📦 `Package address`
-D) 🌐 `Network location`
+> ⚡ IPv4 is running out (like phone numbers), IPv6 has vastly more addresses available. Like going from a village to a megacity!
 
-**Correct Answer**: A) 🔍 `Unique identifier of a device on the network`
+### 3. 🚪 What is a port in networking? 🟢
 
-> 💡 IP addresses identify each device on the network. Like your house address on the internet!
+A) 📝 Specific communication endpoint on a device
 
-### 5. 🔍 What is DNS? 🟡
+B) 🔄 Physical router entry
 
-A) 🔍 `System that converts names to IP addresses`
-B) 🔧 `Name server`
-C) 📦 `Domain manager`
-D) 🌐 `Network resolver`
+C) 📦 Connection cable
 
-**Correct Answer**: A) 🔍 `System that converts names to IP addresses`
+D) 🎯 Type of protocol
 
-> 🎯 DNS converts names like "google.com" to IP addresses. Like a phone book for the internet!
+**Correct Answer**: A) 📝 Specific communication endpoint on a device
 
-### 6. 🔒 What is a firewall? 🟡
+> 🏠 If IP is your house address, the port is the apartment number. Port 80 = web, port 22 = SSH, port 443 = HTTPS.
 
-A) 🔒 `Security system that controls network traffic`
-B) 🔧 `Protection wall`
-C) 📦 `Package filter`
-D) 🌐 `Network barrier`
+### 4. 📚 What is the OSI model? 🟡
 
-**Correct Answer**: A) 🔒 `Security system that controls network traffic`
+A) 📝 7-layer model for network communication
 
-> 📘 Firewalls protect networks by blocking unwanted traffic. Like a security guard for your network!
+B) 🔄 Internet protocol
 
-### 7. 🔍 What is a port? 🟢
+C) 📦 Type of cable
 
-A) 🔍 `Entry point for services on a device`
-B) 🔧 `Physical connector`
-C) 📦 `Package entry`
-D) 🌐 `Network point`
+D) 🎯 Network operating system
 
-**Correct Answer**: A) 🔍 `Entry point for services on a device`
+**Correct Answer**: A) 📝 7-layer model for network communication
 
-> ⚡ Ports allow different services to run on the same device. Like different doors in a building!
+> 🎯 The 7 OSI layers: Physical, Data Link, Network, Transport, Session, Presentation, Application. Like a communications building!
 
-### 8. 🔍 What is a protocol? 🟡
+### 5. 🔄 What is TCP? 🟡
 
-A) 🔍 `Set of rules for network communication`
-B) 🔧 `Network standard`
-C) 📦 `Package rule`
-D) 🌐 `Communication method`
+A) 📝 Reliable transport protocol
 
-**Correct Answer**: A) 🔍 `Set of rules for network communication`
+B) 🔄 Type of network cable
 
-> 💡 Protocols define how devices communicate. Like the rules of a language so everyone understands!
+C) 📦 Operating system
 
-### 9. 🔍 What is TCP/IP? 🟢
+D) 🎯 Type of router
 
-A) 🔍 `Fundamental internet protocol suite`
-B) 🔧 `Network protocol`
-C) 📦 `Package standard`
-D) 🌐 `Communication method`
+**Correct Answer**: A) 📝 Reliable transport protocol
 
-**Correct Answer**: A) 🔍 `Fundamental internet protocol suite`
+> 🤝 TCP guarantees data arrives complete and in order. Like certified mail that confirms delivery!
 
-> 🎯 TCP/IP is the basic language that all devices use on the internet. Like the universal language of networks!
+### 6. ⚡ What is UDP? 🟡
 
-### 10. 🔍 What is HTTP? 🟢
+A) 📝 Fast but unreliable protocol
 
-A) 🔍 `Protocol for transferring web pages`
-B) 🔧 `Network protocol`
-C) 📦 `Transfer method`
-D) 🌐 `Web protocol`
+B) 🔄 Type of secure connection
 
-**Correct Answer**: A) 🔍 `Protocol for transferring web pages`
+C) 📦 File system
 
-> 📘 HTTP allows browsers to communicate with web servers. Like the protocol for requesting web pages!
+D) 🎯 Email protocol
 
-### 11. 🔐 What is HTTPS? 🟡
+**Correct Answer**: A) 📝 Fast but unreliable protocol
 
-A) 🔐 `Secure version of HTTP with encryption`
-B) 🔧 `Secure HTTP`
-C) 📦 `Secure transfer`
-D) 🌐 `Secure protocol`
+> 🏃‍♂️ UDP is fast but may lose data. Perfect for live video/audio where speed > perfection. Like regular postal mail!
 
-**Correct Answer**: A) 🔐 `Secure version of HTTP with encryption`
+### 7. 🌐 What is DNS? 🟢
 
-> ⚡ HTTPS encrypts communication to protect sensitive data. Like sending a letter in a sealed envelope!
+A) 📝 System that translates names to IP addresses
 
-### 12. 🔍 What is a VLAN? 🟡
+B) 🔄 Security protocol
 
-A) 🔍 `Separate virtual network within a physical network`
-B) 🔧 `Virtual local network`
-C) 📦 `Package network`
-D) 🌐 `Virtual network`
+C) 📦 Type of server
 
-**Correct Answer**: A) 🔍 `Separate virtual network within a physical network`
+D) 🎯 File system
 
-> 💡 VLANs allow creating separate networks on the same physical infrastructure. Like having separate apartments in the same building!
+**Correct Answer**: A) 📝 System that translates names to IP addresses
 
-### 13. 🔍 What is a gateway? 🟡
+> 📞 DNS is like the internet's phone book. Converts "google.com" to "142.250.191.14". So you don't have to memorize numbers!
 
-A) 🔍 `Entry and exit point between networks`
-B) 🔧 `Network gate`
-C) 📦 `Package entry`
-D) 🌐 `Access point`
+### 8. 🛡️ What is a firewall? 🟡
 
-**Correct Answer**: A) 🔍 `Entry and exit point between networks`
+A) 📝 System that controls network traffic
 
-> 🎯 Gateways connect different networks. Like a door that connects two rooms!
+B) 🔄 Type of shielded cable
 
-### 14. 🔍 What is a subnet? 🟡
+C) 📦 Antivirus software
 
-A) 🔍 `Logical division of a larger network`
-B) 🔧 `Subnetwork`
-C) 📦 `Package network`
-D) 🌐 `Secondary network`
+D) 🎯 Backup system
 
-**Correct Answer**: A) 🔍 `Logical division of a larger network`
+**Correct Answer**: A) 📝 System that controls network traffic
 
-> 📘 Subnets organize large networks into smaller groups. Like dividing a city into neighborhoods!
+> 🚧 A firewall is like a security guard that decides what traffic can pass and what can't. Protects your network from intruders!
 
-### 15. 🔍 What is DHCP? 🟡
+### 9. 🔀 What is a router? 🟢
 
-A) 🔍 `Protocol that automatically assigns IP addresses`
-B) 🔧 `IP assigner`
-C) 📦 `Address manager`
-D) 🌐 `Automatic configurator`
+A) 📝 Device that directs traffic between networks
 
-**Correct Answer**: A) 🔍 `Protocol that automatically assigns IP addresses`
+B) 🔄 Connection cable
 
-> ⚡ DHCP automatically assigns IP addresses to devices. Like an automatic system that assigns rooms in a hotel!
+C) 📦 Type of server
 
-### 16. 🔍 What is ping? 🟢
+D) 🎯 Network software
 
-A) 🔍 `Command to verify connectivity between devices`
-B) 🔧 `Network test`
-C) 📦 `Package test`
-D) 🌐 `Connection verification`
+**Correct Answer**: A) 📝 Device that directs traffic between networks
 
-**Correct Answer**: A) 🔍 `Command to verify connectivity between devices`
+> 🚦 A router is like a traffic director that decides the best path for your data to arrive. The GPS of the internet!
 
-> 💡 Ping verifies if a device can communicate with another. Like making a call to see if someone answers!
+### 10. 🔄 What is a switch? 🟡
 
-### 17. 🔍 What is traceroute? 🟡
+A) 📝 Device that connects devices on the same network
 
-A) 🔍 `Command that shows the path of packets between devices`
-B) 🔧 `Route tracer`
-C) 📦 `Package tracking`
-D) 🌐 `Network tracer`
+B) 🔄 Power switch
 
-**Correct Answer**: A) 🔍 `Command that shows the path of packets between devices`
+C) 📦 Type of cable
 
-> 🎯 Traceroute shows each step that packets follow. Like following GPS to see each street you pass through!
+D) 🎯 Network protocol
 
-### 18. 🔍 What is a proxy? 🟡
+**Correct Answer**: A) 📝 Device that connects devices on the same network
 
-A) 🔍 `Server that acts as intermediary between clients and servers`
-B) 🔧 `Network intermediary`
-C) 📦 `Package server`
-D) 🌐 `Network mediator`
+> 🌟 A switch connects multiple devices on a local network. Like a power strip multiplier but for network!
 
-**Correct Answer**: A) 🔍 `Server that acts as intermediary between clients and servers`
+### 11. 📡 What is DHCP? 🟡
 
-> 📘 Proxies can improve security, speed, and privacy. Like having a representative who handles business for you!
+A) 📝 Protocol that assigns IP addresses automatically
 
-### 19. 🔍 What is a load balancer? 🟡
+B) 🔄 Type of wireless connection
 
-A) 🔍 `Device that distributes traffic among multiple servers`
-B) 🔧 `Load distributor`
-C) 📦 `Package balancer`
-D) 🌐 `Traffic distributor`
+C) 📦 Security system
 
-**Correct Answer**: A) 🔍 `Device that distributes traffic among multiple servers`
+D) 🎯 Email protocol
 
-> ⚡ Load balancers distribute work to improve performance. Like a supervisor who distributes work among employees!
+**Correct Answer**: A) 📝 Protocol that assigns IP addresses automatically
 
-### 20. 🔍 What is a VPN? 🟡
+> 🎫 DHCP is like an automatic number dispenser. Assigns you an IP automatically when you connect. No more manual configuration!
 
-A) 🔍 `Private and secure connection through the internet`
-B) 🔧 `Virtual private network`
-C) 📦 `Secure connection`
-D) 🌐 `Network tunnel`
+### 12. 🔐 What is HTTPS? 🟡
 
-**Correct Answer**: A) 🔍 `Private and secure connection through the internet`
+A) 📝 HTTP with SSL/TLS encryption
 
-> 💡 VPNs create secure connections through public internet. Like having a private tunnel on a public highway!
+B) 🔄 Faster version of HTTP
 
-### 21. 🔍 What is a CDN? 🟡
+C) 📦 New Google protocol
 
-A) 🔍 `Network of servers that distributes content globally`
-B) 🔧 `Distribution network`
-C) 📦 `Content network`
-D) 🌐 `Global distributor`
+D) 🎯 HTTP for mobile
 
-**Correct Answer**: A) 🔍 `Network of servers that distributes content globally`
+**Correct Answer**: A) 📝 HTTP with SSL/TLS encryption
 
-> 📘 CDNs improve website loading speed. Like having warehouses in different cities for faster delivery!
+> 🔒 HTTPS is HTTP with a security layer. Like sending a letter in a sealed envelope instead of an open postcard!
+
+### 13. 🏠 What is a LAN? 🟢
+
+A) 📝 Local Area Network
+
+B) 🔄 Wide Area Network
+
+C) 📦 Internet protocol
+
+D) 🎯 Type of cable
+
+**Correct Answer**: A) 📝 Local Area Network
+
+> 🏢 LAN is your home or office network. Connects nearby devices. Like an intercom system for a building!
+
+### 14. 🌍 What is a WAN? 🟡
+
+A) 📝 Wide Area Network
+
+B) 🔄 Wireless network
+
+C) 📦 Access network
+
+D) 🎯 Local network
+
+**Correct Answer**: A) 📝 Wide Area Network
+
+> 🌎 WAN connects distant networks. The internet is the largest WAN. Like the worldwide postal system connecting cities!
+
+### 15. 📏 What is a subnet mask? 🔴
+
+A) 📝 Defines which part of IP identifies network vs host
+
+B) 🔄 Type of network cable
+
+C) 📦 Security software
+
+D) 🎯 Routing protocol
+
+**Correct Answer**: A) 📝 Defines which part of IP identifies network vs host
+
+> 🎭 Subnet mask is like a filter separating the "city" (network) address from the "house number" (host). Ex: 255.255.255.0
+
+### 16. 🛣️ What is a gateway? 🔴
+
+A) 📝 Entry/exit point between different networks
+
+B) 🔄 Special type of router
+
+C) 📦 Connection software
+
+D) 🎯 Network protocol
+
+**Correct Answer**: A) 📝 Entry/exit point between different networks
+
+> 🚪 A gateway is like the main door of your network to the internet. The portal between your LAN and the outside world!
+
+### 17. ⚖️ What is a Load Balancer? 🔴
+
+A) 📝 Distributes traffic across multiple servers
+
+B) 🔄 Balances network speed
+
+C) 📦 Balances CPU usage
+
+D) 🎯 Distributes storage
+
+**Correct Answer**: A) 📝 Distributes traffic across multiple servers
+
+> 🎪 A Load Balancer is like a circus director assigning audience to different tents to avoid overcrowding. Distributes the workload!
+
+### 18. 🔄 What is NAT? 🔴
+
+A) 📝 Translates private IP addresses to public ones
+
+B) 🔄 Routing protocol
+
+C) 📦 Type of firewall
+
+D) 🎯 Name system
+
+**Correct Answer**: A) 📝 Translates private IP addresses to public ones
+
+> 🏢 NAT allows multiple devices with private IPs (192.168.x.x) to share one public IP. Like a building with many apartments but one postal address!
+
+### 19. 📊 What is VLAN? 🔴
+
+A) 📝 Virtual Local Area Network that segments traffic
+
+B) 🔄 Type of virtual cable
+
+C) 📦 Encryption protocol
+
+D) 🎯 Monitoring system
+
+**Correct Answer**: A) 📝 Virtual Local Area Network that segments traffic
+
+> 🏗️ VLANs divide a physical network into separate logical networks. Like having separate departments in the same building!
+
+### 20. 🛰️ What is CDN? 🔴
+
+A) 📝 Content Delivery Network to accelerate content delivery
+
+B) 🔄 Type of satellite connection
+
+C) 📦 Download protocol
+
+D) 🎯 Backup system
+
+**Correct Answer**: A) 📝 Content Delivery Network to accelerate content delivery
+
+> 🚀 CDN puts content copies close to users. Like having local stores instead of buying everything from a distant store!
+
+### 21. 🎯 What are networking best practices? 🔴
+
+A) 📝 Segmentation, redundancy, monitoring, documentation, security
+
+B) 🔄 Only use high-speed cables
+
+C) 📦 Connect everything in one network
+
+D) 🎯 Avoid routing protocols
+
+**Correct Answer**: A) 📝 Segmentation, redundancy, monitoring, documentation, security
+
+> 🏆 Robust networks need: segmentation (VLANs), redundancy (multiple paths), constant monitoring, clear documentation, and layered security. Professional networking!

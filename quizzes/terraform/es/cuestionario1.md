@@ -2,315 +2,296 @@
 
 ## Preguntas
 
-### ❓ ¿Cuál es el propósito principal de Terraform? 🟢
+### 1. ❓ ¿Cuál es el propósito principal de Terraform? 🟢
 
-📝 Herramienta de Infrastructure as Code (IaC)
-🔄 Plataforma de orquestación de contenedores
-📦 Servicio de monitoreo en la nube
-🎯 Sistema de gestión de bases de datos
+A) 📝 Herramienta de Infrastructure as Code (IaC)
 
-**Respuesta Correcta:**
-📝 Herramienta de Infrastructure as Code (IaC)
+B) 🔄 Plataforma de orquestación de contenedores
 
-**Explicación:**
-💡 Terraform es la herramienta de Infrastructure as Code de HashiCorp que permite definir y provisionar infraestructura usando archivos de configuración declarativos. ¡Como escribir una receta para tu infraestructura! 🎯
+C) 📦 Servicio de monitoreo en la nube
 
----
+D) 🎯 Sistema de gestión de bases de datos
 
-### 🧠 ¿Qué extensión de archivo se usa para los archivos de configuración de Terraform? 🟢
+**Respuesta correcta**: A) 📝 Herramienta de Infrastructure as Code (IaC)
 
-📝 `.tf`
-🔄 `.yaml`
-📦 `.json`
-🎯 `.hcl`
+> 💡 Terraform es la herramienta de Infrastructure as Code de HashiCorp que permite definir y provisionar infraestructura usando archivos de configuración declarativos. ¡Como escribir una receta para tu infraestructura! 🎯
 
-**Respuesta Correcta:**
-📝 `.tf`
+### 2. 🧠 ¿Qué extensión de archivo se usa para los archivos de configuración de Terraform? 🟢
 
-**Explicación:**
-🔍 Terraform usa archivos `.tf` para la configuración. También puedes usar `.tfvars` para archivos de variables y `.tfstate` para archivos de estado. ¡La extensión `.tf` es el estándar! 🎯
+A) 📝 `.tf`
 
----
+B) 🔄 `.yaml`
 
-### 💭 ¿Qué comando inicializa un directorio de trabajo de Terraform? 🟢
+C) 📦 `.json`
 
-📝 `terraform init`
-🔄 `terraform setup`
-📦 `terraform configure`
-🎯 `terraform start`
+D) 🎯 `.hcl`
 
-**Respuesta Correcta:**
-📝 `terraform init`
+**Respuesta correcta**: A) 📝 `.tf`
 
-**Explicación:**
-⚡ `terraform init` descarga proveedores, inicializa el backend y prepara el directorio de trabajo. ¡Es el primer comando que ejecutas en cualquier proyecto de Terraform! 🎯
+> 🔍 Terraform usa archivos `.tf` para la configuración. También puedes usar `.tfvars` para archivos de variables y `.tfstate` para archivos de estado. ¡La extensión `.tf` es el estándar! 🎯
 
----
+### 3. 💭 ¿Qué comando inicializa un directorio de trabajo de Terraform? 🟢
 
-### 🤔 ¿Qué es un proveedor de Terraform? 🟡
+A) 📝 `terraform init`
 
-📝 Un plugin que gestiona recursos para una plataforma específica
-🔄 Un proveedor de servicios en la nube
-📦 Un archivo de configuración de Terraform
-🎯 Una estrategia de despliegue
+B) 🔄 `terraform setup`
 
-**Respuesta Correcta:**
-📝 Un plugin que gestiona recursos para una plataforma específica
+C) 📦 `terraform configure`
 
-**Explicación:**
-💡 Los proveedores son plugins que Terraform usa para interactuar con proveedores de nube, proveedores SaaS y otras APIs. Ejemplos: AWS, Azure, Google Cloud, GitHub, etc. 🎯
+D) 🎯 `terraform start`
 
----
+**Respuesta correcta**: A) 📝 `terraform init`
 
-### 🔧 ¿Cuál es el bloque principal usado para configurar un proveedor? 🟡
+> ⚡ `terraform init` descarga proveedores, inicializa el backend y prepara el directorio de trabajo. ¡Es el primer comando que ejecutas en cualquier proyecto de Terraform! 🎯
 
-📝 `provider "aws" {}`
-🔄 `resource "aws" {}`
-📦 `variable "aws" {}`
-🎯 `module "aws" {}`
+### 4. 🤔 ¿Qué es un proveedor de Terraform? 🟡
 
-**Respuesta Correcta:**
-📝 `provider "aws" {}`
+A) 📝 Un plugin que gestiona recursos para una plataforma específica
 
-**Explicación:**
-🩺 El bloque `provider` configura un proveedor específico. Especificas el nombre del proveedor y cualquier opción de configuración requerida como región, credenciales, etc. 🎯
+B) 🔄 Un proveedor de servicios en la nube
 
----
+C) 📦 Un archivo de configuración de Terraform
 
-### ⚙️ ¿Qué comando muestra el plan de ejecución? 🟡
+D) 🎯 Una estrategia de despliegue
 
-📝 `terraform plan`
-🔄 `terraform preview`
-📦 `terraform show`
-🎯 `terraform status`
+**Respuesta correcta**: A) 📝 Un plugin que gestiona recursos para una plataforma específica
 
-**Respuesta Correcta:**
-📝 `terraform plan`
+> 💡 Los proveedores son plugins que Terraform usa para interactuar con plataformas cloud, proveedores SaaS y otras APIs. Ejemplos: AWS, Azure, Google Cloud, GitHub, etc. 🎯
 
-**Explicación:**
-🔧 `terraform plan` muestra lo que Terraform hará antes de hacer cambios. Es como una vista previa de los cambios de infraestructura que se aplicarán. ¡Siempre revisa el plan! 🎯
+### 5. 🔧 ¿Cuál es el bloque principal usado para configurar un proveedor? 🟡
 
----
+A) 📝 `provider "aws" {}`
 
-### 🔍 ¿Qué es un archivo de estado de Terraform? 🔴
+B) 🔄 `resource "aws" {}`
 
-📝 Un archivo que rastrea el estado actual de los recursos gestionados
-🔄 Un archivo de configuración del proyecto
-📦 Una copia de seguridad de tu infraestructura
-🎯 Un archivo de registro de operaciones de Terraform
+C) 📦 `variable "aws" {}`
 
-**Respuesta Correcta:**
-📝 Un archivo que rastrea el estado actual de los recursos gestionados
+D) 🎯 `module "aws" {}`
 
-**Explicación:**
-🩺 El archivo de estado mapea recursos del mundo real a tu configuración, mantiene un seguimiento de metadatos y mejora el rendimiento para infraestructuras grandes. ¡Es la memoria de Terraform! 🎯
+**Respuesta correcta**: A) 📝 `provider "aws" {}`
 
----
+> ⚡ El bloque `provider` configura el proveedor específico que usarás. Define detalles como región, credenciales y versión. ¡Como configurar tu conexión con el cloud! 🎯
 
-### 🚀 ¿Qué es un backend de Terraform? 🔴
+### 6. 🎯 ¿Qué comando planifica los cambios sin aplicarlos? 🟡
 
-📝 Una configuración que determina dónde se almacena el estado
-🔄 Un servidor que ejecuta comandos de Terraform
-📦 Un endpoint de API del proveedor de nube
-🎯 Un archivo de configuración de Terraform
+A) 📝 `terraform plan`
 
-**Respuesta Correcta:**
-📝 Una configuración que determina dónde se almacena el estado
+B) 🔄 `terraform check`
 
-**Explicación:**
-💡 Los backends determinan dónde Terraform almacena su estado. Opciones incluyen archivos locales, almacenamiento remoto (S3, Azure Storage), o Terraform Cloud. ¡Habilita la colaboración en equipo! 🎯
+C) 📦 `terraform preview`
 
----
+D) 🎯 `terraform show`
 
-### 🔧 ¿Qué es un módulo de Terraform? 🔴
+**Respuesta correcta**: A) 📝 `terraform plan`
 
-📝 Una colección reutilizable de recursos de Terraform
-🔄 Un archivo de configuración de Terraform
-📦 Un plugin de proveedor
-🎯 Una estrategia de despliegue
+> 📋 `terraform plan` muestra qué cambios se realizarán sin ejecutarlos. ¡Como ver el menú antes de ordenar! Esencial para evitar sorpresas desagradables.
 
-**Respuesta Correcta:**
-📝 Una colección reutilizable de recursos de Terraform
+### 7. 🚀 ¿Qué comando aplica los cambios planificados? 🟢
 
-**Explicación:**
-⚡ Los módulos son configuraciones reutilizables de Terraform que pueden ser llamadas desde otras configuraciones. Ayudan a organizar código, hacerlo reutilizable y tratar piezas de infraestructura como cajas negras! 🎯
+A) 📝 `terraform apply`
 
----
+B) 🔄 `terraform deploy`
 
-### ❓ ¿Qué comando aplica los cambios de Terraform? 🟢
+C) 📦 `terraform execute`
 
-📝 `terraform apply`
-🔄 `terraform deploy`
-📦 `terraform execute`
-🎯 `terraform run`
+D) 🎯 `terraform run`
 
-**Respuesta Correcta:**
-📝 `terraform apply`
+**Respuesta correcta**: A) 📝 `terraform apply`
 
-**Explicación:**
-💡 `terraform apply` ejecuta las acciones propuestas en un plan de Terraform para alcanzar el estado deseado de la configuración. ¡Es el comando que realmente crea/modifica recursos! 🎯
+> ⚡ `terraform apply` ejecuta el plan y realiza los cambios en la infraestructura. ¡Es el momento de la verdad! Siempre revisa el plan antes de aplicar.
 
----
+### 8. 🔄 ¿Qué es el estado de Terraform? 🟡
 
-### 🧠 ¿Qué es una variable de Terraform? 🟢
+A) 📝 Archivo que mapea la configuración con los recursos reales
 
-📝 Un valor nombrado que puede ser establecido para personalizar la configuración
-🔄 Una variable de programación en Terraform
-📦 Un archivo de configuración
-🎯 Un tipo de recurso
+B) 🔄 Estado actual de la infraestructura
 
-**Respuesta Correcta:**
-📝 Un valor nombrado que puede ser establecido para personalizar la configuración
+C) 📦 Configuración guardada
 
-**Explicación:**
-🔍 Las variables te permiten personalizar aspectos de los módulos de Terraform sin alterar el código fuente del módulo. ¡Hacen que tus configuraciones sean flexibles y reutilizables! 🎯
+D) 🎯 Historial de cambios
 
----
+**Respuesta correcta**: A) 📝 Archivo que mapea la configuración con los recursos reales
 
-### 💭 ¿Cuál es la sintaxis para referenciar una variable? 🟢
+> 💡 El archivo de estado (`terraform.tfstate`) mantiene el mapeo entre tu configuración y los recursos reales. ¡Como el inventario de tu infraestructura!
 
-📝 `var.nombre_variable`
-🔄 `variable.nombre_variable`
-📦 `var[nombre_variable]`
-🎯 `variable[nombre_variable]`
+### 9. 🔍 ¿Qué es un recurso en Terraform? 🟢
 
-**Respuesta Correcta:**
-📝 `var.nombre_variable`
+A) 📝 Componente de infraestructura que Terraform gestiona
 
-**Explicación:**
-⚡ Usa `var.nombre_variable` para referenciar variables en tu configuración de Terraform. El prefijo `var` le dice a Terraform que estás referenciando una variable, no un recurso o fuente de datos! 🎯
+B) 🔄 Archivo de configuración
 
----
+C) 📦 Variable de entrada
 
-### 🤔 ¿Qué es una fuente de datos de Terraform? 🟡
+D) 🎯 Salida del comando
 
-📝 Una forma de obtener información sobre recursos que existen fuera de Terraform
-🔄 Un repositorio de código fuente para Terraform
-📦 Una copia de seguridad de tu infraestructura
-🎯 Un archivo de configuración
+**Respuesta correcta**: A) 📝 Componente de infraestructura que Terraform gestiona
 
-**Respuesta Correcta:**
-📝 Una forma de obtener información sobre recursos que existen fuera de Terraform
+> 🎯 Los recursos son los bloques fundamentales de Terraform. Representan componentes de infraestructura como servidores, redes, etc. ¡Los ingredientes de tu receta de infraestructura!
 
-**Explicación:**
-💡 Las fuentes de datos permiten que Terraform use información definida fuera de Terraform, o definida por otra configuración separada de Terraform. ¡Como leer recursos existentes! 🎯
+### 10. 📦 ¿Qué es un módulo en Terraform? 🟡
 
----
+A) 📝 Conjunto reutilizable de recursos
 
-### 🔧 ¿Cuál es la sintaxis para referenciar una fuente de datos? 🟡
+B) 🔄 Archivo de configuración
 
-📝 `data.tipo.nombre.atributo`
-🔄 `datasource.tipo.nombre.atributo`
-📦 `data[tipo.nombre].atributo`
-🎯 `datasource[tipo.nombre].atributo`
+C) 📦 Plugin del proveedor
 
-**Respuesta Correcta:**
-📝 `data.tipo.nombre.atributo`
+D) 🎯 Variable global
 
-**Explicación:**
-🩺 Usa `data.tipo.nombre.atributo` para referenciar fuentes de datos. El prefijo `data` lo distingue de los recursos, y puedes acceder a cualquier atributo de la fuente de datos! 🎯
+**Respuesta correcta**: A) 📝 Conjunto reutilizable de recursos
 
----
+> 🧩 Los módulos permiten organizar y reutilizar código de Terraform. ¡Como funciones reutilizables para tu infraestructura!
 
-### ⚙️ ¿Qué es una salida de Terraform? 🟡
+### 11. 🔧 ¿Cómo se define una variable en Terraform? 🟡
 
-📝 Una forma de exponer ciertos valores de tu configuración
-🔄 Un mensaje de registro de Terraform
-📦 Un archivo de configuración
-🎯 Un tipo de recurso
+A) 📝 `variable "example" {}`
 
-**Respuesta Correcta:**
-📝 Una forma de exponer ciertos valores de tu configuración
+B) 🔄 `var example = "value"`
 
-**Explicación:**
-🔧 Las salidas exponen valores específicos de tu configuración de Terraform. Son útiles para obtener información sobre recursos después de que se crean, como direcciones IP o URLs! 🎯
+C) 📦 `set example = "value"`
 
----
+D) 🎯 `define example "value"`
 
-### 🔍 ¿Qué es un workspace de Terraform? 🔴
+**Respuesta correcta**: A) 📝 `variable "example" {}`
 
-📝 Una colección nombrada de archivos de estado para gestionar múltiples entornos
-🔄 Un entorno de desarrollo para Terraform
-📦 Un workspace en la nube para colaboración
-🎯 Un directorio de configuración de Terraform
+> 💡 Las variables se definen con el bloque `variable` y pueden tener descripción, tipo y valor por defecto. ¡Como parámetros de función para tu infraestructura!
 
-**Respuesta Correcta:**
-📝 Una colección nombrada de archivos de estado para gestionar múltiples entornos
+### 12. 🎯 ¿Cómo se obtiene una salida en Terraform? 🟡
 
-**Explicación:**
-🩺 Los workspaces te permiten gestionar múltiples archivos de estado dentro de una sola configuración de Terraform. Útil para gestionar diferentes entornos (dev, staging, prod) con el mismo código! 🎯
+A) 📝 `output "example" {}`
 
----
+B) 🔄 `return "example"`
 
-### 🚀 ¿Qué es un recurso de Terraform? 🔴
+C) 📦 `export "example"`
 
-📝 Un bloque que describe uno o más objetos de infraestructura
-🔄 Un recurso en la nube como un servidor
-📦 Un archivo de configuración de Terraform
-🎯 Un plugin de proveedor
+D) 🎯 `show "example"`
 
-**Respuesta Correcta:**
-📝 Un bloque que describe uno o más objetos de infraestructura
+**Respuesta correcta**: A) 📝 `output "example" {}`
 
-**Explicación:**
-💡 Los recursos son el elemento más importante en el lenguaje de Terraform. Cada bloque de recurso describe uno o más objetos de infraestructura, como redes virtuales, instancias de cómputo o registros DNS! 🎯
+> ⚡ Los outputs muestran valores importantes después de aplicar la configuración. ¡Como los resultados de tu receta de infraestructura!
 
----
+### 13. 🚀 ¿Qué comando destruye la infraestructura? 🔴
 
-### 🔧 ¿Cuál es la sintaxis para referenciar un atributo de recurso? 🔴
+A) 📝 `terraform destroy`
 
-📝 `tipo_recurso.nombre_recurso.atributo`
-🔄 `resource.tipo_recurso.nombre_recurso.atributo`
-📦 `tipo_recurso[nombre_recurso].atributo`
-🎯 `resource[tipo_recurso.nombre_recurso].atributo`
+B) 🔄 `terraform delete`
 
-**Respuesta Correcta:**
-📝 `tipo_recurso.nombre_recurso.atributo`
+C) 📦 `terraform remove`
 
-**Explicación:**
-⚡ Usa `tipo_recurso.nombre_recurso.atributo` para referenciar atributos de recursos. Esta sintaxis te permite usar valores de un recurso en otro recurso o salida! 🎯
+D) 🎯 `terraform clean`
 
----
+**Respuesta correcta**: A) 📝 `terraform destroy`
 
-### ❓ ¿Qué comando destruye la infraestructura gestionada por Terraform? 🟢
+> ⚠️ `terraform destroy` elimina TODA la infraestructura gestionada. ¡Úsalo con mucho cuidado! Es como el botón rojo de autodestrucción.
 
-📝 `terraform destroy`
-🔄 `terraform delete`
-📦 `terraform remove`
-🎯 `terraform cleanup`
+### 14. 🔍 ¿Qué comando muestra el estado actual? 🟡
 
-**Respuesta Correcta:**
-📝 `terraform destroy`
+A) 📝 `terraform show`
 
-**Explicación:**
-💡 `terraform destroy` elimina todos los recursos gestionados por la configuración actual de Terraform. ¡Es lo opuesto a `terraform apply` - elimina infraestructura! 🎯
+B) 🔄 `terraform status`
 
----
+C) 📦 `terraform list`
 
-### 🧠 ¿Qué es un valor local de Terraform? 🟢
+D) 🎯 `terraform info`
 
-📝 Un valor nombrado que puede ser asignado y usado múltiples veces
-🔄 Un archivo local en Terraform
-📦 Una variable que solo está disponible localmente
-🎯 Una configuración
+**Respuesta correcta**: A) 📝 `terraform show`
 
-**Respuesta Correcta:**
-📝 Un valor nombrado que puede ser asignado y usado múltiples veces
+> 📋 `terraform show` muestra el estado actual en formato legible. ¡Como revisar el inventario de tu infraestructura!
 
-**Explicación:**
-🔍 Los valores locales asignan un nombre a una expresión, para que puedas usarla múltiples veces sin repetición. ¡Ayudan a reducir la repetición en tu configuración de Terraform! 🎯
+### 15. 🔄 ¿Qué hace `terraform refresh`? 🟡
 
----
+A) 📝 Actualiza el estado con la infraestructura real
 
-### 💭 ¿Cuál es la sintaxis para referenciar un valor local? 🟢
+B) 🔄 Reinicia la configuración
 
-📝 `local.nombre_valor`
-🔄 `local[nombre_valor]`
-📦 `local_value.nombre_valor`
-🎯 `local_value[nombre_valor]`
+C) 📦 Recarga los proveedores
 
-**Respuesta Correcta:**
-📝 `local.nombre_valor`
+D) 🎯 Limpia la caché
 
-**Explicación:**
-⚡ Usa `local.nombre_valor` para referenciar valores locales en tu configuración de Terraform. ¡El prefijo `local` le dice a Terraform que estás referenciando un valor local! 🎯
+**Respuesta correcta**: A) 📝 Actualiza el estado con la infraestructura real
+
+> 🔄 `terraform refresh` sincroniza el estado con los recursos reales en la plataforma. ¡Como actualizar tu inventario con la realidad!
+
+### 16. 🎯 ¿Qué es el backend en Terraform? 🔴
+
+A) 📝 Configuración de dónde almacenar el estado
+
+B) 🔄 Servidor de Terraform
+
+C) 📦 Base de datos de configuración
+
+D) 🎯 API del proveedor
+
+**Respuesta correcta**: A) 📝 Configuración de dónde almacenar el estado
+
+> 💡 El backend define dónde se almacena el archivo de estado (local, S3, Azure, etc.). ¡Crucial para trabajo en equipo!
+
+### 17. 🔧 ¿Qué es un workspace en Terraform? 🔴
+
+A) 📝 Entorno aislado con su propio estado
+
+B) 🔄 Directorio de trabajo
+
+C) 📦 Archivo de configuración
+
+D) 🎯 Sesión de trabajo
+
+**Respuesta correcta**: A) 📝 Entorno aislado con su propio estado
+
+> 🎯 Los workspaces permiten múltiples entornos (dev, test, prod) con la misma configuración pero estados separados. ¡Como tener varios mundos paralelos!
+
+### 18. 🚀 ¿Qué es el drift en Terraform? 🔴
+
+A) 📝 Diferencia entre configuración y estado real
+
+B) 🔄 Error de configuración
+
+C) 📦 Cambio no planificado
+
+D) 🎯 Versión desactualizada
+
+**Respuesta correcta**: A) 📝 Diferencia entre configuración y estado real
+
+> ⚠️ El drift ocurre cuando alguien modifica la infraestructura fuera de Terraform. ¡Como cuando alguien reorganiza tu casa sin decirte!
+
+### 19. 🔍 ¿Qué archivo contiene configuración sensible? 🔴
+
+A) 📝 `terraform.tfvars`
+
+B) 🔄 `terraform.tf`
+
+C) 📦 `terraform.tfstate`
+
+D) 🎯 `terraform.lock.hcl`
+
+**Respuesta correcta**: A) 📝 `terraform.tfvars`
+
+> 🔐 Los archivos `.tfvars` pueden contener valores sensibles y NO deben commitearse al control de versiones. ¡Como guardar las llaves de tu casa!
+
+### 20. 🎯 ¿Qué es el bloque `locals` en Terraform? 🔴
+
+A) 📝 Variables locales computadas
+
+B) 🔄 Configuración local
+
+C) 📦 Recursos locales
+
+D) 🎯 Archivos locales
+
+**Respuesta correcta**: A) 📝 Variables locales computadas
+
+> 💡 Los `locals` definen valores calculados que se pueden reutilizar en la configuración. ¡Como variables temporales en tu receta!
+
+### 21. 🚀 ¿Cuál es la mejor práctica para secretos en Terraform? 🔴
+
+A) 📝 Usar variables de entorno o servicios de gestión de secretos
+
+B) 🔄 Hardcodear en archivos .tf
+
+C) 📦 Almacenar en archivos .tfvars
+
+D) 🎯 Usar comentarios en el código
+
+**Respuesta correcta**: A) 📝 Usar variables de entorno o servicios de gestión de secretos
+
+> 🔐 NUNCA hardcodees secretos. Usa variables de entorno, AWS Secrets Manager, Azure Key Vault, etc. ¡La seguridad es lo primero!

@@ -4,231 +4,294 @@
 
 ### 1. ☸️ What is Kubernetes? 🟢
 
-A) ☸️ `Container orchestration platform`
-B) 🔧 `Virtualization system`
-C) 📦 `Package manager`
-D) 🌐 `Web server`
+A) ☸️ Container orchestration platform
 
-**Correct Answer**: A) ☸️ `Container orchestration platform`
+B) 🔧 Virtualization system
 
-> 💡 Kubernetes automates the deployment, scaling, and management of containerized applications. Like a conductor for your applications!
+C) 📦 Package manager
+
+D) 🌐 Web server
+
+**Correct Answer**: A) ☸️ Container orchestration platform
+
+> 💡 Kubernetes automates deployment, scaling, and management of containerized applications. Like a conductor for your application orchestra!
 
 ### 2. 🐳 What is a Pod in Kubernetes? 🟢
 
-A) 🐳 `Smallest deployable unit`
-B) 🔧 `Individual container`
-C) 📦 `Application package`
-D) 🌐 `Network service`
+A) 🐳 Smallest deployable unit
 
-**Correct Answer**: A) 🐳 `Smallest deployable unit`
+B) 🔧 Individual container
+
+C) 📦 Application package
+
+D) 🌐 Network service
+
+**Correct Answer**: A) 🐳 Smallest deployable unit
 
 > 📘 A Pod can contain one or more containers that share resources. Like a room where your applications live!
 
 ### 3. 🔄 What is a Deployment? 🟡
 
-A) 🔄 `Resource that manages desired state of Pods`
-B) 🔧 `Installation process`
-C) 📦 `Deployment package`
-D) 🌐 `Network configuration`
+A) 🔄 Resource that manages desired state of Pods
 
-**Correct Answer**: A) 🔄 `Resource that manages desired state of Pods`
+B) 🔧 Installation process
 
-> ⚡ Deployments ensure the correct number of Pods are running. Like a supervisor that keeps everything working!
+C) 📦 Deployment package
+
+D) 🌐 Network configuration
+
+**Correct Answer**: A) 🔄 Resource that manages desired state of Pods
+
+> ⚡ Deployments ensure the correct number of Pods are running. Like a supervisor keeping everything working!
 
 ### 4. 🌐 What is a Service? 🟡
 
-A) 🌐 `Abstraction that exposes applications`
-B) 🔧 `System service`
-C) 📦 `Network package`
-D) ⚙️ `Network configuration`
+A) 🌐 Abstraction that exposes applications
 
-**Correct Answer**: A) 🌐 `Abstraction that exposes applications`
+B) 🔧 System service
+
+C) 📦 Network package
+
+D) ⚙️ Network configuration
+
+**Correct Answer**: A) 🌐 Abstraction that exposes applications
 
 > 💡 Services allow applications to communicate with each other. Like a phone directory for your applications!
 
 ### 5. 📦 What is a ConfigMap? 🟡
 
-A) 📦 `Store non-sensitive configuration`
-B) 🔧 `Configuration file`
-C) 📄 `Configuration document`
-D) 🌐 `Network configuration`
+A) 📦 Store non-sensitive configuration
 
-**Correct Answer**: A) 📦 `Store non-sensitive configuration`
+B) 🔧 Configuration file
 
-> 🎯 ConfigMaps store configuration data that applications can use. Like a configuration file in the cloud!
+C) 📄 Configuration document
+
+D) 🌐 Network configuration
+
+**Correct Answer**: A) 📦 Store non-sensitive configuration
+
+> 🔧 ConfigMaps separate configuration from application code. Like having external settings without touching the code!
 
 ### 6. 🔐 What is a Secret? 🟡
 
-A) 🔐 `Store sensitive data securely`
-B) 🔒 `Access key`
-C) 🛡️ `Encrypted data`
-D) 🔑 `Password`
+A) 🔐 Store sensitive information securely
 
-**Correct Answer**: A) 🔐 `Store sensitive data securely`
+B) 🔒 Access password
 
-> 📘 Secrets store passwords, tokens, and other sensitive data. Like a safe for your secrets!
+C) 🛡️ Authentication system
 
-### 7. 📊 What is a Namespace? 🟢
+D) 🔑 Encryption key
 
-A) 📊 `Logical grouping of resources`
-B) 🔧 `Name space`
-C) 📦 `Resource package`
-D) 🌐 `Virtual network`
+**Correct Answer**: A) 🔐 Store sensitive information securely
 
-**Correct Answer**: A) 📊 `Logical grouping of resources`
+> 🔒 Secrets store sensitive data like passwords, tokens, keys. Like a safe box for critical information!
 
-> ⚡ Namespaces allow organizing resources into logical groups. Like having different departments in a company!
+### 7. 🗂️ What is a Namespace? 🟡
 
-### 8. 🔄 What is a ReplicaSet? 🟡
+A) 🗂️ Logical separation of resources in the cluster
 
-A) 🔄 `Maintain specific number of Pods`
-B) 🔧 `Replicate files`
-C) 📦 `Duplicate packages`
-D) 🌐 `Copy services`
+B) 🔧 Cluster name
 
-**Correct Answer**: A) 🔄 `Maintain specific number of Pods`
+C) 📦 Storage space
 
-> 💡 ReplicaSets ensure the correct number of Pods are always running. Like having an automatic backup system!
+D) 🌐 Network space
 
-### 9. 🌐 What is an Ingress? 🟡
+**Correct Answer**: A) 🗂️ Logical separation of resources in the cluster
 
-A) 🌐 `Manage external access to services`
-B) 🔧 `Network entry`
-C) 📦 `Gateway`
-D) ⚙️ `Access configuration`
+> 🏢 Namespaces are like departments in a company. They separate resources for different teams or environments.
 
-**Correct Answer**: A) 🌐 `Manage external access to services`
+### 8. 🎯 What is an Ingress? 🔴
 
-> 🎯 Ingress controls how external traffic reaches your applications. Like a doorman who directs visitors!
+A) 🎯 Manages external HTTP/HTTPS access to services
 
-### 10. 💾 What is a PersistentVolume? 🟡
+B) 🔧 Cluster entry point
 
-A) 💾 `Persistent storage for applications`
-B) 🔧 `Disk volume`
-C) 📦 `Temporary storage`
-D) 🌐 `Storage network`
+C) 📦 Load balancer
 
-**Correct Answer**: A) 💾 `Persistent storage for applications`
+D) 🌐 Reverse proxy
 
-> 📘 PersistentVolumes provide storage that survives restarts. Like a hard drive that doesn't get erased!
+**Correct Answer**: A) 🎯 Manages external HTTP/HTTPS access to services
 
-### 11. 🔧 What is kubectl? 🟢
+> 🚪 Ingress is like a building's reception, directing external traffic to the correct services within the cluster.
 
-A) 🔧 `Command line tool for Kubernetes`
-B) 🔧 `Cluster configurator`
-C) 📦 `Package manager`
-D) 🌐 `Network client`
+### 9. 💾 What is a PersistentVolume? 🔴
 
-**Correct Answer**: A) 🔧 `Command line tool for Kubernetes`
+A) 💾 Storage independent of Pod lifecycle
 
-> ⚡ kubectl is the main tool for interacting with Kubernetes clusters. Like the remote control for your cluster!
+B) 🔧 Temporary volume
 
-### 12. 🎯 What is a Node? 🟢
+C) 📦 Container storage
 
-A) 🎯 `Physical or virtual machine that runs Pods`
-B) 🔧 `Connection point`
-C) 📦 `Resource package`
-D) 🌐 `Network server`
+D) 🌐 Network storage
 
-**Correct Answer**: A) 🎯 `Physical or virtual machine that runs Pods`
+**Correct Answer**: A) 💾 Storage independent of Pod lifecycle
 
-> 💡 Nodes are the machines that run your applications. Like the workers in your factory!
+> 🗄️ PersistentVolumes survive Pods. Like an external hard drive that persists even when you change computers!
 
-### 13. 🔄 What is a DaemonSet? 🟡
+### 10. 🔄 What is a ReplicaSet? 🟡
 
-A) 🔄 `Run a Pod on each Node`
-B) 🔧 `System service`
-C) 📦 `Monitoring package`
-D) 🌐 `Network service`
+A) 🔄 Ensures a specific number of Pods are running
 
-**Correct Answer**: A) 🔄 `Run a Pod on each Node`
+B) 🔧 Pod backup
 
-> 🎯 DaemonSets ensure certain Pods run on all Nodes. Like having a supervisor in each plant!
+C) 📦 Replica set
 
-### 14. 📊 What is a Job? 🟡
+D) 🌐 Replica network
 
-A) 📊 `Run tasks that complete`
-B) 🔧 `System work`
-C) 📦 `Task package`
-D) 🌐 `Network task`
+**Correct Answer**: A) 🔄 Ensures a specific number of Pods are running
 
-**Correct Answer**: A) 📊 `Run tasks that complete`
+> 🎭 ReplicaSets maintain the desired number of identical Pods. Like a manager ensuring sufficient staff!
 
-> 📘 Jobs run tasks that have a defined start and end. Like a temporary worker who does a specific job!
+### 11. 📊 What is a DaemonSet? 🔴
 
-### 15. 🔄 What is a CronJob? 🟡
+A) 📊 Ensures all nodes run a copy of a Pod
 
-A) 🔄 `Run Jobs on scheduled times`
-B) 🔧 `Scheduled task`
-C) 📦 `Schedule package`
-D) 🌐 `Network scheduling`
+B) 🔧 System daemon
 
-**Correct Answer**: A) 🔄 `Run Jobs on scheduled times`
+C) 📦 Service set
 
-> ⚡ CronJobs run tasks at specific times. Like an alarm clock for your applications!
+D) 🌐 Configuration set
 
-### 16. 🔍 What is a Label? 🟢
+**Correct Answer**: A) 📊 Ensures all nodes run a copy of a Pod
 
-A) 🔍 `Label to organize resources`
-B) 🔧 `File mark`
-C) 📦 `Package label`
-D) 🌐 `Network label`
+> 🏭 DaemonSets are perfect for services that need to run on every node: logging, monitoring, storage drivers.
 
-**Correct Answer**: A) 🔍 `Label to organize resources`
+### 12. ⚖️ What is a HorizontalPodAutoscaler? 🔴
 
-> 💡 Labels allow organizing and selecting resources. Like putting labels on your files!
+A) ⚖️ Automatically scales Pods based on metrics
 
-### 17. 🔍 What is a Selector? 🟡
+B) 🔧 Horizontal balancer
 
-A) 🔍 `Criteria to select resources`
-B) 🔧 `File selector`
-C) 📦 `Package selector`
-D) 🌐 `Network selector`
+C) 📦 Application scaler
 
-**Correct Answer**: A) 🔍 `Criteria to select resources`
+D) 🌐 Load distributor
 
-> 🎯 Selectors allow finding resources based on Labels. Like using a filter to find what you're looking for!
+**Correct Answer**: A) ⚖️ Automatically scales Pods based on metrics
 
-### 18. 🔄 What is a Rolling Update? 🟡
+> 📈 HPA scales Pods based on CPU, memory, or custom metrics. Like hiring more staff when there's lots of work!
 
-A) 🔄 `Update applications without downtime`
-B) 🔧 `System update`
-C) 📦 `Package update`
-D) 🌐 `Network update`
+### 13. 🔗 What types of Services exist? 🔴
 
-**Correct Answer**: A) 🔄 `Update applications without downtime`
+A) 🔗 ClusterIP, NodePort, LoadBalancer, ExternalName
 
-> 📘 Rolling Updates update Pods gradually to avoid interruptions. Like changing car tires while driving!
+B) 🔧 Internal, External, Public, Private
 
-### 19. 🔍 What is a Health Check? 🟡
+C) 📦 HTTP, HTTPS, TCP, UDP
 
-A) 🔍 `Verify application status`
-B) 🔧 `System review`
-C) 📦 `Package verification`
-D) 🌐 `Network check`
+D) 🌐 Frontend, Backend, Database, Cache
 
-**Correct Answer**: A) 🔍 `Verify application status`
+**Correct Answer**: A) 🔗 ClusterIP, NodePort, LoadBalancer, ExternalName
 
-> ⚡ Health Checks verify that applications are working correctly. Like a doctor who checks your applications!
+> 🌐 Each type exposes services differently: ClusterIP (internal), NodePort (node port), LoadBalancer (cloud), ExternalName (DNS).
 
-### 20. 🔄 What is a Horizontal Pod Autoscaler (HPA)? 🟡
+### 14. 🎮 What is kubectl? 🟢
 
-A) 🔄 `Automatically scale number of Pods`
-B) 🔧 `System autoscaler`
-C) 📦 `Package scaler`
-D) 🌐 `Network scaler`
+A) 🎮 Command-line client for Kubernetes
 
-**Correct Answer**: A) 🔄 `Automatically scale number of Pods`
+B) 🔧 Master component
 
-> 💡 HPA automatically adjusts the number of Pods based on demand. Like a thermostat that adjusts temperature!
+C) 📦 Kubernetes API
 
-### 21. 🔍 What is a Resource Quota? 🟡
+D) 🌐 Web dashboard
 
-A) 🔍 `Limit resource usage per Namespace`
-B) 🔧 `System limit`
-C) 📦 `Package quota`
-D) 🌐 `Network limit`
+**Correct Answer**: A) 🎮 Command-line client for Kubernetes
 
-**Correct Answer**: A) 🔍 `Limit resource usage per Namespace`
+> 🕹️ kubectl is your remote control for Kubernetes. Like a universal remote for managing your entire cluster!
 
-> 📘 Resource Quotas control how many resources each Namespace can use. Like a budget for each department!
+### 15. 🏗️ What are master and worker nodes? 🟡
+
+A) 🏗️ Master manages cluster, workers run applications
+
+B) 🔧 Master stores data, workers process
+
+C) 📦 Master is primary, worker is secondary
+
+D) 🌐 Master connects, worker works
+
+**Correct Answer**: A) 🏗️ Master manages cluster, workers run applications
+
+> 👑 The master (control plane) makes decisions, workers (worker nodes) execute Pods. Like a manager and their employees!
+
+### 16. 📋 What is a Job in Kubernetes? 🔴
+
+A) 📋 Runs Pods until completing a specific task
+
+B) 🔧 Maintenance work
+
+C) 📦 Scheduled task
+
+D) 🌐 Network job
+
+**Correct Answer**: A) 📋 Runs Pods until completing a specific task
+
+> ✅ Jobs execute tasks that must complete: batch processing, migrations, backups. Like assigning a specific task with a deadline!
+
+### 17. ⏰ What is a CronJob? 🔴
+
+A) ⏰ Job that runs on a scheduled time
+
+B) 🔧 System cron task
+
+C) 📦 Timed job
+
+D) 🌐 Task scheduler
+
+**Correct Answer**: A) ⏰ Job that runs on a scheduled time
+
+> 📅 CronJobs are like scheduled tasks: daily backups, weekly reports, monthly cleanups. Temporal automation!
+
+### 18. 🔧 What components does the Control Plane have? 🔴
+
+A) 🔧 API Server, etcd, Scheduler, Controller Manager
+
+B) 🏗️ Master, Worker, Storage, Network
+
+C) 📦 Frontend, Backend, Database, Cache
+
+D) 🌐 Load Balancer, Proxy, Gateway, Router
+
+**Correct Answer**: A) 🔧 API Server, etcd, Scheduler, Controller Manager
+
+> 🧠 The Control Plane is the brain: API Server (communicates), etcd (stores), Scheduler (plans), Controller Manager (maintains state).
+
+### 19. 🌐 What is CNI in Kubernetes? 🔴
+
+A) 🌐 Standard interface for network plugins
+
+B) 🔧 Internal network component
+
+C) 📦 Network controller
+
+D) 🎯 Network API
+
+**Correct Answer**: A) 🌐 Standard interface for network plugins
+
+> 🔌 CNI (Container Network Interface) enables different network solutions: Calico, Flannel, Weave. Like different types of internet connection!
+
+### 20. 🛡️ What is RBAC in Kubernetes? 🔴
+
+A) 🛡️ Role-based access control
+
+B) 🔧 Authentication system
+
+C) 📦 Role configuration
+
+D) 🌐 Network control
+
+**Correct Answer**: A) 🛡️ Role-based access control
+
+> 🔐 RBAC defines who can do what in the cluster. Roles + RoleBindings = specific permissions. Like access badges in a company!
+
+### 21. 🎯 What are Kubernetes best practices? 🔴
+
+A) 🎯 Use namespaces, resource limits, health checks, security policies
+
+B) 🔧 Only use Pods directly
+
+C) 📦 Don't use Services
+
+D) 🌐 Avoid ConfigMaps
+
+**Correct Answer**: A) 🎯 Use namespaces, resource limits, health checks, security policies
+
+> 🏆 Best practices: organize with namespaces, define resource limits, implement liveness/readiness probes, use RBAC, apply network policies. Professional Kubernetes!

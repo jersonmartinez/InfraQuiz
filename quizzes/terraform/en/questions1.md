@@ -2,315 +2,296 @@
 
 ## Questions
 
-### ❓ What is Terraform's primary purpose? 🟢
+### 1. ❓ What is Terraform's primary purpose? 🟢
 
-📝 Infrastructure as Code (IaC) tool
-🔄 Container orchestration platform
-📦 Cloud monitoring service
-🎯 Database management system
+A) 📝 Infrastructure as Code (IaC) tool
 
-**Correct Answer:**
-📝 Infrastructure as Code (IaC) tool
+B) 🔄 Container orchestration platform
 
-**Explanation:**
-💡 Terraform is HashiCorp's Infrastructure as Code tool that allows you to define and provision infrastructure using declarative configuration files. Like writing a recipe for your infrastructure! 🎯
+C) 📦 Cloud monitoring service
 
----
+D) 🎯 Database management system
 
-### 🧠 What file extension is used for Terraform configuration files? 🟢
+**Correct Answer**: A) 📝 Infrastructure as Code (IaC) tool
 
-📝 `.tf`
-🔄 `.yaml`
-📦 `.json`
-🎯 `.hcl`
+> 💡 Terraform is HashiCorp's Infrastructure as Code tool that allows you to define and provision infrastructure using declarative configuration files. Like writing a recipe for your infrastructure! 🎯
 
-**Correct Answer:**
-📝 `.tf`
+### 2. 🧠 What file extension is used for Terraform configuration files? 🟢
 
-**Explanation:**
-🔍 Terraform uses `.tf` files for configuration. You can also use `.tfvars` for variable files and `.tfstate` for state files. The `.tf` extension is the standard! 🎯
+A) 📝 `.tf`
 
----
+B) 🔄 `.yaml`
 
-### 💭 What command initializes a Terraform working directory? 🟢
+C) 📦 `.json`
 
-📝 `terraform init`
-🔄 `terraform setup`
-📦 `terraform configure`
-🎯 `terraform start`
+D) 🎯 `.hcl`
 
-**Correct Answer:**
-📝 `terraform init`
+**Correct Answer**: A) 📝 `.tf`
 
-**Explanation:**
-⚡ `terraform init` downloads providers, initializes the backend, and prepares the working directory. It's the first command you run in any Terraform project! 🎯
+> 🔍 Terraform uses `.tf` files for configuration. You can also use `.tfvars` for variable files and `.tfstate` for state files. The `.tf` extension is the standard! 🎯
 
----
+### 3. 💭 What command initializes a Terraform working directory? 🟢
 
-### 🤔 What is a Terraform provider? 🟡
+A) 📝 `terraform init`
 
-📝 A plugin that manages resources for a specific platform
-🔄 A cloud service provider
-📦 A Terraform configuration file
-🎯 A deployment strategy
+B) 🔄 `terraform setup`
 
-**Correct Answer:**
-📝 A plugin that manages resources for a specific platform
+C) 📦 `terraform configure`
 
-**Explanation:**
-💡 Providers are plugins that Terraform uses to interact with cloud providers, SaaS providers, and other APIs. Examples: AWS, Azure, Google Cloud, GitHub, etc. 🎯
+D) 🎯 `terraform start`
 
----
+**Correct Answer**: A) 📝 `terraform init`
 
-### 🔧 What is the main block used to configure a provider? 🟡
+> ⚡ `terraform init` downloads providers, initializes the backend, and prepares the working directory. It's the first command you run in any Terraform project! 🎯
 
-📝 `provider "aws" {}`
-🔄 `resource "aws" {}`
-📦 `variable "aws" {}`
-🎯 `module "aws" {}`
+### 4. 🤔 What is a Terraform provider? 🟡
 
-**Correct Answer:**
-📝 `provider "aws" {}`
+A) 📝 A plugin that manages resources for a specific platform
 
-**Explanation:**
-🩺 The `provider` block configures a specific provider. You specify the provider name and any required configuration options like region, credentials, etc. 🎯
+B) 🔄 A cloud service provider
 
----
+C) 📦 A Terraform configuration file
 
-### ⚙️ What command shows the execution plan? 🟡
+D) 🎯 A deployment strategy
 
-📝 `terraform plan`
-🔄 `terraform preview`
-📦 `terraform show`
-🎯 `terraform status`
+**Correct Answer**: A) 📝 A plugin that manages resources for a specific platform
 
-**Correct Answer:**
-📝 `terraform plan`
+> 💡 Providers are plugins that Terraform uses to interact with cloud providers, SaaS providers, and other APIs. Examples: AWS, Azure, Google Cloud, GitHub, etc. 🎯
 
-**Explanation:**
-🔧 `terraform plan` shows what Terraform will do before making changes. It's like a preview of the infrastructure changes that will be applied. Always review the plan! 🎯
+### 5. 🔧 What is the main block used to configure a provider? 🟡
 
----
+A) 📝 `provider "aws" {}`
 
-### 🔍 What is a Terraform state file? 🔴
+B) 🔄 `resource "aws" {}`
 
-📝 A file that tracks the current state of managed resources
-🔄 A configuration file for the project
-📦 A backup of your infrastructure
-🎯 A log file of Terraform operations
+C) 📦 `variable "aws" {}`
 
-**Correct Answer:**
-📝 A file that tracks the current state of managed resources
+D) 🎯 `module "aws" {}`
 
-**Explanation:**
-🩺 The state file maps real-world resources to your configuration, keeps track of metadata, and improves performance for large infrastructures. It's Terraform's memory! 🎯
+**Correct Answer**: A) 📝 `provider "aws" {}`
 
----
+> ⚡ The `provider` block configures the specific provider you'll use. It defines details like region, credentials, and version. Like setting up your cloud connection! 🎯
 
-### 🚀 What is a Terraform backend? 🔴
+### 6. 🎯 What command plans changes without applying them? 🟡
 
-📝 A configuration that determines where state is stored
-🔄 A server that runs Terraform commands
-📦 A cloud provider's API endpoint
-🎯 A Terraform configuration file
+A) 📝 `terraform plan`
 
-**Correct Answer:**
-📝 A configuration that determines where state is stored
+B) 🔄 `terraform check`
 
-**Explanation:**
-💡 Backends determine where Terraform stores its state. Options include local files, remote storage (S3, Azure Storage), or Terraform Cloud. Enables team collaboration! 🎯
+C) 📦 `terraform preview`
 
----
+D) 🎯 `terraform show`
 
-### 🔧 What is a Terraform module? 🔴
+**Correct Answer**: A) 📝 `terraform plan`
 
-📝 A reusable collection of Terraform resources
-🔄 A Terraform configuration file
-📦 A provider plugin
-🎯 A deployment strategy
+> 📋 `terraform plan` shows what changes will be made without executing them. Like seeing the menu before ordering! Essential to avoid unpleasant surprises.
 
-**Correct Answer:**
-📝 A reusable collection of Terraform resources
+### 7. 🚀 What command applies the planned changes? 🟢
 
-**Explanation:**
-⚡ Modules are reusable Terraform configurations that can be called from other configurations. They help organize code, make it reusable, and treat pieces of infrastructure as black boxes! 🎯
+A) 📝 `terraform apply`
 
----
+B) 🔄 `terraform deploy`
 
-### ❓ What command applies Terraform changes? 🟢
+C) 📦 `terraform execute`
 
-📝 `terraform apply`
-🔄 `terraform deploy`
-📦 `terraform execute`
-🎯 `terraform run`
+D) 🎯 `terraform run`
 
-**Correct Answer:**
-📝 `terraform apply`
+**Correct Answer**: A) 📝 `terraform apply`
 
-**Explanation:**
-💡 `terraform apply` executes the actions proposed in a Terraform plan to reach the desired state of the configuration. It's the command that actually creates/modifies resources! 🎯
+> ⚡ `terraform apply` executes the plan and makes changes to infrastructure. This is the moment of truth! Always review the plan before applying.
 
----
+### 8. 🔄 What is Terraform state? 🟡
 
-### 🧠 What is a Terraform variable? 🟢
+A) 📝 File that maps configuration to real resources
 
-📝 A named value that can be set to customize configuration
-🔄 A programming variable in Terraform
-📦 A configuration file
-🎯 A resource type
+B) 🔄 Current infrastructure status
 
-**Correct Answer:**
-📝 A named value that can be set to customize configuration
+C) 📦 Saved configuration
 
-**Explanation:**
-🔍 Variables allow you to customize aspects of Terraform modules without altering the module's source code. They make your configurations flexible and reusable! 🎯
+D) 🎯 Change history
 
----
+**Correct Answer**: A) 📝 File that maps configuration to real resources
 
-### 💭 What is the syntax for referencing a variable? 🟢
+> 💡 The state file (`terraform.tfstate`) maintains the mapping between your configuration and real resources. Like the inventory of your infrastructure!
 
-📝 `var.variable_name`
-🔄 `variable.variable_name`
-📦 `var[variable_name]`
-🎯 `variable[variable_name]`
+### 9. 🔍 What is a resource in Terraform? 🟢
 
-**Correct Answer:**
-📝 `var.variable_name`
+A) 📝 Infrastructure component that Terraform manages
 
-**Explanation:**
-⚡ Use `var.variable_name` to reference variables in your Terraform configuration. The `var` prefix tells Terraform you're referencing a variable, not a resource or data source! 🎯
+B) 🔄 Configuration file
 
----
+C) 📦 Input variable
 
-### 🤔 What is a Terraform data source? 🟡
+D) 🎯 Command output
 
-📝 A way to fetch information about resources that exist outside of Terraform
-🔄 A source code repository for Terraform
-📦 A backup of your infrastructure
-🎯 A configuration file
+**Correct Answer**: A) 📝 Infrastructure component that Terraform manages
 
-**Correct Answer:**
-📝 A way to fetch information about resources that exist outside of Terraform
+> 🎯 Resources are the fundamental building blocks of Terraform. They represent infrastructure components like servers, networks, etc. The ingredients of your infrastructure recipe!
 
-**Explanation:**
-💡 Data sources allow Terraform to use information defined outside of Terraform, or defined by another separate Terraform configuration. Like reading existing resources! 🎯
+### 10. 📦 What is a module in Terraform? 🟡
 
----
+A) 📝 Reusable set of resources
 
-### 🔧 What is the syntax for referencing a data source? 🟡
+B) 🔄 Configuration file
 
-📝 `data.type.name.attribute`
-🔄 `datasource.type.name.attribute`
-📦 `data[type.name].attribute`
-🎯 `datasource[type.name].attribute`
+C) 📦 Provider plugin
 
-**Correct Answer:**
-📝 `data.type.name.attribute`
+D) 🎯 Global variable
 
-**Explanation:**
-🩺 Use `data.type.name.attribute` to reference data sources. The `data` prefix distinguishes it from resources, and you can access any attribute of the data source! 🎯
+**Correct Answer**: A) 📝 Reusable set of resources
 
----
+> 🧩 Modules allow you to organize and reuse Terraform code. Like reusable functions for your infrastructure!
 
-### ⚙️ What is a Terraform output? 🟡
+### 11. 🔧 How do you define a variable in Terraform? 🟡
 
-📝 A way to expose certain values from your configuration
-🔄 A log message from Terraform
-📦 A configuration file
-🎯 A resource type
+A) 📝 `variable "example" {}`
 
-**Correct Answer:**
-📝 A way to expose certain values from your configuration
+B) 🔄 `var example = "value"`
 
-**Explanation:**
-🔧 Outputs expose specific values from your Terraform configuration. They're useful for getting information about resources after they're created, like IP addresses or URLs! 🎯
+C) 📦 `set example = "value"`
 
----
+D) 🎯 `define example "value"`
 
-### 🔍 What is Terraform workspace? 🔴
+**Correct Answer**: A) 📝 `variable "example" {}`
 
-📝 A named collection of state files for managing multiple environments
-🔄 A development environment for Terraform
-📦 A cloud workspace for collaboration
-🎯 A Terraform configuration directory
+> 💡 Variables are defined with the `variable` block and can have description, type, and default values. Like function parameters for your infrastructure!
 
-**Correct Answer:**
-📝 A named collection of state files for managing multiple environments
+### 12. 🎯 How do you get output in Terraform? 🟡
 
-**Explanation:**
-🩺 Workspaces allow you to manage multiple state files within a single Terraform configuration. Useful for managing different environments (dev, staging, prod) with the same code! 🎯
+A) 📝 `output "example" {}`
 
----
+B) 🔄 `return "example"`
 
-### 🚀 What is a Terraform resource? 🔴
+C) 📦 `export "example"`
 
-📝 A block that describes one or more infrastructure objects
-🔄 A cloud resource like a server
-📦 A Terraform configuration file
-🎯 A provider plugin
+D) 🎯 `show "example"`
 
-**Correct Answer:**
-📝 A block that describes one or more infrastructure objects
+**Correct Answer**: A) 📝 `output "example" {}`
 
-**Explanation:**
-💡 Resources are the most important element in the Terraform language. Each resource block describes one or more infrastructure objects, such as virtual networks, compute instances, or DNS records! 🎯
+> ⚡ Outputs display important values after applying the configuration. Like the results of your infrastructure recipe!
 
----
+### 13. 🚀 What command destroys infrastructure? 🔴
 
-### 🔧 What is the syntax for referencing a resource attribute? 🔴
+A) 📝 `terraform destroy`
 
-📝 `resource_type.resource_name.attribute`
-🔄 `resource.resource_type.resource_name.attribute`
-📦 `resource_type[resource_name].attribute`
-🎯 `resource[resource_type.resource_name].attribute`
+B) 🔄 `terraform delete`
 
-**Correct Answer:**
-📝 `resource_type.resource_name.attribute`
+C) 📦 `terraform remove`
 
-**Explanation:**
-⚡ Use `resource_type.resource_name.attribute` to reference resource attributes. This syntax allows you to use values from one resource in another resource or output! 🎯
+D) 🎯 `terraform clean`
 
----
+**Correct Answer**: A) 📝 `terraform destroy`
 
-### ❓ What command destroys infrastructure managed by Terraform? 🟢
+> ⚠️ `terraform destroy` removes ALL managed infrastructure. Use with extreme caution! It's like the red self-destruct button.
 
-📝 `terraform destroy`
-🔄 `terraform delete`
-📦 `terraform remove`
-🎯 `terraform cleanup`
+### 14. 🔍 What command shows the current state? 🟡
 
-**Correct Answer:**
-📝 `terraform destroy`
+A) 📝 `terraform show`
 
-**Explanation:**
-💡 `terraform destroy` removes all resources managed by the current Terraform configuration. It's the opposite of `terraform apply` - it deletes infrastructure! 🎯
+B) 🔄 `terraform status`
 
----
+C) 📦 `terraform list`
 
-### 🧠 What is a Terraform local value? 🟢
+D) 🎯 `terraform info`
 
-📝 A named value that can be assigned and used multiple times
-🔄 A local file in Terraform
-📦 A variable that's only available locally
-🎯 A configuration setting
+**Correct Answer**: A) 📝 `terraform show`
 
-**Correct Answer:**
-📝 A named value that can be assigned and used multiple times
+> 📋 `terraform show` displays the current state in human-readable format. Like reviewing your infrastructure inventory!
 
-**Explanation:**
-🔍 Local values assign a name to an expression, so you can use it multiple times without repetition. They help reduce repetition in your Terraform configuration! 🎯
+### 15. 🔄 What does `terraform refresh` do? 🟡
 
----
+A) 📝 Updates state with real infrastructure
 
-### 💭 What is the syntax for referencing a local value? 🟢
+B) 🔄 Restarts configuration
 
-📝 `local.value_name`
-🔄 `local[value_name]`
-📦 `local_value.value_name`
-🎯 `local_value[value_name]`
+C) 📦 Reloads providers
 
-**Correct Answer:**
-📝 `local.value_name`
+D) 🎯 Clears cache
 
-**Explanation:**
-⚡ Use `local.value_name` to reference local values in your Terraform configuration. The `local` prefix tells Terraform you're referencing a local value! 🎯
+**Correct Answer**: A) 📝 Updates state with real infrastructure
+
+> 🔄 `terraform refresh` syncs the state with real resources on the platform. Like updating your inventory with reality!
+
+### 16. 🎯 What is the backend in Terraform? 🔴
+
+A) 📝 Configuration of where to store state
+
+B) 🔄 Terraform server
+
+C) 📦 Configuration database
+
+D) 🎯 Provider API
+
+**Correct Answer**: A) 📝 Configuration of where to store state
+
+> 💡 The backend defines where the state file is stored (local, S3, Azure, etc.). Crucial for team collaboration!
+
+### 17. 🔧 What is a workspace in Terraform? 🔴
+
+A) 📝 Isolated environment with its own state
+
+B) 🔄 Working directory
+
+C) 📦 Configuration file
+
+D) 🎯 Work session
+
+**Correct Answer**: A) 📝 Isolated environment with its own state
+
+> 🎯 Workspaces allow multiple environments (dev, test, prod) with the same configuration but separate states. Like having several parallel worlds!
+
+### 18. 🚀 What is drift in Terraform? 🔴
+
+A) 📝 Difference between configuration and real state
+
+B) 🔄 Configuration error
+
+C) 📦 Unplanned change
+
+D) 🎯 Outdated version
+
+**Correct Answer**: A) 📝 Difference between configuration and real state
+
+> ⚠️ Drift occurs when someone modifies infrastructure outside of Terraform. Like when someone rearranges your house without telling you!
+
+### 19. 🔍 What file contains sensitive configuration? 🔴
+
+A) 📝 `terraform.tfvars`
+
+B) 🔄 `terraform.tf`
+
+C) 📦 `terraform.tfstate`
+
+D) 🎯 `terraform.lock.hcl`
+
+**Correct Answer**: A) 📝 `terraform.tfvars`
+
+> 🔐 `.tfvars` files can contain sensitive values and should NOT be committed to version control. Like storing your house keys!
+
+### 20. 🎯 What is the `locals` block in Terraform? 🔴
+
+A) 📝 Computed local variables
+
+B) 🔄 Local configuration
+
+C) 📦 Local resources
+
+D) 🎯 Local files
+
+**Correct Answer**: A) 📝 Computed local variables
+
+> 💡 `locals` define calculated values that can be reused in the configuration. Like temporary variables in your recipe!
+
+### 21. 🚀 What's the best practice for secrets in Terraform? 🔴
+
+A) 📝 Use environment variables or secret management services
+
+B) 🔄 Hardcode in .tf files
+
+C) 📦 Store in .tfvars files
+
+D) 🎯 Use code comments
+
+**Correct Answer**: A) 📝 Use environment variables or secret management services
+
+> 🔐 NEVER hardcode secrets. Use environment variables, AWS Secrets Manager, Azure Key Vault, etc. Security first!

@@ -2,315 +2,296 @@
 
 ## Preguntas
 
-### ❓ ¿Cuál es el propósito principal de los contenedores Docker? 🟢
+### 1. ❓ ¿Cuál es el propósito principal de los contenedores Docker? 🟢
 
-📝 Empaquetar aplicaciones con sus dependencias para despliegue consistente
-🔄 Reemplazar completamente las máquinas virtuales
-📦 Proporcionar un nuevo lenguaje de programación para DevOps
-🎯 Almacenar datos permanentemente
+A) 📝 Empaquetar aplicaciones con sus dependencias para despliegue consistente
 
-**Respuesta Correcta:**
-📝 Empaquetar aplicaciones con sus dependencias para despliegue consistente
+B) 🔄 Reemplazar completamente las máquinas virtuales
 
-**Explicación:**
-💡 Los contenedores Docker encapsulan aplicaciones con todas sus dependencias, asegurando que funcionen consistentemente en diferentes entornos. ¡Como un contenedor de envío para tu código!
+C) 📦 Proporcionar un nuevo lenguaje de programación para DevOps
 
----
+D) 🎯 Almacenar datos permanentemente
 
-### ❓ ¿Qué comando muestra la rama actual de Git? 🟢
+**Respuesta correcta**: A) 📝 Empaquetar aplicaciones con sus dependencias para despliegue consistente
 
-📝 `git branch`
-🔄 `git status`
-📦 `git log`
-🎯 `git show`
+> 💡 Los contenedores Docker encapsulan aplicaciones con todas sus dependencias, asegurando que funcionen consistentemente en diferentes entornos. ¡Como un contenedor de envío para tu código!
 
-**Respuesta Correcta:**
-📝 `git branch`
+### 2. ❓ ¿Qué comando muestra la rama actual de Git? 🟢
 
-**Explicación:**
-💡 `git branch` lista todas las ramas y resalta la actual con un asterisco. ¡Esencial para saber dónde estás en tu flujo de trabajo de Git!
+A) 📝 `git branch`
 
----
+B) 🔄 `git status`
 
-### ❓ ¿Qué significa Infraestructura como Código (IaC)? 🟡
+C) 📦 `git log`
 
-📝 Gestionar infraestructura a través de código y automatización
-🔄 Escribir código que se ejecuta en infraestructura
-📦 Codificar aplicaciones para despliegue en la nube
-🎯 Crear documentación de infraestructura
+D) 🎯 `git show`
 
-**Respuesta Correcta:**
-📝 Gestionar infraestructura a través de código y automatización
+**Respuesta correcta**: A) 📝 `git branch`
 
-**Explicación:**
-💡 IaC te permite definir, aprovisionar y gestionar infraestructura usando código, haciéndola versionable, repetible y escalable. ¡Herramientas como Terraform sobresalen en esto!
+> 💡 `git branch` lista todas las ramas y resalta la actual con un asterisco. ¡Esencial para saber dónde estás en tu flujo de trabajo de Git!
 
----
+### 3. ❓ ¿Qué significa Infraestructura como Código (IaC)? 🟡
 
-### ❓ ¿Qué servicio de AWS se usa principalmente para almacenamiento de objetos? 🟡
+A) 📝 Gestionar infraestructura a través de código y automatización
 
-📝 Amazon S3
-🔄 Amazon EC2
-📦 Amazon RDS
-🎯 Amazon VPC
+B) 🔄 Escribir código que se ejecuta en infraestructura
 
-**Respuesta Correcta:**
-📝 Amazon S3
+C) 📦 Codificar aplicaciones para despliegue en la nube
 
-**Explicación:**
-💡 Amazon S3 (Simple Storage Service) está diseñado para almacenar y recuperar cualquier cantidad de datos desde cualquier lugar. ¡Perfecto para respaldos, sitios web estáticos y archivado de datos!
+D) 🎯 Crear documentación de infraestructura
 
----
+**Respuesta correcta**: A) 📝 Gestionar infraestructura a través de código y automatización
 
-### ❓ ¿Cuál es el propósito de un Pod de Kubernetes? 🟡
+> 💡 IaC te permite definir, aprovisionar y gestionar infraestructura usando código, haciéndola versionable, repetible y escalable. ¡Herramientas como Terraform sobresalen en esto!
 
-📝 Agrupar uno o más contenedores que comparten recursos
-🔄 Almacenar datos persistentes
-📦 Gestionar tráfico de red
-🎯 Monitorear la salud del clúster
+### 4. ❓ ¿Qué servicio de AWS se usa principalmente para almacenamiento de objetos? 🟡
 
-**Respuesta Correcta:**
-📝 Agrupar uno o más contenedores que comparten recursos
+A) 📝 Amazon S3
 
-**Explicación:**
-💡 Un Pod es la unidad desplegable más pequeña en Kubernetes, conteniendo uno o más contenedores que comparten almacenamiento y red. ¡Piénsalo como un envoltorio para tus contenedores!
+B) 🔄 Amazon EC2
 
----
+C) 📦 Amazon RDS
 
-### ❓ ¿Qué librería de Python se usa comúnmente para tareas de automatización? 🟢
+D) 🎯 Amazon VPC
 
-📝 `subprocess`
-🔄 `matplotlib`
-📦 `pandas`
-🎯 `django`
+**Respuesta correcta**: A) 📝 Amazon S3
 
-**Respuesta Correcta:**
-📝 `subprocess`
+> 💡 Amazon S3 (Simple Storage Service) está diseñado para almacenar y recuperar cualquier cantidad de datos desde cualquier lugar. ¡Perfecto para backups, sitios web estáticos y archivado de datos!
 
-**Explicación:**
-💡 El módulo `subprocess` te permite generar nuevos procesos, conectar a sus pipes de entrada/salida/error y obtener sus códigos de retorno. ¡Perfecto para scripts de automatización!
+### 5. ❓ ¿Cuál es el propósito de un Pod en Kubernetes? 🟡
 
----
+A) 📝 Agrupar uno o más contenedores que comparten recursos
 
-### ❓ ¿Qué significa CI/CD? 🟢
+B) 🔄 Almacenar configuración de aplicaciones
 
-📝 Integración Continua/Despliegue Continuo
-🔄 Integración de Código/Despliegue de Código
-📦 Integración de Contenedores/Despliegue de Contenedores
-🎯 Integración en la Nube/Despliegue en la Nube
+C) 📦 Gestionar el tráfico de red
 
-**Respuesta Correcta:**
-📝 Integración Continua/Despliegue Continuo
+D) 🎯 Monitorear el estado del clúster
 
-**Explicación:**
-💡 CI/CD automatiza la integración de cambios de código y su despliegue a producción, ¡habilitando entrega de software más rápida y confiable!
+**Respuesta correcta**: A) 📝 Agrupar uno o más contenedores que comparten recursos
 
----
+> 💡 Los Pods son la unidad de despliegue más pequeña en Kubernetes, conteniendo uno o más contenedores que comparten almacenamiento y red. ¡Como roommates que comparten apartamento!
 
-### ❓ ¿Qué componente de Ansible define las tareas a ejecutar? 🟡
+### 6. ❓ ¿Cuál es el puerto por defecto para HTTPS? 🟢
 
-📝 Playbook
-🔄 Inventory
-📦 Module
-🎯 Handler
+A) 📝 443
 
-**Respuesta Correcta:**
-📝 Playbook
+B) 🔄 80
 
-**Explicación:**
-💡 Los Playbooks son archivos YAML que definen una serie de tareas a ejecutar en hosts gestionados. ¡Son como recetas para la configuración de tu infraestructura!
+C) 📦 8080
 
----
+D) 🎯 22
 
-### ❓ ¿Cuál es el puerto predeterminado para conexiones SSH? 🟢
+**Respuesta correcta**: A) 📝 443
 
-📝 22
-🔄 80
-📦 443
-🎯 21
+> 💡 HTTPS usa el puerto 443 por defecto, mientras HTTP usa el 80. ¡Recordar estos números es esencial para administración de redes!
 
-**Respuesta Correcta:**
-📝 22
+### 7. ❓ ¿Qué es un CI/CD pipeline? 🟡
 
-**Explicación:**
-💡 El puerto 22 es el puerto estándar para conexiones SSH (Secure Shell). ¡Recuerda esto para configuraciones de firewall y configuraciones de seguridad!
+A) 📝 Proceso automatizado para integración y despliegue continuo
 
----
+B) 🔄 Sistema de monitoreo de aplicaciones
 
-### ❓ ¿Qué métrica de monitoreo es más importante para el rendimiento de aplicaciones? 🟡
+C) 📦 Herramienta de gestión de bases de datos
 
-📝 Tiempo de respuesta
-🔄 Uso de CPU
-📦 Uso de memoria
-🎯 Espacio en disco
+D) 🎯 Protocolo de comunicación de red
 
-**Respuesta Correcta:**
-📝 Tiempo de respuesta
+**Respuesta correcta**: A) 📝 Proceso automatizado para integración y despliegue continuo
 
-**Explicación:**
-💡 El tiempo de respuesta impacta directamente la experiencia del usuario y es a menudo el primer indicador de problemas de rendimiento. ¡Aunque otras métricas importan, esta afecta más directamente a los usuarios!
+> 💡 CI/CD automatiza la construcción, prueba y despliegue de código. ¡Como una línea de ensamblaje para software!
 
----
+### 8. ❓ ¿Cuál es la diferencia principal entre TCP y UDP? 🟡
 
-### ❓ ¿Cuál es el propósito de un balanceador de carga? 🟡
+A) 📝 TCP es confiable y orientado a conexión, UDP es rápido pero no confiable
 
-📝 Distribuir solicitudes entrantes entre múltiples servidores
-🔄 Almacenar datos de sesión de usuario
-📦 Encriptar tráfico de red
-🎯 Monitorear la salud del servidor
+B) 🔄 TCP es más lento, UDP es para video
 
-**Respuesta Correcta:**
-📝 Distribuir solicitudes entrantes entre múltiples servidores
+C) 📦 TCP es para internet, UDP para redes locales
 
-**Explicación:**
-💡 Los balanceadores de carga distribuyen tráfico entre múltiples servidores para prevenir sobrecarga, mejorar rendimiento y proporcionar alta disponibilidad. ¡Esencial para aplicaciones escalables!
+D) 🎯 No hay diferencia significativa
 
----
+**Respuesta correcta**: A) 📝 TCP es confiable y orientado a conexión, UDP es rápido pero no confiable
 
-### ❓ ¿Qué práctica de seguridad debe implementarse para acceso a bases de datos? 🟡
+> 💡 TCP garantiza la entrega de datos pero es más lento. UDP es rápido pero puede perder paquetes. ¡Como correo certificado vs. postal normal!
 
-📝 Usar el principio de menor privilegio
-🔄 Permitir todas las conexiones por defecto
-📦 Almacenar contraseñas en texto plano
-🎯 Deshabilitar toda autenticación
+### 9. ❓ ¿Qué es Ansible? 🟢
 
-**Respuesta Correcta:**
-📝 Usar el principio de menor privilegio
+A) 📝 Herramienta de automatización de configuración
 
-**Explicación:**
-💡 El principio de menor privilegio asegura que usuarios y aplicaciones tengan solo los permisos mínimos necesarios para funcionar. ¡Crítico para la seguridad de bases de datos!
+B) 🔄 Base de datos NoSQL
 
----
+C) 📦 Lenguaje de programación
 
-### ❓ ¿Cuál es el principal beneficio de usar arquitectura de microservicios? 🟡
+D) 🎯 Sistema operativo
 
-📝 Escalado y despliegue independiente de servicios
-🔄 Reducción de complejidad de código
-📦 Menores costos de infraestructura
-🎯 Tiempo de desarrollo más rápido
+**Respuesta correcta**: A) 📝 Herramienta de automatización de configuración
 
-**Respuesta Correcta:**
-📝 Escalado y despliegue independiente de servicios
+> 💡 Ansible automatiza la configuración, aprovisionamiento y gestión de sistemas usando archivos YAML simples. ¡Como tener un asistente que configura servidores!
 
-**Explicación:**
-💡 Los microservicios permiten que cada servicio sea desarrollado, desplegado y escalado independientemente, ¡proporcionando flexibilidad y resistencia en aplicaciones grandes!
+### 10. ❓ ¿Cuál es el propósito de un Load Balancer? 🟡
 
----
+A) 📝 Distribuir tráfico entre múltiples servidores
 
-### ❓ ¿Qué comando crea un nuevo repositorio Git? 🟢
+B) 🔄 Almacenar datos de aplicaciones
 
-📝 `git init`
-🔄 `git create`
-📦 `git new`
-🎯 `git start`
+C) 📦 Monitorear el rendimiento del sistema
 
-**Respuesta Correcta:**
-📝 `git init`
+D) 🎯 Gestionar usuarios y permisos
 
-**Explicación:**
-💡 `git init` inicializa un nuevo repositorio Git en el directorio actual, creando la carpeta `.git` que rastrea todos tus datos de control de versiones!
+**Respuesta correcta**: A) 📝 Distribuir tráfico entre múltiples servidores
 
----
+> 💡 Los Load Balancers distribuyen las solicitudes entrantes entre varios servidores para mejorar disponibilidad y rendimiento. ¡Como un director de tráfico para tu aplicación!
 
-### ❓ ¿Cuál es el propósito de Docker Compose? 🟡
+### 11. ❓ ¿Qué es el SSL/TLS? 🟡
 
-📝 Definir y ejecutar aplicaciones multi-contenedor
-🔄 Construir imágenes Docker más rápido
-📦 Monitorear rendimiento de contenedores
-🎯 Asegurar comunicaciones de contenedores
+A) 📝 Protocolo de seguridad para comunicaciones en internet
 
-**Respuesta Correcta:**
-📝 Definir y ejecutar aplicaciones multi-contenedor
+B) 🔄 Sistema de gestión de bases de datos
 
-**Explicación:**
-💡 Docker Compose usa archivos YAML para definir aplicaciones multi-contenedor, ¡haciendo fácil gestionar aplicaciones complejas con múltiples servicios!
+C) 📦 Lenguaje de consulta de datos
 
----
+D) 🎯 Herramienta de monitoreo
 
-### ❓ ¿Qué servicio de AWS proporciona Kubernetes gestionado? 🟡
+**Respuesta correcta**: A) 📝 Protocolo de seguridad para comunicaciones en internet
 
-📝 Amazon EKS
-🔄 Amazon ECS
-📦 Amazon EC2
-🎯 Amazon Lambda
+> 💡 SSL/TLS cifra las comunicaciones entre cliente y servidor, asegurando que los datos no puedan ser interceptados. ¡Como un túnel seguro para tus datos!
 
-**Respuesta Correcta:**
-📝 Amazon EKS
+### 12. ❓ ¿Cuál es la diferencia entre un contenedor y una máquina virtual? 🔴
 
-**Explicación:**
-💡 Amazon EKS (Elastic Kubernetes Service) es un servicio de Kubernetes gestionado que hace fácil ejecutar Kubernetes en AWS sin gestionar el plano de control!
+A) 📝 Los contenedores comparten el kernel del SO, las VMs tienen SO completo
 
----
+B) 🔄 Los contenedores son más lentos que las VMs
 
-### ❓ ¿Cuál es el propósito principal de los archivos de estado de Terraform? 🟡
+C) 📦 Las VMs usan menos recursos que los contenedores
 
-📝 Rastrear el estado actual de la infraestructura
-🔄 Almacenar configuración de Terraform
-📦 Registrar historial de despliegues
-🎯 Cachear plugins de proveedores
+D) 🎯 No hay diferencia práctica
 
-**Respuesta Correcta:**
-📝 Rastrear el estado actual de la infraestructura
+**Respuesta correcta**: A) 📝 Los contenedores comparten el kernel del SO, las VMs tienen SO completo
 
-**Explicación:**
-💡 Los archivos de estado de Terraform mantienen registro de qué infraestructura existe y su configuración actual, ¡permitiendo a Terraform planificar y aplicar cambios con precisión!
+> 💡 Los contenedores son más eficientes porque comparten el kernel del host, mientras las VMs necesitan un SO completo cada una. ¡Contenedores = apartamentos, VMs = casas individuales!
 
----
+### 13. ❓ ¿Qué es DevOps? 🟢
 
-### ❓ ¿Qué método de Python se usa para ejecutar comandos de shell? 🟢
+A) 📝 Cultura que une desarrollo y operaciones para acelerar entregas
 
-📝 `subprocess.run()`
-🔄 `os.execute()`
-📦 `shell.run()`
-🎯 `cmd.execute()`
+B) 🔄 Nueva herramienta de programación
 
-**Respuesta Correcta:**
-📝 `subprocess.run()`
+C) 📦 Sistema operativo especializado
 
-**Explicación:**
-💡 `subprocess.run()` es la forma recomendada de ejecutar comandos de shell en Python, ¡proporcionando mejor control y seguridad que métodos más antiguos!
+D) 🎯 Lenguaje de configuración
 
----
+**Respuesta correcta**: A) 📝 Cultura que une desarrollo y operaciones para acelerar entregas
 
-### ❓ ¿Qué indica el código de estado HTTP 404? 🟢
+> 💡 DevOps es una cultura y conjunto de prácticas que combinan desarrollo de software y operaciones IT para acortar ciclos de desarrollo. ¡Teamwork makes the dream work!
 
-📝 Recurso no encontrado
-🔄 Error del servidor
-📦 Acceso no autorizado
-🎯 Tiempo de espera de solicitud
+### 14. ❓ ¿Cuál es el propósito principal de Prometheus? 🔴
 
-**Respuesta Correcta:**
-📝 Recurso no encontrado
+A) 📝 Sistema de monitoreo y alertas
 
-**Explicación:**
-💡 HTTP 404 significa que el recurso solicitado no pudo ser encontrado en el servidor. ¡Uno de los códigos de estado HTTP más comunes que encontrarás!
+B) 🔄 Base de datos relacional
 
----
+C) 📦 Orquestador de contenedores
 
-### ❓ ¿Qué herramienta se usa comúnmente para orquestación de contenedores? 🟡
+D) 🎯 Servidor web
 
-📝 Kubernetes
-🔄 Docker
-📦 Ansible
-🎯 Terraform
+**Respuesta correcta**: A) 📝 Sistema de monitoreo y alertas
 
-**Respuesta Correcta:**
-📝 Kubernetes
+> 💡 Prometheus recolecta métricas de aplicaciones y sistemas, permitiendo monitoreo y alertas en tiempo real. ¡Como el sistema nervioso de tu infraestructura!
 
-**Explicación:**
-💡 Kubernetes es la plataforma líder de orquestación de contenedores, ¡gestionando el despliegue, escalado y operación de aplicaciones contenerizadas en clústeres!
+### 15. ❓ ¿Qué es un microservicio? 🔴
 
----
+A) 📝 Arquitectura donde la aplicación se divide en servicios pequeños e independientes
 
-### ❓ ¿Cuál es el beneficio principal de usar sistemas de control de versiones? 🟢
+B) 🔄 Servicio muy pequeño en tamaño de archivo
 
-📝 Rastrear cambios y colaborar en código
-🔄 Compilar código más rápido
-📦 Desplegar aplicaciones automáticamente
-🎯 Monitorear rendimiento de aplicaciones
+C) 📦 Servicio que usa pocos recursos
 
-**Respuesta Correcta:**
-📝 Rastrear cambios y colaborar en código
+D) 🎯 Servicio que solo funciona en containers
 
-**Explicación:**
-💡 Los sistemas de control de versiones como Git rastrean cada cambio en tu código, habilitan colaboración y proporcionan la capacidad de revertir a versiones anteriores. ¡Esencial para cualquier trabajo de desarrollo!
+**Respuesta correcta**: A) 📝 Arquitectura donde la aplicación se divide en servicios pequeños e independientes
+
+> 💡 Los microservicios descomponen aplicaciones monolíticas en servicios independientes que se comunican vía APIs. ¡Como un equipo donde cada miembro tiene su especialidad!
+
+### 16. ❓ ¿Cuál es la diferencia entre git merge y git rebase? 🔴
+
+A) 📝 Merge conserva historial, rebase reescribe historial de forma lineal
+
+B) 🔄 Merge es más rápido, rebase es más lento
+
+C) 📦 Merge es para ramas locales, rebase para remotas
+
+D) 🎯 No hay diferencia funcional
+
+**Respuesta correcta**: A) 📝 Merge conserva historial, rebase reescribe historial de forma lineal
+
+> 💡 Merge preserva la historia exacta con commits de merge, rebase reescribe commits para crear un historial lineal más limpio. ¡Elige según si prefieres precisión o claridad!
+
+### 17. ❓ ¿Qué es la escalabilidad horizontal vs vertical? 🔴
+
+A) 📝 Horizontal: más servidores, Vertical: más potencia al mismo servidor
+
+B) 🔄 Horizontal: más rápido, Vertical: más lento
+
+C) 📦 Horizontal: para bases de datos, Vertical: para web
+
+D) 🎯 Horizontal: AWS, Vertical: Azure
+
+**Respuesta correcta**: A) 📝 Horizontal: más servidores, Vertical: más potencia al mismo servidor
+
+> 💡 Escalar horizontalmente es añadir más máquinas, verticalmente es mejorar la máquina existente. ¡Como contratar más empleados vs. entrenar mejor a los actuales!
+
+### 18. ❓ ¿Qué es un webhook? 🔴
+
+A) 📝 Mecanismo para notificar eventos HTTP en tiempo real
+
+B) 🔄 Tipo especial de URL
+
+C) 📦 Herramienta de debugging
+
+D) 🎯 Protocolo de red
+
+**Respuesta correcta**: A) 📝 Mecanismo para notificar eventos HTTP en tiempo real
+
+> 💡 Los webhooks permiten que aplicaciones se notifiquen automáticamente cuando ocurren eventos. ¡Como tener un timbre que suena cuando algo importante sucede!
+
+### 19. ❓ ¿Cuál es el propósito de un API Gateway? 🔴
+
+A) 📝 Punto de entrada único que gestiona y enruta solicitudes a microservicios
+
+B) 🔄 Base de datos para APIs
+
+C) 📦 Herramienta de testing de APIs
+
+D) 🎯 Servidor web especializado
+
+**Respuesta correcta**: A) 📝 Punto de entrada único que gestiona y enruta solicitudes a microservicios
+
+> 💡 Un API Gateway actúa como proxy reverso, manejando autenticación, rate limiting, y enrutamiento a servicios backend. ¡Como la recepción de un edificio de oficinas!
+
+### 20. ❓ ¿Qué es Infrastructure as Code (IaC)? 🔴
+
+A) 📝 Gestionar infraestructura usando archivos de configuración versionables
+
+B) 🔄 Programar aplicaciones que gestionan infraestructura
+
+C) 📦 Documentar infraestructura en código
+
+D) 🎯 Automatizar solo el despliegue
+
+**Respuesta correcta**: A) 📝 Gestionar infraestructura usando archivos de configuración versionables
+
+> 💡 IaC permite versionar, revisar y reproducir infraestructura como cualquier código fuente. ¡Como tener planos de construcción para tu infraestructura!
+
+### 21. ❓ ¿Cuál es la mejor práctica para secretos en contenedores? 🔴
+
+A) 📝 Usar sistemas de gestión de secretos externos, nunca hardcodear
+
+B) 🔄 Guardar secretos en variables de entorno
+
+C) 📦 Incluir secretos en la imagen del contenedor
+
+D) 🎯 Usar archivos de configuración
+
+**Respuesta correcta**: A) 📝 Usar sistemas de gestión de secretos externos, nunca hardcodear
+
+> 💡 Los secretos deben manejarse con herramientas especializadas como Kubernetes Secrets, HashiCorp Vault, AWS Secrets Manager. ¡La seguridad no es negociable!

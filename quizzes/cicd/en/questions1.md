@@ -1,234 +1,297 @@
-# 🔄 CI/CD - Questions 1
+# 🚀 CI/CD - Questions 1
 
 ## Questions
 
-### 1. 🔄 What does CI/CD mean? 🟢
+### 1. 🚀 What does CI/CD stand for? 🟢
 
-A) 🔄 `Continuous Integration and Continuous Delivery`
-B) 🔧 `Configuration and Installation`
-C) 📦 `Control and Implementation`
-D) 🌐 `Connection and Deployment`
+A) 📝 Continuous Integration / Continuous Deployment
 
-**Correct Answer**: A) 🔄 `Continuous Integration and Continuous Delivery`
+B) 🔄 Code Integration / Code Deployment
 
-> 💡 CI/CD automates the development, testing, and deployment process. Like having an assembly line for your software!
+C) 📦 Controlled Integration / Controlled Deployment
 
-### 2. 🔧 What is Continuous Integration (CI)? 🟢
+D) 🎯 Compiled Integration / Distributed Continuously
 
-A) 🔧 `Automatically integrate code and run tests`
-B) 🔄 `Connect servers`
-C) 📦 `Install dependencies`
-D) 🌐 `Configure networks`
+**Correct Answer**: A) 📝 Continuous Integration / Continuous Deployment
 
-**Correct Answer**: A) 🔧 `Automatically integrate code and run tests`
+> 💡 CI/CD automates code integration and deployment, accelerating software delivery. Like an assembly line for applications!
 
-> 📘 CI verifies that new code works correctly before integrating it. Like an automatic quality inspector!
+### 2. 🔧 What is the main goal of Continuous Integration? 🟢
 
-### 3. 🚀 What is Continuous Delivery (CD)? 🟡
+A) 📝 Detect integration problems early
 
-A) 🚀 `Automatically deploy to production`
-B) 🔧 `Manually deliver code`
-C) 📦 `Package applications`
-D) 🌐 `Configure servers`
+B) 🔄 Reduce code size
 
-**Correct Answer**: A) 🚀 `Automatically deploy to production`
+C) 📦 Increase security
 
-> ⚡ CD automates software deployment to production. Like having an assistant that deploys your app automatically!
+D) 🎯 Improve user interface
 
-### 4. 🔍 What is a pipeline in CI/CD? 🟡
+**Correct Answer**: A) 📝 Detect integration problems early
 
-A) 🔍 `Series of automated steps`
-B) 🔧 `Server connection`
-C) 📦 `Data flow`
-D) 🌐 `Network configuration`
+> ⚡ CI integrates code frequently and runs automated tests to detect conflicts quickly. Prevention is better than cure!
 
-**Correct Answer**: A) 🔍 `Series of automated steps`
+### 3. 🎯 What is a CI/CD pipeline? 🟢
 
-> 💡 A pipeline is a sequence of tasks that run automatically. Like a recipe that cooks itself!
+A) 📝 Automated series of steps from code to production
 
-### 5. 🧪 What are automated tests in CI/CD? 🟢
+B) 🔄 Version control tool
 
-A) 🧪 `Tests that run automatically`
-B) 🔧 `Automatic configuration`
-C) 📦 `Automatic installation`
-D) 🌐 `Automatic deployment`
+C) 📦 Monitoring system
 
-**Correct Answer**: A) 🧪 `Tests that run automatically`
+D) 🎯 Deployment database
 
-> 🎯 Automated tests verify that code works correctly. Like having a robot that tests your software!
+**Correct Answer**: A) 📝 Automated series of steps from code to production
 
-### 6. 🔐 What is a secret in CI/CD? 🟡
+> 🔄 A pipeline automates build, test, and deploy. Like an assembly line that converts code into working applications!
 
-A) 🔐 `Sensitive data like passwords or keys`
-B) 🔒 `Configuration file`
-C) 🛡️ `Encrypted code`
-D) 🔑 `Access key`
+### 4. 🔍 What is a build in CI/CD? 🟢
 
-**Correct Answer**: A) 🔐 `Sensitive data like passwords or keys`
+A) 📝 Process of compiling and packaging code
 
-> 📘 Secrets store sensitive information securely. Like a safe for your secret data!
+B) 🔄 Testing process
 
-### 7. 🔄 What is a trigger in CI/CD? 🟢
+C) 📦 Deployment process
 
-A) 🔄 `Event that starts the pipeline`
-B) 🔧 `Manual command`
-C) 📦 `Configuration file`
-D) 🌐 `Network connection`
+D) 🎯 Documentation process
 
-**Correct Answer**: A) 🔄 `Event that starts the pipeline`
+**Correct Answer**: A) 📝 Process of compiling and packaging code
 
-> ⚡ Triggers can be commits, pull requests, or scheduled events. Like a switch that turns on your automation!
+> 💡 The build converts source code into an executable application. Like cooking ingredients to make a dish!
 
-### 8. 🎯 What is a stage in CI/CD? 🟡
+### 5. 🧪 What types of tests are typically run in CI? 🟡
 
-A) 🎯 `Phase or step of the pipeline`
-B) 🔧 `Development server`
-C) 📦 `Testing environment`
-D) 🌐 `Network configuration`
+A) 📝 Unit, integration, and functional tests
 
-**Correct Answer**: A) 🎯 `Phase or step of the pipeline`
+B) 🔄 Only unit tests
 
-> 💡 Stages organize the pipeline into logical phases (build, test, deploy). Like chapters of a book!
+C) 📦 Only manual tests
 
-### 9. 🔧 What is a build in CI/CD? 🟢
+D) 🎯 Only performance tests
 
-A) 🔧 `Compile and package the code`
-B) 🔄 `Connect servers`
-C) 📦 `Install dependencies`
-D) 🌐 `Configure networks`
+**Correct Answer**: A) 📝 Unit, integration, and functional tests
 
-**Correct Answer**: A) 🔧 `Compile and package the code`
+> 🔬 A good testing strategy includes multiple levels: unit tests (fast), integration tests (components), functional tests (end-to-end).
 
-> 📘 The build converts source code into an executable application. Like cooking ingredients to make a dish!
+### 6. 🌿 What is a trigger in CI/CD? 🟡
 
-### 10. 🧪 What are unit tests in CI/CD? 🟢
+A) 📝 Event that automatically starts the pipeline
 
-A) 🧪 `Tests of individual components`
-B) 🔧 `Integration tests`
-C) 📦 `System tests`
-D) 🌐 `Network tests`
+B) 🔄 Error in the pipeline
 
-**Correct Answer**: A) 🧪 `Tests of individual components`
+C) 📦 Debugging tool
 
-> 🎯 Unit tests verify that each function works correctly. Like testing each ingredient before cooking!
+D) 🎯 Type of test
 
-### 11. 🔄 What is a rollback in CI/CD? 🟡
+**Correct Answer**: A) 📝 Event that automatically starts the pipeline
 
-A) 🔄 `Revert to a previous version`
-B) 🔧 `Undo changes`
-C) 📦 `Restore backup`
-D) 🌐 `Reconnect servers`
+> ⚡ Triggers can be commits, pull requests, scheduled times, or external events. Like automatic switches for your pipeline!
 
-**Correct Answer**: A) 🔄 `Revert to a previous version`
+### 7. 🎭 What is Blue-Green Deployment? 🟡
 
-> ⚡ Rollback allows returning to a stable version if something goes wrong. Like having an emergency button!
+A) 📝 Strategy with two identical environments for zero-downtime deployment
 
-### 12. 🌐 What is an environment in CI/CD? 🟡
+B) 🔄 Deployment with specific colors
 
-A) 🌐 `Specific configuration for development/testing/production`
-B) 🔧 `Application server`
-C) 📦 `Configuration package`
-D) ⚙️ `Operating system`
+C) 📦 Type of monitoring
 
-**Correct Answer**: A) 🌐 `Specific configuration for development/testing/production`
+D) 🎯 Backup strategy
 
-> 💡 Environments have different configurations based on their purpose. Like having different rooms for different activities!
+**Correct Answer**: A) 📝 Strategy with two identical environments for zero-downtime deployment
 
-### 13. 🔍 What is an artifact in CI/CD? 🟡
+> 🎯 Blue-Green allows instant traffic switching between versions. Blue (current) and Green (new). Like having two stages ready!
 
-A) 🔍 `File generated by the build`
-B) 🔧 `Source code`
-C) 📦 `Installation package`
-D) 🌐 `Network configuration`
+### 8. 🎪 What is Canary Deployment? 🟡
 
-**Correct Answer**: A) 🔍 `File generated by the build`
+A) 📝 Gradual deployment to a subset of users
 
-> 📘 Artifacts are files generated during the build (JAR, WAR, etc.). Like the final product from your kitchen!
+B) 🔄 Deployment only at specific times
 
-### 14. 🔐 What is security in CI/CD? 🟡
+C) 📦 Deployment with automatic rollback
 
-A) 🔐 `Protect the pipeline and data`
-B) 🔒 `Encrypt code`
-C) 🛡️ `Network firewall`
-D) 🔑 `Access management`
+D) 🎯 Multi-region deployment
 
-**Correct Answer**: A) 🔐 `Protect the pipeline and data`
+**Correct Answer**: A) 📝 Gradual deployment to a subset of users
 
-> 🎯 Security includes secret management, vulnerability scanning, and access control. Like having a security guard!
+> 🐤 Like a canary in a mine, it exposes a small portion of traffic to the new version to detect problems early.
 
-### 15. 📊 What is monitoring in CI/CD? 🟡
+### 9. 🔄 What is a rollback? 🟢
 
-A) 📊 `Observe pipeline performance`
-B) 🔧 `Configure alerts`
-C) 📦 `Collect logs`
-D) 🌐 `Analyze traffic`
+A) 📝 Return to a previous version when there are problems
 
-**Correct Answer**: A) 📊 `Observe pipeline performance`
+B) 🔄 Move forward to the next version
 
-> ⚡ Monitoring allows detecting problems and optimizing the pipeline. Like having a control panel for your automation!
+C) 📦 Restart the pipeline
 
-### 16. 🔄 What is a deployment in CI/CD? 🟢
+D) 🎯 Update dependencies
 
-A) 🔄 `Deploy the application to an environment`
-B) 🔧 `Configure servers`
-C) 📦 `Install software`
-D) 🌐 `Connect networks`
+**Correct Answer**: A) 📝 Return to a previous version when there are problems
 
-**Correct Answer**: A) 🔄 `Deploy the application to an environment`
+> 🚨 Rollbacks are crucial for quickly recovering from problematic deployments. Like an undo button for production!
 
-> 💡 Deployment installs and configures the application on the target server. Like delivering the final product to the customer!
+### 10. 📊 What are artifacts in CI/CD? 🟡
 
-### 17. 🧪 What are integration tests in CI/CD? 🟡
+A) 📝 Files generated by the build that can be deployed
 
-A) 🧪 `Tests that verify interaction between components`
-B) 🔧 `Configuration tests`
-C) 📦 `Installation tests`
-D) 🌐 `Connectivity tests`
+B) 🔄 Pipeline logs
 
-**Correct Answer**: A) 🧪 `Tests that verify interaction between components`
+C) 📦 System configurations
 
-> 📘 Integration tests verify that components work together correctly. Like testing that all ingredients mix well!
+D) 🎯 Automated tests
 
-### 18. 🔄 What is blue-green deployment? 🟡
+**Correct Answer**: A) 📝 Files generated by the build that can be deployed
 
-A) 🔄 `Deployment with two identical environments`
-B) 🔧 `Gradual deployment`
-C) 📦 `Automatic deployment`
-D) 🌐 `Manual deployment`
+> 📦 Artifacts are the "product" of the build: JARs, containers, packages. Like finished products ready to ship!
 
-**Correct Answer**: A) 🔄 `Deployment with two identical environments`
+### 11. 🌐 What is a webhook in CI/CD? 🟡
 
-> 🎯 Blue-green deployment reduces downtime during deployment. Like having a backup ready to switch!
+A) 📝 Mechanism to automatically notify HTTP events
 
-### 19. 🔍 What is a linter in CI/CD? 🟢
+B) 🔄 Debugging tool
 
-A) 🔍 `Tool that analyzes code quality`
-B) 🔧 `Code compiler`
-C) 📦 `Application packager`
-D) 🌐 `Network analyzer`
+C) 📦 Type of test
 
-**Correct Answer**: A) 🔍 `Tool that analyzes code quality`
+D) 🎯 Monitoring system
 
-> ⚡ Linters automatically verify code style and quality. Like having an automatic spell checker!
+**Correct Answer**: A) 📝 Mechanism to automatically notify HTTP events
 
-### 20. 🔐 What is dependency management in CI/CD? 🟡
+> 🔔 Webhooks allow Git to notify the CI system when there are changes. Like a doorbell that alerts when new code arrives!
 
-A) 🔐 `Manage project libraries and packages`
-B) 🔧 `Configure servers`
-C) 📦 `Install software`
-D) 🌐 `Connect networks`
+### 12. 🏗️ What is Infrastructure as Code in CI/CD? 🔴
 
-**Correct Answer**: A) 🔐 `Manage project libraries and packages`
+A) 📝 Managing infrastructure with versioned configuration files
 
-> 💡 Dependency management ensures all necessary libraries are available. Like having an updated shopping list!
+B) 🔄 Documenting infrastructure
 
-### 21. 📊 What is a dashboard in CI/CD? 🟢
+C) 📦 Monitoring infrastructure
 
-A) 📊 `Visual interface to monitor the pipeline`
-B) 🔧 `Configuration panel`
-C) 📦 `File manager`
-D) 🌐 `Network monitor`
+D) 🎯 Automating only applications
 
-**Correct Answer**: A) 📊 `Visual interface to monitor the pipeline`
+**Correct Answer**: A) 📝 Managing infrastructure with versioned configuration files
 
-> 📘 Dashboards show pipeline status and progress visually. Like having a GPS for your automation!
+> 🏗️ IaC allows versioning and automating infrastructure like code. Tools: Terraform, CloudFormation, Ansible. Reproducible infrastructure!
+
+### 13. 🔐 How are secrets handled in CI/CD pipelines? 🔴
+
+A) 📝 Secure environment variables and secret managers
+
+B) 🔄 Hardcoded in the code
+
+C) 📦 In public configuration files
+
+D) 🎯 In code comments
+
+**Correct Answer**: A) 📝 Secure environment variables and secret managers
+
+> 🔐 NEVER hardcode secrets. Use encrypted variables, Azure Key Vault, AWS Secrets Manager, HashiCorp Vault. Security first!
+
+### 14. 🎯 What is a stage in a pipeline? 🟡
+
+A) 📝 Pipeline phase that groups related tasks
+
+B) 🔄 Type of environment
+
+C) 📦 CI/CD tool
+
+D) 🎯 Type of test
+
+**Correct Answer**: A) 📝 Pipeline phase that groups related tasks
+
+> 📋 Stages organize the pipeline: Build → Test → Deploy. Each stage can have multiple jobs. Like acts in a theater play!
+
+### 15. 🔧 What are runners/agents in CI/CD? 🟡
+
+A) 📝 Machines that execute pipeline jobs
+
+B) 🔄 Developers who execute deploys
+
+C) 📦 Automation scripts
+
+D) 🎯 Monitoring tools
+
+**Correct Answer**: A) 📝 Machines that execute pipeline jobs
+
+> ⚙️ Runners can be VMs, containers, or physical machines. GitHub Actions uses runners, GitLab uses runners, Jenkins uses agents.
+
+### 16. 🚀 What is GitOps? 🔴
+
+A) 📝 Methodology that uses Git as the single source of truth for infrastructure
+
+B) 🔄 Advanced Git tool
+
+C) 📦 Development process with Git
+
+D) 🎯 Monitoring system for Git
+
+**Correct Answer**: A) 📝 Methodology that uses Git as the single source of truth for infrastructure
+
+> 🔄 GitOps uses pull requests for infrastructure changes. Tools: ArgoCD, Flux. Git as the universal control center!
+
+### 17. 📊 What metrics are important in CI/CD? 🔴
+
+A) 📝 Lead time, deployment frequency, MTTR, change failure rate
+
+B) 🔄 Only lines of code
+
+C) 📦 Only execution time
+
+D) 🎯 Only number of commits
+
+**Correct Answer**: A) 📝 Lead time, deployment frequency, MTTR, change failure rate
+
+> 📈 The 4 DORA metrics: Lead time (idea→production), Deploy frequency, Mean time to recovery, Change failure rate. Measure to improve!
+
+### 18. 🔄 What is parallelism in pipelines? 🟡
+
+A) 📝 Execute multiple tasks simultaneously to speed up the pipeline
+
+B) 🔄 Run tasks on different servers
+
+C) 📦 Duplicate the pipeline
+
+D) 🎯 Run the pipeline multiple times
+
+**Correct Answer**: A) 📝 Execute multiple tasks simultaneously to speed up the pipeline
+
+> ⚡ Unit tests can run in parallel. Different stages can have parallel jobs. Speed without sacrificing quality!
+
+### 19. 🛡️ What is shift-left security? 🔴
+
+A) 📝 Integrate security early in the development pipeline
+
+B) 🔄 Move security to the end of the process
+
+C) 📦 Use third-party security tools
+
+D) 🎯 Outsource security
+
+**Correct Answer**: A) 📝 Integrate security early in the development pipeline
+
+> 🔒 Include SAST, DAST, dependency scanning, container scanning in the pipeline. Detect vulnerabilities before production!
+
+### 20. 📦 What is a registry in CI/CD? 🔴
+
+A) 📝 Repository for storing built artifacts
+
+B) 🔄 List of pipelines
+
+C) 📦 Configuration database
+
+D) 🎯 Log system
+
+**Correct Answer**: A) 📝 Repository for storing built artifacts
+
+> 📚 Docker Registry for containers, npm registry for packages, Maven repository for JARs. Warehouse of finished products!
+
+### 21. 🎯 What are CI/CD pipeline best practices? 🔴
+
+A) 📝 Fail fast, quick feedback, reproducible builds, automated testing
+
+B) 🔄 Only manual builds
+
+C) 📦 Testing only in production
+
+D) 🎯 Deployments only on Fridays
+
+**Correct Answer**: A) 📝 Fail fast, quick feedback, reproducible builds, automated testing
+
+> 🏆 Effective pipelines: fail fast, give immediate feedback, are reproducible, include automated tests, and allow quick rollbacks. Operational excellence!

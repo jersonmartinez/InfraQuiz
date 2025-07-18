@@ -2,315 +2,296 @@
 
 ## Questions
 
-### ❓ What is the main purpose of Docker containers? 🟢
+### 1. ❓ What is the main purpose of Docker containers? 🟢
 
-📝 Package applications with their dependencies for consistent deployment
-🔄 Replace virtual machines completely
-📦 Provide a new programming language for DevOps
-🎯 Store data permanently
+A) 📝 Package applications with their dependencies for consistent deployment
 
-**Correct Answer:**
-📝 Package applications with their dependencies for consistent deployment
+B) 🔄 Replace virtual machines completely
 
-**Explanation:**
-💡 Docker containers encapsulate applications with all their dependencies, ensuring they run consistently across different environments. Like a shipping container for your code!
+C) 📦 Provide a new programming language for DevOps
 
----
+D) 🎯 Store data permanently
 
-### ❓ Which command shows the current Git branch? 🟢
+**Correct Answer**: A) 📝 Package applications with their dependencies for consistent deployment
 
-📝 `git branch`
-🔄 `git status`
-📦 `git log`
-🎯 `git show`
+> 💡 Docker containers encapsulate applications with all their dependencies, ensuring they run consistently across different environments. Like a shipping container for your code!
 
-**Correct Answer:**
-📝 `git branch`
+### 2. ❓ Which command shows the current Git branch? 🟢
 
-**Explanation:**
-💡 `git branch` lists all branches and highlights the current one with an asterisk. Essential for knowing where you are in your Git workflow!
+A) 📝 `git branch`
 
----
+B) 🔄 `git status`
 
-### ❓ What does Infrastructure as Code (IaC) mean? 🟡
+C) 📦 `git log`
 
-📝 Managing infrastructure through code and automation
-🔄 Writing code that runs on infrastructure
-📦 Coding applications for cloud deployment
-🎯 Creating infrastructure documentation
+D) 🎯 `git show`
 
-**Correct Answer:**
-📝 Managing infrastructure through code and automation
+**Correct Answer**: A) 📝 `git branch`
 
-**Explanation:**
-💡 IaC allows you to define, provision, and manage infrastructure using code, making it version-controlled, repeatable, and scalable. Tools like Terraform excel at this!
+> 💡 `git branch` lists all branches and highlights the current one with an asterisk. Essential for knowing where you are in your Git workflow!
 
----
+### 3. ❓ What does Infrastructure as Code (IaC) mean? 🟡
 
-### ❓ Which AWS service is primarily used for object storage? 🟡
+A) 📝 Managing infrastructure through code and automation
 
-📝 Amazon S3
-🔄 Amazon EC2
-📦 Amazon RDS
-🎯 Amazon VPC
+B) 🔄 Writing code that runs on infrastructure
 
-**Correct Answer:**
-📝 Amazon S3
+C) 📦 Coding applications for cloud deployment
 
-**Explanation:**
-💡 Amazon S3 (Simple Storage Service) is designed for storing and retrieving any amount of data from anywhere. Perfect for backups, static websites, and data archiving!
+D) 🎯 Creating infrastructure documentation
 
----
+**Correct Answer**: A) 📝 Managing infrastructure through code and automation
 
-### ❓ What is the purpose of a Kubernetes Pod? 🟡
+> 💡 IaC allows you to define, provision, and manage infrastructure using code, making it version-controlled, repeatable, and scalable. Tools like Terraform excel at this!
 
-📝 Group one or more containers that share resources
-🔄 Store persistent data
-📦 Manage network traffic
-🎯 Monitor cluster health
+### 4. ❓ Which AWS service is primarily used for object storage? 🟡
 
-**Correct Answer:**
-📝 Group one or more containers that share resources
+A) 📝 Amazon S3
 
-**Explanation:**
-💡 A Pod is the smallest deployable unit in Kubernetes, containing one or more containers that share storage and network. Think of it as a wrapper for your containers!
+B) 🔄 Amazon EC2
 
----
+C) 📦 Amazon RDS
 
-### ❓ Which Python library is commonly used for automation tasks? 🟢
+D) 🎯 Amazon VPC
 
-📝 `subprocess`
-🔄 `matplotlib`
-📦 `pandas`
-🎯 `django`
+**Correct Answer**: A) 📝 Amazon S3
 
-**Correct Answer:**
-📝 `subprocess`
+> 💡 Amazon S3 (Simple Storage Service) is designed for storing and retrieving any amount of data from anywhere. Perfect for backups, static websites, and data archiving!
 
-**Explanation:**
-💡 The `subprocess` module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes. Perfect for automation scripts!
+### 5. ❓ What is the purpose of a Kubernetes Pod? 🟡
 
----
+A) 📝 Group one or more containers that share resources
 
-### ❓ What does CI/CD stand for? 🟢
+B) 🔄 Store application configuration
 
-📝 Continuous Integration/Continuous Deployment
-🔄 Code Integration/Code Deployment
-📦 Container Integration/Container Deployment
-🎯 Cloud Integration/Cloud Deployment
+C) 📦 Manage network traffic
 
-**Correct Answer:**
-📝 Continuous Integration/Continuous Deployment
+D) 🎯 Monitor cluster health
 
-**Explanation:**
-💡 CI/CD automates the integration of code changes and their deployment to production, enabling faster and more reliable software delivery!
+**Correct Answer**: A) 📝 Group one or more containers that share resources
 
----
+> 💡 Pods are the smallest deployable units in Kubernetes, containing one or more containers that share storage and network. Like roommates sharing an apartment!
 
-### ❓ Which Ansible component defines the tasks to be executed? 🟡
+### 6. ❓ What is the default port for HTTPS? 🟢
 
-📝 Playbook
-🔄 Inventory
-📦 Module
-🎯 Handler
+A) 📝 443
 
-**Correct Answer:**
-📝 Playbook
+B) 🔄 80
 
-**Explanation:**
-💡 Playbooks are YAML files that define a series of tasks to be executed on managed hosts. They're like recipes for your infrastructure configuration!
+C) 📦 8080
 
----
+D) 🎯 22
 
-### ❓ What is the default port for SSH connections? 🟢
+**Correct Answer**: A) 📝 443
 
-📝 22
-🔄 80
-📦 443
-🎯 21
+> 💡 HTTPS uses port 443 by default, while HTTP uses port 80. Remembering these numbers is essential for network administration!
 
-**Correct Answer:**
-📝 22
+### 7. ❓ What is a CI/CD pipeline? 🟡
 
-**Explanation:**
-💡 Port 22 is the standard port for SSH (Secure Shell) connections. Remember this for firewall configurations and security setups!
+A) 📝 Automated process for continuous integration and deployment
 
----
+B) 🔄 Application monitoring system
 
-### ❓ Which monitoring metric is most important for application performance? 🟡
+C) 📦 Database management tool
 
-📝 Response time
-🔄 CPU usage
-📦 Memory usage
-🎯 Disk space
+D) 🎯 Network communication protocol
 
-**Correct Answer:**
-📝 Response time
+**Correct Answer**: A) 📝 Automated process for continuous integration and deployment
 
-**Explanation:**
-💡 Response time directly impacts user experience and is often the first indicator of performance issues. While other metrics matter, this one affects users most directly!
+> 💡 CI/CD automates building, testing, and deploying code. Like an assembly line for software!
 
----
+### 8. ❓ What's the main difference between TCP and UDP? 🟡
 
-### ❓ What is the purpose of a load balancer? 🟡
+A) 📝 TCP is reliable and connection-oriented, UDP is fast but unreliable
 
-📝 Distribute incoming requests across multiple servers
-🔄 Store user session data
-📦 Encrypt network traffic
-🎯 Monitor server health
+B) 🔄 TCP is slower, UDP is for video
 
-**Correct Answer:**
-📝 Distribute incoming requests across multiple servers
+C) 📦 TCP is for internet, UDP for local networks
 
-**Explanation:**
-💡 Load balancers distribute traffic across multiple servers to prevent overload, improve performance, and provide high availability. Essential for scalable applications!
+D) 🎯 There's no significant difference
 
----
+**Correct Answer**: A) 📝 TCP is reliable and connection-oriented, UDP is fast but unreliable
 
-### ❓ Which security practice should be implemented for database access? 🟡
+> 💡 TCP guarantees data delivery but is slower. UDP is fast but may lose packets. Like certified mail vs. regular mail!
 
-📝 Use least privilege principle
-🔄 Allow all connections by default
-📦 Store passwords in plain text
-🎯 Disable all authentication
+### 9. ❓ What is Ansible? 🟢
 
-**Correct Answer:**
-📝 Use least privilege principle
+A) 📝 Configuration automation tool
 
-**Explanation:**
-💡 The least privilege principle ensures users and applications have only the minimum permissions needed to function. Critical for database security!
+B) 🔄 NoSQL database
 
----
+C) 📦 Programming language
 
-### ❓ What is the main benefit of using microservices architecture? 🟡
+D) 🎯 Operating system
 
-📝 Independent scaling and deployment of services
-🔄 Reduced code complexity
-📦 Lower infrastructure costs
-🎯 Faster development time
+**Correct Answer**: A) 📝 Configuration automation tool
 
-**Correct Answer:**
-📝 Independent scaling and deployment of services
+> 💡 Ansible automates configuration, provisioning, and system management using simple YAML files. Like having an assistant that configures servers!
 
-**Explanation:**
-💡 Microservices allow each service to be developed, deployed, and scaled independently, providing flexibility and resilience in large applications!
+### 10. ❓ What is the purpose of a Load Balancer? 🟡
 
----
+A) 📝 Distribute traffic across multiple servers
 
-### ❓ Which command creates a new Git repository? 🟢
+B) 🔄 Store application data
 
-📝 `git init`
-🔄 `git create`
-📦 `git new`
-🎯 `git start`
+C) 📦 Monitor system performance
 
-**Correct Answer:**
-📝 `git init`
+D) 🎯 Manage users and permissions
 
-**Explanation:**
-💡 `git init` initializes a new Git repository in the current directory, creating the `.git` folder that tracks all your version control data!
+**Correct Answer**: A) 📝 Distribute traffic across multiple servers
 
----
+> 💡 Load Balancers distribute incoming requests across multiple servers to improve availability and performance. Like a traffic director for your application!
 
-### ❓ What is the purpose of Docker Compose? 🟡
+### 11. ❓ What is SSL/TLS? 🟡
 
-📝 Define and run multi-container applications
-🔄 Build Docker images faster
-📦 Monitor container performance
-🎯 Secure container communications
+A) 📝 Security protocol for internet communications
 
-**Correct Answer:**
-📝 Define and run multi-container applications
+B) 🔄 Database management system
 
-**Explanation:**
-💡 Docker Compose uses YAML files to define multi-container applications, making it easy to manage complex applications with multiple services!
+C) 📦 Data query language
 
----
+D) 🎯 Monitoring tool
 
-### ❓ Which AWS service provides managed Kubernetes? 🟡
+**Correct Answer**: A) 📝 Security protocol for internet communications
 
-📝 Amazon EKS
-🔄 Amazon ECS
-📦 Amazon EC2
-🎯 Amazon Lambda
+> 💡 SSL/TLS encrypts communications between client and server, ensuring data cannot be intercepted. Like a secure tunnel for your data!
 
-**Correct Answer:**
-📝 Amazon EKS
+### 12. ❓ What's the difference between a container and a virtual machine? 🔴
 
-**Explanation:**
-💡 Amazon EKS (Elastic Kubernetes Service) is a managed Kubernetes service that makes it easy to run Kubernetes on AWS without managing the control plane!
+A) 📝 Containers share the OS kernel, VMs have complete OS
 
----
+B) 🔄 Containers are slower than VMs
 
-### ❓ What is the main purpose of Terraform state files? 🟡
+C) 📦 VMs use fewer resources than containers
 
-📝 Track the current state of infrastructure
-🔄 Store Terraform configuration
-📦 Log deployment history
-🎯 Cache provider plugins
+D) 🎯 There's no practical difference
 
-**Correct Answer:**
-📝 Track the current state of infrastructure
+**Correct Answer**: A) 📝 Containers share the OS kernel, VMs have complete OS
 
-**Explanation:**
-💡 Terraform state files keep track of what infrastructure exists and its current configuration, enabling Terraform to plan and apply changes accurately!
+> 💡 Containers are more efficient because they share the host's kernel, while VMs need a complete OS each. Containers = apartments, VMs = individual houses!
 
----
+### 13. ❓ What is DevOps? 🟢
 
-### ❓ Which Python method is used to execute shell commands? 🟢
+A) 📝 Culture that unites development and operations to accelerate delivery
 
-📝 `subprocess.run()`
-🔄 `os.execute()`
-📦 `shell.run()`
-🎯 `cmd.execute()`
+B) 🔄 New programming tool
 
-**Correct Answer:**
-📝 `subprocess.run()`
+C) 📦 Specialized operating system
 
-**Explanation:**
-💡 `subprocess.run()` is the recommended way to execute shell commands in Python, providing better control and security than older methods!
+D) 🎯 Configuration language
 
----
+**Correct Answer**: A) 📝 Culture that unites development and operations to accelerate delivery
 
-### ❓ What does the HTTP status code 404 indicate? 🟢
+> 💡 DevOps is a culture and set of practices that combine software development and IT operations to shorten development cycles. Teamwork makes the dream work!
 
-📝 Resource not found
-🔄 Server error
-📦 Unauthorized access
-🎯 Request timeout
+### 14. ❓ What is the main purpose of Prometheus? 🔴
 
-**Correct Answer:**
-📝 Resource not found
+A) 📝 Monitoring and alerting system
 
-**Explanation:**
-💡 HTTP 404 means the requested resource could not be found on the server. One of the most common HTTP status codes you'll encounter!
+B) 🔄 Relational database
 
----
+C) 📦 Container orchestrator
 
-### ❓ Which tool is commonly used for container orchestration? 🟡
+D) 🎯 Web server
 
-📝 Kubernetes
-🔄 Docker
-📦 Ansible
-🎯 Terraform
+**Correct Answer**: A) 📝 Monitoring and alerting system
 
-**Correct Answer:**
-📝 Kubernetes
+> 💡 Prometheus collects metrics from applications and systems, enabling real-time monitoring and alerting. Like the nervous system of your infrastructure!
 
-**Explanation:**
-💡 Kubernetes is the leading container orchestration platform, managing the deployment, scaling, and operation of containerized applications across clusters!
+### 15. ❓ What is a microservice? 🔴
 
----
+A) 📝 Architecture where applications are divided into small, independent services
 
-### ❓ What is the primary benefit of using version control systems? 🟢
+B) 🔄 Service that's very small in file size
 
-📝 Track changes and collaborate on code
-🔄 Compile code faster
-📦 Deploy applications automatically
-🎯 Monitor application performance
+C) 📦 Service that uses few resources
 
-**Correct Answer:**
-📝 Track changes and collaborate on code
+D) 🎯 Service that only works in containers
 
-**Explanation:**
-💡 Version control systems like Git track every change to your code, enable collaboration, and provide the ability to revert to previous versions. Essential for any development work!
+**Correct Answer**: A) 📝 Architecture where applications are divided into small, independent services
+
+> 💡 Microservices decompose monolithic applications into independent services that communicate via APIs. Like a team where each member has their specialty!
+
+### 16. ❓ What's the difference between git merge and git rebase? 🔴
+
+A) 📝 Merge preserves history, rebase rewrites history linearly
+
+B) 🔄 Merge is faster, rebase is slower
+
+C) 📦 Merge is for local branches, rebase for remote
+
+D) 🎯 There's no functional difference
+
+**Correct Answer**: A) 📝 Merge preserves history, rebase rewrites history linearly
+
+> 💡 Merge preserves exact history with merge commits, rebase rewrites commits to create a cleaner linear history. Choose based on whether you prefer accuracy or clarity!
+
+### 17. ❓ What is horizontal vs vertical scaling? 🔴
+
+A) 📝 Horizontal: more servers, Vertical: more power to same server
+
+B) 🔄 Horizontal: faster, Vertical: slower
+
+C) 📦 Horizontal: for databases, Vertical: for web
+
+D) 🎯 Horizontal: AWS, Vertical: Azure
+
+**Correct Answer**: A) 📝 Horizontal: more servers, Vertical: more power to same server
+
+> 💡 Scaling horizontally is adding more machines, vertically is improving the existing machine. Like hiring more employees vs. training current ones better!
+
+### 18. ❓ What is a webhook? 🔴
+
+A) 📝 Mechanism to notify HTTP events in real-time
+
+B) 🔄 Special type of URL
+
+C) 📦 Debugging tool
+
+D) 🎯 Network protocol
+
+**Correct Answer**: A) 📝 Mechanism to notify HTTP events in real-time
+
+> 💡 Webhooks allow applications to automatically notify each other when events occur. Like having a doorbell that rings when something important happens!
+
+### 19. ❓ What is the purpose of an API Gateway? 🔴
+
+A) 📝 Single entry point that manages and routes requests to microservices
+
+B) 🔄 Database for APIs
+
+C) 📦 API testing tool
+
+D) 🎯 Specialized web server
+
+**Correct Answer**: A) 📝 Single entry point that manages and routes requests to microservices
+
+> 💡 An API Gateway acts as a reverse proxy, handling authentication, rate limiting, and routing to backend services. Like the reception desk of an office building!
+
+### 20. ❓ What is Infrastructure as Code (IaC)? 🔴
+
+A) 📝 Managing infrastructure using versionable configuration files
+
+B) 🔄 Programming applications that manage infrastructure
+
+C) 📦 Documenting infrastructure in code
+
+D) 🎯 Automating only deployment
+
+**Correct Answer**: A) 📝 Managing infrastructure using versionable configuration files
+
+> 💡 IaC allows you to version, review, and reproduce infrastructure like any source code. Like having construction blueprints for your infrastructure!
+
+### 21. ❓ What's the best practice for secrets in containers? 🔴
+
+A) 📝 Use external secret management systems, never hardcode
+
+B) 🔄 Store secrets in environment variables
+
+C) 📦 Include secrets in container image
+
+D) 🎯 Use configuration files
+
+**Correct Answer**: A) 📝 Use external secret management systems, never hardcode
+
+> 💡 Secrets should be handled with specialized tools like Kubernetes Secrets, HashiCorp Vault, AWS Secrets Manager. Security is non-negotiable!

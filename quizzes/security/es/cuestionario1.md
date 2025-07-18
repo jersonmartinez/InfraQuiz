@@ -4,231 +4,294 @@
 
 ### 1. 🔐 ¿Qué es la ciberseguridad? 🟢
 
-A) 🔐 `Protección de sistemas informáticos contra amenazas`
-B) 🔧 `Configuración de seguridad`
-C) 📦 `Protección de paquetes`
-D) 🌐 `Seguridad de red`
+A) 🔐 Protección de sistemas informáticos contra amenazas
 
-**Respuesta correcta**: A) 🔐 `Protección de sistemas informáticos contra amenazas`
+B) 🔧 Configuración de seguridad
+
+C) 📦 Protección de paquetes
+
+D) 🌐 Seguridad de red
+
+**Respuesta correcta**: A) 🔐 Protección de sistemas informáticos contra amenazas
 
 > 💡 La ciberseguridad protege sistemas, redes y datos contra ataques digitales. ¡Como tener un guardia de seguridad para tu mundo digital!
 
 ### 2. 🔒 ¿Qué es la encriptación? 🟢
 
-A) 🔒 `Proceso de convertir información en código secreto`
-B) 🔧 `Codificación de datos`
-C) 📦 `Protección de archivos`
-D) 🌐 `Seguridad de red`
+A) 🔒 Proceso de convertir información en código secreto
 
-**Respuesta correcta**: A) 🔒 `Proceso de convertir información en código secreto`
+B) 🔧 Codificación de datos
+
+C) 📦 Protección de archivos
+
+D) 🌐 Seguridad de red
+
+**Respuesta correcta**: A) 🔒 Proceso de convertir información en código secreto
 
 > 📘 La encriptación convierte datos en código que solo pueden leer quienes tienen la clave. ¡Como escribir en un idioma secreto!
 
 ### 3. 🔑 ¿Qué es una clave privada? 🟡
 
-A) 🔑 `Clave secreta que solo conoce el propietario`
-B) 🔒 `Contraseña personal`
-C) 🛡️ `Clave de seguridad`
-D) 🔐 `Clave de acceso`
+A) 🔑 Clave secreta que solo conoce el propietario
 
-**Respuesta correcta**: A) 🔑 `Clave secreta que solo conoce el propietario`
+B) 🔒 Contraseña personal
+
+C) 🛡️ Clave de seguridad
+
+D) 🔐 Clave de acceso
+
+**Respuesta correcta**: A) 🔑 Clave secreta que solo conoce el propietario
 
 > ⚡ La clave privada debe mantenerse secreta para proteger la información. ¡Como la llave de tu casa que no debes compartir!
 
 ### 4. 🔑 ¿Qué es una clave pública? 🟡
 
-A) 🔑 `Clave que puede ser compartida públicamente`
-B) 🔒 `Clave de acceso público`
-C) 🛡️ `Clave de seguridad`
-D) 🔐 `Clave compartida`
+A) 🔑 Clave que puede ser compartida públicamente
 
-**Respuesta correcta**: A) 🔑 `Clave que puede ser compartida públicamente`
+B) 🔒 Clave de acceso público
+
+C) 🛡️ Clave de seguridad
+
+D) 🔐 Clave compartida
+
+**Respuesta correcta**: A) 🔑 Clave que puede ser compartida públicamente
 
 > 💡 La clave pública puede ser compartida para que otros puedan enviarte información segura. ¡Como tu dirección de correo!
 
 ### 5. 🔐 ¿Qué es SSL/TLS? 🟡
 
-A) 🔐 `Protocolos de seguridad para comunicaciones en internet`
-B) 🔧 `Protocolo de red seguro`
-C) 📦 `Seguridad de paquetes`
-D) 🌐 `Protocolo web seguro`
+A) 🔐 Protocolos de seguridad para comunicaciones en internet
 
-**Respuesta correcta**: A) 🔐 `Protocolos de seguridad para comunicaciones en internet`
+B) 🔧 Protocolo de red seguro
 
-> 🎯 SSL/TLS encripta las comunicaciones entre navegadores y servidores. ¡Como tener una conversación privada en un lugar público!
+C) 📦 Seguridad de paquetes
 
-### 6. 🔍 ¿Qué es un firewall? 🟢
+D) 🌐 Protocolo web seguro
 
-A) 🔍 `Sistema que controla el tráfico de red`
-B) 🔧 `Muro de protección`
-C) 📦 `Filtro de paquetes`
-D) 🌐 `Barrera de red`
+**Respuesta correcta**: A) 🔐 Protocolos de seguridad para comunicaciones en internet
 
-**Respuesta correcta**: A) 🔍 `Sistema que controla el tráfico de red`
+> 🔒 SSL/TLS encriptan la comunicación entre navegador y servidor. ¡Como hablar en código secreto por teléfono!
 
-> 📘 Los firewalls bloquean tráfico no autorizado y permiten tráfico legítimo. ¡Como un portero que decide quién puede entrar!
+### 6. 🛡️ ¿Qué es un firewall? 🟢
 
-### 7. 🦠 ¿Qué es un malware? 🟢
+A) 🛡️ Sistema que filtra tráfico de red
 
-A) 🦠 `Software malicioso diseñado para dañar sistemas`
-B) 🔧 `Virus informático`
-C) 📦 `Software dañino`
-D) 🌐 `Programa malicioso`
+B) 🔧 Software antivirus
 
-**Respuesta correcta**: A) 🦠 `Software malicioso diseñado para dañar sistemas`
+C) 📦 Sistema de backup
 
-> ⚡ El malware incluye virus, troyanos, ransomware y otros programas dañinos. ¡Como gérmenes digitales que pueden enfermar tu computadora!
+D) 🌐 Protocolo de red
 
-### 8. 🔍 ¿Qué es un phishing? 🟡
+**Respuesta correcta**: A) 🛡️ Sistema que filtra tráfico de red
 
-A) 🔍 `Ataque que intenta robar información personal`
-B) 🔧 `Estafa por correo`
-C) 📦 `Robo de datos`
-D) 🌐 `Ataque de red`
+> 🚧 Un firewall es como un portero que decide quién puede entrar a tu red. ¡Bloquea tráfico malicioso!
 
-**Respuesta correcta**: A) 🔍 `Ataque que intenta robar información personal`
+### 7. 🎣 ¿Qué es phishing? 🟢
 
-> 💡 El phishing usa correos falsos para engañar a las personas. ¡Como un pescador que usa cebo falso para atrapar peces!
+A) 🎣 Intento de robar información mediante engaños
 
-### 9. 🔐 ¿Qué es la autenticación? 🟢
+B) 🔧 Tipo de virus
 
-A) 🔐 `Proceso de verificar la identidad de un usuario`
-B) 🔧 `Verificación de identidad`
-C) 📦 `Comprobación de usuario`
-D) 🌐 `Validación de acceso`
+C) 📦 Protocolo de red
 
-**Respuesta correcta**: A) 🔐 `Proceso de verificar la identidad de un usuario`
+D) 🌐 Método de encriptación
 
-> 🎯 La autenticación confirma que eres quien dices ser. ¡Como mostrar tu DNI para probar tu identidad!
+**Respuesta correcta**: A) 🎣 Intento de robar información mediante engaños
 
-### 10. 🔐 ¿Qué es la autorización? 🟡
+> ⚠️ Phishing usa emails/sitios falsos para robar credenciales. ¡Como pescadores que usan carnada falsa para atrapar víctimas!
 
-A) 🔐 `Proceso de determinar qué puede hacer un usuario`
-B) 🔧 `Permiso de acceso`
-C) 📦 `Autorización de datos`
-D) 🌐 `Permiso de red`
+### 8. 🦠 ¿Qué es malware? 🟢
 
-**Respuesta correcta**: A) 🔐 `Proceso de determinar qué puede hacer un usuario`
+A) 🦠 Software malicioso diseñado para dañar sistemas
 
-> 📘 La autorización determina qué recursos puede usar un usuario autenticado. ¡Como tener diferentes niveles de acceso en un edificio!
+B) 🔧 Software de seguridad
 
-### 11. 🔐 ¿Qué es la autenticación de dos factores (2FA)? 🟡
+C) 📦 Programa defectuoso
 
-A) 🔐 `Método que requiere dos formas de verificación`
-B) 🔧 `Doble verificación`
-C) 📦 `Verificación múltiple`
-D) 🌐 `Seguridad doble`
+D) 🌐 Virus de red
 
-**Respuesta correcta**: A) 🔐 `Método que requiere dos formas de verificación`
+**Respuesta correcta**: A) 🦠 Software malicioso diseñado para dañar sistemas
 
-> ⚡ 2FA requiere contraseña y código adicional (SMS, app). ¡Como necesitar llave y código para entrar a un edificio!
+> 💀 Malware incluye virus, trojanos, ransomware, spyware. ¡Software con malas intenciones para tu sistema!
 
-### 12. 🔍 ¿Qué es un ataque de fuerza bruta? 🟡
+### 9. 🔐 ¿Qué es autenticación de dos factores (2FA)? 🟡
 
-A) 🔍 `Intentar todas las combinaciones posibles de contraseña`
-B) 🔧 `Ataque de contraseñas`
-C) 📦 `Prueba de acceso`
-D) 🌐 `Ataque de red`
+A) 🔐 Método que requiere dos formas de verificación
 
-**Respuesta correcta**: A) 🔍 `Intentar todas las combinaciones posibles de contraseña`
+B) 🔧 Doble contraseña
 
-> 💡 Los ataques de fuerza bruta prueban todas las contraseñas posibles. ¡Como probar todas las combinaciones de una cerradura!
+C) 📦 Dos tipos de encriptación
 
-### 13. 🔍 ¿Qué es un ataque de denegación de servicio (DoS)? 🟡
+D) 🌐 Dos servidores de seguridad
 
-A) 🔍 `Ataque que hace que un servicio no esté disponible`
-B) 🔧 `Ataque de red`
-C) 📦 `Interrupción de servicio`
-D) 🌐 `Ataque de disponibilidad`
+**Respuesta correcta**: A) 🔐 Método que requiere dos formas de verificación
 
-**Respuesta correcta**: A) 🔍 `Ataque que hace que un servicio no esté disponible`
+> 🛡️ 2FA combina algo que sabes (password) + algo que tienes (teléfono/token). ¡Doble capa de protección!
 
-> 🎯 Los ataques DoS sobrecargan servidores para que no puedan responder. ¡Como llenar un restaurante con personas falsas!
+### 10. 🏛️ ¿Qué es un certificado digital? 🟡
 
-### 14. 🔍 ¿Qué es un ataque de hombre en el medio (MITM)? 🟡
+A) 🏛️ Documento electrónico que verifica identidad
 
-A) 🔍 `Interceptar comunicación entre dos partes`
-B) 🔧 `Intercepción de datos`
-C) 📦 `Robo de comunicación`
-D) 🌐 `Ataque de red`
+B) 🔧 Archivo de configuración
 
-**Respuesta correcta**: A) 🔍 `Interceptar comunicación entre dos partes`
+C) 📦 Licencia de software
 
-> 📘 Los ataques MITM interceptan y modifican comunicaciones. ¡Como un espía que escucha conversaciones privadas!
+D) 🌐 Documento web
 
-### 15. 🔐 ¿Qué es un certificado digital? 🟡
+**Respuesta correcta**: A) 🏛️ Documento electrónico que verifica identidad
 
-A) 🔐 `Documento digital que verifica la identidad`
-B) 🔧 `Certificado de seguridad`
-C) 📦 `Documento de identidad`
-D) 🌐 `Certificado web`
+> 📜 Los certificados digitales son como DNIs electrónicos que prueban que eres quien dices ser. ¡Confianza digital!
 
-**Respuesta correcta**: A) 🔐 `Documento digital que verifica la identidad`
+### 11. 🔍 ¿Qué es un hash? 🟡
 
-> ⚡ Los certificados digitales verifican la identidad de sitios web y servicios. ¡Como un carnet de identidad digital!
+A) 🔍 Función que convierte datos en valor único de tamaño fijo
 
-### 16. 🔍 ¿Qué es un hash? 🟡
+B) 🔧 Tipo de encriptación
 
-A) 🔍 `Función que convierte datos en valor único`
-B) 🔧 `Función de encriptación`
-C) 📦 `Conversión de datos`
-D) 🌐 `Función de seguridad`
+C) 📦 Código de verificación
 
-**Respuesta correcta**: A) 🔍 `Función que convierte datos en valor único`
+D) 🌐 Protocolo de seguridad
 
-> 💡 Los hashes convierten datos en valores únicos que no se pueden revertir. ¡Como crear una huella digital de tus datos!
+**Respuesta correcta**: A) 🔍 Función que convierte datos en valor único de tamaño fijo
 
-### 17. 🔐 ¿Qué es la gestión de vulnerabilidades? 🟡
+> 🧬 Un hash es como una huella digital de datos. SHA-256, MD5 son tipos comunes. ¡Detecta si algo cambió!
 
-A) 🔐 `Proceso de identificar y corregir debilidades de seguridad`
-B) 🔧 `Gestión de seguridad`
-C) 📦 `Corrección de errores`
-D) 🌐 `Gestión de amenazas`
+### 12. 🔓 ¿Qué es una vulnerabilidad? 🟡
 
-**Respuesta correcta**: A) 🔐 `Proceso de identificar y corregir debilidades de seguridad`
+A) 🔓 Debilidad que puede ser explotada por atacantes
 
-> 🎯 La gestión de vulnerabilidades encuentra y arregla puntos débiles. ¡Como hacer mantenimiento preventivo en tu casa!
+B) 🔧 Error de programación
 
-### 18. 🔍 ¿Qué es un pentest? 🟡
+C) 📦 Falla del sistema
 
-A) 🔍 `Prueba de penetración para evaluar seguridad`
-B) 🔧 `Test de seguridad`
-C) 📦 `Prueba de vulnerabilidades`
-D) 🌐 `Evaluación de red`
+D) 🌐 Problema de red
 
-**Respuesta correcta**: A) 🔍 `Prueba de penetración para evaluar seguridad`
+**Respuesta correcta**: A) 🔓 Debilidad que puede ser explotada por atacantes
 
-> 📘 Los pentests simulan ataques reales para encontrar vulnerabilidades. ¡Como contratar a un ladrón honesto para probar tu seguridad!
+> 🕳️ Las vulnerabilidades son como agujeros en la seguridad que los atacantes pueden explotar. ¡Hay que parchearlas rápido!
 
-### 19. 🔐 ¿Qué es la seguridad en capas? 🟡
+### 13. 🎯 ¿Qué es un exploit? 🔴
 
-A) 🔐 `Múltiples niveles de protección de seguridad`
-B) 🔧 `Seguridad múltiple`
-C) 📦 `Protección en capas`
-D) 🌐 `Seguridad de red`
+A) 🎯 Código que aprovecha una vulnerabilidad
 
-**Respuesta correcta**: A) 🔐 `Múltiples niveles de protección de seguridad`
+B) 🔧 Herramienta de hacking
 
-> ⚡ La seguridad en capas usa múltiples defensas para mayor protección. ¡Como tener cerradura, alarma y guardia de seguridad!
+C) 📦 Virus avanzado
 
-### 20. 🔍 ¿Qué es un IDS/IPS? 🟡
+D) 🌐 Ataque de red
 
-A) 🔍 `Sistema de detección/prevención de intrusiones`
-B) 🔧 `Detector de intrusos`
-C) 📦 `Preventor de ataques`
-D) 🌐 `Sistema de seguridad`
+**Respuesta correcta**: A) 🎯 Código que aprovecha una vulnerabilidad
 
-**Respuesta correcta**: A) 🔍 `Sistema de detección/prevención de intrusiones`
+> ⚔️ Un exploit es como una llave maestra que abre puertas que deberían estar cerradas. ¡Aprovecha debilidades conocidas!
 
-> 💡 IDS detecta intrusiones, IPS las previene activamente. ¡Como tener un detector de movimiento y un sistema de alarma!
+### 14. 🏴‍☠️ ¿Qué es ransomware? 🔴
 
-### 21. 🔐 ¿Qué es la política de contraseñas? 🟢
+A) 🏴‍☠️ Malware que encripta datos y pide rescate
 
-A) 🔐 `Reglas para crear y gestionar contraseñas seguras`
-B) 🔧 `Política de seguridad`
-C) 📦 `Reglas de acceso`
-D) 🌐 `Política de red`
+B) 🔧 Virus que roba información
 
-**Respuesta correcta**: A) 🔐 `Reglas para crear y gestionar contraseñas seguras`
+C) 📦 Software de limpieza
 
-> 📘 Las políticas de contraseñas aseguran que sean fuertes y seguras. ¡Como tener reglas para crear llaves seguras!
+D) 🌐 Protocolo de pago
+
+**Respuesta correcta**: A) 🏴‍☠️ Malware que encripta datos y pide rescate
+
+> 🏴‍☠️ Ransomware es como secuestradores digitales: toman tus archivos como rehenes y piden dinero. ¡Backups son tu seguro!
+
+### 15. 🔬 ¿Qué es penetration testing? 🔴
+
+A) 🔬 Evaluación de seguridad simulando ataques reales
+
+B) 🔧 Prueba de rendimiento
+
+C) 📦 Test de software
+
+D) 🌐 Prueba de red
+
+**Respuesta correcta**: A) 🔬 Evaluación de seguridad simulando ataques reales
+
+> 🕵️ Pen testing es como contratar ladrones éticos para encontrar formas de entrar a tu casa antes que los ladrones reales.
+
+### 16. 🔐 ¿Qué es HTTPS? 🟢
+
+A) 🔐 HTTP con encriptación SSL/TLS
+
+B) 🔧 Versión mejorada de HTTP
+
+C) 📦 Protocolo de Google
+
+D) 🌐 HTTP seguro por defecto
+
+**Respuesta correcta**: A) 🔐 HTTP con encriptación SSL/TLS
+
+> 🛡️ HTTPS asegura que nadie puede leer tu comunicación con el servidor. ¡Busca el candado verde en tu navegador!
+
+### 17. 🚨 ¿Qué es un IDS? 🔴
+
+A) 🚨 Sistema de Detección de Intrusos
+
+B) 🔧 Sistema de identificación
+
+C) 📦 Base de datos segura
+
+D) 🌐 Protocolo de seguridad
+
+**Respuesta correcta**: A) 🚨 Sistema de Detección de Intrusos
+
+> 👁️ Un IDS es como un sistema de alarma que detecta actividad sospechosa en tu red. ¡Ojos que todo lo ven!
+
+### 18. 🛡️ ¿Qué es un VPN? 🟡
+
+A) 🛡️ Red Privada Virtual que encripta conexiones
+
+B) 🔧 Protocolo de red rápido
+
+C) 📦 Software de conectividad
+
+D) 🌐 Red de área virtual
+
+**Respuesta correcta**: A) 🛡️ Red Privada Virtual que encripta conexiones
+
+> 🚇 Un VPN es como un túnel secreto en internet. Oculta tu ubicación y encripta tu tráfico. ¡Navegación privada!
+
+### 19. 🎪 ¿Qué es social engineering? 🔴
+
+A) 🎪 Manipulación psicológica para obtener información
+
+B) 🔧 Ingeniería de redes sociales
+
+C) 📦 Desarrollo de aplicaciones sociales
+
+D) 🌐 Protocolo de comunicación
+
+**Respuesta correcta**: A) 🎪 Manipulación psicológica para obtener información
+
+> 🎭 Social engineering explota la naturaleza humana en vez de vulnerabilidades técnicas. ¡Los hackers más peligrosos son psicólogos!
+
+### 20. 🔐 ¿Qué es Zero Trust? 🔴
+
+A) 🔐 Modelo de seguridad que no confía en nada por defecto
+
+B) 🔧 Protocolo sin confianza
+
+C) 📦 Sistema sin credenciales
+
+D) 🌐 Red sin autenticación
+
+**Respuesta correcta**: A) 🔐 Modelo de seguridad que no confía en nada por defecto
+
+> 🔍 Zero Trust verifica TODO: "Nunca confíes, siempre verifica". Ni siquiera confía en tu propia red interna. ¡Paranoia productiva!
+
+### 21. 🎯 ¿Cuáles son las mejores prácticas de seguridad? 🔴
+
+A) 🎯 Patches regulares, backups, 2FA, principio de menor privilegio, educación
+
+B) 🔧 Solo usar antivirus
+
+C) 📦 Cambiar passwords cada día
+
+D) 🌐 Desconectar todo de internet
+
+**Respuesta correcta**: A) 🎯 Patches regulares, backups, 2FA, principio de menor privilegio, educación
+
+> 🏆 Seguridad robusta requiere: actualizaciones constantes, backups regulares, autenticación multifactor, acceso mínimo necesario, y entrenar a usuarios. ¡Seguridad es responsabilidad de todos!

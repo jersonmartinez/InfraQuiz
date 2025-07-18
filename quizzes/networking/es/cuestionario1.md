@@ -2,233 +2,296 @@
 
 ## Preguntas
 
-### 1. 🌐 ¿Qué es una red de computadoras? 🟢
+### 1. 🌐 ¿Qué es una dirección IP? 🟢
 
-A) 🌐 `Sistema de dispositivos conectados para compartir recursos`
-B) 🔧 `Conexión de servidores`
-C) 📦 `Sistema de paquetes`
-D) ⚙️ `Configuración de dispositivos`
+A) 📝 Identificador único para dispositivos en una red
 
-**Respuesta correcta**: A) 🌐 `Sistema de dispositivos conectados para compartir recursos`
+B) 🔄 Protocolo de internet
 
-> 💡 Una red permite que dispositivos se comuniquen y compartan información. ¡Como una autopista digital para tus datos!
+C) 📦 Tipo de cable de red
 
-### 2. 🔌 ¿Qué es un switch? 🟢
+D) 🎯 Software de conectividad
 
-A) 🔌 `Dispositivo que conecta dispositivos en una red local`
-B) 🔧 `Interruptor de red`
-C) 📦 `Conector de paquetes`
-D) 🌐 `Router de red`
+**Respuesta correcta**: A) 📝 Identificador único para dispositivos en una red
 
-**Respuesta correcta**: A) 🔌 `Dispositivo que conecta dispositivos en una red local`
+> 💡 Una dirección IP es como la dirección postal de tu casa, pero para dispositivos en internet. ¡Cada dispositivo necesita una para comunicarse!
 
-> 📘 Los switches dirigen el tráfico entre dispositivos en la misma red. ¡Como un director de tráfico en una intersección!
+### 2. 🔢 ¿Cuál es la diferencia entre IPv4 e IPv6? 🟢
 
-### 3. 🌐 ¿Qué es un router? 🟢
+A) 📝 IPv4 usa 32 bits, IPv6 usa 128 bits
 
-A) 🌐 `Dispositivo que conecta diferentes redes`
-B) 🔧 `Conector de red`
-C) 📦 `Gestor de paquetes`
-D) ⚙️ `Configurador de red`
+B) 🔄 IPv4 es más nuevo que IPv6
 
-**Respuesta correcta**: A) 🌐 `Dispositivo que conecta diferentes redes`
+C) 📦 IPv6 es más lento que IPv4
 
-> ⚡ Los routers dirigen el tráfico entre redes diferentes. ¡Como un GPS que encuentra la mejor ruta para tus datos!
+D) 🎯 No hay diferencia práctica
 
-### 4. 🔍 ¿Qué es una dirección IP? 🟢
+**Respuesta correcta**: A) 📝 IPv4 usa 32 bits, IPv6 usa 128 bits
 
-A) 🔍 `Identificador único de un dispositivo en la red`
-B) 🔧 `Código de red`
-C) 📦 `Dirección de paquete`
-D) 🌐 `Ubicación de red`
+> ⚡ IPv4 se está agotando (como números de teléfono), IPv6 tiene muchísimas más direcciones disponibles. ¡Como pasar de un pueblo a una megaciudad!
 
-**Respuesta correcta**: A) 🔍 `Identificador único de un dispositivo en la red`
+### 3. 🚪 ¿Qué es un puerto en networking? 🟢
 
-> 💡 Las direcciones IP identifican cada dispositivo en la red. ¡Como la dirección de tu casa en internet!
+A) 📝 Punto de comunicación específico en un dispositivo
 
-### 5. 🔍 ¿Qué es DNS? 🟡
+B) 🔄 Entrada física del router
 
-A) 🔍 `Sistema que convierte nombres en direcciones IP`
-B) 🔧 `Servidor de nombres`
-C) 📦 `Gestor de dominios`
-D) 🌐 `Resolvedor de red`
+C) 📦 Cable de conexión
 
-**Respuesta correcta**: A) 🔍 `Sistema que convierte nombres en direcciones IP`
+D) 🎯 Tipo de protocolo
 
-> 🎯 DNS convierte nombres como "google.com" en direcciones IP. ¡Como una guía telefónica para internet!
+**Respuesta correcta**: A) 📝 Punto de comunicación específico en un dispositivo
 
-### 6. 🔒 ¿Qué es un firewall? 🟡
+> 🏠 Si la IP es la dirección de tu casa, el puerto es el número de apartamento. Puerto 80 = web, puerto 22 = SSH, puerto 443 = HTTPS.
 
-A) 🔒 `Sistema de seguridad que controla el tráfico de red`
-B) 🔧 `Muro de protección`
-C) 📦 `Filtro de paquetes`
-D) 🌐 `Barrera de red`
+### 4. 📚 ¿Qué es el modelo OSI? 🟡
 
-**Respuesta correcta**: A) 🔒 `Sistema de seguridad que controla el tráfico de red`
+A) 📝 Modelo de 7 capas para comunicación de red
 
-> 📘 Los firewalls protegen las redes bloqueando tráfico no deseado. ¡Como un guardia de seguridad para tu red!
+B) 🔄 Protocolo de internet
 
-### 7. 🔍 ¿Qué es un puerto? 🟢
+C) 📦 Tipo de cable
 
-A) 🔍 `Punto de entrada para servicios en un dispositivo`
-B) 🔧 `Conector físico`
-C) 📦 `Entrada de paquete`
-D) 🌐 `Punto de red`
+D) 🎯 Sistema operativo de red
 
-**Respuesta correcta**: A) 🔍 `Punto de entrada para servicios en un dispositivo`
+**Respuesta correcta**: A) 📝 Modelo de 7 capas para comunicación de red
 
-> ⚡ Los puertos permiten que diferentes servicios funcionen en el mismo dispositivo. ¡Como diferentes puertas en un edificio!
+> 🎯 Las 7 capas OSI: Física, Enlace, Red, Transporte, Sesión, Presentación, Aplicación. ¡Como un edificio de comunicaciones!
 
-### 8. 🔍 ¿Qué es un protocolo? 🟡
+### 5. 🔄 ¿Qué es TCP? 🟡
 
-A) 🔍 `Conjunto de reglas para la comunicación en red`
-B) 🔧 `Estándar de red`
-C) 📦 `Regla de paquetes`
-D) 🌐 `Método de comunicación`
+A) 📝 Protocolo confiable de transporte
 
-**Respuesta correcta**: A) 🔍 `Conjunto de reglas para la comunicación en red`
+B) 🔄 Tipo de cable de red
 
-> 💡 Los protocolos definen cómo los dispositivos se comunican. ¡Como las reglas de un idioma para que todos se entiendan!
+C) 📦 Sistema operativo
 
-### 9. 🔍 ¿Qué es TCP/IP? 🟢
+D) 🎯 Tipo de router
 
-A) 🔍 `Conjunto de protocolos fundamentales de internet`
-B) 🔧 `Protocolo de red`
-C) 📦 `Estándar de paquetes`
-D) 🌐 `Método de comunicación`
+**Respuesta correcta**: A) 📝 Protocolo confiable de transporte
 
-**Respuesta correcta**: A) 🔍 `Conjunto de protocolos fundamentales de internet`
+> 🤝 TCP garantiza que los datos lleguen completos y en orden. ¡Como correo certificado que confirma entrega!
 
-> 🎯 TCP/IP es el lenguaje básico que usan todos los dispositivos en internet. ¡Como el idioma universal de las redes!
+### 6. ⚡ ¿Qué es UDP? 🟡
 
-### 10. 🔍 ¿Qué es HTTP? 🟢
+A) 📝 Protocolo rápido pero no confiable
 
-A) 🔍 `Protocolo para transferir páginas web`
-B) 🔧 `Protocolo de red`
-C) 📦 `Método de transferencia`
-D) 🌐 `Protocolo web`
+B) 🔄 Tipo de conexión segura
 
-**Respuesta correcta**: A) 🔍 `Protocolo para transferir páginas web`
+C) 📦 Sistema de archivos
 
-> 📘 HTTP permite que los navegadores se comuniquen con servidores web. ¡Como el protocolo para pedir páginas web!
+D) 🎯 Protocolo de correo
 
-### 11. 🔐 ¿Qué es HTTPS? 🟡
+**Respuesta correcta**: A) 📝 Protocolo rápido pero no confiable
 
-A) 🔐 `Versión segura de HTTP con encriptación`
-B) 🔧 `HTTP seguro`
-C) 📦 `Transferencia segura`
-D) 🌐 `Protocolo seguro`
+> 🏃‍♂️ UDP es rápido pero puede perder datos. Perfecto para video/audio en vivo donde velocidad > perfección. ¡Como correo postal normal!
 
-**Respuesta correcta**: A) 🔐 `Versión segura de HTTP con encriptación`
+### 7. 🌐 ¿Qué es DNS? 🟢
 
-> ⚡ HTTPS encripta la comunicación para proteger datos sensibles. ¡Como enviar una carta en un sobre sellado!
+A) 📝 Sistema que traduce nombres a direcciones IP
 
-### 12. 🔍 ¿Qué es una VLAN? 🟡
+B) 🔄 Protocolo de seguridad
 
-A) 🔍 `Red virtual separada dentro de una red física`
-B) 🔧 `Red local virtual`
-C) 📦 `Red de paquetes`
-D) 🌐 `Red virtual`
+C) 📦 Tipo de servidor
 
-**Respuesta correcta**: A) 🔍 `Red virtual separada dentro de una red física`
+D) 🎯 Sistema de archivos
 
-> 💡 Las VLANs permiten crear redes separadas en la misma infraestructura física. ¡Como tener apartamentos separados en el mismo edificio!
+**Respuesta correcta**: A) 📝 Sistema que traduce nombres a direcciones IP
 
-### 13. 🔍 ¿Qué es un gateway? 🟡
+> 📞 DNS es como la guía telefónica de internet. Convierte "google.com" en "142.250.191.14". ¡Para que no tengas que memorizar números!
 
-A) 🔍 `Punto de entrada y salida entre redes`
-B) 🔧 `Puerta de red`
-C) 📦 `Entrada de paquetes`
-D) 🌐 `Punto de acceso`
+### 8. 🛡️ ¿Qué es un firewall? 🟡
 
-**Respuesta correcta**: A) 🔍 `Punto de entrada y salida entre redes`
+A) 📝 Sistema que controla el tráfico de red
 
-> 🎯 Los gateways conectan redes diferentes. ¡Como una puerta que conecta dos habitaciones!
+B) 🔄 Tipo de cable blindado
 
-### 14. 🔍 ¿Qué es un subnet? 🟡
+C) 📦 Software antivirus
 
-A) 🔍 `División lógica de una red más grande`
-B) 🔧 `Subred`
-C) 📦 `Red de paquetes`
-D) 🌐 `Red secundaria`
+D) 🎯 Sistema de backup
 
-**Respuesta correcta**: A) 🔍 `División lógica de una red más grande`
+**Respuesta correcta**: A) 📝 Sistema que controla el tráfico de red
 
-> 📘 Los subnets organizan redes grandes en grupos más pequeños. ¡Como dividir una ciudad en barrios!
+> 🚧 Un firewall es como un guardia de seguridad que decide qué tráfico puede pasar y qué no. ¡Protege tu red de intrusos!
 
-### 15. 🔍 ¿Qué es un DHCP? 🟡
+### 9. 🔀 ¿Qué es un router? 🟢
 
-A) 🔍 `Protocolo que asigna direcciones IP automáticamente`
-B) 🔧 `Asignador de IP`
-C) 📦 `Gestor de direcciones`
-D) 🌐 `Configurador automático`
+A) 📝 Dispositivo que dirige tráfico entre redes
 
-**Respuesta correcta**: A) 🔍 `Protocolo que asigna direcciones IP automáticamente`
+B) 🔄 Cable de conexión
 
-> ⚡ DHCP asigna direcciones IP automáticamente a los dispositivos. ¡Como un sistema automático que asigna habitaciones en un hotel!
+C) 📦 Tipo de servidor
 
-### 16. 🔍 ¿Qué es un ping? 🟢
+D) 🎯 Software de red
 
-A) 🔍 `Comando para verificar conectividad entre dispositivos`
-B) 🔧 `Prueba de red`
-C) 📦 `Test de paquetes`
-D) 🌐 `Verificación de conexión`
+**Respuesta correcta**: A) 📝 Dispositivo que dirige tráfico entre redes
 
-**Respuesta correcta**: A) 🔍 `Comando para verificar conectividad entre dispositivos`
+> 🚦 Un router es como un director de tráfico que decide el mejor camino para que lleguen tus datos. ¡El GPS de internet!
 
-> 💡 Ping verifica si un dispositivo puede comunicarse con otro. ¡Como hacer una llamada para ver si alguien contesta!
+### 10. 🔄 ¿Qué es un switch? 🟡
 
-### 17. 🔍 ¿Qué es un traceroute? 🟡
+A) 📝 Dispositivo que conecta dispositivos en la misma red
 
-A) 🔍 `Comando que muestra la ruta de paquetes entre dispositivos`
-B) 🔧 `Rastreador de ruta`
-C) 📦 `Seguimiento de paquetes`
-D) 🌐 `Trazador de red`
+B) 🔄 Interruptor de encendido
 
-**Respuesta correcta**: A) 🔍 `Comando que muestra la ruta de paquetes entre dispositivos`
+C) 📦 Tipo de cable
 
-> 🎯 Traceroute muestra cada paso que siguen los paquetes. ¡Como seguir el GPS para ver cada calle por la que pasas!
+D) 🎯 Protocolo de red
 
-### 18. 🔍 ¿Qué es un proxy? 🟡
+**Respuesta correcta**: A) 📝 Dispositivo que conecta dispositivos en la misma red
 
-A) 🔍 `Servidor que actúa como intermediario entre clientes y servidores`
-B) 🔧 `Intermediario de red`
-C) 📦 `Servidor de paquetes`
-D) 🌐 `Mediador de red`
+> 🌟 Un switch conecta múltiples dispositivos en una red local. ¡Como un multiplicador de enchufes pero para red!
 
-**Respuesta correcta**: A) 🔍 `Servidor que actúa como intermediario entre clientes y servidores`
+### 11. 📡 ¿Qué es DHCP? 🟡
 
-> 📘 Los proxies pueden mejorar seguridad, velocidad y privacidad. ¡Como tener un representante que hace las gestiones por ti!
+A) 📝 Protocolo que asigna direcciones IP automáticamente
 
-### 19. 🔍 ¿Qué es un load balancer? 🟡
+B) 🔄 Tipo de conexión inalámbrica
 
-A) 🔍 `Dispositivo que distribuye tráfico entre múltiples servidores`
-B) 🔧 `Distribuidor de carga`
-C) 📦 `Balanceador de paquetes`
-D) 🌐 `Repartidor de tráfico`
+C) 📦 Sistema de seguridad
 
-**Respuesta correcta**: A) 🔍 `Dispositivo que distribuye tráfico entre múltiples servidores`
+D) 🎯 Protocolo de correo
 
-> ⚡ Los load balancers distribuyen el trabajo para mejorar el rendimiento. ¡Como un supervisor que reparte el trabajo entre empleados!
+**Respuesta correcta**: A) 📝 Protocolo que asigna direcciones IP automáticamente
 
-### 20. 🔍 ¿Qué es un VPN? 🟡
+> 🎫 DHCP es como un dispensador automático de números. Te asigna una IP automáticamente cuando te conectas. ¡No más configuración manual!
 
-A) 🔍 `Conexión privada y segura a través de internet`
-B) 🔧 `Red privada virtual`
-C) 📦 `Conexión segura`
-D) 🌐 `Túnel de red`
+### 12. 🔐 ¿Qué es HTTPS? 🟡
 
-**Respuesta correcta**: A) 🔍 `Conexión privada y segura a través de internet`
+A) 📝 HTTP con encriptación SSL/TLS
 
-> 💡 Las VPNs crean conexiones seguras a través de internet público. ¡Como tener un túnel privado en una autopista pública!
+B) 🔄 Versión más rápida de HTTP
 
-### 21. 🔍 ¿Qué es un CDN? 🟡
+C) 📦 Nuevo protocolo de Google
 
-A) 🔍 `Red de servidores que distribuye contenido globalmente`
-B) 🔧 `Red de distribución`
-C) 📦 `Red de contenido`
-D) 🌐 `Distribuidor global`
+D) 🎯 HTTP para móviles
 
-**Respuesta correcta**: A) 🔍 `Red de servidores que distribuye contenido globalmente`
+**Respuesta correcta**: A) 📝 HTTP con encriptación SSL/TLS
 
-> 📘 Los CDNs mejoran la velocidad de carga de sitios web. ¡Como tener almacenes en diferentes ciudades para entregar más rápido!
+> 🔒 HTTPS es HTTP con una capa de seguridad. ¡Como enviar una carta en un sobre cerrado en vez de una postal abierta!
+
+### 13. 🏠 ¿Qué es una LAN? 🟢
+
+A) 📝 Red de área local
+
+B) 🔄 Red de área amplia
+
+C) 📦 Protocolo de internet
+
+D) 🎯 Tipo de cable
+
+**Respuesta correcta**: A) 📝 Red de área local
+
+> 🏢 LAN es la red de tu casa u oficina. Conecta dispositivos cercanos. ¡Como el sistema de intercomunicadores de un edificio!
+
+### 14. 🌍 ¿Qué es una WAN? 🟡
+
+A) 📝 Red de área amplia
+
+B) 🔄 Red inalámbrica
+
+C) 📦 Red de acceso
+
+D) 🎯 Red local
+
+**Respuesta correcta**: A) 📝 Red de área amplia
+
+> 🌎 WAN conecta redes distantes. Internet es la WAN más grande. ¡Como el sistema postal mundial que conecta ciudades!
+
+### 15. 📏 ¿Qué es una máscara de subred? 🔴
+
+A) 📝 Define qué parte de la IP identifica la red vs el host
+
+B) 🔄 Tipo de cable de red
+
+C) 📦 Software de seguridad
+
+D) 🎯 Protocolo de enrutamiento
+
+**Respuesta correcta**: A) 📝 Define qué parte de la IP identifica la red vs el host
+
+> 🎭 La máscara de subred es como un filtro que separa la dirección de la "ciudad" (red) del "número de casa" (host). Ej: 255.255.255.0
+
+### 16. 🛣️ ¿Qué es una gateway? 🔴
+
+A) 📝 Punto de entrada/salida entre redes diferentes
+
+B) 🔄 Tipo de router especial
+
+C) 📦 Software de conexión
+
+D) 🎯 Protocolo de red
+
+**Respuesta correcta**: A) 📝 Punto de entrada/salida entre redes diferentes
+
+> 🚪 Una gateway es como la puerta principal de tu red hacia internet. ¡El portal entre tu LAN y el mundo exterior!
+
+### 17. ⚖️ ¿Qué es un Load Balancer? 🔴
+
+A) 📝 Distribuye tráfico entre múltiples servidores
+
+B) 🔄 Equilibra la velocidad de red
+
+C) 📦 Balancea el uso de CPU
+
+D) 🎯 Distribuye almacenamiento
+
+**Respuesta correcta**: A) 📝 Distribuye tráfico entre múltiples servidores
+
+> 🎪 Un Load Balancer es como un director de circo que asigna audiencia a diferentes carpas para evitar sobrecarga. ¡Distribuye la carga de trabajo!
+
+### 18. 🔄 ¿Qué es NAT? 🔴
+
+A) 📝 Traduce direcciones IP privadas a públicas
+
+B) 🔄 Protocolo de routing
+
+C) 📦 Tipo de firewall
+
+D) 🎯 Sistema de nombres
+
+**Respuesta correcta**: A) 📝 Traduce direcciones IP privadas a públicas
+
+> 🏢 NAT permite que múltiples dispositivos con IPs privadas (192.168.x.x) compartan una IP pública. ¡Como un edificio con muchos apartamentos pero una sola dirección postal!
+
+### 19. 📊 ¿Qué es VLAN? 🔴
+
+A) 📝 Red local virtual que segmenta tráfico
+
+B) 🔄 Tipo de cable virtual
+
+C) 📦 Protocolo de encriptación
+
+D) 🎯 Sistema de monitoreo
+
+**Respuesta correcta**: A) 📝 Red local virtual que segmenta tráfico
+
+> 🏗️ Las VLANs dividen una red física en redes lógicas separadas. ¡Como tener departamentos separados en el mismo edificio!
+
+### 20. 🛰️ ¿Qué es CDN? 🔴
+
+A) 📝 Red de distribución de contenido para acelerar entregas
+
+B) 🔄 Tipo de conexión satelital
+
+C) 📦 Protocolo de descarga
+
+D) 🎯 Sistema de backup
+
+**Respuesta correcta**: A) 📝 Red de distribución de contenido para acelerar entregas
+
+> 🚀 CDN pone copias de contenido cerca de los usuarios. ¡Como tener tiendas locales en vez de comprar todo desde una tienda lejana!
+
+### 21. 🎯 ¿Cuáles son las mejores prácticas de networking? 🔴
+
+A) 📝 Segmentación, redundancia, monitoreo, documentación, seguridad
+
+B) 🔄 Solo usar cables de alta velocidad
+
+C) 📦 Conectar todo en una sola red
+
+D) 🎯 Evitar protocolos de enrutamiento
+
+**Respuesta correcta**: A) 📝 Segmentación, redundancia, monitoreo, documentación, seguridad
+
+> 🏆 Redes robustas necesitan: segmentación (VLANs), redundancia (múltiples rutas), monitoreo constante, documentación clara, y seguridad en capas. ¡Networking profesional!

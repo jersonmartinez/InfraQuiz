@@ -2,315 +2,296 @@
 
 ## Questions
 
-### ❓ What is the principle of least privilege? 🟢
+### 1. 🔐 What is cybersecurity? 🟢
 
-📝 Users should have only the minimum permissions needed to perform their job
-🔄 Users should have maximum permissions for flexibility
-📦 All users should have the same permissions
-🎯 Permissions should be granted based on seniority
+A) 🔐 Protection of computer systems against threats
 
-**Correct Answer:**
-📝 Users should have only the minimum permissions needed to perform their job
+B) 🔧 Security configuration
 
-**Explanation:**
-💡 The principle of least privilege minimizes security risks by ensuring users and systems have only the access they absolutely need. It's a fundamental security concept!
+C) 📦 Package protection
 
----
+D) 🌐 Network security
 
-### ❓ What is two-factor authentication (2FA)? 🟢
+**Correct Answer**: A) 🔐 Protection of computer systems against threats
 
-📝 A security method requiring two different authentication factors
-🔄 Using two different passwords
-📦 Having two user accounts
-🎯 Logging in twice
+> 💡 Cybersecurity protects systems, networks, and data against digital attacks. Like having a security guard for your digital world!
 
-**Correct Answer:**
-📝 A security method requiring two different authentication factors
+### 2. 🔒 What is encryption? 🟢
 
-**Explanation:**
-💡 2FA combines something you know (password) with something you have (phone, token) or something you are (biometric), significantly improving security!
+A) 🔒 Process of converting information into secret code
 
----
+B) 🔧 Data encoding
 
-### ❓ What is a SQL injection attack? 🟡
+C) 📦 File protection
 
-📝 Inserting malicious SQL code into application queries
-🔄 Injecting code into SQL databases
-📦 Installing SQL software maliciously
-🎯 Corrupting SQL database files
+D) 🌐 Network security
 
-**Correct Answer:**
-📝 Inserting malicious SQL code into application queries
+**Correct Answer**: A) 🔒 Process of converting information into secret code
 
-**Explanation:**
-💡 SQL injection exploits vulnerabilities in applications that don't properly validate user input, allowing attackers to manipulate database queries. Always use parameterized queries!
+> 📘 Encryption converts data into code that only those with the key can read. Like writing in a secret language!
 
----
+### 3. 🔑 What is a private key? 🟡
 
-### ❓ What is the purpose of encryption at rest? 🟡
+A) 🔑 Secret key that only the owner knows
 
-📝 Protect data stored on disk or in databases
-🔄 Encrypt data only during transmission
-📦 Speed up data access
-🎯 Compress stored data
+B) 🔒 Personal password
 
-**Correct Answer:**
-📝 Protect data stored on disk or in databases
+C) 🛡️ Security key
 
-**Explanation:**
-💡 Encryption at rest protects stored data from unauthorized access even if physical storage is compromised. Essential for sensitive data protection!
+D) 🔐 Access key
 
----
+**Correct Answer**: A) 🔑 Secret key that only the owner knows
 
-### ❓ What is a firewall's primary function? 🟢
+> ⚡ Private keys must be kept secret to protect information. Like your house key that you shouldn't share!
 
-📝 Control network traffic based on security rules
-🔄 Prevent computer overheating
-📦 Speed up network connections
-🎯 Store network logs
+### 4. 🔑 What is a public key? 🟡
 
-**Correct Answer:**
-📝 Control network traffic based on security rules
+A) 🔑 Key that can be shared publicly
 
-**Explanation:**
-💡 Firewalls act as barriers between trusted and untrusted networks, filtering traffic based on predetermined security rules. Your first line of network defense!
+B) 🔒 Public access key
 
----
+C) 🛡️ Security key
 
-### ❓ What is a vulnerability assessment? 🟡
+D) 🔐 Shared key
 
-📝 Systematic evaluation of security weaknesses in systems
-🔄 Installing security software
-📦 Training users on security
-🎯 Backing up important data
+**Correct Answer**: A) 🔑 Key that can be shared publicly
 
-**Correct Answer:**
-📝 Systematic evaluation of security weaknesses in systems
+> 💡 Public keys can be shared so others can send you secure information. Like your mailing address!
 
-**Explanation:**
-💡 Vulnerability assessments identify, quantify, and prioritize security vulnerabilities in systems, helping organizations understand their risk exposure!
+### 5. 🔐 What is SSL/TLS? 🟡
 
----
+A) 🔐 Security protocols for internet communications
 
-### ❓ What is the difference between authentication and authorization? 🟡
+B) 🔧 Secure network protocol
 
-📝 Authentication verifies identity, authorization determines permissions
-🔄 They are the same thing
-📦 Authentication is for users, authorization is for systems
-🎯 Authorization comes before authentication
+C) 📦 Package security
 
-**Correct Answer:**
-📝 Authentication verifies identity, authorization determines permissions
+D) 🌐 Secure web protocol
 
-**Explanation:**
-💡 Authentication asks "Who are you?" while authorization asks "What can you do?" Both are crucial for proper access control!
+**Correct Answer**: A) 🔐 Security protocols for internet communications
 
----
+> 🔒 SSL/TLS encrypt communication between browser and server. Like speaking in secret code over the phone!
 
-### ❓ What is a DDoS attack? 🟡
+### 6. 🛡️ What is a firewall? 🟢
 
-📝 Distributed Denial of Service - overwhelming a service with traffic
-🔄 Direct Database Operation System attack
-📦 Distributed Data Operation Service attack
-🎯 Dynamic Domain Operation System attack
+A) 🛡️ System that filters network traffic
 
-**Correct Answer:**
-📝 Distributed Denial of Service - overwhelming a service with traffic
+B) 🔧 Antivirus software
 
-**Explanation:**
-💡 DDoS attacks use multiple compromised systems to flood a target with traffic, making services unavailable to legitimate users. Like a traffic jam for your servers!
+C) 📦 Backup system
 
----
+D) 🌐 Network protocol
 
-### ❓ What is the purpose of HTTPS? 🟢
+**Correct Answer**: A) 🛡️ System that filters network traffic
 
-📝 Encrypt communication between web browsers and servers
-🔄 Speed up web page loading
-📦 Compress web content
-🎯 Cache web pages
+> 🚧 A firewall is like a bouncer who decides who can enter your network. Blocks malicious traffic!
 
-**Correct Answer:**
-📝 Encrypt communication between web browsers and servers
+### 7. 🎣 What is phishing? 🟢
 
-**Explanation:**
-💡 HTTPS (HTTP Secure) uses TLS/SSL to encrypt data in transit, protecting against eavesdropping and tampering. Essential for any sensitive web communication!
+A) 🎣 Attempt to steal information through deception
 
----
+B) 🔧 Type of virus
 
-### ❓ What is a security audit? 🟡
+C) 📦 Network protocol
 
-📝 Systematic examination of security controls and procedures
-🔄 Installing new security software
-📦 Training employees on security
-🎯 Backing up security logs
+D) 🌐 Encryption method
 
-**Correct Answer:**
-📝 Systematic examination of security controls and procedures
+**Correct Answer**: A) 🎣 Attempt to steal information through deception
 
-**Explanation:**
-💡 Security audits evaluate the effectiveness of security measures, identify gaps, and ensure compliance with security policies and regulations!
+> ⚠️ Phishing uses fake emails/sites to steal credentials. Like fishermen using fake bait to catch victims!
 
----
+### 8. 🦠 What is malware? 🟢
 
-### ❓ What is social engineering in cybersecurity? 🟡
+A) 🦠 Malicious software designed to damage systems
 
-📝 Manipulating people to divulge confidential information
-🔄 Engineering social media platforms
-📦 Creating social networks for engineers
-🎯 Automating social interactions
+B) 🔧 Security software
 
-**Correct Answer:**
-📝 Manipulating people to divulge confidential information
+C) 📦 Defective program
 
-**Explanation:**
-💡 Social engineering exploits human psychology rather than technical vulnerabilities, often being the weakest link in security. Education and awareness are key defenses!
+D) 🌐 Network virus
 
----
+**Correct Answer**: A) 🦠 Malicious software designed to damage systems
 
-### ❓ What is the purpose of a VPN? 🟢
+> 💀 Malware includes viruses, trojans, ransomware, spyware. Software with bad intentions for your system!
 
-📝 Create a secure connection over an untrusted network
-🔄 Speed up internet connections
-📦 Block advertisements
-🎯 Store files in the cloud
+### 9. 🔐 What is two-factor authentication (2FA)? 🟡
 
-**Correct Answer:**
-📝 Create a secure connection over an untrusted network
+A) 🔐 Method requiring two forms of verification
 
-**Explanation:**
-💡 VPNs (Virtual Private Networks) create encrypted tunnels for secure communication over public networks, protecting data from interception!
+B) 🔧 Double password
 
----
+C) 📦 Two types of encryption
 
-### ❓ What is penetration testing? 🟡
+D) 🌐 Two security servers
 
-📝 Authorized simulated cyberattack to test security defenses
-🔄 Testing network penetration speed
-📦 Checking if cables are properly connected
-🎯 Testing user password strength
+**Correct Answer**: A) 🔐 Method requiring two forms of verification
 
-**Correct Answer:**
-📝 Authorized simulated cyberattack to test security defenses
+> 🛡️ 2FA combines something you know (password) + something you have (phone/token). Double layer protection!
 
-**Explanation:**
-💡 Penetration testing (pen testing) involves ethical hackers attempting to exploit vulnerabilities to assess security posture. Like a fire drill for cybersecurity!
+### 10. 🏛️ What is a digital certificate? 🟡
 
----
+A) 🏛️ Electronic document that verifies identity
 
-### ❓ What is malware? 🟢
+B) 🔧 Configuration file
 
-📝 Malicious software designed to harm or exploit systems
-🔄 Software that runs slowly
-📦 Software with bugs
-🎯 Outdated software
+C) 📦 Software license
 
-**Correct Answer:**
-📝 Malicious software designed to harm or exploit systems
+D) 🌐 Web document
 
-**Explanation:**
-💡 Malware includes viruses, trojans, ransomware, and other malicious programs designed to damage, disrupt, or gain unauthorized access to systems!
+**Correct Answer**: A) 🏛️ Electronic document that verifies identity
 
----
+> 📜 Digital certificates are like electronic IDs that prove you are who you say you are. Digital trust!
 
-### ❓ What is the purpose of access control lists (ACLs)? 🟡
+### 11. 🔍 What is a hash? 🟡
 
-📝 Define who can access specific resources and what they can do
-🔄 List all users in the system
-📦 Control network speed
-🎯 Monitor user activity
+A) 🔍 Function that converts data into unique fixed-size value
 
-**Correct Answer:**
-📝 Define who can access specific resources and what they can do
+B) 🔧 Type of encryption
 
-**Explanation:**
-💡 ACLs specify which users or systems are granted access to objects and what operations they can perform. Essential for implementing proper access control!
+C) 📦 Verification code
 
----
+D) 🌐 Security protocol
 
-### ❓ What is a security incident? 🟢
+**Correct Answer**: A) 🔍 Function that converts data into unique fixed-size value
 
-📝 An event that compromises the security of systems or data
-🔄 A planned security update
-📦 A security training session
-🎯 A security software installation
+> 🧬 A hash is like a fingerprint of data. SHA-256, MD5 are common types. Detects if something changed!
 
-**Correct Answer:**
-📝 An event that compromises the security of systems or data
+### 12. 🔓 What is a vulnerability? 🟡
 
-**Explanation:**
-💡 Security incidents are events that violate security policies or compromise the confidentiality, integrity, or availability of systems or data. Require immediate response!
+A) 🔓 Weakness that can be exploited by attackers
 
----
+B) 🔧 Programming error
 
-### ❓ What is the purpose of digital certificates? 🟡
+C) 📦 System failure
 
-📝 Verify the identity of entities in digital communications
-🔄 Store user passwords
-📦 Speed up network connections
-🎯 Compress digital files
+D) 🌐 Network problem
 
-**Correct Answer:**
-📝 Verify the identity of entities in digital communications
+**Correct Answer**: A) 🔓 Weakness that can be exploited by attackers
 
-**Explanation:**
-💡 Digital certificates use public key cryptography to verify identities and establish trust in digital communications. Like digital ID cards for the internet!
+> 🕳️ Vulnerabilities are like holes in security that attackers can exploit. Need to patch them quickly!
 
----
+### 13. 🎯 What is an exploit? 🔴
 
-### ❓ What is ransomware? 🟡
+A) 🎯 Code that takes advantage of a vulnerability
 
-📝 Malware that encrypts files and demands payment for decryption
-🔄 Software that randomly deletes files
-📦 Software that slows down computers
-🎯 Software that displays advertisements
+B) 🔧 Hacking tool
 
-**Correct Answer:**
-📝 Malware that encrypts files and demands payment for decryption
+C) 📦 Advanced virus
 
-**Explanation:**
-💡 Ransomware is a particularly nasty form of malware that holds your data hostage. Regular backups and security awareness are your best defenses!
+D) 🌐 Network attack
 
----
+**Correct Answer**: A) 🎯 Code that takes advantage of a vulnerability
 
-### ❓ What is the principle of defense in depth? 🟡
+> ⚔️ An exploit is like a master key that opens doors that should be closed. Takes advantage of known weaknesses!
 
-📝 Using multiple layers of security controls
-🔄 Having one very strong security control
-📦 Focusing only on perimeter security
-🎯 Relying on user training alone
+### 14. 🏴‍☠️ What is ransomware? 🔴
 
-**Correct Answer:**
-📝 Using multiple layers of security controls
+A) 🏴‍☠️ Malware that encrypts data and demands ransom
 
-**Explanation:**
-💡 Defense in depth uses multiple security layers so that if one fails, others continue to provide protection. Like having multiple locks on your door!
+B) 🔧 Virus that steals information
 
----
+C) 📦 Cleaning software
 
-### ❓ What is a security policy? 🟢
+D) 🌐 Payment protocol
 
-📝 A document defining security rules and procedures
-🔄 A type of security software
-📦 A security training program
-🎯 A security incident report
+**Correct Answer**: A) 🏴‍☠️ Malware that encrypts data and demands ransom
 
-**Correct Answer:**
-📝 A document defining security rules and procedures
+> 🏴‍☠️ Ransomware is like digital kidnappers: they take your files hostage and demand money. Backups are your insurance!
 
-**Explanation:**
-💡 Security policies establish the framework for an organization's security program, defining rules, responsibilities, and procedures for protecting assets!
+### 15. 🔬 What is penetration testing? 🔴
 
----
+A) 🔬 Security assessment simulating real attacks
 
-### ❓ What is the purpose of security awareness training? 🟢
+B) 🔧 Performance testing
 
-📝 Educate users about security threats and best practices
-🔄 Install security software on user computers
-📦 Monitor user activities
-🎯 Restrict user access to systems
+C) 📦 Software testing
 
-**Correct Answer:**
-📝 Educate users about security threats and best practices
+D) 🌐 Network testing
 
-**Explanation:**
-💡 Security awareness training helps users recognize and respond appropriately to security threats. Since humans are often the weakest link, education is crucial!
+**Correct Answer**: A) 🔬 Security assessment simulating real attacks
+
+> 🕵️ Pen testing is like hiring ethical thieves to find ways into your house before real thieves do.
+
+### 16. 🔐 What is HTTPS? 🟢
+
+A) 🔐 HTTP with SSL/TLS encryption
+
+B) 🔧 Improved version of HTTP
+
+C) 📦 Google protocol
+
+D) 🌐 HTTP secure by default
+
+**Correct Answer**: A) 🔐 HTTP with SSL/TLS encryption
+
+> 🛡️ HTTPS ensures no one can read your communication with the server. Look for the green lock in your browser!
+
+### 17. 🚨 What is an IDS? 🔴
+
+A) 🚨 Intrusion Detection System
+
+B) 🔧 Identification system
+
+C) 📦 Secure database
+
+D) 🌐 Security protocol
+
+**Correct Answer**: A) 🚨 Intrusion Detection System
+
+> 👁️ An IDS is like an alarm system that detects suspicious activity on your network. All-seeing eyes!
+
+### 18. 🛡️ What is a VPN? 🟡
+
+A) 🛡️ Virtual Private Network that encrypts connections
+
+B) 🔧 Fast network protocol
+
+C) 📦 Connectivity software
+
+D) 🌐 Virtual area network
+
+**Correct Answer**: A) 🛡️ Virtual Private Network that encrypts connections
+
+> 🚇 A VPN is like a secret tunnel on the internet. Hides your location and encrypts your traffic. Private browsing!
+
+### 19. 🎪 What is social engineering? 🔴
+
+A) 🎪 Psychological manipulation to obtain information
+
+B) 🔧 Social network engineering
+
+C) 📦 Social application development
+
+D) 🌐 Communication protocol
+
+**Correct Answer**: A) 🎪 Psychological manipulation to obtain information
+
+> 🎭 Social engineering exploits human nature instead of technical vulnerabilities. The most dangerous hackers are psychologists!
+
+### 20. 🔐 What is Zero Trust? 🔴
+
+A) 🔐 Security model that trusts nothing by default
+
+B) 🔧 Protocol without trust
+
+C) 📦 System without credentials
+
+D) 🌐 Network without authentication
+
+**Correct Answer**: A) 🔐 Security model that trusts nothing by default
+
+> 🔍 Zero Trust verifies EVERYTHING: "Never trust, always verify". Doesn't even trust your own internal network. Productive paranoia!
+
+### 21. 🎯 What are security best practices? 🔴
+
+A) 🎯 Regular patches, backups, 2FA, least privilege principle, education
+
+B) 🔧 Only use antivirus
+
+C) 📦 Change passwords daily
+
+D) 🌐 Disconnect everything from internet
+
+**Correct Answer**: A) 🎯 Regular patches, backups, 2FA, least privilege principle, education
+
+> 🏆 Robust security requires: constant updates, regular backups, multi-factor authentication, minimum necessary access, and user training. Security is everyone's responsibility!

@@ -2,316 +2,297 @@
 
 ## Preguntas
 
-### ❓ ¿Cuál es la mejor forma de leer un archivo en Python para automatización? 🟢
+### 1. ❓ ¿Cuál es la mejor forma de leer un archivo en Python para automatización? 🟢
 
-📝 `with open('archivo.txt', 'r') as f: contenido = f.read()`
-🔄 `archivo = open('archivo.txt'); contenido = archivo.read()`
-📦 `contenido = read_file('archivo.txt')`
-🎯 `import file; contenido = file.read('archivo.txt')`
+A) 📝 `with open('archivo.txt', 'r') as f: contenido = f.read()`
 
-**Respuesta Correcta:**
-📝 `with open('archivo.txt', 'r') as f: contenido = f.read()`
+B) 🔄 `archivo = open('archivo.txt'); contenido = archivo.read()`
 
-**Explicación:**
-💡 La declaración `with` maneja automáticamente el cierre del archivo, incluso si ocurren excepciones. ¡Es la forma Pythonic y previene fugas de recursos! 🎯
+C) 📦 `contenido = read_file('archivo.txt')`
 
----
+D) 🎯 `import file; contenido = file.read('archivo.txt')`
 
-### 🧠 ¿Cómo verificas si un archivo existe en Python? 🟢
+**Respuesta correcta**: A) 📝 `with open('archivo.txt', 'r') as f: contenido = f.read()`
 
-📝 `import os; os.path.exists('archivo.txt')`
-🔄 `import file; file.exists('archivo.txt')`
-📦 `exists('archivo.txt')`
-🎯 `check_file('archivo.txt')`
+> 💡 La declaración `with` maneja automáticamente el cierre del archivo, incluso si ocurren excepciones. ¡Es la forma Pythonic y previene fugas de recursos! 🎯
 
-**Respuesta Correcta:**
-📝 `import os; os.path.exists('archivo.txt')`
+### 2. 🧠 ¿Cómo verificas si un archivo existe en Python? 🟢
 
-**Explicación:**
-🔍 `os.path.exists()` es la forma estándar de verificar existencia de archivos. Retorna `True` si existe, `False` si no. ¡Simple pero crucial para automatización! 🎯
+A) 📝 `import os; os.path.exists('archivo.txt')`
 
----
+B) 🔄 `import file; file.exists('archivo.txt')`
 
-### 💭 ¿Cuál es la forma correcta de manejar argumentos de línea de comandos? 🟢
+C) 📦 `exists('archivo.txt')`
 
-📝 `import sys; args = sys.argv[1:]`
-🔄 `import argparse; parser = argparse.ArgumentParser()`
-📦 `args = get_args()`
-🎯 `import cli; args = cli.get_arguments()`
+D) 🎯 `check_file('archivo.txt')`
 
-**Respuesta Correcta:**
-📝 `import sys; args = sys.argv[1:]`
+**Respuesta correcta**: A) 📝 `import os; os.path.exists('archivo.txt')`
 
-**Explicación:**
-⚡ `sys.argv[1:]` te da todos los argumentos excepto el nombre del script. Para scripts simples es perfecto. ¡Para CLIs complejas usa `argparse`! 🎯
+> 🔍 `os.path.exists()` es la forma estándar de verificar existencia de archivos. Retorna `True` si existe, `False` si no. ¡Simple pero crucial para automatización! 🎯
 
----
+### 3. 💭 ¿Cuál es la forma correcta de manejar argumentos de línea de comandos? 🟢
 
-### 🤔 ¿Cómo haces una petición HTTP en Python? 🟡
+A) 📝 `import sys; args = sys.argv[1:]`
 
-📝 `import requests; respuesta = requests.get('url')`
-🔄 `import urllib; respuesta = urllib.request.urlopen('url')`
-📦 `import http; respuesta = http.get('url')`
-🎯 `import web; respuesta = web.get('url')`
+B) 🔄 `import argparse; parser = argparse.ArgumentParser()`
 
-**Respuesta Correcta:**
-📝 `import requests; respuesta = requests.get('url')`
+C) 📦 `args = get_args()`
 
-**Explicación:**
-💡 La librería `requests` es el estándar de facto para peticiones HTTP. Simple, legible y maneja la mayoría de casos automáticamente. ¡Mucho mejor que urllib! 🎯
+D) 🎯 `import cli; args = cli.get_arguments()`
 
----
+**Respuesta correcta**: A) 📝 `import sys; args = sys.argv[1:]`
 
-### 🔧 ¿Cuál es la mejor forma de manejar datos JSON? 🟡
+> ⚡ `sys.argv[1:]` te da todos los argumentos excepto el nombre del script. Para scripts simples es perfecto. ¡Para CLIs complejas usa `argparse`! 🎯
 
-📝 `import json; datos = json.loads(json_string)`
-🔄 `import yaml; datos = yaml.load(json_string)`
-📦 `datos = parse_json(json_string)`
-🎯 `import parser; datos = parser.json(json_string)`
+### 4. 🤔 ¿Cómo haces una petición HTTP en Python? 🟡
 
-**Respuesta Correcta:**
-📝 `import json; datos = json.loads(json_string)`
+A) 📝 `import requests; respuesta = requests.get('url')`
 
-**Explicación:**
-🩺 `json.loads()` parsea strings JSON a objetos Python. Usa `json.dumps()` para convertir objetos Python a JSON. ¡El módulo nativo maneja toda la complejidad! 🎯
+B) 🔄 `import urllib; respuesta = urllib.request.urlopen('url')`
 
----
+C) 📦 `import http; respuesta = http.get('url')`
 
-### ⚙️ ¿Cómo ejecutas un comando shell y capturas su salida? 🟡
+D) 🎯 `import web; respuesta = web.get('url')`
 
-📝 `import subprocess; resultado = subprocess.run(['cmd'], capture_output=True)`
-🔄 `import os; resultado = os.system('cmd')`
-📦 `resultado = run_command('cmd')`
-🎯 `import shell; resultado = shell.run('cmd')`
+**Respuesta correcta**: A) 📝 `import requests; respuesta = requests.get('url')`
 
-**Respuesta Correcta:**
-📝 `import subprocess; resultado = subprocess.run(['cmd'], capture_output=True)`
+> 💡 La librería `requests` es la forma más simple y elegante para HTTP. ¡Más fácil que urllib y con mejor API!
 
-**Explicación:**
-🔧 `subprocess.run()` es la forma moderna de ejecutar comandos. `capture_output=True` captura stdout y stderr. ¡Mucho más seguro que `os.system()`! 🎯
+### 5. 🔧 ¿Cómo ejecutas un comando del sistema en Python? 🟡
 
----
+A) 📝 `import subprocess; subprocess.run(['comando', 'arg'])`
 
-### 🔍 ¿Cuál es la mejor práctica para manejar datos sensibles? 🔴
+B) 🔄 `import os; os.system('comando arg')`
 
-📝 `import os; password = os.environ.get('PASSWORD')`
-🔄 `password = input('Ingresa contraseña: ')`
-📦 `password = 'contraseña_hardcodeada'`
-🎯 `import config; password = config.password`
+C) 📦 `exec('comando arg')`
 
-**Respuesta Correcta:**
-📝 `import os; password = os.environ.get('PASSWORD')`
+D) 🎯 `run_command('comando arg')`
 
-**Explicación:**
-🩺 Las variables de entorno son la forma segura de manejar secretos. Nunca hardcodees contraseñas o uses input() en scripts de automatización. ¡Usa archivos .env o gestores de secretos! 🎯
+**Respuesta correcta**: A) 📝 `import subprocess; subprocess.run(['comando', 'arg'])`
 
----
+> 🔄 `subprocess.run()` es más seguro que `os.system()`. Maneja argumentos separados y controla mejor la entrada/salida. ¡Previene inyección de comandos!
 
-### 🚀 ¿Cómo creas una configuración de logging apropiada? 🔴
+### 6. 🎯 ¿Cómo parseas JSON en Python? 🟢
 
-📝 `import logging; logging.basicConfig(level=logging.INFO)`
-🔄 `print('INFO: mensaje')`
-📦 `import log; log.info('mensaje')`
-🎯 `logging.info('mensaje')`
+A) 📝 `import json; data = json.loads(json_string)`
 
-**Respuesta Correcta:**
-📝 `import logging; logging.basicConfig(level=logging.INFO)`
+B) 🔄 `import yaml; data = yaml.parse(json_string)`
 
-**Explicación:**
-💡 `logging.basicConfig()` configura logging apropiado con timestamps, niveles y formato. ¡Mucho mejor que prints para automatización en producción! 🎯
+C) 📦 `data = parse_json(json_string)`
 
----
+D) 🎯 `data = JSON.parse(json_string)`
 
-### 🔧 ¿Cuál es la forma más eficiente de procesar archivos grandes? 🔴
+**Respuesta correcta**: A) 📝 `import json; data = json.loads(json_string)`
 
-📝 `with open('archivo.txt') as f: for linea in f: procesar(linea)`
-🔄 `contenido = open('archivo.txt').read(); for linea in contenido.splitlines():`
-📦 `lineas = open('archivo.txt').readlines(); for linea in lineas:`
-🎯 `import pandas; df = pandas.read_csv('archivo.txt')`
+> 📊 `json.loads()` convierte string JSON a dict Python. `json.dumps()` hace lo contrario. ¡Esencial para APIs y configuraciones!
 
-**Respuesta Correcta:**
-📝 `with open('archivo.txt') as f: for linea in f: procesar(linea)`
+### 7. 🚀 ¿Cómo manejas excepciones en Python? 🟢
 
-**Explicación:**
-⚡ Iterar directamente sobre el objeto archivo lee línea por línea sin cargar todo en memoria. ¡Perfecto para archivos que no caben en RAM! 🎯
+A) 📝 `try: código except Exception as e: manejo`
 
----
+B) 🔄 `catch (Exception e) { manejo }`
 
-### ❓ ¿Cómo defines una función en Python? 🟢
+C) 📦 `handle error: manejo`
 
-📝 `def mi_funcion(parametro):`
-🔄 `function mi_funcion(parametro):`
-📦 `func mi_funcion(parametro):`
-🎯 `define mi_funcion(parametro):`
+D) 🎯 `on_error: manejo`
 
-**Respuesta Correcta:**
-📝 `def mi_funcion(parametro):`
+**Respuesta correcta**: A) 📝 `try: código except Exception as e: manejo`
 
-**Explicación:**
-💡 La palabra clave `def` define funciones en Python. Seguida del nombre, parámetros entre paréntesis y dos puntos. ¡Sintaxis fundamental de Python! 🎯
+> ⚡ Python usa `try/except` para manejar errores. ¡Siempre especifica el tipo de excepción cuando sea posible!
 
----
+### 8. 🔍 ¿Cómo iteras sobre archivos en un directorio? 🟡
 
-### 🧠 ¿Qué estructura de datos es inmutable en Python? 🟢
+A) 📝 `import os; for file in os.listdir('dir'): print(file)`
 
-📝 `tupla = (1, 2, 3)`
-🔄 `lista = [1, 2, 3]`
-📦 `diccionario = {1: 2, 3: 4}`
-🎯 `conjunto = {1, 2, 3}`
+B) 🔄 `import glob; for file in glob.glob('dir/*'): print(file)`
 
-**Respuesta Correcta:**
-📝 `tupla = (1, 2, 3)`
+C) 📦 `for file in directory('dir'): print(file)`
 
-**Explicación:**
-🔍 Las tuplas son inmutables - no puedes cambiar sus elementos después de crearlas. Listas, diccionarios y conjuntos son mutables. ¡Útil para datos que no deben cambiar! 🎯
+D) 🎯 `import pathlib; for file in Path('dir').iterdir(): print(file)`
 
----
+**Respuesta correcta**: A) 📝 `import os; for file in os.listdir('dir'): print(file)`
 
-### 💭 ¿Cómo importas solo una función específica de un módulo? 🟢
+> 💡 `os.listdir()` es la forma más simple. Para patrones complejos usa `glob`. Para Python moderno, usa `pathlib`!
 
-📝 `from modulo import funcion`
-🔄 `import modulo.funcion`
-📦 `import funcion from modulo`
-🎯 `use modulo.funcion`
+### 9. 🎯 ¿Cómo lees variables de entorno? 🟡
 
-**Respuesta Correcta:**
-📝 `from modulo import funcion`
+A) 📝 `import os; valor = os.getenv('VARIABLE', 'default')`
 
-**Explicación:**
-⚡ `from modulo import funcion` importa solo la función específica. Puedes usarla directamente sin prefijo. ¡Mantiene el namespace limpio! 🎯
+B) 🔄 `import env; valor = env.get('VARIABLE')`
 
----
+C) 📦 `valor = getenv('VARIABLE')`
 
-### 🤔 ¿Cuál es la forma correcta de manejar excepciones? 🟡
+D) 🎯 `valor = environment['VARIABLE']`
 
-📝 `try: codigo() except Exception as e: manejar(e)`
-🔄 `if error: manejar_error()`
-📦 `catch Exception: manejar()`
-🎯 `on error: manejar()`
+**Respuesta correcta**: A) 📝 `import os; valor = os.getenv('VARIABLE', 'default')`
 
-**Respuesta Correcta:**
-📝 `try: codigo() except Exception as e: manejar(e)`
+> 🔧 `os.getenv()` es seguro porque puedes definir un valor por defecto. ¡Evita errores si la variable no existe!
 
-**Explicación:**
-💡 El bloque try-except es la forma estándar de manejar excepciones. Captura errores específicos cuando sea posible. ¡Evita except vacíos! 🎯
+### 10. 🔄 ¿Cómo trabajas con fechas en Python? 🟡
 
----
+A) 📝 `from datetime import datetime; now = datetime.now()`
 
-### 🔧 ¿Cómo creas una lista por comprensión? 🟡
+B) 🔄 `import time; now = time.now()`
 
-📝 `[x*2 for x in range(10)]`
-🔄 `list(x*2 for x in range(10))`
-📦 `for x in range(10): lista.append(x*2)`
-🎯 `map(lambda x: x*2, range(10))`
+C) 📦 `import date; now = date.current()`
 
-**Respuesta Correcta:**
-📝 `[x*2 for x in range(10)]`
+D) 🎯 `now = Date.now()`
 
-**Explicación:**
-🩺 Las list comprehensions son la forma Pythonic de crear listas. Más legible y eficiente que loops tradicionales. ¡Una línea poderosa! 🎯
+**Respuesta correcta**: A) 📝 `from datetime import datetime; now = datetime.now()`
 
----
+> 📅 El módulo `datetime` es el estándar para fechas y horas. ¡Más potente que `time` para la mayoría de casos!
 
-### ⚙️ ¿Cómo trabajas con fechas y horas? 🟡
+### 11. 🚀 ¿Cómo creas un script ejecutable en Python? 🟡
 
-📝 `from datetime import datetime; ahora = datetime.now()`
-🔄 `import time; ahora = time.now()`
-📦 `import date; ahora = date.today()`
-🎯 `from calendar import now; ahora = now()`
+A) 📝 `#!/usr/bin/env python3` al inicio del archivo
 
-**Respuesta Correcta:**
-📝 `from datetime import datetime; ahora = datetime.now()`
+B) 🔄 `#!python` al inicio del archivo
 
-**Explicación:**
-🔧 El módulo `datetime` es el estándar para trabajar con fechas y horas. `datetime.now()` retorna fecha y hora actual. ¡Esencial para logs y timestamps! 🎯
+C) 📦 `chmod +x script.py`
 
----
+D) 🎯 `python -m script`
 
-### 🔍 ¿Cuál es la forma correcta de trabajar con rutas de archivos? 🔴
+**Respuesta correcta**: A) 📝 `#!/usr/bin/env python3` al inicio del archivo
 
-📝 `from pathlib import Path; ruta = Path('dir') / 'archivo.txt'`
-🔄 `ruta = 'dir' + '/' + 'archivo.txt'`
-📦 `import os; ruta = os.join('dir', 'archivo.txt')`
-🎯 `ruta = 'dir\\archivo.txt'`
+> ⚡ El shebang `#!/usr/bin/env python3` permite ejecutar el script directamente. ¡No olvides `chmod +x` también!
 
-**Respuesta Correcta:**
-📝 `from pathlib import Path; ruta = Path('dir') / 'archivo.txt'`
+### 12. 🔧 ¿Cómo instalas dependencias en Python? 🟢
 
-**Explicación:**
-🩺 `pathlib` es la forma moderna y multiplataforma de manejar rutas. El operador `/` une rutas correctamente en cualquier OS. ¡Adiós problemas de backslashes! 🎯
+A) 📝 `pip install paquete`
 
----
+B) 🔄 `python install paquete`
 
-### 🚀 ¿Cómo creas un decorador simple? 🔴
+C) 📦 `apt install python-paquete`
 
-📝 `def decorador(func): def wrapper(*args): return func(*args)`
-🔄 `@decorator def funcion():`
-📦 `decorator = lambda func: func`
-🎯 `def decorador: return funcion`
+D) 🎯 `npm install paquete`
 
-**Respuesta Correcta:**
-📝 `def decorador(func): def wrapper(*args): return func(*args)`
+**Respuesta correcta**: A) 📝 `pip install paquete`
 
-**Explicación:**
-💡 Un decorador es una función que recibe otra función y retorna una versión modificada. La función wrapper envuelve la original. ¡Patrón poderoso de Python! 🎯
+> 📦 `pip` es el gestor de paquetes estándar de Python. ¡Usa `requirements.txt` para proyectos!
 
----
+### 13. 🎯 ¿Cómo creas un entorno virtual? 🟡
 
-### 🔧 ¿Cómo manejas múltiples valores de retorno? 🔴
+A) 📝 `python -m venv env`
 
-📝 `def funcion(): return valor1, valor2`
-🔄 `def funcion(): return [valor1, valor2]`
-📦 `def funcion(): return {valor1, valor2}`
-🎯 `def funcion(): yield valor1; yield valor2`
+B) 🔄 `virtualenv create env`
 
-**Respuesta Correcta:**
-📝 `def funcion(): return valor1, valor2`
+C) 📦 `python --venv env`
 
-**Explicación:**
-⚡ Python permite retornar múltiples valores como tupla. Se desempaquetan con `a, b = funcion()`. ¡Más limpio que usar listas o diccionarios! 🎯
+D) 🎯 `create-env env`
 
----
+**Respuesta correcta**: A) 📝 `python -m venv env`
 
-### ❓ ¿Qué método lista todos los archivos en un directorio? 🟢
+> 🔒 Los entornos virtuales aíslan dependencias por proyecto. ¡Siempre usa uno para evitar conflictos!
 
-📝 `import os; archivos = os.listdir('directorio')`
-🔄 `import dir; archivos = dir.list('directorio')`
-📦 `archivos = list_files('directorio')`
-🎯 `import files; archivos = files.all('directorio')`
+### 14. 🔍 ¿Cómo debuggeas código Python? 🟡
 
-**Respuesta Correcta:**
-📝 `import os; archivos = os.listdir('directorio')`
+A) 📝 `import pdb; pdb.set_trace()`
 
-**Explicación:**
-💡 `os.listdir()` retorna una lista con todos los archivos y directorios. Para más control usa `os.walk()` o `pathlib`. ¡Básico para automatización de archivos! 🎯
+B) 🔄 `console.log(variable)`
 
----
+C) 📦 `debug(variable)`
 
-### 🧠 ¿Cómo conviertes una string a minúsculas? 🟢
+D) 🎯 `print_debug(variable)`
 
-📝 `texto.lower()`
-🔄 `texto.lowercase()`
-📦 `lower(texto)`
-🎯 `texto.toLower()`
+**Respuesta correcta**: A) 📝 `import pdb; pdb.set_trace()`
 
-**Respuesta Correcta:**
-📝 `texto.lower()`
+> 🐛 `pdb` es el debugger integrado de Python. ¡También puedes usar `breakpoint()` en Python 3.7+!
 
-**Explicación:**
-🔍 El método `lower()` convierte todas las letras a minúsculas. También existe `upper()` para mayúsculas y `title()` para capitalizar. ¡Métodos esenciales de strings! 🎯
+### 15. 🚀 ¿Cómo escribes tests en Python? 🟡
 
----
+A) 📝 `import unittest; class TestCase(unittest.TestCase):`
 
-### 💭 ¿Cuál es la forma correcta de concatenar strings? 🟢
+B) 🔄 `import pytest; def test_function():`
 
-📝 `resultado = f"{string1} {string2}"`
-🔄 `resultado = string1 + " " + string2`
-📦 `resultado = concat(string1, string2)`
-🎯 `resultado = string1.append(string2)`
+C) 📦 `test_function() { assert(true) }`
 
-**Respuesta Correcta:**
-📝 `resultado = f"{string1} {string2}"`
+D) 🎯 `import test; test.run()`
 
-**Explicación:**
-⚡ Los f-strings (formatted strings) son la forma moderna y eficiente de concatenar. Más legibles que `+` y más rápidos. ¡Python 3.6+ únicamente! 🎯
+**Respuesta correcta**: A) 📝 `import unittest; class TestCase(unittest.TestCase):`
+
+> 🧪 `unittest` viene incluido con Python. Para algo más moderno usa `pytest`. ¡Los tests son cruciales para automatización!
+
+### 16. 🔧 ¿Cómo trabajas con CSV en Python? 🟡
+
+A) 📝 `import csv; with open('file.csv') as f: reader = csv.reader(f)`
+
+B) 🔄 `import pandas; df = pandas.read_csv('file.csv')`
+
+C) 📦 `data = read_csv('file.csv')`
+
+D) 🎯 `import excel; data = excel.csv('file.csv')`
+
+**Respuesta correcta**: A) 📝 `import csv; with open('file.csv') as f: reader = csv.reader(f)`
+
+> 📊 El módulo `csv` es perfecto para archivos simples. Para análisis complejo usa `pandas`!
+
+### 17. 🎯 ¿Cómo haces logging en Python? 🟡
+
+A) 📝 `import logging; logging.info('mensaje')`
+
+B) 🔄 `print('LOG: mensaje')`
+
+C) 📦 `log('mensaje')`
+
+D) 🎯 `console.log('mensaje')`
+
+**Respuesta correcta**: A) 📝 `import logging; logging.info('mensaje')`
+
+> 📝 `logging` es mucho mejor que `print()` para aplicaciones serias. ¡Permite niveles, archivos y formato!
+
+### 18. 🔄 ¿Cómo trabajas con bases de datos en Python? 🔴
+
+A) 📝 `import sqlite3; conn = sqlite3.connect('db.sqlite')`
+
+B) 🔄 `import database; db = database.connect('db')`
+
+C) 📦 `db = Database('sqlite://db.sqlite')`
+
+D) 🎯 `import sql; conn = sql.connect('db')`
+
+**Respuesta correcta**: A) 📝 `import sqlite3; conn = sqlite3.connect('db.sqlite')`
+
+> 🗄️ `sqlite3` viene incluido para bases de datos simples. Para otras bases usa drivers específicos como `psycopg2`, `mysql-connector-python`, etc.
+
+### 19. 🚀 ¿Cómo haces scraping web en Python? 🔴
+
+A) 📝 `import requests, BeautifulSoup; soup = BeautifulSoup(response.text)`
+
+B) 🔄 `import urllib, html; html.parse(response)`
+
+C) 📦 `import web; data = web.scrape(url)`
+
+D) 🎯 `import crawler; data = crawler.get(url)`
+
+**Respuesta correcta**: A) 📝 `import requests, BeautifulSoup; soup = BeautifulSoup(response.text)`
+
+> 🕷️ `requests` + `BeautifulSoup` es la combinación clásica. Para JavaScript usa `selenium` o `playwright`!
+
+### 20. 🔧 ¿Cómo optimizas scripts Python? 🔴
+
+A) 📝 Usa list comprehensions, evita loops innecesarios, perfilado con `cProfile`
+
+B) 🔄 Usa solo funciones, evita variables
+
+C) 📦 Compila a C++
+
+D) 🎯 Usa solo librerías externas
+
+**Respuesta correcta**: A) 📝 Usa list comprehensions, evita loops innecesarios, perfilado con `cProfile`
+
+> ⚡ Optimización en Python: usa estructuras nativas, evita loops Python cuando sea posible, perfila con `cProfile`, considera NumPy para números!
+
+### 21. 🎯 ¿Cuál es la mejor práctica para scripts de automatización? 🔴
+
+A) 📝 Usar logging, manejo de errores, argumentos CLI, documentación
+
+B) 🔄 Hacer todo en una función
+
+C) 📦 Usar solo variables globales
+
+D) 🎯 Evitar imports
+
+**Respuesta correcta**: A) 📝 Usar logging, manejo de errores, argumentos CLI, documentación
+
+> 🎯 Scripts de producción necesitan: logging detallado, manejo robusto de errores, CLI amigable, documentación clara y tests. ¡Calidad es clave!
 
