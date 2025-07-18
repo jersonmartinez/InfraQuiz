@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfraQuiz - Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🐛 InfraQuiz Debug Test</h1>
+    
+    <button onclick="testParser()">Test Parser</button>
+    <button onclick="testGitHubLoad()">Test GitHub Load</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="results"></div>
+
+    <script src="script.js"></script>
+    <script>
+        const results = document.getElementById('results');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong>: ${message}`;
+            results.appendChild(div);
+        }
+        
+        function clearResults() {
+            results.innerHTML = '';
+        }
+        
+        async function testGitHubLoad() {
+            log('🧪 Testing GitHub content loading...', 'info');
+            
+            try {
+                if (!window.InfraQuiz?.loadQuizFile) {
+                    throw new Error('InfraQuiz.loadQuizFile not available');
+                }
+                
+                const content = await window.InfraQuiz.loadQuizFile('bash', 'en');
+                log(`✅ Successfully loaded ${Math.round(content.length / 1024)}KB from GitHub`, 'success');
+                log(`Content preview: <pre>${content.substring(0, 300)}...</pre>`, 'info');
+                
+                return content;
+                
+            } catch (error) {
+                log(`❌ GitHub load failed: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+        
+        async function testParser() {
+            log('🧪 Testing markdown parser...', 'info');
+            
+            try {
+                // First load content
+                const content = await testGitHubLoad();
+                
+                if (!window.InfraQuiz?.parseMarkdownQuiz) {
+                    throw new Error('InfraQuiz.parseMarkdownQuiz not available');
+                }
+                
+                const questions = window.InfraQuiz.parseMarkdownQuiz(content);
+                log(`✅ Parser found ${questions.length} questions`, 'success');
+                
+                if (questions.length > 0) {
+                    const firstQ = questions[0];
+                    log(`First question details: <pre>${JSON.stringify({
+                        text: firstQ.text,
+                        difficulty: firstQ.difficulty,
+                        optionsCount: firstQ.options?.length,
+                        correctOption: firstQ.options?.find(opt => opt.isCorrect)?.text,
+                        explanation: firstQ.explanation?.substring(0, 50) + '...'
+                    }, null, 2)}</pre>`, 'info');
+                    
+                    // Test difficulty distribution
+                    const difficulties = questions.reduce((acc, q) => {
+                        acc[q.difficulty] = (acc[q.difficulty] || 0) + 1;
+                        return acc;
+                    }, {});
+                    
+                    log(`Difficulty distribution: <pre>${JSON.stringify(difficulties, null, 2)}</pre>`, 'info');
+                } else {
+                    log('❌ No questions found by parser', 'error');
+                    
+                    // Debug the content
+                    log('Debug info:', 'info');
+                    log(`- Content length: ${content.length}`, 'info');
+                    log(`- Has ### headers: ${content.includes('###')}`, 'info');
+                    log(`- Has emojis: ${/[📝🔄📦🎯]/.test(content)}`, 'info');
+                    
+                    const headerLines = content.split('\n').filter(line => line.trim().startsWith('###')).slice(0, 3);
+                    log(`- Header lines: <pre>${headerLines.join('\n')}</pre>`, 'info');
+                }
+                
+            } catch (error) {
+                log(`❌ Parser test failed: ${error.message}`, 'error');
+                console.error('Full error:', error);
+            }
+        }
+        
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (window.InfraQuiz) {
+                    log('🚀 InfraQuiz loaded, running tests...', 'success');
+                    testParser();
+                } else {
+                    log('❌ InfraQuiz not loaded', 'error');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

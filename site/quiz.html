@@ -94,6 +94,9 @@
                     <button class="btn btn-primary" onclick="window.location.reload()">
                         <i class="bi bi-arrow-clockwise me-2"></i>Try Again
                     </button>
+                    <button id="debugTestBtn" class="btn btn-warning">
+                        <i class="bi bi-bug me-2"></i>Debug Test
+                    </button>
                 </div>
             </div>
         </div>
@@ -178,7 +181,86 @@
             if (category && level) {
                 document.title = `InfraQuiz - ${category.charAt(0).toUpperCase() + category.slice(1)} (${level})`;
             }
+            
+            // Add debug test button functionality
+            const debugBtn = document.getElementById('debugTestBtn');
+            if (debugBtn) {
+                debugBtn.addEventListener('click', runDebugTest);
+            }
         });
+        
+        async function runDebugTest() {
+            console.log('🧪 Running debug test...');
+            
+            const testContent = `# 🐚 Bash Scripting - Questions 1
+
+## Questions
+
+### 1. ❓ What's the correct way to check if a file exists in Bash? 🟢
+
+A) 📝 \`if [ -f "file.txt" ]; then\`
+
+B) 🔄 if file "file.txt" exists; then
+
+C) 📦 if exists "file.txt"; then
+
+D) 🎯 if check "file.txt"; then
+
+**Correct Answer**: A) 📝 \`if [ -f "file.txt" ]; then\`
+
+> 💡 The \`-f\` test operator checks if a file exists and is a regular file.
+
+### 2. 🧠 How do you assign a value to a variable in Bash? 🟢
+
+A) 📝 \`variable=value\` (no spaces)
+
+B) 🔄 variable = value (with spaces)
+
+C) 📦 set variable=value
+
+D) 🎯 let variable=value
+
+**Correct Answer**: A) 📝 \`variable=value\` (no spaces)
+
+> ⚡ Bash variable assignment requires NO spaces around the equals sign.`;
+
+            try {
+                if (!window.InfraQuiz?.parseMarkdownQuiz) {
+                    alert('❌ InfraQuiz.parseMarkdownQuiz not available');
+                    return;
+                }
+                
+                const questions = window.InfraQuiz.parseMarkdownQuiz(testContent);
+                console.log('✅ Parser result:', questions);
+                
+                if (questions.length > 0) {
+                    alert(`✅ Debug test successful! Found ${questions.length} questions.\n\nFirst question: ${questions[0].text}`);
+                    
+                    // Try to initialize a simple quiz with these questions
+                    window.currentQuiz = questions;
+                    window.currentQuestionIndex = 0;
+                    window.score = 0;
+                    window.totalQuestions = questions.length;
+                    
+                    // Hide error, show quiz
+                    document.getElementById('quizError').style.display = 'none';
+                    document.getElementById('quizLoading').style.display = 'none';
+                    document.getElementById('quizContent').style.display = 'block';
+                    
+                    // Show first question
+                    if (window.showQuestion) {
+                        window.showQuestion();
+                    }
+                    
+                } else {
+                    alert('❌ Debug test failed: No questions found');
+                }
+                
+            } catch (error) {
+                console.error('Debug test error:', error);
+                alert(`❌ Debug test error: ${error.message}`);
+            }
+        }
     </script>
 </body>
 </html> 

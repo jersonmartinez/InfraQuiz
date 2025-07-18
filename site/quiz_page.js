@@ -462,6 +462,8 @@ async function initializeQuiz() {
     const difficulty = getUrlParameter('level');
     const language = getCurrentLanguage();
     
+    console.log('📋 Quiz Parameters:', { category, difficulty, language });
+    
     if (!category || !difficulty) {
         showError('Missing quiz parameters. Please select a quiz from the main page.');
         return;
@@ -470,26 +472,75 @@ async function initializeQuiz() {
     try {
         showLoading(true);
         
+        console.log('🔄 Starting quiz loading process...');
+        
         // Load quiz content
         const quizContent = await loadQuizContent(category, language);
-        const allQuestions = parseQuizContent(quizContent);
+        console.log(`📄 Loaded content (${quizContent.length} chars):`);
+        console.log('Content preview:', quizContent.substring(0, 200) + '...');
+        
+        // Parse quiz content
+        let allQuestions;
+        console.log('🔍 Starting to parse quiz content...');
+        
+        if (window.InfraQuiz?.parseMarkdownQuiz) {
+            console.log('✅ Using main parseMarkdownQuiz function');
+            allQuestions = window.InfraQuiz.parseMarkdownQuiz(quizContent);
+        } else {
+            console.log('⚠️ Using fallback parseQuizContent function');
+            allQuestions = parseQuizContent(quizContent);
+        }
+        
+        console.log(`📊 Parsing results: ${allQuestions.length} questions found`);
         
         if (allQuestions.length === 0) {
-            throw new Error('No valid questions found in quiz file');
+            console.error('❌ No questions parsed - detailed content analysis:');
+            console.log('First 500 chars:', quizContent.substring(0, 500));
+            console.log('Content includes ### headers:', quizContent.includes('###'));
+            console.log('Content includes emojis:', /[📝🔄📦🎯]/.test(quizContent));
+            console.log('Lines starting with ###:', quizContent.split('\n').filter(line => line.trim().startsWith('###')).slice(0, 5));
+            
+            throw new Error('No valid questions found in quiz file. Parser may need adjustment.');
+        }
+        
+        // Log first question for verification
+        if (allQuestions.length > 0) {
+            console.log('🔍 First question details:', {
+                text: allQuestions[0].text,
+                difficulty: allQuestions[0].difficulty,
+                optionsCount: allQuestions[0].options?.length,
+                hasCorrectOption: allQuestions[0].options?.some(opt => opt.isCorrect)
+            });
         }
         
         // Filter by difficulty
         let filteredQuestions = allQuestions.filter(q => q.difficulty === difficulty);
+        console.log(`🎯 Filtered to ${filteredQuestions.length} questions for difficulty: ${difficulty}`);
         
         // Fallback if no questions for specific difficulty
         if (filteredQuestions.length === 0) {
             console.warn(`No questions found for ${difficulty} difficulty, using all questions`);
             filteredQuestions = allQuestions;
+            
+            // Try to categorize questions by position if no difficulty markers
+            if (difficulty === 'beginner') {
+                filteredQuestions = allQuestions.slice(0, Math.ceil(allQuestions.length / 3));
+            } else if (difficulty === 'intermediate') {
+                const start = Math.ceil(allQuestions.length / 3);
+                const end = Math.ceil(allQuestions.length * 2 / 3);
+                filteredQuestions = allQuestions.slice(start, end);
+            } else if (difficulty === 'advanced') {
+                filteredQuestions = allQuestions.slice(Math.ceil(allQuestions.length * 2 / 3));
+            }
+            
+            console.log(`📊 Fallback distribution: ${filteredQuestions.length} questions assigned to ${difficulty}`);
         }
         
         // Select random subset
         const maxQuestions = Math.min(filteredQuestions.length, config.MAX_QUESTIONS_PER_QUIZ);
         selectedQuestions = filteredQuestions.sort(() => 0.5 - Math.random()).slice(0, maxQuestions);
+        
+        console.log(`🎲 Selected ${selectedQuestions.length} random questions from ${filteredQuestions.length} available`);
         
         // Initialize quiz state
         currentQuiz = selectedQuestions;
@@ -505,12 +556,26 @@ async function initializeQuiz() {
         showLoading(false);
         showQuestion();
         
-        console.log(`✅ Quiz initialized: ${totalQuestions} questions loaded`);
+        console.log(`✅ Quiz initialized successfully: ${totalQuestions} questions loaded`);
         showNotification(`Quiz loaded: ${totalQuestions} ${difficulty} questions`, 'success');
         
     } catch (error) {
         console.error('❌ Failed to initialize quiz:', error);
-        showError(`Failed to load the ${category} quiz. Please try again or select a different category.`);
+        console.error('Error stack:', error.stack);
+        
+        let errorMessage = `Failed to load the ${category} quiz. `;
+        
+        if (error.message.includes('No valid questions')) {
+            errorMessage += 'The quiz content could not be parsed properly. This might be a format issue.';
+        } else if (error.message.includes('Failed to load quiz')) {
+            errorMessage += 'Could not fetch the quiz content. Please check your internet connection.';
+        } else {
+            errorMessage += error.message;
+        }
+        
+        errorMessage += `\n\nTechnical details: ${error.message}`;
+        
+        showError(errorMessage);
     }
 }
 

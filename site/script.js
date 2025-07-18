@@ -251,21 +251,26 @@ function parseMarkdownQuiz(markdown) {
         if (line === '') continue;
         
         // Detect question start (H3 with emoji)
-        if (line.match(/^### (?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
+        if (line.match(/^### (?:\d+\.\s*)?(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)/)) {
             // Save previous question if complete
-            if (currentQuestion && currentOptions.length === 4) {
-                // Set correct option
+            if (currentQuestion && currentOptions.length >= 3) {
+                // Find and mark correct option
                 const correctIndex = currentOptions.findIndex(opt => 
-                    opt.text === currentCorrectAnswer || opt.text.includes(currentCorrectAnswer)
+                    opt.text === currentCorrectAnswer || 
+                    opt.text.includes(currentCorrectAnswer) ||
+                    opt.isCorrect
                 );
                 
-                if (correctIndex !== -1) {
-                    currentOptions[correctIndex].isCorrect = true;
+                if (correctIndex === -1 && currentOptions.length > 0) {
+                    // Fallback: mark first option as correct if no match found
+                    currentOptions[0].isCorrect = true;
                 }
                 
                 currentQuestion.options = currentOptions;
                 currentQuestion.explanation = currentExplanation.trim();
                 questions.push(currentQuestion);
+                
+                console.log(`✅ Added question: "${currentQuestion.text.substring(0, 50)}..." (${currentOptions.length} options)`);
             }
             
             // Extract difficulty from emoji
@@ -281,7 +286,7 @@ function parseMarkdownQuiz(markdown) {
             
             // Create new question
             currentQuestion = {
-                text: line.replace(/^### (?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*/, '').replace(/(?:🟢|🟡|🔴)\s*$/, '').trim(),
+                text: line.replace(/^### (?:\d+\.\s*)?(?:❓|🧠|💭|🤔|🔧|⚙️|🔍|🚀)\s*/, '').replace(/(?:🟢|🟡|🔴)\s*$/, '').trim(),
                 difficulty: difficulty,
                 options: [],
                 explanation: ''
@@ -291,54 +296,102 @@ function parseMarkdownQuiz(markdown) {
             currentCorrectAnswer = '';
             currentExplanation = '';
             inQuestionBlock = true;
+            console.log(`🔍 Starting new question: "${currentQuestion.text.substring(0, 50)}..."`);
             continue;
         }
         
-        // Detect options
-        if (inQuestionBlock && optionEmojis.some(emoji => line.startsWith(emoji))) {
-            const emoji = optionEmojis.find(e => line.startsWith(e));
-            const isCorrect = emoji === '📝'; // First emoji is typically correct
-            const optionText = line.substring(2).trim();
+        // Detect options (format: A) 📝 text or just 📝 text)
+        if (inQuestionBlock) {
+            // Check for option format: A) 📝 text
+            const optionMatch = line.match(/^[A-D]\)\s*(📝|🔄|📦|🎯)\s*(.+)$/);
+            if (optionMatch) {
+                const emoji = optionMatch[1];
+                const optionText = optionMatch[2].trim();
+                const isCorrect = emoji === '📝'; // First emoji is typically correct
+                
+                currentOptions.push({
+                    text: optionText,
+                    isCorrect: isCorrect
+                });
+                
+                console.log(`   Option: ${emoji} ${optionText.substring(0, 30)}... (correct: ${isCorrect})`);
+                continue;
+            }
             
-            currentOptions.push({
-                text: optionText,
-                isCorrect: isCorrect
-            });
-            continue;
+            // Alternative format: lines starting directly with emoji
+            if (optionEmojis.some(emoji => line.startsWith(emoji))) {
+                const emoji = optionEmojis.find(e => line.startsWith(e));
+                const isCorrect = emoji === '📝';
+                const optionText = line.substring(2).trim();
+                
+                currentOptions.push({
+                    text: optionText,
+                    isCorrect: isCorrect
+                });
+                
+                console.log(`   Option: ${emoji} ${optionText.substring(0, 30)}... (correct: ${isCorrect})`);
+                continue;
+            }
         }
         
         // Detect correct answer
         if (line.includes('**Correct Answer:**') || line.includes('**Respuesta Correcta:**')) {
-            const nextLine = i + 1 < lines.length ? lines[i + 1].trim() : '';
-            if (nextLine.startsWith('📝')) {
-                currentCorrectAnswer = nextLine.substring(2).trim();
+            // Look for the answer in the same line or next line
+            let answerLine = line;
+            if (i + 1 < lines.length) {
+                answerLine += ' ' + lines[i + 1].trim();
+            }
+            
+            // Extract the correct answer
+            const answerMatch = answerLine.match(/(?:Correct Answer|Respuesta Correcta):\*?\*?\s*([A-D]\)?\s*)?📝\s*(.+?)(?:\n|$)/i);
+            if (answerMatch) {
+                currentCorrectAnswer = answerMatch[2].trim();
+                console.log(`   Correct answer: ${currentCorrectAnswer.substring(0, 30)}...`);
             }
             continue;
         }
         
         // Detect explanation
-        if (line.startsWith('> 💡') || line.startsWith('> ⚡') || line.startsWith('> 🔍')) {
-            currentExplanation = line.replace(/^> [💡⚡🔍]\s*/, '').trim();
+        if (line.startsWith('> 💡') || line.startsWith('> ⚡') || line.startsWith('> 🔍') || line.startsWith('> 📘') || line.startsWith('> 🔄')) {
+            currentExplanation = line.replace(/^> [💡⚡🔍📘🔄]\s*/, '').trim();
+            console.log(`   Explanation: ${currentExplanation.substring(0, 30)}...`);
             continue;
         }
     }
     
     // Don't forget the last question
-    if (currentQuestion && currentOptions.length === 4) {
+    if (currentQuestion && currentOptions.length >= 3) {
         const correctIndex = currentOptions.findIndex(opt => 
-            opt.text === currentCorrectAnswer || opt.text.includes(currentCorrectAnswer)
+            opt.text === currentCorrectAnswer || 
+            opt.text.includes(currentCorrectAnswer) ||
+            opt.isCorrect
         );
         
-        if (correctIndex !== -1) {
-            currentOptions[correctIndex].isCorrect = true;
+        if (correctIndex === -1 && currentOptions.length > 0) {
+            currentOptions[0].isCorrect = true;
         }
         
         currentQuestion.options = currentOptions;
         currentQuestion.explanation = currentExplanation.trim();
         questions.push(currentQuestion);
+        
+        console.log(`✅ Added final question: "${currentQuestion.text.substring(0, 50)}..." (${currentOptions.length} options)`);
     }
     
     console.log(`✅ Parsed ${questions.length} questions successfully`);
+    
+    // Debug: log first question details if available
+    if (questions.length > 0) {
+        const firstQ = questions[0];
+        console.log('🔍 First question details:', {
+            text: firstQ.text,
+            difficulty: firstQ.difficulty,
+            optionsCount: firstQ.options.length,
+            correctOption: firstQ.options.find(opt => opt.isCorrect)?.text,
+            explanation: firstQ.explanation?.substring(0, 50)
+        });
+    }
+    
     return questions;
 }
 
@@ -551,12 +604,22 @@ window.InfraQuiz = {
 document.addEventListener('DOMContentLoaded', () => {
     console.log(`🚀 InfraQuiz ${INFRAQUIZ_CONFIG.VERSION} initialized`);
     
+    // Initialize core components
     initializeNavigation();
     initializeDarkMode();
     initializeLanguageSelector();
     initializeRandomQuiz();
     applyTranslations();
-    renderQuizCategories();
+    
+    // Render quiz categories if container exists
+    if (document.getElementById('quiz-categories-container')) {
+        renderQuizCategories();
+    }
     
     console.log('✅ InfraQuiz ready!');
+    
+    // Notify that InfraQuiz is fully loaded
+    window.dispatchEvent(new CustomEvent('infraquiz:loaded', {
+        detail: { version: INFRAQUIZ_CONFIG.VERSION }
+    }));
 });
