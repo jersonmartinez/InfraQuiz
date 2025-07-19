@@ -1227,14 +1227,16 @@ body.dark-mode .performance-badge {
     font-size: 0.875em;
     font-weight: 500;
     border: 1px solid #ffeaa7;
-    display: inline;
-    vertical-align: baseline;
-    line-height: inherit;
+    display: inline !important;
+    vertical-align: baseline !important;
+    line-height: 1 !important;
     white-space: nowrap;
-    margin: 0 1px;
-    position: static;
-    top: auto;
-    transform: none;
+    margin: 0 2px !important;
+    position: static !important;
+    top: auto !important;
+    transform: none !important;
+    float: none !important;
+    clear: none !important;
 }
 
 body.dark-mode .quiz-code {
@@ -1243,17 +1245,40 @@ body.dark-mode .quiz-code {
     border-color: #4a5568;
 }
 
-/* Override any conflicting styles */
+/* Force inline behavior in all contexts */
 .explanation-text .quiz-code,
 .option-text .quiz-code,
 .question-text .quiz-code {
+    display: inline !important;
     vertical-align: baseline !important;
-    margin: 0 1px !important;
+    margin: 0 2px !important;
     position: static !important;
     top: auto !important;
     transform: none !important;
-    line-height: inherit !important;
+    line-height: 1 !important;
+    float: none !important;
+    clear: none !important;
+}
+
+/* Ensure parent containers don't interfere */
+.explanation-text,
+.option-text,
+.question-text {
+    line-height: 1.5;
+}
+
+.explanation-text * {
     display: inline !important;
+    vertical-align: baseline !important;
+}
+
+/* Fix any block-level elements that might interfere */
+.explanation-text p,
+.option-text p,
+.question-text p {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* === ACCESSIBILITY IMPROVEMENTS === */

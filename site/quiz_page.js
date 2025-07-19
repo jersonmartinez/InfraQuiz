@@ -44,7 +44,7 @@ function getTranslations() {
 function renderMarkdown(text) {
     if (!text) return '';
     
-    console.log('🔄 Rendering markdown:', text.substring(0, 100));
+    console.log('�� Rendering markdown with Marked.js:', text.substring(0, 100));
     
     try {
         // Clean the text first
@@ -53,26 +53,62 @@ function renderMarkdown(text) {
             .replace(/\ufffd/g, '') // Remove replacement characters
             .trim();
         
-        // Try to use Marked.js
+        // Try to use Marked.js with custom renderer
         if (typeof marked !== 'undefined') {
             let rendered;
+            
+            // Create custom renderer to force inline behavior
+            const renderer = new marked.Renderer();
+            
+            // Override code block renderer to be inline
+            renderer.code = function(code, language) {
+                return `<code class="quiz-code">${code}</code>`;
+            };
+            
+            // Override inline code renderer
+            renderer.codespan = function(code) {
+                return `<code class="quiz-code">${code}</code>`;
+            };
+            
+            // Override paragraph to avoid extra wrapping
+            renderer.paragraph = function(text) {
+                return text; // Return text without <p> wrapper
+            };
+            
+            // Override other block elements to be inline
+            renderer.blockquote = function(quote) {
+                return quote; // Remove blockquote wrapper
+            };
+            
+            renderer.heading = function(text, level) {
+                return text; // Remove heading wrapper
+            };
+            
+            renderer.list = function(body, ordered) {
+                return body; // Remove list wrapper
+            };
+            
+            renderer.listitem = function(text) {
+                return text; // Remove list item wrapper
+            };
             
             // Handle different Marked.js versions
             if (typeof marked.parse === 'function') {
                 // v4+ API
                 try {
                     rendered = marked.parse(cleanText, { 
+                        renderer: renderer,
                         breaks: true,
                         gfm: true,
                         silent: true
                     });
                 } catch (e) {
                     console.warn('Marked.parse failed, trying legacy API:', e);
-                    rendered = marked(cleanText);
+                    rendered = marked(cleanText, { renderer: renderer });
                 }
             } else if (typeof marked === 'function') {
                 // Legacy API
-                rendered = marked(cleanText);
+                rendered = marked(cleanText, { renderer: renderer });
             } else {
                 console.warn('Unknown Marked.js API');
                 return fallbackMarkdownRender(cleanText);
@@ -84,22 +120,8 @@ function renderMarkdown(text) {
                 return fallbackMarkdownRender(cleanText);
             }
             
-            // Remove wrapping paragraph tags for inline content
-            if (rendered.startsWith('<p>') && rendered.endsWith('</p>\n')) {
-                rendered = rendered.slice(3, -5);
-            } else if (rendered.startsWith('<p>') && rendered.endsWith('</p>')) {
-                rendered = rendered.slice(3, -4);
-            }
-            
-            // Apply custom code styling
-            rendered = rendered.replace(
-                /<code([^>]*)>(.*?)<\/code>/g, 
-                (match, attrs, code) => {
-                    const isLong = code.length > 20;
-                    const className = isLong ? 'quiz-code long-code' : 'quiz-code';
-                    return `<code class="${className}">${code}</code>`;
-                }
-            );
+            // Clean up any remaining paragraph tags
+            rendered = rendered.replace(/<\/?p>/g, '');
             
             console.log('✅ Markdown rendered successfully');
             return rendered;
