@@ -71,7 +71,7 @@ function getTranslations() {
 function renderMarkdown(text) {
     if (!text) return '';
     
-    console.log('�� Rendering markdown with Marked.js:', text.substring(0, 100));
+    console.log('🔍 Rendering markdown with Marked.js:', text.substring(0, 100));
     
     try {
         // Clean the text first
@@ -89,34 +89,34 @@ function renderMarkdown(text) {
             
             // Override code block renderer to be inline
             renderer.code = function(code, language) {
-                return `<code class="quiz-code">${code}</code>`;
+                return `<code class="quiz-code">${String(code)}</code>`;
             };
             
             // Override inline code renderer
             renderer.codespan = function(code) {
-                return `<code class="quiz-code">${code}</code>`;
+                return `<code class="quiz-code">${String(code)}</code>`;
             };
             
             // Override paragraph to avoid extra wrapping
             renderer.paragraph = function(text) {
-                return text; // Return text without <p> wrapper
+                return String(text); // Return text without <p> wrapper
             };
             
             // Override other block elements to be inline
             renderer.blockquote = function(quote) {
-                return quote; // Remove blockquote wrapper
+                return String(quote); // Remove blockquote wrapper
             };
             
             renderer.heading = function(text, level) {
-                return text; // Remove heading wrapper
+                return String(text); // Remove heading wrapper
             };
             
             renderer.list = function(body, ordered) {
-                return body; // Remove list wrapper
+                return String(body); // Remove list wrapper
             };
             
             renderer.listitem = function(text) {
-                return text; // Remove list item wrapper
+                return String(text); // Remove list item wrapper
             };
             
             // Handle different Marked.js versions
@@ -143,14 +143,26 @@ function renderMarkdown(text) {
             
             // Ensure we have a string
             if (typeof rendered !== 'string') {
-                console.warn('Marked.js returned non-string:', typeof rendered);
+                console.warn('Marked.js returned non-string:', typeof rendered, rendered);
+                return fallbackMarkdownRender(cleanText);
+            }
+            
+            // Additional safety check for [object Object] string
+            if (rendered === '[object Object]') {
+                console.warn('Marked.js returned [object Object] string, using fallback');
                 return fallbackMarkdownRender(cleanText);
             }
             
             // Clean up any remaining paragraph tags
             rendered = rendered.replace(/<\/?p>/g, '');
             
-            console.log('✅ Markdown rendered successfully');
+            // Final validation
+            if (!rendered || rendered.trim() === '') {
+                console.warn('Marked.js returned empty result, using fallback');
+                return fallbackMarkdownRender(cleanText);
+            }
+            
+            console.log('✅ Markdown rendered successfully, result:', rendered.substring(0, 100));
             return rendered;
         } else {
             console.warn('Marked.js not available, using fallback');
@@ -330,12 +342,7 @@ async function loadQuizContent(category, language) {
 function parseQuizContent(markdown) {
     console.log('📝 Parsing quiz content...');
     
-    // Use the optimized parser from main script if available
-    if (window.InfraQuiz?.parseMarkdownQuiz) {
-        return window.InfraQuiz.parseMarkdownQuiz(markdown);
-    }
-    
-    // Enhanced fallback parser
+    // Enhanced fallback parser - Use consistent parsing logic
     const questions = [];
     const lines = markdown.split('\n');
     let currentQuestion = null;
@@ -346,15 +353,17 @@ function parseQuizContent(markdown) {
     // Enhanced regex patterns
     const questionPattern = /^###\s*\d+\.\s*(.+)/;
     const optionPattern = /^([A-D])\)\s*(.+)/;
-    const answerPattern = /^\*\*Respuesta correcta\*\*:\s*([A-D])\)/;
+    const answerPattern = /^\*\*(?:Respuesta correcta|Correct Answer)\*\*:\s*([A-D])\)/;
     const explanationPattern = /^>\s*(.+)/;
+    
+    console.log('🔍 Parsing patterns initialized');
     
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         
-        // Skip empty lines
+        // Skip empty lines but preserve them in explanation
         if (!line) {
-            if (isInExplanation && explanationText) {
+            if (isInExplanation) {
                 explanationText += '\n';
             }
             continue;
@@ -368,8 +377,12 @@ function parseQuizContent(markdown) {
                 currentQuestion.options = currentOptions;
                 if (explanationText.trim()) {
                     currentQuestion.explanation = explanationText.trim();
+                    console.log(`💡 Explanation for question: ${explanationText.substring(0, 50)}...`);
+                } else {
+                    console.log(`⚠️ No explanation found for question: ${currentQuestion.text.substring(0, 50)}...`);
                 }
                 questions.push(currentQuestion);
+                console.log(`✅ Question saved: ${currentQuestion.text.substring(0, 50)}... (explanation: ${!!currentQuestion.explanation})`);
             }
             
             // Extract emoji and text from question
@@ -416,25 +429,38 @@ function parseQuizContent(markdown) {
             const correctOption = currentOptions.find(opt => opt.letter === correctLetter);
             if (correctOption) {
                 correctOption.isCorrect = true;
-                console.log(`✅ Correct answer marked: ${correctLetter}`);
+                console.log(`✅ Correct answer marked: ${correctLetter} for question: ${currentQuestion.text.substring(0, 50)}...`);
+            } else {
+                console.warn(`⚠️ Could not find option with letter ${correctLetter} for question: ${currentQuestion.text.substring(0, 50)}...`);
             }
             continue;
         }
         
-        // Explanation detection
-        const explanationMatch = line.match(explanationPattern);
-        if (explanationMatch) {
-            isInExplanation = true;
-            if (explanationText) {
-                explanationText += ' ';
+        // Explanation detection - FIXED: Better handling of multi-line explanations
+        if (line.startsWith('>')) {
+            if (!isInExplanation) {
+                isInExplanation = true;
+                explanationText = line.substring(1).trim();
+                console.log(`💡 Found explanation start: ${explanationText.substring(0, 50)}...`);
+            } else {
+                // Continue existing explanation
+                explanationText += ' ' + line.substring(1).trim();
+                console.log(`💡 Continuing explanation: ${line.substring(1).trim().substring(0, 30)}...`);
             }
-            explanationText += explanationMatch[1];
             continue;
         }
         
-        // Continue explanation on subsequent lines
-        if (isInExplanation && line.startsWith('>')) {
-            explanationText += ' ' + line.substring(1).trim();
+        // End explanation when we hit a new question or non-explanation content
+        if (isInExplanation && !line.startsWith('>')) {
+            // Check if this is the start of a new question
+            if (line.match(questionPattern)) {
+                isInExplanation = false;
+                console.log(`💡 Explanation ended by new question: ${explanationText.substring(0, 50)}...`);
+            } else {
+                // End explanation for other content
+                isInExplanation = false;
+                console.log(`💡 Explanation ended by other content: ${explanationText.substring(0, 50)}...`);
+            }
         }
     }
     
@@ -443,11 +469,20 @@ function parseQuizContent(markdown) {
         currentQuestion.options = currentOptions;
         if (explanationText.trim()) {
             currentQuestion.explanation = explanationText.trim();
+            console.log(`💡 Explanation for last question: ${explanationText.substring(0, 50)}...`);
+        } else {
+            console.log(`⚠️ No explanation found for last question: ${currentQuestion.text.substring(0, 50)}...`);
         }
         questions.push(currentQuestion);
+        console.log(`✅ Last question saved: ${currentQuestion.text.substring(0, 50)}... (explanation: ${!!currentQuestion.explanation})`);
     }
     
     console.log(`✅ Parsed ${questions.length} questions with emojis`);
+    
+    // Log questions with explanations for debugging
+    const questionsWithExplanations = questions.filter(q => q.explanation);
+    console.log(`📊 Questions with explanations: ${questionsWithExplanations.length}/${questions.length}`);
+    
     return questions;
 }
 
@@ -673,13 +708,20 @@ function renderProgressIndicator() {
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
     
+    // Verify consistency
+    if (currentQuiz.length !== totalQuestions) {
+        console.warn(`⚠️ Inconsistency in progress: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        totalQuestions = currentQuiz.length;
+        console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
+    }
+    
     const questionProgressText = currentLanguage === 'es' 
         ? `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`
         : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
     
     const scoreProgressText = currentLanguage === 'es'
-        ? `Puntuación: ${score}/${currentQuestionIndex + 1}`
-        : `Score: ${score}/${currentQuestionIndex + 1}`;
+        ? `Puntuación: ${score}/${totalQuestions}`
+        : `Score: ${score}/${totalQuestions}`;
     
     const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
     
@@ -699,8 +741,18 @@ function renderProgressIndicator() {
 }
 
 function showQuestion() {
+    console.log(`🔍 showQuestion called: currentQuestionIndex=${currentQuestionIndex}, currentQuiz.length=${currentQuiz?.length}, totalQuestions=${totalQuestions}`);
+    
+    // Verify quiz state consistency
+    if (currentQuiz && currentQuiz.length !== totalQuestions) {
+        console.warn(`⚠️ Inconsistency detected: currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        totalQuestions = currentQuiz.length;
+        console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
+    }
+    
     if (!currentQuiz || currentQuestionIndex >= currentQuiz.length) {
         console.log('🏁 No more questions, showing results');
+        console.log(`📊 Final stats: Score=${score}/${totalQuestions}, Questions shown=${currentQuestionIndex}`);
         showQuizResults();
         return;
     }
@@ -722,7 +774,9 @@ function showQuestion() {
         difficulty: question.difficulty,
         optionsCount: question.options?.length,
         questionIndex: currentQuestionIndex + 1,
-        totalQuestions: totalQuestions
+        totalQuestions: totalQuestions,
+        hasExplanation: !!question.explanation,
+        explanationLength: question.explanation ? question.explanation.length : 0
     });
     
     // Get question emoji - prioritize question.emoji, then difficulty-based
@@ -813,6 +867,14 @@ function showQuestion() {
 }
 
 function selectOption(selectedIndex, isCorrect) {
+    console.log(`🎯 selectOption called: selectedIndex=${selectedIndex}, isCorrect=${isCorrect}`);
+    console.log(`🎯 Current question options:`, currentQuiz[currentQuestionIndex].options.map((opt, idx) => ({
+        index: idx,
+        letter: opt.letter,
+        text: opt.text.substring(0, 30) + '...',
+        isCorrect: opt.isCorrect
+    })));
+    
     const options = document.querySelectorAll('.quiz-option');
     const feedbackElement = document.getElementById('feedback');
     const nextButton = document.getElementById('nextQuestionBtn');
@@ -830,10 +892,17 @@ function selectOption(selectedIndex, isCorrect) {
     
     // Show correct/incorrect styling
     currentQuiz[currentQuestionIndex].options.forEach((option, index) => {
+        // Clear any existing styling first
+        options[index].classList.remove('correct', 'incorrect');
+        
         if (option.isCorrect) {
+            // Always show correct answer in green
             options[index].classList.add('correct');
+            console.log(`🟢 Option ${index} (${option.letter}) marked as correct`);
         } else if (index === selectedIndex && !isCorrect) {
+            // Show selected incorrect answer in red
             options[index].classList.add('incorrect');
+            console.log(`🔴 Option ${index} (${option.letter}) marked as incorrect (selected wrong answer)`);
         }
     });
     
@@ -845,20 +914,52 @@ function selectOption(selectedIndex, isCorrect) {
     // Show feedback with explanation
     if (feedbackElement) {
         const question = currentQuiz[currentQuestionIndex];
-        const feedbackClass = isCorrect ? 'feedback-correct' : 'feedback-incorrect';
         const explanationLabel = translations[currentLanguage]?.explanation_label || 'Explicación';
+        
+        console.log('🔍 Current question details:', {
+            index: currentQuestionIndex,
+            text: question.text.substring(0, 50) + '...',
+            hasExplanation: !!question.explanation,
+            explanationLength: question.explanation ? question.explanation.length : 0
+        });
         
         // Enhanced explanation rendering with proper emoji handling
         let explanationHTML = '';
-        if (question.explanation) {
-            const renderedExplanation = renderMarkdown(question.explanation);
-            explanationHTML = `
-                <div class="explanation-content-wrapper">
-                    <strong>${explanationLabel}:</strong>
-                    <div class="explanation-text">${renderedExplanation}</div>
-                </div>
-            `;
+        if (question.explanation && question.explanation.trim()) {
+            console.log('🔍 Original explanation:', question.explanation);
+            
+            // Try to render with Marked.js first
+            let renderedExplanation = renderMarkdown(question.explanation);
+            console.log('🔍 Rendered explanation type:', typeof renderedExplanation);
+            console.log('🔍 Rendered explanation value:', renderedExplanation);
+            
+            // Safety check for [object Object] or invalid results
+            if (renderedExplanation === '[object Object]' || !renderedExplanation || typeof renderedExplanation !== 'string') {
+                console.warn('🔍 Marked.js failed, using fallback renderer');
+                renderedExplanation = fallbackMarkdownRender(question.explanation);
+                console.log('🔍 Fallback explanation:', renderedExplanation);
+            }
+            
+            // Final safety check and cleanup
+            const finalExplanation = String(renderedExplanation || question.explanation).trim();
+            console.log('🔍 Final explanation:', finalExplanation);
+            
+            if (finalExplanation && finalExplanation !== '[object Object]') {
+                explanationHTML = `
+                    <div class="explanation-content-wrapper">
+                        <strong>${explanationLabel}:</strong>
+                        <div class="explanation-text">${finalExplanation}</div>
+                    </div>
+                `;
+            } else {
+                console.warn('⚠️ Explanation rendering failed completely, showing default message');
+                const defaultMessage = isCorrect 
+                    ? (currentLanguage === 'es' ? '¡Correcto! Respuesta acertada.' : 'Correct! Well done.')
+                    : (currentLanguage === 'es' ? 'Incorrecto. Revisa la respuesta correcta.' : 'Incorrect. Check the correct answer.');
+                explanationHTML = `<div class="explanation-text">${defaultMessage}</div>`;
+            }
         } else {
+            console.warn('⚠️ No explanation found for current question');
             // Show a default message if no explanation is available
             const defaultMessage = isCorrect 
                 ? (currentLanguage === 'es' ? '¡Correcto! Respuesta acertada.' : 'Correct! Well done.')
@@ -868,7 +969,7 @@ function selectOption(selectedIndex, isCorrect) {
         
         // Show feedback with explanation
         feedbackElement.innerHTML = `
-            <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass} fade-in" style="padding: 0.75rem; margin-bottom: 0;">
+            <div class="alert ${isCorrect ? 'alert-success' : 'alert-danger'} fade-in" style="padding: 0.75rem; margin-bottom: 0;">
                 ${explanationHTML}
             </div>
         `;
@@ -887,6 +988,17 @@ function selectOption(selectedIndex, isCorrect) {
             ? (translations[currentLanguage]?.finish_quiz || 'Finalizar Quiz')
             : (translations[currentLanguage]?.next_question || 'Siguiente Pregunta');
         
+        console.log(`🔘 Button state: isLastQuestion=${isLastQuestion}, currentQuestionIndex=${currentQuestionIndex}, totalQuestions=${totalQuestions}`);
+        console.log(`🔘 Button text: ${nextButtonText}`);
+        console.log(`🔘 Quiz state: currentQuiz.length=${currentQuiz?.length}`);
+        
+        // Verify consistency
+        if (currentQuiz && currentQuiz.length !== totalQuestions) {
+            console.warn(`⚠️ Inconsistency in selectOption: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+            totalQuestions = currentQuiz.length;
+            console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
+        }
+        
         nextButton.innerHTML = `${nextButtonText} <i class="bi bi-arrow-right ms-2"></i>`;
         nextButton.style.display = 'inline-block';
         
@@ -900,11 +1012,20 @@ function selectOption(selectedIndex, isCorrect) {
         }
     }
     
-    console.log(`📊 Answer selected: ${isCorrect ? 'Correct' : 'Incorrect'}, Score: ${score}/${currentQuestionIndex + 1}`);
+            console.log(`📊 Answer selected: ${isCorrect ? 'Correct' : 'Incorrect'}, Score: ${score}/${totalQuestions}`);
 }
 
 function nextQuestion() {
+    console.log(`🔄 nextQuestion called: currentQuestionIndex=${currentQuestionIndex} -> ${currentQuestionIndex + 1}`);
+    console.log(`🔄 Quiz state: currentQuiz.length=${currentQuiz?.length}, totalQuestions=${totalQuestions}`);
+    
     currentQuestionIndex++;
+    
+    // Verify that we're not going beyond the available questions
+    if (currentQuiz && currentQuestionIndex >= currentQuiz.length) {
+        console.log(`🏁 Reached end of quiz: currentQuestionIndex=${currentQuestionIndex}, currentQuiz.length=${currentQuiz.length}`);
+    }
+    
     showQuestion();
 }
 
@@ -926,6 +1047,9 @@ function showQuizResults() {
     const translations = getTranslations();
     
     const percentage = Math.round((score / totalQuestions) * 100);
+    
+    console.log(`🏁 Quiz results: score=${score}, totalQuestions=${totalQuestions}, percentage=${percentage}%`);
+    console.log(`🏁 Questions shown: ${currentQuestionIndex + 1}, currentQuiz.length=${currentQuiz?.length}`);
     
     const completedTitle = translations[currentLanguage]?.quiz_complete_title || '🎉 Quiz Completed!';
     const scoreMessage = translations[currentLanguage]?.quiz_score_message 
@@ -1021,6 +1145,15 @@ function restartQuiz() {
     currentQuestionIndex = 0;
     startTime = Date.now();
     
+    console.log(`🔄 Quiz restarted: currentQuiz.length=${currentQuiz?.length}, totalQuestions=${totalQuestions}`);
+    
+    // Verify consistency before restart
+    if (currentQuiz && currentQuiz.length !== totalQuestions) {
+        console.warn(`⚠️ Inconsistency before restart: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        totalQuestions = currentQuiz.length;
+        console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
+    }
+    
     // Hide results screen and show quiz content
     const resultsScreen = document.getElementById('resultsScreen');
     const quizContent = document.getElementById('quizContent');
@@ -1094,17 +1227,12 @@ async function initializeQuiz() {
         console.log(`📄 Loaded content (${quizContent.length} chars):`);
         console.log('Content preview:', quizContent.substring(0, 200) + '...');
         
-        // Parse quiz content
+        // Parse quiz content - Use the same parsing function as startQuiz for consistency
         let allQuestions;
         console.log('🔍 Starting to parse quiz content...');
         
-        if (window.InfraQuiz?.parseMarkdownQuiz) {
-            console.log('✅ Using main parseMarkdownQuiz function');
-            allQuestions = window.InfraQuiz.parseMarkdownQuiz(quizContent);
-        } else {
-            console.log('⚠️ Using fallback parseQuizContent function');
-            allQuestions = parseQuizContent(quizContent);
-        }
+        // Use parseQuizContent for consistency with startQuiz
+        allQuestions = parseQuizContent(quizContent);
         
         console.log(`📊 Parsing results: ${allQuestions.length} questions found`);
         
@@ -1139,13 +1267,18 @@ async function initializeQuiz() {
                 text: allQuestions[0].text,
                 difficulty: allQuestions[0].difficulty,
                 optionsCount: allQuestions[0].options?.length,
-                hasCorrectOption: allQuestions[0].options?.some(opt => opt.isCorrect)
+                hasCorrectOption: allQuestions[0].options?.some(opt => opt.isCorrect),
+                hasExplanation: !!allQuestions[0].explanation
             });
         }
         
         // Filter by difficulty
         let filteredQuestions = allQuestions.filter(q => q.difficulty === difficulty);
         console.log(`🎯 Filtered to ${filteredQuestions.length} questions for difficulty: ${difficulty}`);
+        
+        // Log questions with explanations before filtering
+        const questionsWithExplanationsBefore = allQuestions.filter(q => q.explanation);
+        console.log(`📝 Questions with explanations before filtering: ${questionsWithExplanationsBefore.length}/${allQuestions.length}`);
         
         // Fallback if no questions for specific difficulty
         if (filteredQuestions.length === 0) {
@@ -1166,46 +1299,52 @@ async function initializeQuiz() {
             console.log(`📊 Fallback distribution: ${filteredQuestions.length} questions assigned to ${difficulty}`);
         }
         
-        // Select random subset
+        // Log questions with explanations after filtering
+        const questionsWithExplanationsAfter = filteredQuestions.filter(q => q.explanation);
+        console.log(`📝 Questions with explanations after filtering: ${questionsWithExplanationsAfter.length}/${filteredQuestions.length}`);
+        
+        // Select random subset - FIXED: Ensure we don't exceed available questions
         const maxQuestions = Math.min(filteredQuestions.length, config.MAX_QUESTIONS_PER_QUIZ);
-        selectedQuestions = filteredQuestions.sort(() => 0.5 - Math.random()).slice(0, maxQuestions);
+        selectedQuestions = shuffleArray(filteredQuestions).slice(0, maxQuestions);
         
         console.log(`🎲 Selected ${selectedQuestions.length} random questions from ${filteredQuestions.length} available`);
+        console.log(`🎲 Max questions per quiz: ${config.MAX_QUESTIONS_PER_QUIZ}`);
         
-        // Initialize quiz state
+        // Log selected questions with explanations
+        const selectedWithExplanations = selectedQuestions.filter(q => q.explanation);
+        console.log(`📝 Selected questions with explanations: ${selectedWithExplanations.length}/${selectedQuestions.length}`);
+        
+        // Initialize quiz state - FIXED: Use selectedQuestions.length consistently
         currentQuiz = selectedQuestions;
         currentQuestionIndex = 0;
         score = 0;
-        totalQuestions = currentQuiz.length;
+        userAnswers = [];
+        totalQuestions = selectedQuestions.length; // FIXED: Use selectedQuestions.length for consistency
         startTime = Date.now();
+        
+        console.log(`✅ Quiz initialized: ${totalQuestions} questions`);
+        console.log(`✅ Verification: selectedQuestions.length=${selectedQuestions.length}, currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        
+        // Verify consistency
+        if (selectedQuestions.length !== currentQuiz.length || currentQuiz.length !== totalQuestions) {
+            console.error(`❌ Inconsistency detected: selectedQuestions=${selectedQuestions.length}, currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        }
+        
+        // Apply translations
+        applyQuizTranslations();
         
         // Setup event listeners
         setupEventListeners();
         
-        // Start quiz
-        showLoading(false);
+        // Show first question
         showQuestion();
         
-        console.log(`✅ Quiz initialized successfully: ${totalQuestions} questions loaded`);
-        showNotification(`Quiz loaded: ${totalQuestions} ${difficulty} questions`, 'success');
+        hideLoadingState();
         
     } catch (error) {
-        console.error('❌ Failed to initialize quiz:', error);
-        console.error('Error stack:', error.stack);
-        
-        let errorMessage = `Failed to load the ${category} quiz. `;
-        
-        if (error.message.includes('No valid questions')) {
-            errorMessage += 'The quiz content could not be parsed properly. This might be a format issue.';
-        } else if (error.message.includes('Failed to load quiz')) {
-            errorMessage += 'Could not fetch the quiz content. Please check your internet connection.';
-        } else {
-            errorMessage += error.message;
-        }
-        
-        errorMessage += `\n\nTechnical details: ${error.message}`;
-        
-        showError(errorMessage);
+        console.error('❌ Error initializing quiz:', error);
+        hideLoadingState();
+        showError(`Error loading quiz: ${error.message}`);
     }
 }
 
@@ -1214,10 +1353,22 @@ function setupEventListeners() {
     const nextButton = document.getElementById('nextQuestionBtn');
     if (nextButton) {
         nextButton.addEventListener('click', () => {
+            console.log(`🔘 Next button clicked: currentQuestionIndex=${currentQuestionIndex}, totalQuestions=${totalQuestions}`);
+            console.log(`🔘 Quiz state: currentQuiz.length=${currentQuiz?.length}`);
+            
+            // Verify consistency before proceeding
+            if (currentQuiz && currentQuiz.length !== totalQuestions) {
+                console.warn(`⚠️ Inconsistency in button click: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+                totalQuestions = currentQuiz.length;
+                console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
+            }
+            
             // Check if this is the last question
             if (currentQuestionIndex === totalQuestions - 1) {
+                console.log('🏁 Last question reached, showing results');
                 showQuizResults();
             } else {
+                console.log('🔄 Moving to next question');
                 nextQuestion();
             }
         });
@@ -1350,7 +1501,7 @@ function handleLanguageChange() {
                             } else {
                                 // Start from beginning if state is invalid
                                 console.log(`⚠️ Invalid state, starting from beginning`);
-                                startQuiz();
+                                initializeQuiz();
                             }
                         })
                         .catch(error => {
@@ -1417,11 +1568,22 @@ async function loadQuiz(category, quizFile, language = null) {
         
         console.log(`✅ Quiz parsed successfully: ${currentQuiz.length} questions`);
         
+        // Log questions with explanations for debugging
+        const questionsWithExplanations = currentQuiz.filter(q => q.explanation);
+        console.log(`📝 Questions with explanations in loadQuiz: ${questionsWithExplanations.length}/${currentQuiz.length}`);
+        
         // Reset quiz state
         currentQuestionIndex = 0;
         score = 0;
         userAnswers = [];
         totalQuestions = currentQuiz.length;
+        
+        console.log(`✅ Quiz state reset: currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        
+        // Verify consistency
+        if (currentQuiz.length !== totalQuestions) {
+            console.error(`❌ Inconsistency detected in loadQuiz: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        }
         
         hideLoadingState();
         return Promise.resolve();
@@ -1497,15 +1659,16 @@ function initializeQuizPage() {
     // Setup quiz navigation
     setupQuizNavigation();
     
-    // Load quiz using existing system
+    // Load quiz using initializeQuiz for direct access
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
     const level = urlParams.get('level') || 'beginner';
     const language = urlParams.get('lang') || getCurrentLanguage();
     
     if (category) {
-        console.log(`📚 Loading quiz: ${category} (${level}, ${language})`);
-        startQuiz(category, level, language);
+        console.log(`📚 Loading quiz directly: ${category} (${level}, ${language})`);
+        // Use initializeQuiz for direct quiz access to ensure consistent explanation handling
+        initializeQuiz();
     } else {
         console.log('⚠️ No quiz parameters found in URL');
         showError('No quiz selected. Please go back to categories.');
@@ -1513,7 +1676,7 @@ function initializeQuizPage() {
 }
 
 /**
- * Start quiz with given parameters
+ * Start quiz with given parameters - Used for random quiz mode
  */
 async function startQuiz(category, level, language) {
     try {
@@ -1542,6 +1705,10 @@ async function startQuiz(category, level, language) {
             currentQuiz = currentQuiz.slice(0, config.MAX_QUESTIONS_PER_QUIZ);
         }
         
+        // Log questions with explanations for debugging
+        const questionsWithExplanations = currentQuiz.filter(q => q.explanation);
+        console.log(`📝 Questions with explanations in startQuiz: ${questionsWithExplanations.length}/${currentQuiz.length}`);
+        
         // Initialize quiz state
         currentQuestionIndex = 0;
         score = 0;
@@ -1550,6 +1717,12 @@ async function startQuiz(category, level, language) {
         startTime = Date.now();
         
         console.log(`✅ Quiz started: ${totalQuestions} questions`);
+        console.log(`✅ Verification: currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        
+        // Verify consistency
+        if (currentQuiz.length !== totalQuestions) {
+            console.error(`❌ Inconsistency detected in startQuiz: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
+        }
         
         hideLoadingState();
         showQuestion();
