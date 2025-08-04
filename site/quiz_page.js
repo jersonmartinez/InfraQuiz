@@ -35,7 +35,34 @@ function getCurrentLanguage() {
 }
 
 function getTranslations() {
-    return window.InfraQuiz?.translations || {};
+    // Try to get translations from window.InfraQuiz first
+    if (window.InfraQuiz && window.InfraQuiz.translations) {
+        return window.InfraQuiz.translations;
+    }
+    
+    // Fallback to a basic translations object
+    return {
+        'en': {
+            'next_question': 'Next Question',
+            'finish_quiz': 'Finish Quiz',
+            'explanation_label': 'Explanation',
+            'quiz_complete_title': '🎉 Quiz Completed!',
+            'quiz_score_message': (score, total) => `You scored ${score} out of ${total} questions!`,
+            'difficulty_beginner': 'Beginner',
+            'difficulty_intermediate': 'Intermediate',
+            'difficulty_advanced': 'Advanced'
+        },
+        'es': {
+            'next_question': 'Siguiente Pregunta',
+            'finish_quiz': 'Finalizar Quiz',
+            'explanation_label': 'Explicación',
+            'quiz_complete_title': '🎉 ¡Cuestionario Completado!',
+            'quiz_score_message': (score, total) => `¡Respondiste correctamente ${score} de ${total} preguntas!`,
+            'difficulty_beginner': 'Principiante',
+            'difficulty_intermediate': 'Intermedio',
+            'difficulty_advanced': 'Avanzado'
+        }
+    };
 }
 
 /**
@@ -646,10 +673,15 @@ function renderProgressIndicator() {
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
     
-    const questionProgressText = `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`;
-    const scoreProgressText = `Puntuación: ${score}/${currentQuestionIndex}`;
+    const questionProgressText = currentLanguage === 'es' 
+        ? `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`
+        : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
     
-    const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+    const scoreProgressText = currentLanguage === 'es'
+        ? `Puntuación: ${score}/${currentQuestionIndex + 1}`
+        : `Score: ${score}/${currentQuestionIndex + 1}`;
+    
+    const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
     
     progressIndicator.innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -668,6 +700,7 @@ function renderProgressIndicator() {
 
 function showQuestion() {
     if (!currentQuiz || currentQuestionIndex >= currentQuiz.length) {
+        console.log('🏁 No more questions, showing results');
         showQuizResults();
         return;
     }
@@ -687,7 +720,9 @@ function showQuestion() {
         text: question.text?.substring(0, 50) + '...',
         emoji: question.emoji,
         difficulty: question.difficulty,
-        optionsCount: question.options?.length
+        optionsCount: question.options?.length,
+        questionIndex: currentQuestionIndex + 1,
+        totalQuestions: totalQuestions
     });
     
     // Get question emoji - prioritize question.emoji, then difficulty-based
@@ -807,7 +842,7 @@ function selectOption(selectedIndex, isCorrect) {
         score++;
     }
     
-    // Show compact feedback with only explanation
+    // Show feedback with explanation
     if (feedbackElement) {
         const question = currentQuiz[currentQuestionIndex];
         const feedbackClass = isCorrect ? 'feedback-correct' : 'feedback-incorrect';
@@ -823,22 +858,46 @@ function selectOption(selectedIndex, isCorrect) {
                     <div class="explanation-text">${renderedExplanation}</div>
                 </div>
             `;
+        } else {
+            // Show a default message if no explanation is available
+            const defaultMessage = isCorrect 
+                ? (currentLanguage === 'es' ? '¡Correcto! Respuesta acertada.' : 'Correct! Well done.')
+                : (currentLanguage === 'es' ? 'Incorrecto. Revisa la respuesta correcta.' : 'Incorrect. Check the correct answer.');
+            explanationHTML = `<div class="explanation-text">${defaultMessage}</div>`;
         }
         
-        // Only show explanation without title - more compact
+        // Show feedback with explanation
         feedbackElement.innerHTML = `
             <div class="alert alert-${isCorrect ? 'success' : 'danger'} ${feedbackClass} fade-in" style="padding: 0.75rem; margin-bottom: 0;">
                 ${explanationHTML}
             </div>
         `;
         feedbackElement.classList.remove('d-none');
+        
+        // Scroll to feedback to make it visible
+        setTimeout(() => {
+            feedbackElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
     }
     
-    // Show next button
+    // Show next button or finish button
     if (nextButton) {
-        const nextButtonText = translations[currentLanguage]?.next_question || 'Siguiente Pregunta';
+        const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+        const nextButtonText = isLastQuestion 
+            ? (translations[currentLanguage]?.finish_quiz || 'Finalizar Quiz')
+            : (translations[currentLanguage]?.next_question || 'Siguiente Pregunta');
+        
         nextButton.innerHTML = `${nextButtonText} <i class="bi bi-arrow-right ms-2"></i>`;
         nextButton.style.display = 'inline-block';
+        
+        // Change button style for last question
+        if (isLastQuestion) {
+            nextButton.classList.remove('btn-primary');
+            nextButton.classList.add('btn-success');
+        } else {
+            nextButton.classList.remove('btn-success');
+            nextButton.classList.add('btn-primary');
+        }
     }
     
     console.log(`📊 Answer selected: ${isCorrect ? 'Correct' : 'Incorrect'}, Score: ${score}/${currentQuestionIndex + 1}`);
@@ -851,14 +910,17 @@ function nextQuestion() {
 
 function showQuizResults() {
     const quizContent = document.getElementById('quizContent');
-    const quizResults = document.getElementById('quizResults');
-    const finalScore = document.getElementById('finalScore');
+    const resultsScreen = document.getElementById('resultsScreen');
+    const resultsContent = document.getElementById('resultsContent');
     
-    if (!quizResults || !finalScore) return;
+    if (!resultsScreen || !resultsContent) {
+        console.error('Results screen elements not found');
+        return;
+    }
     
     // Hide quiz content and show results
     if (quizContent) quizContent.style.display = 'none';
-    quizResults.style.display = 'block';
+    resultsScreen.style.display = 'block';
     
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
@@ -891,7 +953,7 @@ function showQuizResults() {
         performanceMessage = currentLanguage === 'es' ? 'Sigue practicando' : 'Keep practicing';
     }
     
-    finalScore.innerHTML = `
+    resultsContent.innerHTML = `
         <div class="text-center">
             <div class="score-percentage ${performanceClass} mb-3">${percentage}%</div>
             <h2 class="mb-3">${completedTitle}</h2>
@@ -903,28 +965,10 @@ function showQuizResults() {
         </div>
     `;
     
-    // Setup restart and back button functionality
-    const restartBtn = document.getElementById('restartQuizBtn');
-    const backBtn = document.getElementById('backToCategoriesResultsBtn');
+    // Save quiz stats
+    saveQuizStats();
     
-    if (restartBtn) {
-        restartBtn.addEventListener('click', () => {
-            score = 0;
-            currentQuestionIndex = 0;
-            startTime = Date.now();
-            
-            quizResults.style.display = 'none';
-            if (quizContent) quizContent.style.display = 'block';
-            
-            showQuestion();
-        });
-    }
-    
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            window.location.href = 'index.html#quizzes';
-        });
-    }
+    console.log(`🏁 Quiz completed! Final score: ${score}/${totalQuestions} (${percentage}%)`);
 }
 
 function saveQuizStats() {
@@ -972,19 +1016,22 @@ function saveQuizStats() {
 }
 
 function restartQuiz() {
-    currentQuestionIndex = 0;
+    // Reset quiz state
     score = 0;
+    currentQuestionIndex = 0;
     startTime = Date.now();
     
-    const resultsElement = document.getElementById('quizResults');
-    const contentElement = document.getElementById('quizContent');
+    // Hide results screen and show quiz content
+    const resultsScreen = document.getElementById('resultsScreen');
+    const quizContent = document.getElementById('quizContent');
     
-    if (resultsElement && contentElement) {
-        resultsElement.style.display = 'none';
-        contentElement.style.display = 'block';
-    }
+    if (resultsScreen) resultsScreen.style.display = 'none';
+    if (quizContent) quizContent.style.display = 'block';
     
+    // Show first question
     showQuestion();
+    
+    console.log('🔄 Quiz restarted');
 }
 
 // === QUIZ INITIALIZATION ===
@@ -1166,7 +1213,14 @@ function setupEventListeners() {
     // Next question button
     const nextButton = document.getElementById('nextQuestionBtn');
     if (nextButton) {
-        nextButton.addEventListener('click', nextQuestion);
+        nextButton.addEventListener('click', () => {
+            // Check if this is the last question
+            if (currentQuestionIndex === totalQuestions - 1) {
+                showQuizResults();
+            } else {
+                nextQuestion();
+            }
+        });
     }
     
     // Restart quiz button
@@ -1176,7 +1230,7 @@ function setupEventListeners() {
     }
     
     // Back to categories buttons
-    const backButtons = document.querySelectorAll('#backToCategoriesBtn, #backToCategoriesResultsBtn, #errorBackToCategoriesBtn');
+    const backButtons = document.querySelectorAll('#backToCategoriesBtn, #backToCategoriesFromResultsBtn, #errorBackToCategoriesBtn');
     backButtons.forEach(button => {
         button.addEventListener('click', () => {
             window.location.href = 'index.html#quizzes';
