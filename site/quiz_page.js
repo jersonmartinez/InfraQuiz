@@ -1180,30 +1180,8 @@ async function initializeQuiz() {
         });
     }
     
-    // Setup dark mode
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (darkModeToggle) {
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            document.body.classList.add('dark-mode');
-            darkModeToggle.checked = true;
-        }
-        
-        darkModeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                document.body.classList.add('dark-mode');
-                localStorage.setItem('darkMode', 'enabled');
-            } else {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('darkMode', 'disabled');
-            }
-        });
-    }
-    
-    // Setup language selector
-    const languageSelector = document.getElementById('languageSelector');
-    if (languageSelector) {
-        languageSelector.value = getCurrentLanguage();
-    }
+    // Dark mode and language are now handled globally by script.js
+    // No need to set up dark mode or language selector here
     
     // Get quiz parameters
     const category = getUrlParameter('category');
@@ -1455,68 +1433,14 @@ function getDifficultyBadge(difficulty) {
 }
 
 /**
- * Handle language change during quiz
+ * Handle language change during quiz - Now handled by script.js
+ * This function is kept for backward compatibility but the actual functionality
+ * is now managed by the global initializeLanguageToggle() function in script.js
  */
 function handleLanguageChange() {
-    const languageSelect = document.getElementById('languageSelect');
-    if (!languageSelect) return;
-    
-    languageSelect.addEventListener('change', function() {
-        const newLanguage = this.value;
-        const currentLanguage = getCurrentLanguage();
-        
-        if (newLanguage !== currentLanguage) {
-            console.log(`🌍 Language changed from ${currentLanguage} to ${newLanguage}`);
-            
-            // Update localStorage
-            localStorage.setItem('infraquiz_language', newLanguage);
-            
-            // If we're in a quiz, reload the quiz in the new language
-            if (currentQuiz && currentQuiz.length > 0) {
-                const currentCategory = getCurrentQuizCategory();
-                const currentQuizFile = getCurrentQuizFile();
-                
-                if (currentCategory && currentQuizFile) {
-                    console.log(`🔄 Reloading quiz in ${newLanguage}: ${currentCategory}/${currentQuizFile}`);
-                    
-                    // Save current state
-                    const savedState = {
-                        questionIndex: currentQuestionIndex,
-                        score: score,
-                        answers: userAnswers.slice() // Copy array
-                    };
-                    
-                    // Load quiz in new language
-                    loadQuiz(currentCategory, currentQuizFile, newLanguage)
-                        .then(() => {
-                            // Restore state if quiz loaded successfully
-                            if (savedState.questionIndex < currentQuiz.length) {
-                                currentQuestionIndex = savedState.questionIndex;
-                                score = savedState.score;
-                                userAnswers = savedState.answers;
-                                
-                                // Show current question
-                                showQuestion();
-                                console.log(`✅ Quiz state restored at question ${currentQuestionIndex + 1}`);
-                            } else {
-                                // Start from beginning if state is invalid
-                                console.log(`⚠️ Invalid state, starting from beginning`);
-                                initializeQuiz();
-                            }
-                        })
-                        .catch(error => {
-                            console.error('❌ Error reloading quiz in new language:', error);
-                            showError('Error loading quiz in the selected language. Please try again.');
-                        });
-                } else {
-                    console.log('🔄 Not in quiz, just applying translations');
-                }
-            }
-            
-            // Apply translations to current page
-            applyQuizTranslations();
-        }
-    });
+    // Language change is now handled globally by script.js
+    // This function is kept for backward compatibility
+    console.log('🌍 Language change handled by global script.js');
 }
 
 /**
@@ -1644,14 +1568,11 @@ function initializeQuizPage() {
         console.warn('⚠️ Marked.js not available - using fallback renderer');
     }
     
-    // Initialize dark mode
-    initializeDarkMode();
+    // Dark mode and language are now handled globally by script.js
+    // No need to call initializeDarkMode() or handleLanguageChange()
     
     // Apply initial translations
     applyQuizTranslations();
-    
-    // Setup language change handler
-    handleLanguageChange();
     
     // Setup scroll to top
     handleScrollToTop();
@@ -1757,36 +1678,12 @@ if (document.readyState === 'loading') {
 window.scrollToTop = scrollToTop;
 
 /**
- * Initialize dark mode for quiz page
+ * Initialize dark mode for quiz page - Now handled by script.js
+ * This function is kept for backward compatibility but the actual functionality
+ * is now managed by the global initializeThemeSwitch() function in script.js
  */
 function initializeDarkMode() {
-    // Check if dark mode is enabled
-    const isDarkMode = localStorage.getItem('infraquiz_dark_mode') === 'true';
-    
-    // Apply dark mode class
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-    }
-    
-    // Setup dark mode toggle
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (darkModeToggle) {
-        darkModeToggle.checked = isDarkMode;
-        
-        darkModeToggle.addEventListener('change', function() {
-            const isEnabled = this.checked;
-            
-            if (isEnabled) {
-                document.body.classList.add('dark-mode');
-                localStorage.setItem('infraquiz_dark_mode', 'true');
-            } else {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('infraquiz_dark_mode', 'false');
-            }
-            
-            console.log(`🌙 Dark mode ${isEnabled ? 'enabled' : 'disabled'}`);
-        });
-    }
-    
-    console.log(`🌙 Dark mode initialized: ${isDarkMode ? 'enabled' : 'disabled'}`);
+    // Dark mode is now handled globally by script.js
+    // This function is kept for backward compatibility
+    console.log('🌙 Dark mode handled by global script.js');
 }
