@@ -20,6 +20,7 @@ const translations = {
         // Navigation
         home_nav: 'Home',
         quizzes_nav: 'Quizzes',
+        flashcards_nav: 'Flashcards',
         about_nav: 'About',
         editor_nav: 'Editor',
         analytics_nav: 'Analytics',
@@ -28,6 +29,7 @@ const translations = {
         hero_title: 'Master DevOps with Interactive Quizzes',
         hero_description: 'Dive into the world of DevOps with our comprehensive collection of interactive quizzes. From Bash scripting to Kubernetes orchestration, master the tools that power modern infrastructure.',
         start_random_quiz: 'Start Random Quiz',
+        study_flashcards: 'Study Flashcards',
         browse_categories: 'Browse Categories',
         
         // Quiz Categories
@@ -46,12 +48,25 @@ const translations = {
         
         // Footer
         footer_text: '© 2025 InfraQuiz. Made with ❤️ for the DevOps community.',
-        finish_quiz: 'Finish Quiz'
+        finish_quiz: 'Finish Quiz',
+        
+        // Flashcards Section
+        flashcards_title: 'Interactive Flashcards',
+        flashcards_description: 'Master DevOps concepts with our advanced spaced repetition system. Study smarter, not harder with personalized learning paths and gamified progress tracking.',
+        feature_spaced: 'Spaced Repetition Algorithm',
+        feature_gamified: 'Gamified Learning Experience',
+        feature_progress: 'Detailed Progress Analytics',
+        feature_adaptive: 'Adaptive Difficulty',
+        start_flashcards: 'Start Studying Now',
+        cards_available: 'Cards Available',
+        categories_covered: 'Categories',
+        algorithm_used: 'Algorithm'
     },
     es: {
         // Navigation
         home_nav: 'Inicio',
         quizzes_nav: 'Cuestionarios',
+        flashcards_nav: 'Tarjetas',
         about_nav: 'Acerca de',
         editor_nav: 'Editor',
         analytics_nav: 'Analíticas',
@@ -60,6 +75,7 @@ const translations = {
         hero_title: 'Domina DevOps con Cuestionarios Interactivos',
         hero_description: 'Sumérgete en el mundo de DevOps con nuestra colección completa de cuestionarios interactivos. Desde scripting en Bash hasta orquestación con Kubernetes, domina las herramientas que impulsan la infraestructura moderna.',
         start_random_quiz: 'Iniciar Cuestionario Aleatorio',
+        study_flashcards: 'Estudiar Tarjetas',
         browse_categories: 'Explorar Categorías',
         
         // Quiz Categories
@@ -78,7 +94,19 @@ const translations = {
         
         // Footer
         footer_text: '© 2025 InfraQuiz. Hecho con ❤️ para la comunidad DevOps.',
-        finish_quiz: 'Finalizar Cuestionario'
+        finish_quiz: 'Finalizar Cuestionario',
+        
+        // Flashcards Section
+        flashcards_title: 'Tarjetas Interactivas',
+        flashcards_description: 'Domina conceptos DevOps con nuestro avanzado sistema de repetición espaciada. Estudia de manera más inteligente con rutas de aprendizaje personalizadas y seguimiento gamificado del progreso.',
+        feature_spaced: 'Algoritmo de Repetición Espaciada',
+        feature_gamified: 'Experiencia de Aprendizaje Gamificada',
+        feature_progress: 'Analíticas Detalladas de Progreso',
+        feature_adaptive: 'Dificultad Adaptativa',
+        start_flashcards: 'Comenzar a Estudiar Ahora',
+        cards_available: 'Tarjetas Disponibles',
+        categories_covered: 'Categorías',
+        algorithm_used: 'Algoritmo'
     }
 };
 

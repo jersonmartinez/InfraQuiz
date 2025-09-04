@@ -55,6 +55,15 @@ class AnalyticsDashboard {
         this.achievements = JSON.parse(localStorage.getItem('infraquiz_achievements') || '[]');
         this.events = JSON.parse(localStorage.getItem('infraquiz_events') || '[]');
         this.aggregated = JSON.parse(localStorage.getItem('infraquiz_aggregated') || '{}');
+
+        // Load flashcard data
+        this.flashcardStats = JSON.parse(localStorage.getItem('flashcardUserStats') || '{}');
+        this.flashcardProgress = JSON.parse(localStorage.getItem('flashcardProgress') || '{}');
+        this.flashcardAchievements = JSON.parse(localStorage.getItem('flashcardAchievements') || '[]');
+        this.flashcardAnalytics = JSON.parse(localStorage.getItem('flashcardAnalytics') || '[]');
+
+        // Load gamification data
+        this.gamificationStats = JSON.parse(localStorage.getItem('gamificationStats') || '{}');
     }
 
     renderDashboard() {
@@ -64,6 +73,9 @@ class AnalyticsDashboard {
         this.renderCategoryBreakdown();
         this.renderRecentAchievements();
         this.renderLearningPathsProgress();
+        this.renderFlashcardStats();
+        this.renderStudyPatterns();
+        this.renderPerformanceInsights();
     }
 
     renderOverviewCards() {
@@ -74,10 +86,20 @@ class AnalyticsDashboard {
         const totalTime = Object.values(this.stats).reduce((sum, stat) => sum + stat.totalTime, 0);
         const totalTimeHours = Math.round(totalTime / 3600000); // Convert ms to hours
 
-        document.getElementById('totalQuizzesCompleted').textContent = totalQuizzes;
+        // Flashcard statistics
+        const flashcardTime = this.flashcardStats.totalStudyTime || 0;
+        const flashcardTimeHours = Math.round(flashcardTime / 3600);
+        const flashcardCards = this.flashcardStats.totalCardsStudied || 0;
+        const flashcardAccuracy = this.flashcardStats.averageAccuracy || 0;
+
+        // Combined statistics
+        const totalStudyTime = totalTimeHours + flashcardTimeHours;
+        const totalActivities = totalQuizzes + flashcardCards;
+
+        document.getElementById('totalQuizzesCompleted').textContent = totalActivities;
         document.getElementById('averageScore').textContent = `${averageScore}%`;
-        document.getElementById('totalTimeSpent').textContent = `${totalTimeHours}h`;
-        document.getElementById('achievementsUnlocked').textContent = this.achievements.length;
+        document.getElementById('totalTimeSpent').textContent = `${totalStudyTime}h`;
+        document.getElementById('achievementsUnlocked').textContent = this.achievements.length + this.flashcardAchievements.length;
     }
 
     renderCategoryPerformanceChart() {
@@ -518,16 +540,370 @@ class AnalyticsDashboard {
         }, 5000);
     }
 
-    getNotificationIcon(type) {
-        const icons = {
-            'success': '✅',
-            'error': '❌',
-            'warning': '⚠️',
-            'info': 'ℹ️'
-        };
-        return icons[type] || icons.info;
+    renderFlashcardStats() {
+        const container = document.querySelector('.analytics-dashboard');
+        if (!container) return;
+
+        // Create flashcard stats section
+        const flashcardStatsHTML = `
+            <div class="analytics-card">
+                <div class="analytics-number" id="flashcardCardsStudied">${this.flashcardStats.totalCardsStudied || 0}</div>
+                <div class="analytics-label">Flashcards Studied</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-number" id="flashcardAccuracy">${this.flashcardStats.averageAccuracy || 0}%</div>
+                <div class="analytics-label">Flashcard Accuracy</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-number" id="flashcardStreak">${this.flashcardStats.currentStreak || 0}</div>
+                <div class="analytics-label">Current Streak</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-number" id="flashcardMastered">${this.flashcardStats.masteredCards || 0}</div>
+                <div class="analytics-label">Cards Mastered</div>
+            </div>
+        `;
+
+        // Insert after existing cards
+        const existingCards = container.querySelectorAll('.analytics-card');
+        if (existingCards.length >= 4) {
+            existingCards[3].insertAdjacentHTML('afterend', flashcardStatsHTML);
+        }
     }
-}
+
+    renderStudyPatterns() {
+        const container = document.querySelector('.row.mb-5');
+        if (!container) return;
+
+        // Create study patterns section
+        const patternsHTML = `
+            <div class="col-lg-6">
+                <div class="analytics-card">
+                    <h5 class="mb-4">Study Patterns</h5>
+                    <div class="study-patterns">
+                        <div class="pattern-item">
+                            <span class="pattern-label">Peak Study Time:</span>
+                            <span class="pattern-value">${this.getPeakStudyTime()}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-label">Avg Session Length:</span>
+                            <span class="pattern-value">${this.getAverageSessionLength()}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-label">Most Studied Category:</span>
+                            <span class="pattern-value">${this.getMostStudiedCategory()}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-label">Weekly Goal Progress:</span>
+                            <span class="pattern-value">${this.getWeeklyGoalProgress()}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="analytics-card">
+                    <h5 class="mb-4">Learning Insights</h5>
+                    <div class="learning-insights">
+                        <div class="insight-item">
+                            <i class="bi bi-lightbulb text-warning"></i>
+                            <div class="insight-content">
+                                <div class="insight-title">Strength Areas</div>
+                                <div class="insight-text">${this.getStrengthAreas()}</div>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <i class="bi bi-exclamation-triangle text-danger"></i>
+                            <div class="insight-content">
+                                <div class="insight-title">Areas for Improvement</div>
+                                <div class="insight-text">${this.getImprovementAreas()}</div>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <i class="bi bi-calendar-check text-success"></i>
+                            <div class="insight-content">
+                                <div class="insight-title">Consistency Score</div>
+                                <div class="insight-text">${this.getConsistencyScore()}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Insert after existing charts
+        const existingCharts = container.querySelectorAll('.col-lg-6');
+        if (existingCharts.length >= 2) {
+            existingCharts[1].insertAdjacentHTML('afterend', patternsHTML);
+        }
+    }
+
+    renderPerformanceInsights() {
+        const container = document.querySelector('.row');
+        if (!container) return;
+
+        // Create performance insights section
+        const insightsHTML = `
+            <div class="col-12">
+                <div class="analytics-card">
+                    <h5 class="mb-4">Performance Insights</h5>
+                    <div class="performance-insights">
+                        <div class="insight-metric">
+                            <div class="metric-header">
+                                <span class="metric-title">Knowledge Retention</span>
+                                <span class="metric-value">${this.calculateRetentionRate()}%</span>
+                            </div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: ${this.calculateRetentionRate()}%"></div>
+                            </div>
+                        </div>
+                        <div class="insight-metric">
+                            <div class="metric-header">
+                                <span class="metric-title">Learning Velocity</span>
+                                <span class="metric-value">${this.calculateLearningVelocity()}</span>
+                            </div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: ${Math.min(this.calculateLearningVelocity() * 10, 100)}%"></div>
+                            </div>
+                        </div>
+                        <div class="insight-metric">
+                            <div class="metric-header">
+                                <span class="metric-title">Study Efficiency</span>
+                                <span class="metric-value">${this.calculateStudyEfficiency()}%</span>
+                            </div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: ${this.calculateStudyEfficiency()}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Insert before export section
+        const exportSection = container.querySelector('.col-12.text-center');
+        if (exportSection) {
+            exportSection.insertAdjacentHTML('beforebegin', insightsHTML);
+        }
+    }
+
+    // Helper methods for new analytics
+    getPeakStudyTime() {
+        // Analyze study times from events
+        const studyTimes = this.events
+            .filter(event => event.type === 'quiz_completion' || event.type === 'flashcard_session_complete')
+            .map(event => new Date(event.timestamp).getHours());
+
+        if (studyTimes.length === 0) return 'No data';
+
+        const hourCounts = {};
+        studyTimes.forEach(hour => {
+            hourCounts[hour] = (hourCounts[hour] || 0) + 1;
+        });
+
+        const peakHour = Object.keys(hourCounts).reduce((a, b) =>
+            hourCounts[a] > hourCounts[b] ? a : b
+        );
+
+        return `${peakHour}:00`;
+    }
+
+    getAverageSessionLength() {
+        const sessions = this.events.filter(event =>
+            event.type === 'quiz_completion' || event.type === 'flashcard_session_complete'
+        );
+
+        if (sessions.length === 0) return '0 min';
+
+        const totalTime = sessions.reduce((sum, session) => {
+            return sum + (session.data?.timeSpent || session.data?.totalTime || 0);
+        }, 0);
+
+        const avgMinutes = Math.round(totalTime / sessions.length / 60);
+        return `${avgMinutes} min`;
+    }
+
+    getMostStudiedCategory() {
+        const categories = {};
+
+        // Count from quiz events
+        this.events.filter(event => event.type === 'quiz_completion').forEach(event => {
+            const cat = event.data?.category;
+            if (cat) categories[cat] = (categories[cat] || 0) + 1;
+        });
+
+        // Count from flashcard events
+        this.flashcardAnalytics.forEach(event => {
+            const cat = event.category;
+            if (cat) categories[cat] = (categories[cat] || 0) + 1;
+        });
+
+        if (Object.keys(categories).length === 0) return 'None';
+
+        const topCategory = Object.keys(categories).reduce((a, b) =>
+            categories[a] > categories[b] ? a : b
+        );
+
+        return this.getCategoryDisplayName(topCategory);
+    }
+
+    getWeeklyGoalProgress() {
+        // Assume a weekly goal of 10 activities
+        const weeklyGoal = 10;
+        const now = new Date();
+        const weekStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+        const weeklyActivities = this.events.filter(event => {
+            const eventDate = new Date(event.timestamp);
+            return eventDate >= weekStart && (
+                event.type === 'quiz_completion' ||
+                event.type === 'flashcard_session_complete'
+            );
+        }).length;
+
+        const progress = Math.min(Math.round((weeklyActivities / weeklyGoal) * 100), 100);
+        return `${progress}%`;
+    }
+
+    getStrengthAreas() {
+        const scores = {};
+
+        // Collect scores by category
+        this.events.filter(event => event.type === 'quiz_completion').forEach(event => {
+            const cat = event.data?.category;
+            const score = event.data?.score;
+            if (cat && score) {
+                if (!scores[cat]) scores[cat] = [];
+                scores[cat].push(score);
+            }
+        });
+
+        // Find categories with high average scores
+        const strongCategories = Object.entries(scores)
+            .map(([cat, scores]) => ({
+                category: cat,
+                avgScore: scores.reduce((a, b) => a + b, 0) / scores.length
+            }))
+            .filter(item => item.avgScore >= 80)
+            .sort((a, b) => b.avgScore - a.avgScore)
+            .slice(0, 2)
+            .map(item => this.getCategoryDisplayName(item.category));
+
+        return strongCategories.length > 0 ? strongCategories.join(', ') : 'Building strengths...';
+    }
+
+    getImprovementAreas() {
+        const scores = {};
+
+        // Collect scores by category
+        this.events.filter(event => event.type === 'quiz_completion').forEach(event => {
+            const cat = event.data?.category;
+            const score = event.data?.score;
+            if (cat && score) {
+                if (!scores[cat]) scores[cat] = [];
+                scores[cat].push(score);
+            }
+        });
+
+        // Find categories with low average scores
+        const weakCategories = Object.entries(scores)
+            .map(([cat, scores]) => ({
+                category: cat,
+                avgScore: scores.reduce((a, b) => a + b, 0) / scores.length
+            }))
+            .filter(item => item.avgScore < 70)
+            .sort((a, b) => a.avgScore - b.avgScore)
+            .slice(0, 2)
+            .map(item => this.getCategoryDisplayName(item.category));
+
+        return weakCategories.length > 0 ? weakCategories.join(', ') : 'Keep up the good work!';
+    }
+
+    getConsistencyScore() {
+        const now = new Date();
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+        const recentActivities = this.events.filter(event => {
+            const eventDate = new Date(event.timestamp);
+            return eventDate >= thirtyDaysAgo && (
+                event.type === 'quiz_completion' ||
+                event.type === 'flashcard_session_complete'
+            );
+        });
+
+        // Calculate consistency based on days with activity
+        const activeDays = new Set();
+        recentActivities.forEach(event => {
+            activeDays.add(new Date(event.timestamp).toDateString());
+        });
+
+        const consistency = Math.round((activeDays.size / 30) * 100);
+        return `${consistency}% (${activeDays.size}/30 days)`;
+    }
+
+    calculateRetentionRate() {
+        // Calculate based on flashcard review patterns
+        if (this.flashcardAnalytics.length === 0) return 0;
+
+        const reviews = this.flashcardAnalytics.filter(event => event.rating);
+        const correctReviews = reviews.filter(event => ['good', 'easy'].includes(event.rating));
+
+        return reviews.length > 0 ? Math.round((correctReviews.length / reviews.length) * 100) : 0;
+    }
+
+    calculateLearningVelocity() {
+        // Calculate improvement rate over time
+        const now = new Date();
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+        const recentScores = this.events
+            .filter(event => {
+                const eventDate = new Date(event.timestamp);
+                return eventDate >= thirtyDaysAgo && event.type === 'quiz_completion';
+            })
+            .map(event => event.data?.score)
+            .filter(score => score != null)
+            .sort((a, b) => a - b);
+
+        if (recentScores.length < 2) return 0;
+
+        const firstHalf = recentScores.slice(0, Math.floor(recentScores.length / 2));
+        const secondHalf = recentScores.slice(Math.floor(recentScores.length / 2));
+
+        const firstAvg = firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length;
+        const secondAvg = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length;
+
+        return Math.max(0, Math.round(secondAvg - firstAvg));
+    }
+
+    calculateStudyEfficiency() {
+        // Calculate efficiency based on time spent vs improvement
+        const totalTime = Object.values(this.stats).reduce((sum, stat) => sum + stat.totalTime, 0) +
+                         (this.flashcardStats.totalStudyTime || 0);
+
+        const totalActivities = Object.values(this.stats).reduce((sum, stat) => sum + stat.totalQuizzes, 0) +
+                               (this.flashcardStats.totalCardsStudied || 0);
+
+        if (totalTime === 0 || totalActivities === 0) return 0;
+
+        // Efficiency = activities per hour * average score
+        const activitiesPerHour = totalActivities / (totalTime / 3600000);
+        const avgScore = this.getOverallAverageScore();
+
+        return Math.min(100, Math.round(activitiesPerHour * avgScore / 10));
+    }
+
+    getOverallAverageScore() {
+        const quizScores = Object.values(this.stats).reduce((sum, stat) => sum + (stat.averageScore * stat.totalQuizzes), 0);
+        const totalQuizzes = Object.values(this.stats).reduce((sum, stat) => sum + stat.totalQuizzes, 0);
+
+        const quizAvg = totalQuizzes > 0 ? quizScores / totalQuizzes : 0;
+        const flashcardAvg = this.flashcardStats.averageAccuracy || 0;
+
+        if (totalQuizzes === 0) return flashcardAvg;
+        if (this.flashcardStats.totalCardsStudied === 0) return quizAvg;
+
+        return Math.round((quizAvg + flashcardAvg) / 2);
+    }
 
 // Initialize analytics dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

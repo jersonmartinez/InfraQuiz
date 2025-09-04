@@ -141,6 +141,9 @@
                         <a class="nav-link" href="#quizzes" data-lang-key="quizzes_nav">Quizzes</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="flashcards.html" data-lang-key="flashcards_nav">Flashcards</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="quiz-editor.html" data-lang-key="editor_nav">Editor</a>
                     </li>
                     <li class="nav-item">
@@ -201,7 +204,10 @@
                         <button class="btn btn-hero-primary btn-lg" data-lang-key="start_random_quiz">
                             <i class="bi bi-play-circle me-2"></i> Start Random Quiz
                         </button>
-                        <button class="btn btn-hero-secondary btn-lg" onclick="scrollToQuizzes()" data-lang-key="browse_categories">
+                        <button class="btn btn-hero-secondary btn-lg" onclick="window.location.href='flashcards.html'" data-lang-key="study_flashcards">
+                            <i class="bi bi-card-text me-2"></i> Study Flashcards
+                        </button>
+                        <button class="btn btn-hero-outline btn-lg" onclick="scrollToQuizzes()" data-lang-key="browse_categories">
                             <i class="bi bi-list-check me-2"></i> Browse Categories
                         </button>
                     </div>
@@ -219,6 +225,68 @@
             </div>
             <div class="row g-4" id="quiz-categories-container" data-aos="fade-up" data-aos-delay="200">
                 <!-- Quiz categories will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Flashcards Section -->
+    <section id="flashcards" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="flashcards-content">
+                        <h2 class="section-title mb-4" data-lang-key="flashcards_title">🧠 Interactive Flashcards</h2>
+                        <p class="section-subtitle mb-4" data-lang-key="flashcards_description">
+                            Master DevOps concepts with our advanced spaced repetition system. Study smarter, not harder with personalized learning paths and gamified progress tracking.
+                        </p>
+                        <div class="flashcards-features mb-4">
+                            <div class="feature-item">
+                                <i class="bi bi-brain"></i>
+                                <span data-lang-key="feature_spaced">Spaced Repetition Algorithm</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-trophy"></i>
+                                <span data-lang-key="feature_gamified">Gamified Learning Experience</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-graph-up"></i>
+                                <span data-lang-key="feature_progress">Detailed Progress Analytics</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="bi bi-lightning"></i>
+                                <span data-lang-key="feature_adaptive">Adaptive Difficulty</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-flashcards btn-lg" onclick="window.location.href='flashcards.html'" data-lang-key="start_flashcards">
+                            <i class="bi bi-card-text me-2"></i> Start Studying Now
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="flashcards-preview">
+                        <div class="flashcard-demo">
+                            <div class="flashcard-front">
+                                <div class="demo-category">🐳 Docker</div>
+                                <div class="demo-question">What is a Docker container?</div>
+                                <div class="demo-hint">Tap to reveal answer</div>
+                            </div>
+                        </div>
+                        <div class="flashcard-stats">
+                            <div class="stat">
+                                <span class="stat-number">500+</span>
+                                <span class="stat-label" data-lang-key="cards_available">Cards Available</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label" data-lang-key="categories_covered">Categories</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">SM-2</span>
+                                <span class="stat-label" data-lang-key="algorithm_used">Algorithm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
