@@ -94,22 +94,37 @@ class FlashcardSystem {
 
     async loadCards() {
         try {
+            console.log('📚 Loading flashcards...');
+
             // Load cards from quiz data
             const quizData = await this.loadQuizData();
             this.cards = this.convertToFlashcards(quizData);
-            
+
+            console.log(`✅ Loaded ${this.cards.length} flashcards from quiz data`);
+
             // If no cards loaded, create some default ones
             if (this.cards.length === 0) {
-                console.warn('No cards loaded from quiz data, creating default cards');
+                console.log('⚠️ No cards loaded from quiz data, using defaults');
                 this.cards = this.createDefaultCards();
             }
-            
+
+            // Load saved progress
+            this.loadProgress();
+
+            // Filter and render
+            this.filterCards();
             this.updateStats();
             this.renderCard();
+
+            console.log(`🎯 Total flashcards available: ${this.cards.length}`);
+
         } catch (error) {
-            console.error('Error loading flashcards:', error);
-            // Create default cards as fallback
+            console.error('❌ Error loading flashcards:', error);
+
+            // Fallback to default cards
+            console.log('🔄 Using default flashcards as fallback');
             this.cards = this.createDefaultCards();
+            this.filterCards();
             this.updateStats();
             this.renderCard();
         }
@@ -121,11 +136,14 @@ class FlashcardSystem {
 
         for (const category of categories) {
             try {
-                // Try different possible paths
+                // Try different possible paths (from site/ to quizzes/)
                 const possiblePaths = [
                     `../quizzes/${category}/en/questions1.md`,
+                    `../quizzes/${category}/es/cuestionario1.md`,
                     `./quizzes/${category}/en/questions1.md`,
-                    `/quizzes/${category}/en/questions1.md`
+                    `./quizzes/${category}/es/cuestionario1.md`,
+                    `/quizzes/${category}/en/questions1.md`,
+                    `/quizzes/${category}/es/cuestionario1.md`
                 ];
 
                 let content = null;
@@ -154,25 +172,47 @@ class FlashcardSystem {
         return allQuestions;
     }
 
+    convertToFlashcards(questions) {
+        return questions.map(question => ({
+            id: question.id,
+            category: question.category,
+            front: question.question,
+            back: question.correctAnswer || 'No answer available',
+            answers: question.answers,
+            correctAnswer: question.correctAnswer,
+            difficulty: question.difficulty,
+            sm2Data: question.sm2Data,
+            studied: false,
+            lastReviewed: null
+        }));
+    }
+
     parseMarkdownQuestions(content, category) {
         const questions = [];
         const lines = content.split('\n');
         let currentQuestion = null;
+        let parsingOptions = false;
 
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
 
-            if (line.startsWith('### ')) {
+            // Look for question headers (### 1. Question text)
+            if (line.startsWith('### ') && /\d+\./.test(line)) {
                 if (currentQuestion) {
                     questions.push(currentQuestion);
                 }
+
+                // Extract question text after the number
+                const questionMatch = line.match(/\d+\.\s+(.+?)(?:\s+🟢|🟡|🔴)?$/);
+                const questionText = questionMatch ? questionMatch[1] : line.replace(/###\s+\d+\.\s+/, '');
+
                 currentQuestion = {
                     id: Date.now() + Math.random(),
                     category: category,
-                    question: line.replace('### ', ''),
+                    question: questionText,
                     answers: [],
                     correctAnswer: null,
-                    difficulty: this.calculateDifficulty(line),
+                    difficulty: this.calculateDifficulty(questionText),
                     sm2Data: {
                         interval: 1,
                         repetitions: 0,
@@ -180,15 +220,27 @@ class FlashcardSystem {
                         nextReview: new Date()
                     }
                 };
-            } else if (line.startsWith('- ') && currentQuestion) {
-                const answer = line.replace('- ', '');
-                const isCorrect = answer.includes('**') || answer.startsWith('**');
-                const cleanAnswer = answer.replace(/\*\*/g, '');
-
-                currentQuestion.answers.push(cleanAnswer);
-                if (isCorrect) {
-                    currentQuestion.correctAnswer = cleanAnswer;
+                parsingOptions = true;
+            }
+            // Look for answer options (A) option text)
+            else if (parsingOptions && /^[A-D]\)\s+/.test(line)) {
+                const optionMatch = line.match(/^([A-D])\)\s+(.+)$/);
+                if (optionMatch) {
+                    const [, letter, optionText] = optionMatch;
+                    currentQuestion.answers.push(optionText);
                 }
+            }
+            // Look for correct answer
+            else if (line.includes('**Correct Answer**:') && currentQuestion) {
+                const correctMatch = line.match(/\*\*Correct Answer\*\*:\s*([A-D])\)/);
+                if (correctMatch) {
+                    const correctLetter = correctMatch[1];
+                    const letterIndex = correctLetter.charCodeAt(0) - 'A'.charCodeAt(0);
+                    if (currentQuestion.answers[letterIndex]) {
+                        currentQuestion.correctAnswer = currentQuestion.answers[letterIndex];
+                    }
+                }
+                parsingOptions = false;
             }
         }
 
