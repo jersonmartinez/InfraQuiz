@@ -492,4 +492,44 @@ class AnalyticsDashboard {
 
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
-        notification.className = `
+        notification.className = `alert alert-${type} position-fixed`;
+        notification.style.cssText = `
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        `;
+        notification.innerHTML = `
+            <div class="d-flex align-items-center">
+                <span class="me-2">${this.getNotificationIcon(type)}</span>
+                <span>${message}</span>
+                <button type="button" class="btn-close ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+
+    getNotificationIcon(type) {
+        const icons = {
+            'success': '✅',
+            'error': '❌',
+            'warning': '⚠️',
+            'info': 'ℹ️'
+        };
+        return icons[type] || icons.info;
+    }
+}
+
+// Initialize analytics dashboard when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new AnalyticsDashboard();
+});

@@ -5,20 +5,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfraQuiz - DevOps Learning Platform</title>
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
 
-    <!-- Google Fonts - Poppins -->
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://raw.githubusercontent.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com">
+
+    <!-- DNS prefetch for common domains -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//raw.githubusercontent.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+    <!-- Google Fonts - Poppins (preload critical font) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <!-- MDBootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- AOS Animate On Scroll CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="styles.css" rel="stylesheet">
+
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+
+    <!-- Preload critical JavaScript -->
+    <link rel="preload" href="enhanced-config.js" as="script">
+    <link rel="preload" href="performance-optimization.js" as="script">
+
+    <!-- MDBootstrap CSS (async load) -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet"></noscript>
+
+    <!-- Bootstrap Icons (async load) -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet"></noscript>
+
+    <!-- AOS Animate On Scroll CSS (async load) -->
+    <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#2563eb">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Master DevOps with interactive quizzes covering Bash, Docker, Kubernetes, AWS, Terraform, and more. Free learning platform for developers and DevOps engineers.">
+    <meta name="keywords" content="DevOps, Docker, Kubernetes, AWS, Terraform, Bash, Linux, CI/CD, Infrastructure, Cloud Computing, Learning Platform">
+    <meta name="author" content="InfraQuiz Team">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="InfraQuiz - DevOps Learning Platform">
+    <meta property="og:description" content="Master DevOps with interactive quizzes covering Bash, Docker, Kubernetes, AWS, Terraform, and more.">
+    <meta property="og:image" content="/og-image.png">
+    <meta property="og:url" content="https://infraquiz.dev">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="InfraQuiz">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="InfraQuiz - DevOps Learning Platform">
+    <meta name="twitter:description" content="Master DevOps with interactive quizzes covering Bash, Docker, Kubernetes, AWS, Terraform, and more.">
+    <meta name="twitter:image" content="/twitter-image.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://infraquiz.dev">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "InfraQuiz",
+        "description": "Interactive DevOps learning platform with quizzes covering Bash, Docker, Kubernetes, AWS, and more",
+        "url": "https://infraquiz.dev",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Interactive Quizzes",
+            "Progress Tracking",
+            "Multi-language Support",
+            "Offline Mode",
+            "Performance Analytics"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "InfraQuiz Team"
+        }
+    }
+    </script>
+
+    <!-- Critical CSS (inline for above-the-fold content) -->
+    <style>
+        /* Critical styles for initial render */
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        .navbar { background: rgba(37, 99, 235, 0.95); backdrop-filter: blur(10px); }
+        .hero { min-height: 100vh; display: flex; align-items: center; }
+        .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    </style>
 </head>
 
 <body>
@@ -169,20 +264,152 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <!-- MDBootstrap JS -->
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+    <!-- Scripts (Optimized loading order) -->
+
+    <!-- Load enhanced configuration first -->
+    <script src="enhanced-config.js" defer></script>
+
+    <!-- Load performance optimizations -->
+    <script src="performance-optimization.js" defer></script>
+
+    <!-- Load Marked.js for markdown rendering (async) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+
+    <!-- MDBootstrap JS (async) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js" defer></script>
+
+    <!-- AOS Animate On Scroll JS (async) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+
+    <!-- Initialize AOS after load -->
     <script>
-        console.log("window.mdb immediately after MDBootstrap script:", window.mdb);
+        window.addEventListener('load', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out',
+                    once: true,
+                    offset: 100
+                });
+            }
+        });
     </script>
-    <!-- AOS Animate On Scroll JS -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS (load last) -->
+    <script src="script.js" defer></script>
+
+    <!-- Register Service Worker -->
     <script>
-        AOS.init();
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('✅ Service Worker registered with scope:', registration.scope);
+
+                        // Check for updates
+                        registration.addEventListener('updatefound', function() {
+                            const newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', function() {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        // Show update notification
+                                        showUpdateNotification();
+                                    }
+                                });
+                            }
+                        });
+                    })
+                    .catch(function(error) {
+                        console.warn('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        function showUpdateNotification() {
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-info alert-dismissible fade show position-fixed';
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';
+            notification.innerHTML = `
+                <strong>Update Available!</strong> Refresh to get the latest version.
+                <button class="btn btn-sm btn-primary ms-2" onclick="window.location.reload()">Refresh</button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+        }
     </script>
-    <!-- Custom JS -->
-    <script src="script.js"></script>
+
+    <!-- Performance monitoring -->
+    <script>
+        // Monitor Core Web Vitals
+        if ('web-vitals' in window) {
+            import('https://unpkg.com/web-vitals@3.1.1/dist/web-vitals.es5.min.js').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+                getCLS(console.log);
+                getFID(console.log);
+                getFCP(console.log);
+                getLCP(console.log);
+                getTTFB(console.log);
+            });
+        }
+
+        // Monitor page load performance
+        window.addEventListener('load', function() {
+            if ('performance' in window && 'getEntriesByType' in performance) {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData) {
+                    const loadTime = perfData.loadEventEnd - perfData.fetchStart;
+                    console.log(`📊 Page load time: ${Math.round(loadTime)}ms`);
+
+                    // Send to analytics if available
+                    if (window.InfraQuiz?.analytics?.enabled) {
+                        // Track performance metrics
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Error handling -->
+    <script>
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            console.error('💥 Global error:', e.error);
+            // Send to error tracking service if available
+        });
+
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('💥 Unhandled promise rejection:', e.reason);
+            // Send to error tracking service if available
+        });
+
+        // Network status monitoring
+        window.addEventListener('online', function() {
+            console.log('🌐 Connection restored');
+            showNetworkStatus('Connection restored', 'success');
+        });
+
+        window.addEventListener('offline', function() {
+            console.log('📴 Connection lost');
+            showNetworkStatus('You are offline', 'warning');
+        });
+
+        function showNetworkStatus(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} position-fixed`;
+            notification.style.cssText = 'top: 20px; left: 20px; z-index: 9999; max-width: 300px;';
+            notification.innerHTML = `
+                <i class="bi bi-${type === 'success' ? 'wifi' : 'wifi-off'} me-2"></i>
+                ${message}
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+    </script>
 </body>
 
 </html>
