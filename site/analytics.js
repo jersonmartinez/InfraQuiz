@@ -908,4 +908,4 @@ class AnalyticsDashboard {
 // Initialize analytics dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new AnalyticsDashboard();
-});
+}); 

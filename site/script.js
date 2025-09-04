@@ -247,45 +247,69 @@ function applyTranslations() {
     });
 }
 
-// === ENHANCED THEME SWITCH ===
+// === ENHANCED THEME SWITCH WITH ACCESSIBILITY ===
 function initializeThemeSwitch() {
     // Check for new theme switch (landing page)
     const themeSwitch = document.getElementById('themeSwitch');
     // Check for legacy dark mode switch (quiz pages)
     const darkModeToggle = document.getElementById('darkModeToggle');
-    
-    // Set initial state
+
+    // Set initial state with accessibility attributes
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
+        document.body.setAttribute('data-theme', 'dark');
         if (themeSwitch) {
             themeSwitch.setAttribute('data-theme', 'dark');
+            themeSwitch.setAttribute('aria-pressed', 'true');
+            themeSwitch.setAttribute('aria-label', 'Switch to light mode');
         }
         if (darkModeToggle) {
             darkModeToggle.checked = true;
+            darkModeToggle.setAttribute('aria-label', 'Dark mode enabled');
         }
     } else {
         document.body.classList.remove('dark-mode');
+        document.body.setAttribute('data-theme', 'light');
         if (themeSwitch) {
             themeSwitch.setAttribute('data-theme', 'light');
+            themeSwitch.setAttribute('aria-pressed', 'false');
+            themeSwitch.setAttribute('aria-label', 'Switch to dark mode');
         }
         if (darkModeToggle) {
             darkModeToggle.checked = false;
+            darkModeToggle.setAttribute('aria-label', 'Light mode enabled');
         }
     }
 
-    // Add click event for new theme switch
+    // Add click and keyboard event for new theme switch
     if (themeSwitch) {
-        themeSwitch.addEventListener('click', () => {
+        const toggleTheme = () => {
             isDarkMode = !isDarkMode;
-            
+
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
+                document.body.setAttribute('data-theme', 'dark');
                 themeSwitch.setAttribute('data-theme', 'dark');
+                themeSwitch.setAttribute('aria-pressed', 'true');
+                themeSwitch.setAttribute('aria-label', 'Switch to light mode');
                 localStorage.setItem('darkMode', 'enabled');
+                showNotification('Dark mode enabled', 'success');
             } else {
                 document.body.classList.remove('dark-mode');
+                document.body.setAttribute('data-theme', 'light');
                 themeSwitch.setAttribute('data-theme', 'light');
+                themeSwitch.setAttribute('aria-pressed', 'false');
+                themeSwitch.setAttribute('aria-label', 'Switch to dark mode');
                 localStorage.setItem('darkMode', 'disabled');
+                showNotification('Light mode enabled', 'success');
+            }
+        };
+
+        themeSwitch.addEventListener('click', toggleTheme);
+        themeSwitch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleTheme();
             }
         });
     }
@@ -294,47 +318,81 @@ function initializeThemeSwitch() {
     if (darkModeToggle) {
         darkModeToggle.addEventListener('change', function() {
             isDarkMode = this.checked;
-            
+
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
+                document.body.setAttribute('data-theme', 'dark');
+                this.setAttribute('aria-label', 'Dark mode enabled');
                 localStorage.setItem('darkMode', 'enabled');
+                showNotification('Dark mode enabled', 'success');
             } else {
                 document.body.classList.remove('dark-mode');
+                document.body.setAttribute('data-theme', 'light');
+                this.setAttribute('aria-label', 'Light mode enabled');
                 localStorage.setItem('darkMode', 'disabled');
+                showNotification('Light mode enabled', 'success');
             }
         });
     }
 }
 
-// === ENHANCED LANGUAGE TOGGLE ===
+// === ENHANCED LANGUAGE TOGGLE WITH ACCESSIBILITY ===
 function initializeLanguageToggle() {
     // Check for new language toggle (landing page)
     const languageToggle = document.getElementById('languageToggle');
     // Check for legacy language selector (quiz pages)
     const languageSelector = document.getElementById('languageSelector');
-    
-    // Set initial state
+
+    // Set initial state with accessibility attributes
     if (languageToggle) {
         languageToggle.setAttribute('data-lang', currentLanguage);
-    }
-    
-    if (languageSelector) {
-        languageSelector.value = currentLanguage;
+        languageToggle.setAttribute('aria-pressed', currentLanguage === 'es' ? 'true' : 'false');
+        languageToggle.setAttribute('aria-label', `Switch to ${currentLanguage === 'en' ? 'Spanish' : 'English'}`);
     }
 
-    // Add click event for new language toggle
+    if (languageSelector) {
+        languageSelector.value = currentLanguage;
+        languageSelector.setAttribute('aria-label', 'Select language');
+    }
+
+    // Add click and keyboard event for new language toggle
     if (languageToggle) {
-        languageToggle.addEventListener('click', () => {
+        const toggleLanguage = () => {
             currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
             localStorage.setItem('quizLanguage', currentLanguage);
-            
+
             languageToggle.setAttribute('data-lang', currentLanguage);
+            languageToggle.setAttribute('aria-pressed', currentLanguage === 'es' ? 'true' : 'false');
+            languageToggle.setAttribute('aria-label', `Switch to ${currentLanguage === 'en' ? 'Spanish' : 'English'}`);
+
             applyTranslations();
-            
+
             // Re-render quiz categories if they exist
             const container = document.getElementById('quiz-categories-container');
             if (container) {
                 renderQuizCategories();
+            }
+
+            // Announce language change to screen readers
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = `Language switched to ${currentLanguage === 'en' ? 'English' : 'Spanish'}`;
+            document.body.appendChild(announcement);
+
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+
+            showNotification(`Language switched to ${currentLanguage === 'en' ? 'English' : 'Spanish'}`, 'success');
+        };
+
+        languageToggle.addEventListener('click', toggleLanguage);
+        languageToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleLanguage();
             }
         });
     }
@@ -344,14 +402,16 @@ function initializeLanguageToggle() {
         languageSelector.addEventListener('change', (e) => {
             currentLanguage = e.target.value;
             localStorage.setItem('quizLanguage', currentLanguage);
-            
+
             applyTranslations();
-            
+
             // Re-render quiz categories if they exist
             const container = document.getElementById('quiz-categories-container');
             if (container) {
                 renderQuizCategories();
             }
+
+            showNotification(`Language switched to ${currentLanguage === 'en' ? 'English' : 'Spanish'}`, 'success');
         });
     }
 }
@@ -691,29 +751,125 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
+// === ACCESSIBILITY ENHANCEMENTS ===
+function initializeAccessibility() {
+    // Skip link functionality
+    const skipLink = document.querySelector('.skip-link');
+    if (skipLink) {
+        skipLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.getElementById('main-content');
+            if (target) {
+                target.focus();
+                target.scrollIntoView();
+            }
+        });
+    }
+
+    // Enhanced keyboard navigation for cards
+    const quizCards = document.querySelectorAll('.quiz-card');
+    quizCards.forEach(card => {
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `Start quiz for ${card.querySelector('.card-title').textContent}`);
+
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const firstButton = card.querySelector('.difficulty-btn');
+                if (firstButton) {
+                    firstButton.click();
+                }
+            }
+        });
+    });
+
+    // Focus management for modals and overlays
+    const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+    // Announce page changes to screen readers
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                const addedContent = Array.from(mutation.addedNodes)
+                    .filter(node => node.nodeType === Node.ELEMENT_NODE)
+                    .find(node => node.matches('.notification, .alert'));
+
+                if (addedContent) {
+                    // Announce dynamic content to screen readers
+                    const announcement = document.createElement('div');
+                    announcement.setAttribute('aria-live', 'assertive');
+                    announcement.setAttribute('aria-atomic', 'true');
+                    announcement.className = 'sr-only';
+                    announcement.textContent = addedContent.textContent;
+                    document.body.appendChild(announcement);
+
+                    setTimeout(() => {
+                        if (document.body.contains(announcement)) {
+                            document.body.removeChild(announcement);
+                        }
+                    }, 1000);
+                }
+            }
+        });
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+
+    // High contrast mode detection
+    const mediaQuery = window.matchMedia('(prefers-contrast: high)');
+    const handleContrastChange = (e) => {
+        if (e.matches) {
+            document.body.classList.add('high-contrast');
+        } else {
+            document.body.classList.remove('high-contrast');
+        }
+    };
+
+    mediaQuery.addEventListener('change', handleContrastChange);
+    handleContrastChange(mediaQuery);
+
+    // Reduced motion detection
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleMotionChange = (e) => {
+        if (e.matches) {
+            document.body.classList.add('reduced-motion');
+        } else {
+            document.body.classList.remove('reduced-motion');
+        }
+    };
+
+    motionQuery.addEventListener('change', handleMotionChange);
+    handleMotionChange(motionQuery);
+}
+
 // === INITIALIZATION ===
 function initializeInfraQuiz() {
     console.log('🚀 InfraQuiz 2.0.0 initialized');
-    
+
     // Initialize all components
     initializeNavigation();
     initializeThemeSwitch();
     initializeLanguageToggle();
     initializeScrollToTop();
     initializeRandomQuiz();
-    
+    initializeAccessibility(); // Add accessibility initialization
+
     // Apply translations
     applyTranslations();
-    
+
     // Update footer year
     updateFooterYear();
-    
+
     // Render quiz categories if on main page
     const container = document.getElementById('quiz-categories-container');
     if (container) {
         renderQuizCategories();
     }
-    
+
     console.log('✅ InfraQuiz ready!');
 }
 

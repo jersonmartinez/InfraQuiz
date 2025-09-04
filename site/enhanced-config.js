@@ -64,6 +64,22 @@ class InfraQuizConfig {
             keyboardShortcuts: true
         };
 
+        // Accessibility Configuration
+        this.accessibility = {
+            enabled: true,
+            skipLinks: true,
+            keyboardNavigation: true,
+            screenReaderSupport: true,
+            highContrastSupport: true,
+            reducedMotionSupport: true,
+            focusManagement: true,
+            ariaLabels: true,
+            semanticMarkup: true,
+            colorBlindSupport: false, // Future feature
+            fontSizeAdjustment: true,
+            announcementSystem: true
+        };
+
         // Security Configuration
         this.security = {
             csp: true,

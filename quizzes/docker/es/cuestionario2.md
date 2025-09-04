@@ -46,7 +46,7 @@ D) 🛠️ `Gestor de secretos`
 
 > 💡 DCT asegura que las imágenes son auténticas y no han sido modificadas. ¡Como un sello de garantía para tus imágenes!
 
-### 5. 📊 ¿Qué hace el flag --memory-reservation? 🟢
+### 5. 📊 En Docker: ¿Qué hace el flag --memory-reservation? 🟢
 
 A) ⚡ `Establece memoria blanda para el contenedor`
 B) 🔧 `Reserva memoria en el host`
@@ -68,7 +68,7 @@ D) 🛠️ `Analiza cambios de configuración`
 
 > 📘 Lista los archivos modificados desde que el contenedor inició. ¡Como un detector de cambios para tu contenedor!
 
-### 7. 🏷️ ¿Qué significa la etiqueta latest? 🟢
+### 7. 🏷️ ¿Qué significa la etiqueta latest en Docker? 🟢
 
 A) 🎯 `La última versión construida de una imagen`
 B) 🔧 `La versión más estable`
@@ -90,7 +90,7 @@ D) 🛠️ `Plugin de Docker`
 
 > 💡 El socket es la interfaz para comunicarse con Docker. ¡Como un teléfono directo al cerebro de Docker!
 
-### 9. 📦 ¿Qué es un multi-stage build? 🟡
+### 9. 📦 ¿Qué es un multi-stage build en Docker? 🟡
 
 A) 🎯 `Construcción en etapas para reducir tamaño`
 B) 🔧 `Múltiples contenedores`
@@ -112,7 +112,7 @@ D) 🛠️ `Sistema de backup`
 
 > ⚡ Permite gestionar un cluster de hosts Docker. ¡Como un director organizando una orquesta de contenedores!
 
-### 11. 💾 ¿Qué son los tmpfs mounts? 🟡
+### 11. 💾 ¿Qué son los tmpfs mounts en Docker? 🟡
 
 A) 💾 `Montajes temporales en memoria`
 B) 🔧 `Archivos temporales`

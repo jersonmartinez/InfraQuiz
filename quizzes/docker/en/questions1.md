@@ -170,7 +170,7 @@ D) 🎯 System logs
 
 > 💾 Volumes allow data to survive the container. Like an external hard drive that persists when you turn off the computer!
 
-### 13. 🌐 What is port mapping? 🟡
+### 13. 🌐 What is port mapping in Docker? 🟡
 
 A) 📝 Expose container ports to the host
 
@@ -240,7 +240,7 @@ D) 🎯 Debugging tool
 
 > 🎼 Docker Compose orchestrates multiple containers with a YAML file. Like conducting a symphony of services!
 
-### 18. 🏗️ What is multi-stage build? 🔴
+### 18. 🏗️ What is multi-stage build in Docker? 🔴
 
 A) 📝 Technique to create optimized images using multiple stages
 

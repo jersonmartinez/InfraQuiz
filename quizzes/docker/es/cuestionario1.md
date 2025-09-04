@@ -170,7 +170,7 @@ D) 🎯 Logs del sistema
 
 > 💾 Los volúmenes permiten que los datos sobrevivan al container. ¡Como un disco duro externo que persiste cuando apagas la computadora!
 
-### 13. 🌐 ¿Qué es el port mapping? 🟡
+### 13. 🌐 ¿Qué es el port mapping en Docker? 🟡
 
 A) 📝 Exponer puertos del container al host
 
@@ -240,7 +240,7 @@ D) 🎯 Herramienta de debugging
 
 > 🎼 Docker Compose orquesta múltiples containers con un archivo YAML. ¡Como dirigir una sinfonía de servicios!
 
-### 18. 🏗️ ¿Qué es multi-stage build? 🔴
+### 18. 🏗️ ¿Qué es multi-stage build en Docker? 🔴
 
 A) 📝 Técnica para crear imágenes optimizadas usando múltiples etapas
 

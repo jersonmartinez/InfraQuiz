@@ -62,6 +62,13 @@ class FlashcardSystem {
             }
         });
 
+        // Force reload cards
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'reload-cards') {
+                this.forceReloadCards();
+            }
+        });
+
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (this.currentCard) {
@@ -96,20 +103,25 @@ class FlashcardSystem {
         try {
             console.log('📚 Loading flashcards...');
 
-            // Load cards from quiz data
-            const quizData = await this.loadQuizData();
-            this.cards = this.convertToFlashcards(quizData);
+            // First, try to load from localStorage (saved progress)
+            this.loadProgress();
 
-            console.log(`✅ Loaded ${this.cards.length} flashcards from quiz data`);
+            // If we have saved cards, use them
+            if (this.cards && this.cards.length > 0) {
+                console.log(`✅ Loaded ${this.cards.length} flashcards from saved progress`);
+            } else {
+                // Otherwise, try to load from quiz data
+                const quizData = await this.loadQuizData();
+                this.cards = this.convertToFlashcards(quizData);
 
-            // If no cards loaded, create some default ones
-            if (this.cards.length === 0) {
-                console.log('⚠️ No cards loaded from quiz data, using defaults');
-                this.cards = this.createDefaultCards();
+                console.log(`✅ Loaded ${this.cards.length} flashcards from quiz data`);
             }
 
-            // Load saved progress
-            this.loadProgress();
+            // If still no cards, create default ones
+            if (this.cards.length === 0) {
+                console.log('⚠️ No cards loaded, using defaults');
+                this.cards = this.createDefaultCards();
+            }
 
             // Filter and render
             this.filterCards();
@@ -134,8 +146,12 @@ class FlashcardSystem {
         const categories = ['ansible', 'aws', 'bash', 'cicd', 'databases', 'docker', 'github', 'kubernetes', 'monitoring', 'networking', 'python', 'security', 'terraform'];
         const allQuestions = [];
 
+        console.log('🔍 Loading quiz data from markdown files...');
+
         for (const category of categories) {
             try {
+                console.log(`📖 Loading ${category} questions...`);
+
                 // Try different possible paths (from site/ to quizzes/)
                 const possiblePaths = [
                     `../quizzes/${category}/en/questions1.md`,
@@ -147,28 +163,40 @@ class FlashcardSystem {
                 ];
 
                 let content = null;
+                let loadedPath = null;
+
                 for (const path of possiblePaths) {
                     try {
+                        console.log(`🔗 Trying path: ${path}`);
                         const response = await fetch(path);
                         if (response.ok) {
                             content = await response.text();
+                            loadedPath = path;
+                            console.log(`✅ Successfully loaded from: ${path}`);
                             break;
+                        } else {
+                            console.log(`❌ Path not found: ${path} (${response.status})`);
                         }
                     } catch (error) {
-                        // Try next path
+                        console.log(`⚠️ Error loading ${path}:`, error.message);
                         continue;
                     }
                 }
 
                 if (content) {
+                    console.log(`📝 Parsing ${category} content (${content.length} characters)...`);
                     const questions = this.parseMarkdownQuestions(content, category);
+                    console.log(`✅ Parsed ${questions.length} questions from ${category}`);
                     allQuestions.push(...questions);
+                } else {
+                    console.warn(`⚠️ Could not load any file for ${category}`);
                 }
             } catch (error) {
-                console.warn(`Could not load ${category} questions:`, error);
+                console.warn(`❌ Error processing ${category}:`, error);
             }
         }
 
+        console.log(`🎯 Total questions loaded: ${allQuestions.length}`);
         return allQuestions;
     }
 
@@ -329,6 +357,156 @@ class FlashcardSystem {
                 front: 'What does the chmod command do?',
                 back: 'The chmod command changes the file mode bits of each given file according to mode, which can be either a symbolic representation or an octal number.',
                 difficulty: 'medium',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-6',
+                category: 'python',
+                front: 'What is a Python list?',
+                back: 'A list is a mutable, ordered collection of items that can contain elements of different data types.',
+                difficulty: 'easy',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-7',
+                category: 'git',
+                front: 'What is Git?',
+                back: 'Git is a distributed version control system that tracks changes in source code during software development.',
+                difficulty: 'easy',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-8',
+                category: 'linux',
+                front: 'What is the Linux kernel?',
+                back: 'The Linux kernel is the core part of the Linux operating system that manages hardware resources and provides essential services.',
+                difficulty: 'medium',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-9',
+                category: 'networking',
+                front: 'What is TCP/IP?',
+                back: 'TCP/IP is a suite of communication protocols used to interconnect network devices on the internet.',
+                difficulty: 'medium',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-10',
+                category: 'security',
+                front: 'What is encryption?',
+                back: 'Encryption is the process of converting information into a coded format to prevent unauthorized access.',
+                difficulty: 'medium',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-11',
+                category: 'monitoring',
+                front: 'What is system monitoring?',
+                back: 'System monitoring is the process of tracking and analyzing the performance and health of computer systems and networks.',
+                difficulty: 'easy',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-12',
+                category: 'cicd',
+                front: 'What is CI/CD?',
+                back: 'CI/CD stands for Continuous Integration/Continuous Deployment, a methodology to frequently deliver applications by automating integration and deployment processes.',
+                difficulty: 'medium',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-13',
+                category: 'databases',
+                front: 'What is a primary key?',
+                back: 'A primary key is a unique identifier for each record in a database table that ensures data integrity and enables efficient data retrieval.',
+                difficulty: 'easy',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-14',
+                category: 'ansible',
+                front: 'What is Ansible?',
+                back: 'Ansible is an open-source automation tool used for configuration management, application deployment, and task automation.',
+                difficulty: 'easy',
+                sm2Data: {
+                    interval: 1,
+                    repetitions: 0,
+                    easeFactor: 2.5,
+                    nextReview: new Date()
+                },
+                studied: false,
+                lastReviewed: null
+            },
+            {
+                id: 'default-15',
+                category: 'bash',
+                front: 'What is a Bash script?',
+                back: 'A Bash script is a file containing a series of commands that can be executed by the Bash shell to automate tasks.',
+                difficulty: 'easy',
                 sm2Data: {
                     interval: 1,
                     repetitions: 0,
@@ -662,17 +840,61 @@ class FlashcardSystem {
         }
     }
 
-    loadProgress() {
+    // Force reload cards from markdown files
+    async forceReloadCards() {
         try {
-            const saved = localStorage.getItem('flashcardProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                this.cards = progress.cards || [];
-                this.updateStats();
+            console.log('🔄 Force reloading cards from markdown files...');
+
+            // Clear current cards
+            this.cards = [];
+
+            // Load fresh data from markdown files
+            const quizData = await this.loadQuizData();
+            this.cards = this.convertToFlashcards(quizData);
+
+            // If still no cards, use defaults
+            if (this.cards.length === 0) {
+                console.log('⚠️ No cards from markdown, using defaults');
+                this.cards = this.createDefaultCards();
             }
+
+            // Reset progress and filter
+            this.filterCards();
+            this.updateStats();
+            this.renderCard();
+
+            // Save the new cards
+            this.saveProgress();
+
+            console.log(`✅ Force reloaded ${this.cards.length} flashcards`);
+
+            // Show success message
+            this.showNotification(`Reloaded ${this.cards.length} flashcards!`, 'success');
+
         } catch (error) {
-            console.warn('Could not load progress:', error);
+            console.error('❌ Error force reloading cards:', error);
+            this.showNotification('Error reloading flashcards', 'error');
         }
+    }
+
+    // Show notification messages
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} alert-dismissible fade show position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';
+        notification.innerHTML = `
+            <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 3000);
     }
 }
 

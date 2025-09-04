@@ -22,12 +22,12 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-0" id="main-navbar">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-                <span style="font-size:2rem;line-height:1;display:flex;align-items:center;gap:0.5rem;">
-                    <span style="display:inline-block;vertical-align:middle;">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><rect x="2" y="2" width="28" height="28" rx="6" fill="#fff" stroke="#222" stroke-width="2"/><rect x="8" y="8" width="16" height="16" rx="4" fill="#222"/><rect x="12" y="12" width="8" height="8" rx="2" fill="#fff"/></svg>
-                    </span>
-                    <span class="fw-bold" style="font-size:1.8rem; letter-spacing:0.5px;">InfraQuiz</span>
-                </span>
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="bi bi-cpu-fill"></i>
+                    </div>
+                    <span class="brand-text">InfraQuiz</span>
+                </div>
             </a>
             <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,19 +47,28 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="analytics.html">Analytics</a>
                     </li>
-                    <!-- Dark Mode Switch -->
-                    <li class="nav-item dark-mode-switch ms-lg-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="darkModeToggle">
-                            <label class="form-check-label text-light" for="darkModeToggle"><i class="bi bi-moon-fill"></i></label>
+                    <!-- Enhanced Theme Switch -->
+                    <li class="nav-item ms-lg-3">
+                        <div class="theme-switch-container">
+                            <div class="theme-switch" id="themeSwitch">
+                                <div class="switch-track">
+                                    <div class="switch-thumb">
+                                        <i class="bi bi-sun-fill sun-icon"></i>
+                                        <i class="bi bi-moon-fill moon-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </li>
+                    <!-- Enhanced Language Toggle -->
                     <li class="nav-item ms-lg-3">
-                        <select id="languageSelector" class="form-select form-select-sm bg-dark text-white border-0" aria-label="Language selector" style="width: auto;">
-                            <option value="en">English</option>
-                            <option value="es">Español</option>
-                        </select>
-                    </li>
+                        <div class="language-toggle-container">
+                            <div class="language-toggle" id="languageToggle">
+                                <span class="lang-text" data-lang="en">EN</span>
+                                <span class="lang-text" data-lang="es">ES</span>
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </li>
                 </ul>
             </div>
         </div>
@@ -170,12 +179,37 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-4">
+    <footer class="footer-section">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p class="mb-0">&copy; 2024 InfraQuiz. Made with ❤️ for the DevOps community.</p>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="footer-brand">
+                        <div class="logo-container">
+                            <div class="logo-icon">
+                                <i class="bi bi-cpu-fill"></i>
+                            </div>
+                            <span class="brand-text">InfraQuiz</span>
+                        </div>
+                        <p class="footer-description">Empowering DevOps professionals through interactive learning</p>
+                    </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="footer-links">
+                        <a href="https://github.com/jersonmartinez/InfraQuiz" target="_blank" class="footer-link">
+                            <i class="bi bi-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://youtube.com/@DevOpsea/" target="_blank" class="footer-link">
+                            <i class="bi bi-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © <span id="currentYear"></span> InfraQuiz. Made with ❤️ for the DevOps community.
+                </p>
             </div>
         </div>
     </footer>
