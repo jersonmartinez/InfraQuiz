@@ -333,9 +333,13 @@ class SmartCache {
     async preloadCritical() {
         if (!this.config.performance.preloadCritical) return;
 
+        // Detect environment and use appropriate paths
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const basePath = isLocal ? '.' : '';
+
         const criticalResources = [
-            '/styles.css',
-            '/script.js',
+            `${basePath}/styles.css`,
+            `${basePath}/script.js`,
             // Add other critical resources
         ];
 

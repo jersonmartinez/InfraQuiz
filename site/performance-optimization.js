@@ -141,7 +141,11 @@ class ServiceWorkerManager {
     async init() {
         if ('serviceWorker' in navigator && window.InfraQuiz?.config?.performance?.serviceWorker) {
             try {
-                this.registration = await navigator.serviceWorker.register('/sw.js');
+                // Detect environment and use appropriate path
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const swPath = isLocal ? './sw.js' : '/sw.js';
+
+                this.registration = await navigator.serviceWorker.register(swPath);
                 console.log('✅ Service Worker registered');
 
                 this.registration.addEventListener('updatefound', () => {
@@ -245,9 +249,13 @@ class ResourcePreloader {
     }
 
     preloadCriticalResources() {
+        // Detect environment and use appropriate paths
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const basePath = isLocal ? '.' : '';
+
         const criticalResources = [
-            { url: '/styles.css', type: 'style' },
-            { url: '/script.js', type: 'script' },
+            { url: `${basePath}/styles.css`, type: 'style' },
+            { url: `${basePath}/script.js`, type: 'script' },
             // Add other critical resources
         ];
 
@@ -480,10 +488,14 @@ class CSSOptimizer {
     }
 
     loadNonCriticalCSS() {
+        // Detect environment and use appropriate paths
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const basePath = isLocal ? '.' : '';
+
         // Load remaining CSS asynchronously
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = '/styles.css';
+        link.href = `${basePath}/styles.css`;
         link.media = 'print';
         link.onload = () => {
             link.media = 'all';

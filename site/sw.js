@@ -4,28 +4,32 @@
 const CACHE_VERSION = 'v2.1.0';
 const CACHE_NAME = `infraquiz-${CACHE_VERSION}`;
 
+// Detect environment and adjust paths
+const isLocalDev = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1';
+const basePath = isLocalDev ? '.' : '';
+
 // Resources to cache immediately
 const PRECACHE_URLS = [
-    '/',
-    '/index.html',
-    '/quiz.html',
-    '/analytics.html',
-    '/quiz-editor.html',
-    '/styles.css',
-    '/script.js',
-    '/quiz_page.js',
-    '/analytics.js',
-    '/quiz-editor.js',
-    '/enhanced-config.js',
-    '/performance-optimization.js',
+    basePath || '/',
+    `${basePath}/index.html`,
+    `${basePath}/quiz.html`,
+    `${basePath}/analytics.html`,
+    `${basePath}/quiz-editor.html`,
+    `${basePath}/styles.css`,
+    `${basePath}/script.js`,
+    `${basePath}/quiz_page.js`,
+    `${basePath}/analytics.js`,
+    `${basePath}/quiz-editor.js`,
+    `${basePath}/enhanced-config.js`,
+    `${basePath}/performance-optimization.js`,
     // Add other critical resources
 ];
 
 // Resources to cache on demand
 const RUNTIME_CACHE = [
-    '/quizzes/', // Quiz content from GitHub
-    '/images/',
-    '/fonts/',
+    `${basePath}/quizzes/`, // Quiz content from GitHub
+    `${basePath}/images/`,
+    `${basePath}/fonts/`,
 ];
 
 // Cache strategies
@@ -118,7 +122,7 @@ self.addEventListener('fetch', event => {
 
     if (PRECACHE_URLS.some(url => request.url.includes(url))) {
         strategy = CACHE_STRATEGIES.CACHE_FIRST;
-    } else if (request.url.includes('/quizzes/') || request.url.includes('.md')) {
+    if (request.url.includes(`${basePath}/quizzes/`) || request.url.includes('.md')) {
         strategy = CACHE_STRATEGIES.STALE_WHILE_REVALIDATE;
     } else if (request.url.includes('.css') || request.url.includes('.js')) {
         strategy = CACHE_STRATEGIES.CACHE_FIRST;
@@ -234,7 +238,7 @@ async function fallbackResponse(request) {
     // Return offline page for navigation requests
     if (request.mode === 'navigate') {
         const cache = await caches.open(CACHE_NAME);
-        return await cache.match('/index.html') || new Response('Offline', {
+        return await cache.match(`${basePath}/index.html`) || new Response('Offline', {
             status: 503,
             statusText: 'Service Unavailable',
             headers: { 'Content-Type': 'text/plain' }
@@ -265,7 +269,7 @@ self.addEventListener('sync', event => {
 async function syncAnalytics() {
     try {
         const cache = await caches.open(CACHE_NAME);
-        const analyticsData = await cache.match('/analytics-queue');
+        const analyticsData = await cache.match(`${basePath}/analytics-queue`);
 
         if (analyticsData) {
             // Send analytics data to server
@@ -281,7 +285,7 @@ async function syncAnalytics() {
 async function syncQuizProgress() {
     try {
         const cache = await caches.open(CACHE_NAME);
-        const progressData = await cache.match('/progress-queue');
+        const progressData = await cache.match(`${basePath}/progress-queue`);
 
         if (progressData) {
             // Send progress data to server
@@ -304,11 +308,11 @@ self.addEventListener('push', event => {
 
     const options = {
         body: data.body,
-        icon: '/icon-192x192.png',
-        badge: '/icon-192x192.png',
+        icon: `${basePath}/icon-192x192.png`,
+        badge: `${basePath}/icon-192x192.png`,
         vibrate: [100, 50, 100],
         data: {
-            url: data.url || '/'
+            url: data.url || (basePath || '/')
         },
         actions: [
             {
@@ -372,7 +376,7 @@ async function updateContent() {
                     if (response.ok) {
                         const cache = await caches.open(CACHE_NAME);
                         await cache.put(
-                            `/quizzes/${category}/${language}/questions1.md`,
+                            `${basePath}/quizzes/${category}/${language}/questions1.md`,
                             response
                         );
                     }

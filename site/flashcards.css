@@ -758,7 +758,7 @@ body.dark-mode .btn-close {
     transition: box-shadow 0.15s ease-in-out;
 }
 
-.navbar-toggler:focus {
+body.dark-mode .navbar-toggler:focus {
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
 }
 

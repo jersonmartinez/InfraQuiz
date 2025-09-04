@@ -398,7 +398,7 @@ class GamificationEngine {
 class AdaptiveLearningEngine {
     constructor() {
         this.learningPatterns = this.loadLearningPatterns();
-        this.difficultyAdjustment = new DifficultyAdjustment();
+        // this.difficultyAdjustment = new DifficultyAdjustment(); // Removed - class not defined
     }
 
     loadLearningPatterns() {
@@ -534,9 +534,9 @@ class AdaptiveLearningEngine {
     }
 }
 
-// === FLASHCARD SYSTEM ===
+// === FLASHCARD SYSTEM (Gamification) ===
 
-class FlashcardSystem {
+class GamificationFlashcardSystem {
     constructor() {
         this.flashcards = this.loadFlashcards();
         this.studySessions = this.loadStudySessions();
@@ -813,9 +813,12 @@ class ReminderSystem {
 
         // Show notification
         if (Notification.permission === 'granted') {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const iconPath = isLocal ? './icon-192x192.png' : '/icon-192x192.png';
+
             new Notification('InfraQuiz Reminder', {
                 body: reminder.message,
-                icon: '/icon-192x192.png'
+                icon: iconPath
             });
         }
 
@@ -862,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize subsystems
     if (window.InfraQuiz?.gamification) {
         window.InfraQuiz.gamification.adaptiveEngine = new AdaptiveLearningEngine();
-        window.InfraQuiz.gamification.flashcardSystem = new FlashcardSystem();
+        window.InfraQuiz.gamification.flashcardSystem = new GamificationFlashcardSystem();
         window.InfraQuiz.gamification.collaborationSystem = new CollaborationSystem();
         window.InfraQuiz.gamification.notesSystem = new NotesSystem();
         window.InfraQuiz.gamification.reminderSystem = new ReminderSystem();
@@ -879,7 +882,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         GamificationEngine,
         AdaptiveLearningEngine,
-        FlashcardSystem,
+        GamificationFlashcardSystem,
         CollaborationSystem,
         NotesSystem,
         ReminderSystem
