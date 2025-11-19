@@ -25,7 +25,21 @@ class FlashcardSystem {
         };
 
         this.initializeEventListeners();
+        this.registerWithGamification();
         this.loadCards();
+    }
+
+    registerWithGamification() {
+        if (window.InfraQuiz && window.InfraQuiz.gamification) {
+            window.InfraQuiz.gamification.registerFlashcardSystem(this);
+        } else {
+            // Retry if gamification not yet loaded
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.InfraQuiz && window.InfraQuiz.gamification) {
+                    window.InfraQuiz.gamification.registerFlashcardSystem(this);
+                }
+            });
+        }
     }
 
     initializeEventListeners() {
@@ -72,7 +86,7 @@ class FlashcardSystem {
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (this.currentCard) {
-                switch(e.key.toLowerCase()) {
+                switch (e.key.toLowerCase()) {
                     case ' ':
                     case 'enter':
                         e.preventDefault();
@@ -152,44 +166,42 @@ class FlashcardSystem {
             try {
                 console.log(`📖 Loading ${category} questions...`);
 
-                // Try different possible paths (from site/ to quizzes/)
-                const possiblePaths = [
-                    `../quizzes/${category}/en/questions1.md`,
-                    `../quizzes/${category}/es/cuestionario1.md`,
-                    `./quizzes/${category}/en/questions1.md`,
-                    `./quizzes/${category}/es/cuestionario1.md`,
-                    `/quizzes/${category}/en/questions1.md`,
-                    `/quizzes/${category}/es/cuestionario1.md`
-                ];
-
+                // Use centralized GitHub service if available
                 let content = null;
-                let loadedPath = null;
-
-                for (const path of possiblePaths) {
+                if (window.InfraQuiz && window.InfraQuiz.github) {
                     try {
-                        console.log(`🔗 Trying path: ${path}`);
-                        const response = await fetch(path);
-                        if (response.ok) {
-                            content = await response.text();
-                            loadedPath = path;
-                            console.log(`✅ Successfully loaded from: ${path}`);
-                            break;
-                        } else {
-                            console.log(`❌ Path not found: ${path} (${response.status})`);
+                        content = await window.InfraQuiz.github.fetchQuizContent(category, 'en');
+                    } catch (e) {
+                        console.warn(`Failed to load ${category} via GitHub service:`, e);
+                    }
+                }
+
+                // Fallback to direct fetch if service fails or not available
+                if (!content) {
+                    // Try different possible paths (from site/ to quizzes/)
+                    const possiblePaths = [
+                        `../quizzes/${category}/en/questions1.md`,
+                        `./quizzes/${category}/en/questions1.md`,
+                        `/quizzes/${category}/en/questions1.md`
+                    ];
+
+                    for (const path of possiblePaths) {
+                        try {
+                            const response = await fetch(path);
+                            if (response.ok) {
+                                content = await response.text();
+                                break;
+                            }
+                        } catch (error) {
+                            continue;
                         }
-                    } catch (error) {
-                        console.log(`⚠️ Error loading ${path}:`, error.message);
-                        continue;
                     }
                 }
 
                 if (content) {
-                    console.log(`📝 Parsing ${category} content (${content.length} characters)...`);
+                    console.log(`📝 Parsing ${category} content...`);
                     const questions = this.parseMarkdownQuestions(content, category);
-                    console.log(`✅ Parsed ${questions.length} questions from ${category}`);
                     allQuestions.push(...questions);
-                } else {
-                    console.warn(`⚠️ Could not load any file for ${category}`);
                 }
             } catch (error) {
                 console.warn(`❌ Error processing ${category}:`, error);
@@ -707,8 +719,11 @@ class FlashcardSystem {
         const xp = xpValues[rating] || 10;
 
         // Use gamification system if available
-        if (window.gamificationEngine) {
-            window.gamificationEngine.awardXP(xp, 'flashcard_study');
+        if (window.InfraQuiz && window.InfraQuiz.gamification) {
+            window.InfraQuiz.gamification.addExperience(xp, 'flashcard_study');
+        } else if (window.gamificationEngine) {
+            // Fallback
+            window.gamificationEngine.addExperience(xp, 'flashcard_study');
         }
     }
 
@@ -840,6 +855,27 @@ class FlashcardSystem {
         }
     }
 
+    loadProgress() {
+        try {
+            const saved = localStorage.getItem('flashcardProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                if (progress.cards) {
+                    this.cards = progress.cards.map(card => ({
+                        ...card,
+                        sm2Data: {
+                            ...card.sm2Data,
+                            nextReview: new Date(card.sm2Data.nextReview)
+                        },
+                        lastReviewed: card.lastReviewed ? new Date(card.lastReviewed) : null
+                    }));
+                }
+            }
+        } catch (error) {
+            console.warn('Could not load progress:', error);
+        }
+    }
+
     // Force reload cards from markdown files
     async forceReloadCards() {
         try {
@@ -879,6 +915,11 @@ class FlashcardSystem {
 
     // Show notification messages
     showNotification(message, type = 'info') {
+        if (window.InfraQuiz && window.InfraQuiz.ui) {
+            window.InfraQuiz.ui.showNotification(message, type);
+            return;
+        }
+
         const notification = document.createElement('div');
         notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} alert-dismissible fade show position-fixed`;
         notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 300px;';

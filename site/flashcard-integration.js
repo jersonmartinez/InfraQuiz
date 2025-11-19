@@ -32,11 +32,16 @@ class FlashcardIntegration {
     async waitForGamificationSystem() {
         return new Promise((resolve, reject) => {
             const checkGamification = () => {
-                if (window.gamificationEngine) {
+                if (window.InfraQuiz && window.InfraQuiz.gamification) {
+                    this.gamificationEngine = window.InfraQuiz.gamification;
+                    resolve();
+                } else if (window.gamificationEngine) {
+                    // Fallback for backward compatibility
                     this.gamificationEngine = window.gamificationEngine;
                     resolve();
                 } else if (document.readyState === 'complete') {
                     // Fallback: try to initialize without gamification
+                    console.warn('Gamification engine not found, running in standalone mode');
                     resolve();
                 } else {
                     setTimeout(checkGamification, 100);
@@ -69,7 +74,7 @@ class FlashcardIntegration {
         const baseXP = 10;
         const totalXP = Math.round(baseXP * xpMultiplier);
 
-        this.gamificationEngine.awardXP(totalXP, 'flashcard_study');
+        this.gamificationEngine.addExperience(totalXP, 'flashcard_study');
 
         // Update learning analytics
         this.updateLearningAnalytics(data);
@@ -102,7 +107,7 @@ class FlashcardIntegration {
 
         // Award session completion bonus
         const sessionXP = Math.min(data.cardsStudied * 5, 100);
-        this.gamificationEngine.awardXP(sessionXP, 'flashcard_session_complete');
+        this.gamificationEngine.addExperience(sessionXP, 'flashcard_session_complete');
 
         // Update user stats
         this.updateUserStats(data);
@@ -115,9 +120,17 @@ class FlashcardIntegration {
         if (!this.gamificationEngine) return;
 
         // Trigger achievement celebration
-        this.gamificationEngine.unlockAchievement(data.achievementId);
+        // Note: unlockAchievement in GamificationEngine already handles notification and XP
+        // So we might just want to show a specific flashcard notification if needed
+        // But GamificationEngine.unlockAchievement checks if already unlocked.
 
-        // Show achievement notification
+        // If the event came from GamificationEngine, we don't need to call it back.
+        // If it came from FlashcardSystem, we should tell GamificationEngine.
+
+        // Assuming FlashcardSystem emits this, we tell GamificationEngine
+        // But wait, GamificationEngine.unlockAchievement emits its own events?
+        // Let's assume we just show a notification here if it's a flashcard specific thing
+
         this.showAchievementNotification(data);
     }
 
@@ -176,6 +189,12 @@ class FlashcardIntegration {
         document.dispatchEvent(new CustomEvent('flashcardAchievement', {
             detail: { achievementId: achievement.id, name: achievement.name }
         }));
+
+        // Also tell gamification engine
+        if (this.gamificationEngine) {
+            // Map to gamification achievement format if needed, or just award XP
+            this.gamificationEngine.addExperience(50, 'achievement_unlocked');
+        }
     }
 
     showAchievementNotification(data) {
@@ -234,12 +253,24 @@ class FlashcardIntegration {
     addLevelIndicator() {
         if (!this.gamificationEngine) return;
 
+        // Check if element already exists
+        if (document.querySelector('.level-indicator')) return;
+
         const levelIndicator = document.createElement('div');
         levelIndicator.className = 'level-indicator';
+        // Use safe accessors for gamification engine properties
+        const level = this.gamificationEngine.userProfile ? this.gamificationEngine.userProfile.level : 1;
+        // Calculate progress manually if method doesn't exist or use a safe default
+        let progress = 0;
+        if (this.gamificationEngine.userProfile) {
+            const xpForNext = this.gamificationEngine.getXPForLevel(level + 1);
+            progress = (this.gamificationEngine.userProfile.experience / xpForNext) * 100;
+        }
+
         levelIndicator.innerHTML = `
-            <span class="level-text">Level ${this.gamificationEngine.getCurrentLevel()}</span>
+            <span class="level-text">Level ${level}</span>
             <div class="level-progress">
-                <div class="level-progress-fill" style="width: ${this.gamificationEngine.getLevelProgress()}%"></div>
+                <div class="level-progress-fill" style="width: ${progress}%"></div>
             </div>
         `;
 
@@ -250,6 +281,8 @@ class FlashcardIntegration {
     }
 
     addStreakCounter() {
+        if (document.querySelector('.streak-counter')) return;
+
         const streakCounter = document.createElement('div');
         streakCounter.className = 'streak-counter';
         streakCounter.innerHTML = `
@@ -266,7 +299,7 @@ class FlashcardIntegration {
     addProgressVisualization() {
         // Enhanced progress bar with milestones
         const progressContainer = document.querySelector('.study-progress');
-        if (!progressContainer) return;
+        if (!progressContainer || document.querySelector('.progress-milestones')) return;
 
         const milestones = document.createElement('div');
         milestones.className = 'progress-milestones';

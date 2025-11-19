@@ -1,347 +1,6 @@
-// quiz_page.js: Enhanced quiz page functionality - Optimized Version
-
-// === CONFIGURATION ===
-const config = {
-    MAX_QUESTIONS_PER_QUIZ: 21,
-    GITHUB_REPO: 'jersonmartinez/InfraQuiz',
-    GITHUB_BRANCH: 'main',
-    QUIZ_BASE_PATH: '../quizzes'
-};
-
-// === GLOBAL VARIABLES ===
-let currentQuiz = [];
-let currentQuestionIndex = 0;
-let score = 0;
-let totalQuestions = 0;
-let startTime = null;
-let selectedQuestions = [];
-let userAnswers = []; // Added missing variable
-
-// === GITHUB CONFIGURATION ===
-const GITHUB_CONFIG = {
-    REPO: 'jersonmartinez/InfraQuiz',
-    BRANCH: 'main',
-    BASE_URL: 'https://raw.githubusercontent.com/jersonmartinez/InfraQuiz/main'
-};
-
-// === UTILITY FUNCTIONS ===
-function getUrlParameter(name) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(name);
-}
-
-function getCurrentLanguage() {
-    return localStorage.getItem('quizLanguage') || 'en';
-}
-
-function getTranslations() {
-    // Try to get translations from window.InfraQuiz first
-    if (window.InfraQuiz && window.InfraQuiz.translations) {
-        return window.InfraQuiz.translations;
-    }
-    
-    // Fallback to a basic translations object
-    return {
-        'en': {
-            'next_question': 'Next Question',
-            'finish_quiz': 'Finish Quiz',
-            'explanation_label': 'Explanation',
-            'quiz_complete_title': '🎉 Quiz Completed!',
-            'quiz_score_message': (score, total) => `You scored ${score} out of ${total} questions!`,
-            'difficulty_beginner': 'Beginner',
-            'difficulty_intermediate': 'Intermediate',
-            'difficulty_advanced': 'Advanced'
-        },
-        'es': {
-            'next_question': 'Siguiente Pregunta',
-            'finish_quiz': 'Finalizar Quiz',
-            'explanation_label': 'Explicación',
-            'quiz_complete_title': '🎉 ¡Cuestionario Completado!',
-            'quiz_score_message': (score, total) => `¡Respondiste correctamente ${score} de ${total} preguntas!`,
-            'difficulty_beginner': 'Principiante',
-            'difficulty_intermediate': 'Intermedio',
-            'difficulty_advanced': 'Avanzado'
-        }
-    };
-}
-
-/**
- * Robust markdown renderer that handles different Marked.js versions
- */
-function renderMarkdown(text) {
-    if (!text) return '';
-    
-    console.log('🔍 Rendering markdown with Marked.js:', text.substring(0, 100));
-    
-    try {
-        // Clean the text first
-        let cleanText = text
-            .replace(/[\u00c2\u00c3]/g, '') // Remove encoding artifacts
-            .replace(/\ufffd/g, '') // Remove replacement characters
-            .trim();
-        
-        // Try to use Marked.js with custom renderer
-        if (typeof marked !== 'undefined') {
-            let rendered;
-            
-            // Create custom renderer to force inline behavior
-            const renderer = new marked.Renderer();
-            
-            // Override code block renderer to be inline
-            renderer.code = function(code, language) {
-                return `<code class="quiz-code">${String(code)}</code>`;
-            };
-            
-            // Override inline code renderer
-            renderer.codespan = function(code) {
-                return `<code class="quiz-code">${String(code)}</code>`;
-            };
-            
-            // Override paragraph to avoid extra wrapping
-            renderer.paragraph = function(text) {
-                return String(text); // Return text without <p> wrapper
-            };
-            
-            // Override other block elements to be inline
-            renderer.blockquote = function(quote) {
-                return String(quote); // Remove blockquote wrapper
-            };
-            
-            renderer.heading = function(text, level) {
-                return String(text); // Remove heading wrapper
-            };
-            
-            renderer.list = function(body, ordered) {
-                return String(body); // Remove list wrapper
-            };
-            
-            renderer.listitem = function(text) {
-                return String(text); // Remove list item wrapper
-            };
-            
-            // Handle different Marked.js versions
-            if (typeof marked.parse === 'function') {
-                // v4+ API
-                try {
-                    rendered = marked.parse(cleanText, { 
-                        renderer: renderer,
-                        breaks: true,
-                        gfm: true,
-                        silent: true
-                    });
-                } catch (e) {
-                    console.warn('Marked.parse failed, trying legacy API:', e);
-                    rendered = marked(cleanText, { renderer: renderer });
-                }
-            } else if (typeof marked === 'function') {
-                // Legacy API
-                rendered = marked(cleanText, { renderer: renderer });
-            } else {
-                console.warn('Unknown Marked.js API');
-                return fallbackMarkdownRender(cleanText);
-            }
-            
-            // Ensure we have a string
-            if (typeof rendered !== 'string') {
-                console.warn('Marked.js returned non-string:', typeof rendered, rendered);
-                return fallbackMarkdownRender(cleanText);
-            }
-            
-            // Additional safety check for [object Object] string
-            if (rendered === '[object Object]') {
-                console.warn('Marked.js returned [object Object] string, using fallback');
-                return fallbackMarkdownRender(cleanText);
-            }
-            
-            // Clean up any remaining paragraph tags
-            rendered = rendered.replace(/<\/?p>/g, '');
-            
-            // Final validation
-            if (!rendered || rendered.trim() === '') {
-                console.warn('Marked.js returned empty result, using fallback');
-                return fallbackMarkdownRender(cleanText);
-            }
-            
-            console.log('✅ Markdown rendered successfully, result:', rendered.substring(0, 100));
-            return rendered;
-        } else {
-            console.warn('Marked.js not available, using fallback');
-            return fallbackMarkdownRender(cleanText);
-        }
-        
-    } catch (error) {
-        console.error('Error rendering markdown:', error);
-        return fallbackMarkdownRender(text);
-    }
-}
-
-/**
- * Simple inline markdown renderer for questions and options
- */
-function renderInlineMarkdown(text) {
-    if (!text) return '';
-    
-    try {
-        // Clean text
-        let cleanText = text
-            .replace(/[\u00c2\u00c3]/g, '')
-            .replace(/\ufffd/g, '')
-            .trim();
-        
-        // Try Marked.js for inline content
-        if (typeof marked !== 'undefined') {
-            let rendered;
-            
-            if (typeof marked.parseInline === 'function') {
-                rendered = marked.parseInline(cleanText);
-            } else if (typeof marked.parse === 'function') {
-                rendered = marked.parse(cleanText, { breaks: false });
-                // Remove paragraph wrapper
-                if (rendered.startsWith('<p>') && rendered.endsWith('</p>\n')) {
-                    rendered = rendered.slice(3, -5);
-                } else if (rendered.startsWith('<p>') && rendered.endsWith('</p>')) {
-                    rendered = rendered.slice(3, -4);
-                }
-            } else {
-                rendered = marked(cleanText);
-                // Remove paragraph wrapper
-                if (rendered.startsWith('<p>') && rendered.endsWith('</p>\n')) {
-                    rendered = rendered.slice(3, -5);
-                } else if (rendered.startsWith('<p>') && rendered.endsWith('</p>')) {
-                    rendered = rendered.slice(3, -4);
-                }
-            }
-            
-            // Ensure string
-            if (typeof rendered !== 'string') {
-                return fallbackMarkdownRender(cleanText);
-            }
-            
-            // Apply custom code styling
-            rendered = rendered.replace(
-                /<code([^>]*)>(.*?)<\/code>/g, 
-                (match, attrs, code) => `<code class="quiz-code">${code}</code>`
-            );
-            
-            return rendered;
-        }
-        
-        return fallbackMarkdownRender(cleanText);
-        
-    } catch (error) {
-        console.error('Error rendering inline markdown:', error);
-        return fallbackMarkdownRender(text);
-    }
-}
-
-/**
- * Fallback markdown renderer in case Marked.js fails
- */
-function fallbackMarkdownRender(text) {
-    return text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/`([^`]+)`/g, '<code class="quiz-code">$1</code>')
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-        .replace(/\n/g, '<br>')
-        .trim();
-}
-
-/**
- * Updated formatQuestionText using inline renderer
- */
-function formatQuestionText(text) {
-    if (!text) return '';
-    
-    // Remove question number prefix
-    let cleanText = text.replace(/^\d+\.\s*/, '').trim();
-    return renderInlineMarkdown(cleanText);
-}
-
-/**
- * Updated formatOptionText using inline renderer
- */
-function formatOptionText(text) {
-    if (!text) return '';
-    return renderInlineMarkdown(text);
-}
-
-function showNotification(message, type = 'info') {
-    console.log(`[${type.toUpperCase()}] ${message}`);
-    
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'} me-2"></i>
-        ${renderMarkdown(message)}
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
-}
-
-// === QUIZ LOADING FUNCTIONS ===
-
-/**
- * Enhanced quiz loading with GitHub integration
- */
-async function loadQuizContent(category, language) {
-    console.log(`🔍 Loading quiz content: ${category} (${language})`);
-    
-    // Use the optimized loadQuizFile from main script
-    if (window.InfraQuiz?.loadQuizFile) {
-        try {
-            return await window.InfraQuiz.loadQuizFile(category, language);
-        } catch (error) {
-            console.warn('Main loadQuizFile failed, using fallback:', error);
-        }
-    }
-    
-    // Fallback implementation
-    const fileName = language === 'en' ? 'questions1.md' : 'cuestionario1.md';
-    const githubUrl = `https://raw.githubusercontent.com/${config.GITHUB_REPO}/${config.GITHUB_BRANCH}/quizzes/${category}/${language}/${fileName}`;
-    
-    try {
-        console.log(`📡 Fetching from GitHub: ${githubUrl}`);
-        const response = await fetch(githubUrl);
-        
-        if (!response.ok) {
-            throw new Error(`GitHub fetch failed: ${response.status}`);
-        }
-        
-        const content = await response.text();
-        
-        if (content.length < 100 || content.includes('404')) {
-            throw new Error('Invalid content received');
-        }
-        
-        console.log(`✅ Successfully loaded from GitHub (${Math.round(content.length / 1024)}KB)`);
-        return content;
-        
-    } catch (error) {
-        console.error('❌ Failed to load quiz content:', error);
-        throw new Error(`Failed to load quiz for ${category}/${language}`);
-    }
-}
-
-/**
- * Enhanced markdown parser with better emoji detection
- */
 function parseQuizContent(markdown) {
     console.log('📝 Parsing quiz content...');
-    
+
     // Enhanced fallback parser - Use consistent parsing logic
     const questions = [];
     const lines = markdown.split('\n');
@@ -349,18 +8,18 @@ function parseQuizContent(markdown) {
     let currentOptions = [];
     let isInExplanation = false;
     let explanationText = '';
-    
+
     // Enhanced regex patterns
     const questionPattern = /^###\s*\d+\.\s*(.+)/;
     const optionPattern = /^([A-D])\)\s*(.+)/;
     const answerPattern = /^\*\*(?:Respuesta correcta|Correct Answer)\*\*:\s*([A-D])\)/;
     const explanationPattern = /^>\s*(.+)/;
-    
+
     console.log('🔍 Parsing patterns initialized');
-    
+
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        
+
         // Skip empty lines but preserve them in explanation
         if (!line) {
             if (isInExplanation) {
@@ -368,7 +27,7 @@ function parseQuizContent(markdown) {
             }
             continue;
         }
-        
+
         // Question detection
         const questionMatch = line.match(questionPattern);
         if (questionMatch) {
@@ -384,11 +43,11 @@ function parseQuizContent(markdown) {
                 questions.push(currentQuestion);
                 console.log(`✅ Question saved: ${currentQuestion.text.substring(0, 50)}... (explanation: ${!!currentQuestion.explanation})`);
             }
-            
+
             // Extract emoji and text from question
             const fullQuestionText = questionMatch[1];
             const { emoji, text, difficulty } = extractEmojiAndText(fullQuestionText);
-            
+
             currentQuestion = {
                 text: text,
                 emoji: emoji,
@@ -396,23 +55,23 @@ function parseQuizContent(markdown) {
                 options: [],
                 explanation: ''
             };
-            
+
             currentOptions = [];
             isInExplanation = false;
             explanationText = '';
             console.log(`📋 Found question: ${text.substring(0, 50)}...`);
             continue;
         }
-        
+
         // Option detection with emoji extraction
         const optionMatch = line.match(optionPattern);
         if (optionMatch && currentQuestion) {
             const letter = optionMatch[1];
             const fullOptionText = optionMatch[2];
-            
+
             // Extract emoji from option text
             const { emoji, text } = extractEmojiAndText(fullOptionText);
-            
+
             currentOptions.push({
                 letter: letter,
                 text: text,
@@ -421,7 +80,7 @@ function parseQuizContent(markdown) {
             });
             continue;
         }
-        
+
         // Answer detection
         const answerMatch = line.match(answerPattern);
         if (answerMatch && currentOptions.length > 0) {
@@ -435,7 +94,7 @@ function parseQuizContent(markdown) {
             }
             continue;
         }
-        
+
         // Explanation detection - FIXED: Better handling of multi-line explanations
         if (line.startsWith('>')) {
             if (!isInExplanation) {
@@ -449,7 +108,7 @@ function parseQuizContent(markdown) {
             }
             continue;
         }
-        
+
         // End explanation when we hit a new question or non-explanation content
         if (isInExplanation && !line.startsWith('>')) {
             // Check if this is the start of a new question
@@ -463,7 +122,7 @@ function parseQuizContent(markdown) {
             }
         }
     }
-    
+
     // Save last question
     if (currentQuestion && currentOptions.length > 0) {
         currentQuestion.options = currentOptions;
@@ -476,13 +135,13 @@ function parseQuizContent(markdown) {
         questions.push(currentQuestion);
         console.log(`✅ Last question saved: ${currentQuestion.text.substring(0, 50)}... (explanation: ${!!currentQuestion.explanation})`);
     }
-    
+
     console.log(`✅ Parsed ${questions.length} questions with emojis`);
-    
+
     // Log questions with explanations for debugging
     const questionsWithExplanations = questions.filter(q => q.explanation);
     console.log(`📊 Questions with explanations: ${questionsWithExplanations.length}/${questions.length}`);
-    
+
     return questions;
 }
 
@@ -491,23 +150,23 @@ function parseQuizContent(markdown) {
  */
 function extractEmojiAndText(text) {
     if (!text) return { emoji: '', text: '', difficulty: 'beginner' };
-    
+
     // Enhanced emoji pattern
     const emojiPattern = /([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦)\s*/u;
-    
+
     // Difficulty color emojis
     const difficultyPattern = /(🟢|🟡|🔴)/g;
-    
+
     let emoji = '';
     let cleanText = text;
     let difficulty = 'beginner';
-    
+
     // Extract main emoji (first one found)
     const emojiMatches = text.match(emojiPattern);
     if (emojiMatches && emojiMatches.length > 0) {
         emoji = emojiMatches[0];
     }
-    
+
     // Extract difficulty from color emoji
     const difficultyMatches = text.match(difficultyPattern);
     if (difficultyMatches) {
@@ -518,10 +177,10 @@ function extractEmojiAndText(text) {
             case '🔴': difficulty = 'advanced'; break;
         }
     }
-    
+
     // Clean text by removing emojis
     cleanText = text.replace(emojiPattern, '').replace(difficultyPattern, '').trim();
-    
+
     return { emoji, text: cleanText, difficulty };
 }
 
@@ -530,7 +189,7 @@ function extractEmojiAndText(text) {
 function showLoading(isLoading) {
     const loadingElement = document.getElementById('quizLoading');
     const contentElement = document.getElementById('quizContent');
-    
+
     if (loadingElement && contentElement) {
         loadingElement.style.display = isLoading ? 'block' : 'none';
         contentElement.style.display = isLoading ? 'none' : 'block';
@@ -542,14 +201,14 @@ function showLoading(isLoading) {
 function applyQuizTranslations() {
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
-    
+
     if (!translations[currentLanguage]) return;
-    
+
     // Apply translations to elements with data-lang-key
     document.querySelectorAll('[data-lang-key]').forEach(element => {
         const key = element.getAttribute('data-lang-key');
         const translation = translations[currentLanguage][key];
-        
+
         if (translation) {
             if (typeof translation === 'function') {
                 // For functions that need parameters, we'll handle them specifically
@@ -558,7 +217,7 @@ function applyQuizTranslations() {
             element.textContent = translation;
         }
     });
-    
+
     // Update page language
     document.documentElement.lang = currentLanguage;
 }
@@ -570,7 +229,7 @@ function setupQuizNavigation() {
     // Back to categories button
     const backBtn = document.getElementById('backToCategoriesBtn');
     if (backBtn) {
-        backBtn.addEventListener('click', function() {
+        backBtn.addEventListener('click', function () {
             window.location.href = 'index.html';
         });
     }
@@ -578,7 +237,7 @@ function setupQuizNavigation() {
     // Back to categories from results button
     const backFromResultsBtn = document.getElementById('backToCategoriesFromResultsBtn');
     if (backFromResultsBtn) {
-        backFromResultsBtn.addEventListener('click', function() {
+        backFromResultsBtn.addEventListener('click', function () {
             window.location.href = 'index.html';
         });
     }
@@ -586,7 +245,7 @@ function setupQuizNavigation() {
     // Restart quiz button
     const restartBtn = document.getElementById('restartQuizBtn');
     if (restartBtn) {
-        restartBtn.addEventListener('click', function() {
+        restartBtn.addEventListener('click', function () {
             location.reload();
         });
     }
@@ -594,7 +253,7 @@ function setupQuizNavigation() {
     // Next question button
     const nextBtn = document.getElementById('nextQuestionBtn');
     if (nextBtn) {
-        nextBtn.addEventListener('click', function() {
+        nextBtn.addEventListener('click', function () {
             nextQuestion();
         });
     }
@@ -628,7 +287,7 @@ function hideLoadingState() {
 function showError(message) {
     const errorScreen = document.getElementById('errorScreen');
     const quizContent = document.getElementById('quizContent');
-    
+
     if (errorScreen) {
         errorScreen.style.display = 'block';
         errorScreen.innerHTML = `
@@ -653,7 +312,7 @@ function showError(message) {
             </div>
         `;
     }
-    
+
     if (quizContent) {
         quizContent.style.display = 'none';
     }
@@ -663,9 +322,9 @@ function showLoading(show) {
     const loadingDiv = document.getElementById('quizLoading');
     const errorDiv = document.getElementById('quizError');
     const contentDiv = document.getElementById('quizContent');
-    
+
     console.log(`🔄 showLoading(${show}) called`);
-    
+
     if (show) {
         if (loadingDiv) {
             loadingDiv.style.display = 'block';
@@ -693,7 +352,7 @@ function showLoading(show) {
             console.log('📱 Quiz content shown');
         }
     }
-    
+
     // Apply translations
     applyQuizTranslations();
 }
@@ -704,27 +363,27 @@ function renderProgressIndicator() {
         console.warn('Progress indicator element not found or quiz not loaded');
         return;
     }
-    
+
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
-    
+
     // Verify consistency
     if (currentQuiz.length !== totalQuestions) {
         console.warn(`⚠️ Inconsistency in progress: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
         totalQuestions = currentQuiz.length;
         console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
     }
-    
-    const questionProgressText = currentLanguage === 'es' 
+
+    const questionProgressText = currentLanguage === 'es'
         ? `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`
         : `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
-    
+
     const scoreProgressText = currentLanguage === 'es'
         ? `Puntuación: ${score}/${totalQuestions}`
         : `Score: ${score}/${totalQuestions}`;
-    
+
     const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
-    
+
     progressIndicator.innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h6 class="mb-0 fw-bold">${questionProgressText}</h6>
@@ -736,38 +395,38 @@ function renderProgressIndicator() {
             </div>
         </div>
     `;
-    
+
     console.log(`📊 Progress updated: ${currentQuestionIndex + 1}/${totalQuestions}, Score: ${score}`);
 }
 
 function showQuestion() {
     console.log(`🔍 showQuestion called: currentQuestionIndex=${currentQuestionIndex}, currentQuiz.length=${currentQuiz?.length}, totalQuestions=${totalQuestions}`);
-    
+
     // Verify quiz state consistency
     if (currentQuiz && currentQuiz.length !== totalQuestions) {
         console.warn(`⚠️ Inconsistency detected: currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
         totalQuestions = currentQuiz.length;
         console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
     }
-    
+
     if (!currentQuiz || currentQuestionIndex >= currentQuiz.length) {
         console.log('🏁 No more questions, showing results');
         console.log(`📊 Final stats: Score=${score}/${totalQuestions}, Questions shown=${currentQuestionIndex}`);
         showQuizResults();
         return;
     }
-    
+
     const question = currentQuiz[currentQuestionIndex];
     const questionTextElement = document.getElementById('questionText');
     const optionsContainer = document.getElementById('optionsContainer');
     const feedbackElement = document.getElementById('feedback');
     const nextButton = document.getElementById('nextQuestionBtn');
-    
+
     if (!questionTextElement || !optionsContainer) {
         console.error('Required elements not found');
         return;
     }
-    
+
     console.log('📝 Showing question:', {
         text: question.text?.substring(0, 50) + '...',
         emoji: question.emoji,
@@ -778,17 +437,17 @@ function showQuestion() {
         hasExplanation: !!question.explanation,
         explanationLength: question.explanation ? question.explanation.length : 0
     });
-    
+
     // Get question emoji - prioritize question.emoji, then difficulty-based
     let displayEmoji = question.emoji || getCategoryEmoji('mixed');
     if (!displayEmoji || displayEmoji.length === 0) {
         displayEmoji = getQuestionEmoji(question.difficulty);
     }
-    
+
     // Format question text
     const formattedText = formatQuestionText(question.text);
     const difficultyBadge = getDifficultyBadge(question.difficulty);
-    
+
     // Update question display with proper emoji positioning
     questionTextElement.innerHTML = `
         <div class="d-flex align-items-start gap-3 mb-3">
@@ -799,7 +458,7 @@ function showQuestion() {
             </div>
         </div>
     `;
-    
+
     // Clear previous options and feedback
     optionsContainer.innerHTML = '';
     if (feedbackElement) {
@@ -809,20 +468,20 @@ function showQuestion() {
     if (nextButton) {
         nextButton.style.display = 'none';
     }
-    
+
     // Render options with emojis and better styling
     if (question.options && question.options.length > 0) {
         question.options.forEach((option, index) => {
             const optionElement = document.createElement('button');
             optionElement.className = 'list-group-item list-group-item-action quiz-option';
-            
+
             // Use option letter if available, otherwise generate one
             const optionLetter = option.letter || String.fromCharCode(65 + index);
-            
+
             // Format option text with emoji
             let optionText = option.text || '';
             let optionEmoji = option.emoji || '';
-            
+
             // If no emoji extracted but text starts with emoji, try to extract it
             if (!optionEmoji && optionText) {
                 const emojiMatch = optionText.match(/^([\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|🔧|📝|⚙️|🛠️|💻|🖥️|📊|📈|📉|🔍|🔎|⭐|✨|💡|🎯|🚀|🔒|🔓|⚡|🌟|💯|📚|📖|🎓|🏆|✅|❌|⚠️|ℹ️|💭|🧠|🔗|🌐|📱|💾|🗄️|📂|📁|🔍|🔎|📝|✏️|📄|📋|📌|📍|🎨|🖼️|🖊️|✒️|🖋️|📐|📏|🔢|💰|💳|💎|🏅|🥇|🥈|🥉|🔄|📦)\s*/u);
@@ -831,10 +490,10 @@ function showQuestion() {
                     optionText = optionText.replace(emojiMatch[0], '').trim();
                 }
             }
-            
+
             // Format the final option text with Marked.js
             const formattedOptionText = formatOptionText(optionText);
-            
+
             optionElement.innerHTML = `
                 <div class="d-flex align-items-start gap-3">
                     <span class="option-letter">${optionLetter}</span>
@@ -844,20 +503,20 @@ function showQuestion() {
                     </div>
                 </div>
             `;
-            
+
             optionElement.addEventListener('click', () => selectOption(index, option.isCorrect));
             optionsContainer.appendChild(optionElement);
         });
-        
+
         console.log(`✅ Rendered ${question.options.length} options with emojis`);
     } else {
         console.error('❌ No options found for question');
         optionsContainer.innerHTML = '<p class="text-danger">Error: No options available for this question.</p>';
     }
-    
+
     // Update progress
     renderProgressIndicator();
-    
+
     // Make sure quiz content is visible
     const quizContent = document.getElementById('quizContent');
     if (quizContent) {
@@ -874,27 +533,27 @@ function selectOption(selectedIndex, isCorrect) {
         text: opt.text.substring(0, 30) + '...',
         isCorrect: opt.isCorrect
     })));
-    
+
     const options = document.querySelectorAll('.quiz-option');
     const feedbackElement = document.getElementById('feedback');
     const nextButton = document.getElementById('nextQuestionBtn');
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
-    
+
     // Disable all options
     options.forEach(option => {
         option.style.pointerEvents = 'none';
         option.classList.remove('selected');
     });
-    
+
     // Mark selected option
     options[selectedIndex].classList.add('selected');
-    
+
     // Show correct/incorrect styling
     currentQuiz[currentQuestionIndex].options.forEach((option, index) => {
         // Clear any existing styling first
         options[index].classList.remove('correct', 'incorrect');
-        
+
         if (option.isCorrect) {
             // Always show correct answer in green
             options[index].classList.add('correct');
@@ -905,45 +564,45 @@ function selectOption(selectedIndex, isCorrect) {
             console.log(`🔴 Option ${index} (${option.letter}) marked as incorrect (selected wrong answer)`);
         }
     });
-    
+
     // Update score
     if (isCorrect) {
         score++;
     }
-    
+
     // Show feedback with explanation
     if (feedbackElement) {
         const question = currentQuiz[currentQuestionIndex];
         const explanationLabel = translations[currentLanguage]?.explanation_label || 'Explicación';
-        
+
         console.log('🔍 Current question details:', {
             index: currentQuestionIndex,
             text: question.text.substring(0, 50) + '...',
             hasExplanation: !!question.explanation,
             explanationLength: question.explanation ? question.explanation.length : 0
         });
-        
+
         // Enhanced explanation rendering with proper emoji handling
         let explanationHTML = '';
         if (question.explanation && question.explanation.trim()) {
             console.log('🔍 Original explanation:', question.explanation);
-            
+
             // Try to render with Marked.js first
             let renderedExplanation = renderMarkdown(question.explanation);
             console.log('🔍 Rendered explanation type:', typeof renderedExplanation);
             console.log('🔍 Rendered explanation value:', renderedExplanation);
-            
+
             // Safety check for [object Object] or invalid results
             if (renderedExplanation === '[object Object]' || !renderedExplanation || typeof renderedExplanation !== 'string') {
                 console.warn('🔍 Marked.js failed, using fallback renderer');
                 renderedExplanation = fallbackMarkdownRender(question.explanation);
                 console.log('🔍 Fallback explanation:', renderedExplanation);
             }
-            
+
             // Final safety check and cleanup
             const finalExplanation = String(renderedExplanation || question.explanation).trim();
             console.log('🔍 Final explanation:', finalExplanation);
-            
+
             if (finalExplanation && finalExplanation !== '[object Object]') {
                 explanationHTML = `
                     <div class="explanation-content-wrapper">
@@ -953,7 +612,7 @@ function selectOption(selectedIndex, isCorrect) {
                 `;
             } else {
                 console.warn('⚠️ Explanation rendering failed completely, showing default message');
-                const defaultMessage = isCorrect 
+                const defaultMessage = isCorrect
                     ? (currentLanguage === 'es' ? '¡Correcto! Respuesta acertada.' : 'Correct! Well done.')
                     : (currentLanguage === 'es' ? 'Incorrecto. Revisa la respuesta correcta.' : 'Incorrect. Check the correct answer.');
                 explanationHTML = `<div class="explanation-text">${defaultMessage}</div>`;
@@ -961,12 +620,12 @@ function selectOption(selectedIndex, isCorrect) {
         } else {
             console.warn('⚠️ No explanation found for current question');
             // Show a default message if no explanation is available
-            const defaultMessage = isCorrect 
+            const defaultMessage = isCorrect
                 ? (currentLanguage === 'es' ? '¡Correcto! Respuesta acertada.' : 'Correct! Well done.')
                 : (currentLanguage === 'es' ? 'Incorrecto. Revisa la respuesta correcta.' : 'Incorrect. Check the correct answer.');
             explanationHTML = `<div class="explanation-text">${defaultMessage}</div>`;
         }
-        
+
         // Show feedback with explanation
         feedbackElement.innerHTML = `
             <div class="alert ${isCorrect ? 'alert-success' : 'alert-danger'} fade-in" style="padding: 0.75rem; margin-bottom: 0;">
@@ -974,34 +633,34 @@ function selectOption(selectedIndex, isCorrect) {
             </div>
         `;
         feedbackElement.classList.remove('d-none');
-        
+
         // Scroll to feedback to make it visible
         setTimeout(() => {
             feedbackElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
     }
-    
+
     // Show next button or finish button
     if (nextButton) {
         const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
-        const nextButtonText = isLastQuestion 
+        const nextButtonText = isLastQuestion
             ? (translations[currentLanguage]?.finish_quiz || 'Finalizar Quiz')
             : (translations[currentLanguage]?.next_question || 'Siguiente Pregunta');
-        
+
         console.log(`🔘 Button state: isLastQuestion=${isLastQuestion}, currentQuestionIndex=${currentQuestionIndex}, totalQuestions=${totalQuestions}`);
         console.log(`🔘 Button text: ${nextButtonText}`);
         console.log(`🔘 Quiz state: currentQuiz.length=${currentQuiz?.length}`);
-        
+
         // Verify consistency
         if (currentQuiz && currentQuiz.length !== totalQuestions) {
             console.warn(`⚠️ Inconsistency in selectOption: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
             totalQuestions = currentQuiz.length;
             console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
         }
-        
+
         nextButton.innerHTML = `${nextButtonText} <i class="bi bi-arrow-right ms-2"></i>`;
         nextButton.style.display = 'inline-block';
-        
+
         // Change button style for last question
         if (isLastQuestion) {
             nextButton.classList.remove('btn-primary');
@@ -1011,21 +670,21 @@ function selectOption(selectedIndex, isCorrect) {
             nextButton.classList.add('btn-primary');
         }
     }
-    
-            console.log(`📊 Answer selected: ${isCorrect ? 'Correct' : 'Incorrect'}, Score: ${score}/${totalQuestions}`);
+
+    console.log(`📊 Answer selected: ${isCorrect ? 'Correct' : 'Incorrect'}, Score: ${score}/${totalQuestions}`);
 }
 
 function nextQuestion() {
     console.log(`🔄 nextQuestion called: currentQuestionIndex=${currentQuestionIndex} -> ${currentQuestionIndex + 1}`);
     console.log(`🔄 Quiz state: currentQuiz.length=${currentQuiz?.length}, totalQuestions=${totalQuestions}`);
-    
+
     currentQuestionIndex++;
-    
+
     // Verify that we're not going beyond the available questions
     if (currentQuiz && currentQuestionIndex >= currentQuiz.length) {
         console.log(`🏁 Reached end of quiz: currentQuestionIndex=${currentQuestionIndex}, currentQuiz.length=${currentQuiz.length}`);
     }
-    
+
     showQuestion();
 }
 
@@ -1033,34 +692,34 @@ function showQuizResults() {
     const quizContent = document.getElementById('quizContent');
     const resultsScreen = document.getElementById('resultsScreen');
     const resultsContent = document.getElementById('resultsContent');
-    
+
     if (!resultsScreen || !resultsContent) {
         console.error('Results screen elements not found');
         return;
     }
-    
+
     // Hide quiz content and show results
     if (quizContent) quizContent.style.display = 'none';
     resultsScreen.style.display = 'block';
-    
+
     const currentLanguage = getCurrentLanguage();
     const translations = getTranslations();
-    
+
     const percentage = Math.round((score / totalQuestions) * 100);
-    
+
     console.log(`🏁 Quiz results: score=${score}, totalQuestions=${totalQuestions}, percentage=${percentage}%`);
     console.log(`🏁 Questions shown: ${currentQuestionIndex + 1}, currentQuiz.length=${currentQuiz?.length}`);
-    
+
     const completedTitle = translations[currentLanguage]?.quiz_complete_title || '🎉 Quiz Completed!';
-    const scoreMessage = translations[currentLanguage]?.quiz_score_message 
+    const scoreMessage = translations[currentLanguage]?.quiz_score_message
         ? translations[currentLanguage].quiz_score_message(score, totalQuestions)
         : `You scored ${score} out of ${totalQuestions} questions!`;
-    
+
     // Performance evaluation
     let performanceClass = 'text-danger';
     let performanceEmoji = '😔';
     let performanceMessage = '';
-    
+
     if (percentage >= 90) {
         performanceClass = 'text-success';
         performanceEmoji = '🏆';
@@ -1076,7 +735,7 @@ function showQuizResults() {
     } else {
         performanceMessage = currentLanguage === 'es' ? 'Sigue practicando' : 'Keep practicing';
     }
-    
+
     resultsContent.innerHTML = `
         <div class="text-center">
             <div class="score-percentage ${performanceClass} mb-3">${percentage}%</div>
@@ -1088,10 +747,10 @@ function showQuizResults() {
             </div>
         </div>
     `;
-    
+
     // Save quiz stats
     saveQuizStats();
-    
+
     console.log(`🏁 Quiz completed! Final score: ${score}/${totalQuestions} (${percentage}%)`);
 }
 
@@ -1100,12 +759,12 @@ function saveQuizStats() {
         const category = getUrlParameter('category');
         const difficulty = getUrlParameter('level');
         const language = getCurrentLanguage();
-        
+
         if (!category || !difficulty) return;
-        
+
         const stats = JSON.parse(localStorage.getItem('infraquiz_stats') || '{}');
         const categoryKey = `${category}_${language}`;
-        
+
         if (!stats[categoryKey]) {
             stats[categoryKey] = {
                 totalQuizzes: 0,
@@ -1116,24 +775,24 @@ function saveQuizStats() {
                 totalTime: 0
             };
         }
-        
+
         const categoryStats = stats[categoryKey];
         categoryStats.totalQuizzes++;
         categoryStats.totalQuestions += totalQuestions;
         categoryStats.totalCorrect += score;
-        
+
         const currentScore = Math.round((score / totalQuestions) * 100);
         categoryStats.bestScore = Math.max(categoryStats.bestScore, currentScore);
         categoryStats.averageScore = Math.round((categoryStats.totalCorrect / categoryStats.totalQuestions) * 100);
-        
+
         if (startTime) {
             categoryStats.totalTime += Date.now() - startTime;
         }
-        
+
         localStorage.setItem('infraquiz_stats', JSON.stringify(stats));
-        
+
         console.log('📊 Quiz stats saved:', categoryStats);
-        
+
     } catch (error) {
         console.warn('Failed to save quiz stats:', error);
     }
@@ -1144,26 +803,26 @@ function restartQuiz() {
     score = 0;
     currentQuestionIndex = 0;
     startTime = Date.now();
-    
+
     console.log(`🔄 Quiz restarted: currentQuiz.length=${currentQuiz?.length}, totalQuestions=${totalQuestions}`);
-    
+
     // Verify consistency before restart
     if (currentQuiz && currentQuiz.length !== totalQuestions) {
         console.warn(`⚠️ Inconsistency before restart: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
         totalQuestions = currentQuiz.length;
         console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
     }
-    
+
     // Hide results screen and show quiz content
     const resultsScreen = document.getElementById('resultsScreen');
     const quizContent = document.getElementById('quizContent');
-    
+
     if (resultsScreen) resultsScreen.style.display = 'none';
     if (quizContent) quizContent.style.display = 'block';
-    
+
     // Show first question
     showQuestion();
-    
+
     console.log('🔄 Quiz restarted');
 }
 
@@ -1171,7 +830,7 @@ function restartQuiz() {
 
 async function initializeQuiz() {
     console.log('🚀 Initializing quiz page...');
-    
+
     // Apply centralized logo
     if (window.InfraQuiz?.logo) {
         const logoContainers = document.querySelectorAll('.navbar-brand span:first-child');
@@ -1179,41 +838,41 @@ async function initializeQuiz() {
             container.innerHTML = window.InfraQuiz.logo.create(32, 32);
         });
     }
-    
+
     // Dark mode and language are now handled globally by script.js
     // No need to set up dark mode or language selector here
-    
+
     // Get quiz parameters
     const category = getUrlParameter('category');
     const difficulty = getUrlParameter('level');
     const language = getCurrentLanguage();
-    
+
     console.log('📋 Quiz Parameters:', { category, difficulty, language });
-    
+
     if (!category || !difficulty) {
         showError('Missing quiz parameters. Please select a quiz from the main page.');
         return;
     }
-    
+
     try {
         showLoading(true);
-        
+
         console.log('🔄 Starting quiz loading process...');
-        
+
         // Load quiz content
         const quizContent = await loadQuizContent(category, language);
         console.log(`📄 Loaded content (${quizContent.length} chars):`);
         console.log('Content preview:', quizContent.substring(0, 200) + '...');
-        
+
         // Parse quiz content - Use the same parsing function as startQuiz for consistency
         let allQuestions;
         console.log('🔍 Starting to parse quiz content...');
-        
+
         // Use parseQuizContent for consistency with startQuiz
         allQuestions = parseQuizContent(quizContent);
-        
+
         console.log(`📊 Parsing results: ${allQuestions.length} questions found`);
-        
+
         if (allQuestions.length === 0) {
             console.error('❌ No questions parsed - detailed content analysis:');
             console.log('First 500 chars:', quizContent.substring(0, 500));
@@ -1222,10 +881,10 @@ async function initializeQuiz() {
             console.log('Content includes difficulty emojis:', /[🟢🟡🔴]/.test(quizContent));
             console.log('Content includes option emojis:', /[📝🔄📦🎯☸️🐳🌐🔧]/.test(quizContent));
             console.log('Lines starting with ###:', quizContent.split('\n').filter(line => line.trim().startsWith('###')).slice(0, 5));
-            
+
             // More specific error message based on content analysis
             let specificError = 'No valid questions found in quiz file.';
-            
+
             if (!quizContent.includes('###')) {
                 specificError = 'No question headers (###) found in the quiz file.';
             } else if (!/[🟢🟡🔴]/.test(quizContent)) {
@@ -1235,10 +894,10 @@ async function initializeQuiz() {
             } else if (!quizContent.includes('**Respuesta correcta**') && !quizContent.includes('**Correct Answer**')) {
                 specificError = 'No correct answer indicators found in the quiz.';
             }
-            
+
             throw new Error(`${specificError} The quiz format may need adjustment for category: ${category}.`);
         }
-        
+
         // Log first question for verification
         if (allQuestions.length > 0) {
             console.log('🔍 First question details:', {
@@ -1249,20 +908,20 @@ async function initializeQuiz() {
                 hasExplanation: !!allQuestions[0].explanation
             });
         }
-        
+
         // Filter by difficulty
         let filteredQuestions = allQuestions.filter(q => q.difficulty === difficulty);
         console.log(`🎯 Filtered to ${filteredQuestions.length} questions for difficulty: ${difficulty}`);
-        
+
         // Log questions with explanations before filtering
         const questionsWithExplanationsBefore = allQuestions.filter(q => q.explanation);
         console.log(`📝 Questions with explanations before filtering: ${questionsWithExplanationsBefore.length}/${allQuestions.length}`);
-        
+
         // Fallback if no questions for specific difficulty
         if (filteredQuestions.length === 0) {
             console.warn(`No questions found for ${difficulty} difficulty, using all questions`);
             filteredQuestions = allQuestions;
-            
+
             // Try to categorize questions by position if no difficulty markers
             if (difficulty === 'beginner') {
                 filteredQuestions = allQuestions.slice(0, Math.ceil(allQuestions.length / 3));
@@ -1273,25 +932,25 @@ async function initializeQuiz() {
             } else if (difficulty === 'advanced') {
                 filteredQuestions = allQuestions.slice(Math.ceil(allQuestions.length * 2 / 3));
             }
-            
+
             console.log(`📊 Fallback distribution: ${filteredQuestions.length} questions assigned to ${difficulty}`);
         }
-        
+
         // Log questions with explanations after filtering
         const questionsWithExplanationsAfter = filteredQuestions.filter(q => q.explanation);
         console.log(`📝 Questions with explanations after filtering: ${questionsWithExplanationsAfter.length}/${filteredQuestions.length}`);
-        
+
         // Select random subset - FIXED: Ensure we don't exceed available questions
         const maxQuestions = Math.min(filteredQuestions.length, config.MAX_QUESTIONS_PER_QUIZ);
         selectedQuestions = shuffleArray(filteredQuestions).slice(0, maxQuestions);
-        
+
         console.log(`🎲 Selected ${selectedQuestions.length} random questions from ${filteredQuestions.length} available`);
         console.log(`🎲 Max questions per quiz: ${config.MAX_QUESTIONS_PER_QUIZ}`);
-        
+
         // Log selected questions with explanations
         const selectedWithExplanations = selectedQuestions.filter(q => q.explanation);
         console.log(`📝 Selected questions with explanations: ${selectedWithExplanations.length}/${selectedQuestions.length}`);
-        
+
         // Initialize quiz state - FIXED: Use selectedQuestions.length consistently
         currentQuiz = selectedQuestions;
         currentQuestionIndex = 0;
@@ -1299,26 +958,26 @@ async function initializeQuiz() {
         userAnswers = [];
         totalQuestions = selectedQuestions.length; // FIXED: Use selectedQuestions.length for consistency
         startTime = Date.now();
-        
+
         console.log(`✅ Quiz initialized: ${totalQuestions} questions`);
         console.log(`✅ Verification: selectedQuestions.length=${selectedQuestions.length}, currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
-        
+
         // Verify consistency
         if (selectedQuestions.length !== currentQuiz.length || currentQuiz.length !== totalQuestions) {
             console.error(`❌ Inconsistency detected: selectedQuestions=${selectedQuestions.length}, currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
         }
-        
+
         // Apply translations
         applyQuizTranslations();
-        
+
         // Setup event listeners
         setupEventListeners();
-        
+
         // Show first question
         showQuestion();
-        
+
         hideLoadingState();
-        
+
     } catch (error) {
         console.error('❌ Error initializing quiz:', error);
         hideLoadingState();
@@ -1333,14 +992,14 @@ function setupEventListeners() {
         nextButton.addEventListener('click', () => {
             console.log(`🔘 Next button clicked: currentQuestionIndex=${currentQuestionIndex}, totalQuestions=${totalQuestions}`);
             console.log(`🔘 Quiz state: currentQuiz.length=${currentQuiz?.length}`);
-            
+
             // Verify consistency before proceeding
             if (currentQuiz && currentQuiz.length !== totalQuestions) {
                 console.warn(`⚠️ Inconsistency in button click: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
                 totalQuestions = currentQuiz.length;
                 console.log(`🔧 Corrected totalQuestions to ${totalQuestions}`);
             }
-            
+
             // Check if this is the last question
             if (currentQuestionIndex === totalQuestions - 1) {
                 console.log('🏁 Last question reached, showing results');
@@ -1351,13 +1010,13 @@ function setupEventListeners() {
             }
         });
     }
-    
+
     // Restart quiz button
     const restartButton = document.getElementById('restartQuizBtn');
     if (restartButton) {
         restartButton.addEventListener('click', restartQuiz);
     }
-    
+
     // Back to categories buttons
     const backButtons = document.querySelectorAll('#backToCategoriesBtn, #backToCategoriesFromResultsBtn, #errorBackToCategoriesBtn');
     backButtons.forEach(button => {
@@ -1365,7 +1024,7 @@ function setupEventListeners() {
             window.location.href = 'index.html#quizzes';
         });
     });
-    
+
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
         if (e.key >= '1' && e.key <= '4') {
@@ -1387,7 +1046,7 @@ function setupEventListeners() {
 function getQuestionEmoji(difficulty) {
     const emojis = {
         'beginner': '🟢',
-        'intermediate': '🟡', 
+        'intermediate': '🟡',
         'advanced': '🔴'
     };
     return emojis[difficulty] || '🟢';
@@ -1416,19 +1075,19 @@ function getCategoryEmoji(category) {
 function getDifficultyBadge(difficulty) {
     const translations = getTranslations();
     const currentLanguage = getCurrentLanguage();
-    
+
     const difficultyLabels = {
         'beginner': translations[currentLanguage]?.difficulty_beginner || 'Beginner',
         'intermediate': translations[currentLanguage]?.difficulty_intermediate || 'Intermediate',
         'advanced': translations[currentLanguage]?.difficulty_advanced || 'Advanced'
     };
-    
+
     const badgeColors = {
         'beginner': 'success',
         'intermediate': 'warning',
         'advanced': 'danger'
     };
-    
+
     return `<span class="badge bg-${badgeColors[difficulty]} difficulty-badge">${difficultyLabels[difficulty]}</span>`;
 }
 
@@ -1465,53 +1124,53 @@ function getCurrentQuizFile() {
 async function loadQuiz(category, quizFile, language = null) {
     const lang = language || getCurrentLanguage();
     const langFolder = lang === 'en' ? 'en' : 'es';
-    
+
     // Store current quiz info
     localStorage.setItem('infraquiz_current_category', category);
     localStorage.setItem('infraquiz_current_quiz', quizFile);
-    
+
     try {
         showLoadingState();
-        
+
         const quizUrl = `${GITHUB_CONFIG.BASE_URL}/quizzes/${category}/${langFolder}/${quizFile}`;
         console.log(`📥 Loading quiz from: ${quizUrl}`);
-        
+
         const response = await fetch(quizUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const content = await response.text();
         console.log(`✅ Quiz content loaded (${content.length} characters)`);
-        
+
         currentQuiz = parseQuizContent(content);
-        
+
         if (!currentQuiz || currentQuiz.length === 0) {
             throw new Error('No valid questions found in quiz file');
         }
-        
+
         console.log(`✅ Quiz parsed successfully: ${currentQuiz.length} questions`);
-        
+
         // Log questions with explanations for debugging
         const questionsWithExplanations = currentQuiz.filter(q => q.explanation);
         console.log(`📝 Questions with explanations in loadQuiz: ${questionsWithExplanations.length}/${currentQuiz.length}`);
-        
+
         // Reset quiz state
         currentQuestionIndex = 0;
         score = 0;
         userAnswers = [];
         totalQuestions = currentQuiz.length;
-        
+
         console.log(`✅ Quiz state reset: currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
-        
+
         // Verify consistency
         if (currentQuiz.length !== totalQuestions) {
             console.error(`❌ Inconsistency detected in loadQuiz: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
         }
-        
+
         hideLoadingState();
         return Promise.resolve();
-        
+
     } catch (error) {
         console.error('❌ Error loading quiz:', error);
         hideLoadingState();
@@ -1535,8 +1194,8 @@ function scrollToTop() {
 function handleScrollToTop() {
     const scrollBtn = document.getElementById('scrollToTopBtn');
     if (!scrollBtn) return;
-    
-    window.addEventListener('scroll', function() {
+
+    window.addEventListener('scroll', function () {
         if (window.pageYOffset > 300) {
             scrollBtn.classList.add('visible');
         } else {
@@ -1550,42 +1209,42 @@ function handleScrollToTop() {
  */
 function initializeQuizPage() {
     console.log('🚀 Initializing quiz page...');
-    
+
     // Verify Marked.js is available and check version
     if (typeof marked !== 'undefined') {
         console.log('✅ Marked.js is available');
-        
+
         // Check available methods
         if (typeof marked.parse === 'function') {
             console.log('📋 Marked version: v4+ (has parse method)');
         } else if (typeof marked === 'function') {
             console.log('📋 Marked version: Legacy (marked is function)');
         }
-        
+
         // Log available methods for debugging
         console.log('🔧 Available marked methods:', Object.getOwnPropertyNames(marked));
     } else {
         console.warn('⚠️ Marked.js not available - using fallback renderer');
     }
-    
+
     // Dark mode and language are now handled globally by script.js
     // No need to call initializeDarkMode() or handleLanguageChange()
-    
+
     // Apply initial translations
     applyQuizTranslations();
-    
+
     // Setup scroll to top
     handleScrollToTop();
-    
+
     // Setup quiz navigation
     setupQuizNavigation();
-    
+
     // Load quiz using initializeQuiz for direct access
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
     const level = urlParams.get('level') || 'beginner';
     const language = urlParams.get('lang') || getCurrentLanguage();
-    
+
     if (category) {
         console.log(`📚 Loading quiz directly: ${category} (${level}, ${language})`);
         // Use initializeQuiz for direct quiz access to ensure consistent explanation handling
@@ -1602,52 +1261,52 @@ function initializeQuizPage() {
 async function startQuiz(category, level, language) {
     try {
         showLoadingState();
-        
+
         // Use existing loadQuizContent function
         const content = await loadQuizContent(category, language);
         currentQuiz = parseQuizContent(content);
-        
+
         if (!currentQuiz || currentQuiz.length === 0) {
             throw new Error('No valid questions found in quiz');
         }
-        
+
         // Filter by difficulty if needed
         if (level && level !== 'all') {
             currentQuiz = currentQuiz.filter(q => q.difficulty === level);
         }
-        
+
         if (currentQuiz.length === 0) {
             throw new Error(`No questions found for difficulty: ${level}`);
         }
-        
+
         // Shuffle and limit questions
         currentQuiz = shuffleArray(currentQuiz);
         if (currentQuiz.length > config.MAX_QUESTIONS_PER_QUIZ) {
             currentQuiz = currentQuiz.slice(0, config.MAX_QUESTIONS_PER_QUIZ);
         }
-        
+
         // Log questions with explanations for debugging
         const questionsWithExplanations = currentQuiz.filter(q => q.explanation);
         console.log(`📝 Questions with explanations in startQuiz: ${questionsWithExplanations.length}/${currentQuiz.length}`);
-        
+
         // Initialize quiz state
         currentQuestionIndex = 0;
         score = 0;
         userAnswers = [];
         totalQuestions = currentQuiz.length;
         startTime = Date.now();
-        
+
         console.log(`✅ Quiz started: ${totalQuestions} questions`);
         console.log(`✅ Verification: currentQuiz.length=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
-        
+
         // Verify consistency
         if (currentQuiz.length !== totalQuestions) {
             console.error(`❌ Inconsistency detected in startQuiz: currentQuiz=${currentQuiz.length}, totalQuestions=${totalQuestions}`);
         }
-        
+
         hideLoadingState();
         showQuestion();
-        
+
     } catch (error) {
         console.error('❌ Error starting quiz:', error);
         hideLoadingState();

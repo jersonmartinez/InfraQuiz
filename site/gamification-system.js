@@ -6,10 +6,15 @@ class GamificationEngine {
         this.achievements = this.loadAchievements();
         this.learningPaths = this.initializeLearningPaths();
         this.adaptiveEngine = new AdaptiveLearningEngine();
-        this.flashcardSystem = new FlashcardSystem();
+        this.flashcardSystem = null; // Will be registered by flashcards.js
         this.collaborationSystem = new CollaborationSystem();
         this.notesSystem = new NotesSystem();
         this.reminderSystem = new ReminderSystem();
+    }
+
+    registerFlashcardSystem(system) {
+        this.flashcardSystem = system;
+        console.log('✅ Flashcard system registered with GamificationEngine');
     }
 
     loadUserProfile() {
@@ -383,10 +388,18 @@ class GamificationEngine {
         }
     }
 
+    unlockNewFeatures() {
+        // Placeholder for feature unlocking logic
+        console.log('Checking for new features to unlock...');
+    }
+
     // Initialize on page load
     static init() {
         window.InfraQuiz = window.InfraQuiz || {};
         window.InfraQuiz.gamification = new GamificationEngine();
+
+        // Backward compatibility for existing scripts
+        window.gamificationEngine = window.InfraQuiz.gamification;
 
         // Update UI on load
         window.InfraQuiz.gamification.updateUI();
@@ -452,7 +465,7 @@ class AdaptiveLearningEngine {
         });
 
         patterns.problemAreas = Object.entries(weaknessCount)
-            .sort(([,a], [,b]) => b - a)
+            .sort(([, a], [, b]) => b - a)
             .slice(0, 3)
             .map(([category]) => category);
 
@@ -531,93 +544,6 @@ class AdaptiveLearningEngine {
             ...patterns,
             timestamp: Date.now()
         }));
-    }
-}
-
-// === FLASHCARD SYSTEM (Gamification) ===
-
-class GamificationFlashcardSystem {
-    constructor() {
-        this.flashcards = this.loadFlashcards();
-        this.studySessions = this.loadStudySessions();
-    }
-
-    loadFlashcards() {
-        return JSON.parse(localStorage.getItem('infraquiz_flashcards') || '[]');
-    }
-
-    loadStudySessions() {
-        return JSON.parse(localStorage.getItem('infraquiz_study_sessions') || '[]');
-    }
-
-    createFlashcard(question, explanation) {
-        const flashcard = {
-            id: Date.now().toString(),
-            question: question.text,
-            answer: explanation,
-            category: question.category,
-            difficulty: question.difficulty,
-            created: Date.now(),
-            lastReviewed: null,
-            reviewCount: 0,
-            easeFactor: 2.5, // SM-2 algorithm
-            interval: 1,
-            nextReview: Date.now()
-        };
-
-        this.flashcards.push(flashcard);
-        this.saveFlashcards();
-
-        return flashcard;
-    }
-
-    // Spaced Repetition using SM-2 Algorithm
-    reviewFlashcard(flashcardId, quality) {
-        const flashcard = this.flashcards.find(f => f.id === flashcardId);
-        if (!flashcard) return;
-
-        // SM-2 Algorithm
-        if (quality >= 3) {
-            // Correct response
-            if (flashcard.reviewCount === 0) {
-                flashcard.interval = 1;
-            } else if (flashcard.reviewCount === 1) {
-                flashcard.interval = 6;
-            } else {
-                flashcard.interval = Math.round(flashcard.interval * flashcard.easeFactor);
-            }
-
-            flashcard.reviewCount++;
-        } else {
-            // Incorrect response
-            flashcard.interval = 1;
-            flashcard.reviewCount = 0;
-        }
-
-        // Adjust ease factor
-        flashcard.easeFactor = Math.max(1.3, flashcard.easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02)));
-
-        // Calculate next review date
-        flashcard.nextReview = Date.now() + (flashcard.interval * 24 * 60 * 60 * 1000);
-        flashcard.lastReviewed = Date.now();
-
-        this.saveFlashcards();
-    }
-
-    getDueFlashcards(limit = 20) {
-        const now = Date.now();
-        return this.flashcards
-            .filter(card => card.nextReview <= now)
-            .sort((a, b) => a.nextReview - b.nextReview)
-            .slice(0, limit);
-    }
-
-    getFlashcardsByCategory(category) {
-        return this.flashcards.filter(card => card.category === category);
-    }
-
-    saveFlashcards() {
-        localStorage.setItem('infraquiz_flashcards', JSON.stringify(this.flashcards));
     }
 }
 
@@ -823,32 +749,8 @@ class ReminderSystem {
         }
 
         // Also show in-app notification
-        if (window.InfraQuiz?.gamification) {
-            window.InfraQuiz.gamification.showNotification(reminder.message, 'info', 5000);
-        }
-    }
-
-    // Smart reminders based on user behavior
-    scheduleSmartReminders() {
-        const lastActive = window.InfraQuiz?.gamification?.userProfile?.lastActive;
-        if (!lastActive) return;
-
-        const daysSinceActive = (Date.now() - lastActive) / (1000 * 60 * 60 * 24);
-
-        if (daysSinceActive > 1) {
-            this.scheduleReminder(
-                'study_reminder',
-                'Ready to continue your DevOps learning journey?',
-                1000 // 1 second for demo
-            );
-        }
-
-        if (daysSinceActive > 3) {
-            this.scheduleReminder(
-                'streak_warning',
-                'Your learning streak is about to break! Complete a quiz today.',
-                2000 // 2 seconds for demo
-            );
+        if (window.InfraQuiz && window.InfraQuiz.ui) {
+            window.InfraQuiz.ui.showNotification(reminder.message, 'info');
         }
     }
 
@@ -857,34 +759,7 @@ class ReminderSystem {
     }
 }
 
-// === INITIALIZATION ===
-
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     GamificationEngine.init();
-
-    // Initialize subsystems
-    if (window.InfraQuiz?.gamification) {
-        window.InfraQuiz.gamification.adaptiveEngine = new AdaptiveLearningEngine();
-        window.InfraQuiz.gamification.flashcardSystem = new GamificationFlashcardSystem();
-        window.InfraQuiz.gamification.collaborationSystem = new CollaborationSystem();
-        window.InfraQuiz.gamification.notesSystem = new NotesSystem();
-        window.InfraQuiz.gamification.reminderSystem = new ReminderSystem();
-
-        // Schedule smart reminders
-        window.InfraQuiz.gamification.reminderSystem.scheduleSmartReminders();
-    }
-
-    console.log('🎮 Gamification system initialized');
 });
-
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        GamificationEngine,
-        AdaptiveLearningEngine,
-        GamificationFlashcardSystem,
-        CollaborationSystem,
-        NotesSystem,
-        ReminderSystem
-    };
-}

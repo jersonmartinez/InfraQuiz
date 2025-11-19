@@ -558,34 +558,6 @@ class PerformanceMonitor {
         console.log('📊 Performance Metrics:', this.metrics);
 
         // Send to analytics if enabled
-        if (window.InfraQuiz?.analytics?.enabled) {
-            // Implementation for sending metrics to analytics service
-        }
-    }
-}
-
-// === INITIALIZATION ===
-
-// Create global instances
-window.InfraQuiz = window.InfraQuiz || {};
-window.InfraQuiz.config = new InfraQuizConfig();
-window.InfraQuiz.cache = new SmartCache(window.InfraQuiz.config);
-window.InfraQuiz.github = new GitHubService(window.InfraQuiz.config, window.InfraQuiz.cache);
-window.InfraQuiz.performance = new PerformanceMonitor();
-
-// Load configuration from storage
-window.InfraQuiz.config.loadFromStorage();
-
-// Preload critical resources
-window.InfraQuiz.cache.preloadCritical();
-
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        InfraQuizConfig,
-        SmartCache,
-        GitHubService,
-        RateLimiter,
         PerformanceMonitor
     };
 }

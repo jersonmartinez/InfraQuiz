@@ -1,114 +1,14 @@
 // === INFRAQUIZ - ENHANCED JAVASCRIPT ===
 
 // === CONFIGURATION ===
-const INFRAQUIZ_CONFIG = {
-    VERSION: '2.0.0',
-    GITHUB_REPO: 'jersonmartinez/InfraQuiz',
-    GITHUB_BRANCH: 'main',
-    DEFAULT_LANGUAGE: 'en',
-    MAX_QUESTIONS_PER_QUIZ: 21,
-    QUIZ_BASE_PATH: '../quizzes'
-};
+// Config is now managed by window.InfraQuiz.config in enhanced-config.js
 
 // === GLOBAL STATE ===
-let currentLanguage = localStorage.getItem('quizLanguage') || INFRAQUIZ_CONFIG.DEFAULT_LANGUAGE;
+let currentLanguage = localStorage.getItem('quizLanguage') || window.InfraQuiz?.config?.quiz?.defaultLanguage || 'en';
 let isDarkMode = localStorage.getItem('darkMode') === 'enabled';
 
 // === TRANSLATIONS ===
-const translations = {
-    en: {
-        // Navigation
-        home_nav: 'Home',
-        quizzes_nav: 'Quizzes',
-        flashcards_nav: 'Flashcards',
-        about_nav: 'About',
-        editor_nav: 'Editor',
-        analytics_nav: 'Analytics',
-        
-        // Hero Section
-        hero_title: 'Master DevOps with Interactive Quizzes',
-        hero_description: 'Dive into the world of DevOps with our comprehensive collection of interactive quizzes. From Bash scripting to Kubernetes orchestration, master the tools that power modern infrastructure.',
-        start_random_quiz: 'Start Random Quiz',
-        study_flashcards: 'Study Flashcards',
-        browse_categories: 'Browse Categories',
-        
-        // Quiz Categories
-        quiz_categories_title: 'Quiz Categories',
-        quiz_categories_subtitle: 'Choose your learning path and master DevOps technologies',
-        
-        // Quiz Cards
-        beginner: 'Beginner',
-        intermediate: 'Intermediate',
-        advanced: 'Advanced',
-        
-        // Tooltips
-        beginner_tooltip: 'Perfect for newcomers to DevOps concepts',
-        intermediate_tooltip: 'For those with some DevOps experience',
-        advanced_tooltip: 'Challenging questions for DevOps experts',
-        
-        // Footer
-        footer_text: '© 2025 InfraQuiz. Made with ❤️ for the DevOps community.',
-        finish_quiz: 'Finish Quiz',
-        
-        // Flashcards Section
-        flashcards_title: 'Interactive Flashcards',
-        flashcards_description: 'Master DevOps concepts with our advanced spaced repetition system. Study smarter, not harder with personalized learning paths and gamified progress tracking.',
-        feature_spaced: 'Spaced Repetition Algorithm',
-        feature_gamified: 'Gamified Learning Experience',
-        feature_progress: 'Detailed Progress Analytics',
-        feature_adaptive: 'Adaptive Difficulty',
-        start_flashcards: 'Start Studying Now',
-        cards_available: 'Cards Available',
-        categories_covered: 'Categories',
-        algorithm_used: 'Algorithm'
-    },
-    es: {
-        // Navigation
-        home_nav: 'Inicio',
-        quizzes_nav: 'Cuestionarios',
-        flashcards_nav: 'Tarjetas',
-        about_nav: 'Acerca de',
-        editor_nav: 'Editor',
-        analytics_nav: 'Analíticas',
-        
-        // Hero Section
-        hero_title: 'Domina DevOps con Cuestionarios Interactivos',
-        hero_description: 'Sumérgete en el mundo de DevOps con nuestra colección completa de cuestionarios interactivos. Desde scripting en Bash hasta orquestación con Kubernetes, domina las herramientas que impulsan la infraestructura moderna.',
-        start_random_quiz: 'Iniciar Cuestionario Aleatorio',
-        study_flashcards: 'Estudiar Tarjetas',
-        browse_categories: 'Explorar Categorías',
-        
-        // Quiz Categories
-        quiz_categories_title: 'Categorías de Cuestionarios',
-        quiz_categories_subtitle: 'Elige tu ruta de aprendizaje y domina las tecnologías DevOps',
-        
-        // Quiz Cards
-        beginner: 'Principiante',
-        intermediate: 'Intermedio',
-        advanced: 'Avanzado',
-        
-        // Tooltips
-        beginner_tooltip: 'Perfecto para principiantes en conceptos DevOps',
-        intermediate_tooltip: 'Para aquellos con algo de experiencia en DevOps',
-        advanced_tooltip: 'Preguntas desafiantes para expertos en DevOps',
-        
-        // Footer
-        footer_text: '© 2025 InfraQuiz. Hecho con ❤️ para la comunidad DevOps.',
-        finish_quiz: 'Finalizar Cuestionario',
-        
-        // Flashcards Section
-        flashcards_title: 'Tarjetas Interactivas',
-        flashcards_description: 'Domina conceptos DevOps con nuestro avanzado sistema de repetición espaciada. Estudia de manera más inteligente con rutas de aprendizaje personalizadas y seguimiento gamificado del progreso.',
-        feature_spaced: 'Algoritmo de Repetición Espaciada',
-        feature_gamified: 'Experiencia de Aprendizaje Gamificada',
-        feature_progress: 'Analíticas Detalladas de Progreso',
-        feature_adaptive: 'Dificultad Adaptativa',
-        start_flashcards: 'Comenzar a Estudiar Ahora',
-        cards_available: 'Tarjetas Disponibles',
-        categories_covered: 'Categorías',
-        algorithm_used: 'Algoritmo'
-    }
-};
+// Translations are now managed by window.InfraQuiz.ui.getTranslations()
 
 // === QUIZ TECHNOLOGIES ===
 const quizTechnologies = [
@@ -232,13 +132,13 @@ function getCurrentLanguage() {
 }
 
 function getTranslations() {
-    return translations[currentLanguage] || translations.en;
+    return window.InfraQuiz?.ui?.getTranslations(currentLanguage) || {};
 }
 
 function applyTranslations() {
     const elements = document.querySelectorAll('[data-lang-key]');
     const t = getTranslations();
-    
+
     elements.forEach(element => {
         const key = element.getAttribute('data-lang-key');
         if (t[key]) {
@@ -293,7 +193,7 @@ function initializeThemeSwitch() {
                 themeSwitch.setAttribute('aria-pressed', 'true');
                 themeSwitch.setAttribute('aria-label', 'Switch to light mode');
                 localStorage.setItem('darkMode', 'enabled');
-                showNotification('Dark mode enabled', 'success');
+                window.InfraQuiz.ui.showNotification('Dark mode enabled', 'success');
             } else {
                 document.body.classList.remove('dark-mode');
                 document.body.setAttribute('data-theme', 'light');
@@ -301,7 +201,7 @@ function initializeThemeSwitch() {
                 themeSwitch.setAttribute('aria-pressed', 'false');
                 themeSwitch.setAttribute('aria-label', 'Switch to dark mode');
                 localStorage.setItem('darkMode', 'disabled');
-                showNotification('Light mode enabled', 'success');
+                window.InfraQuiz.ui.showNotification('Light mode enabled', 'success');
             }
         };
 
@@ -316,7 +216,7 @@ function initializeThemeSwitch() {
 
     // Add change event for legacy dark mode switch
     if (darkModeToggle) {
-        darkModeToggle.addEventListener('change', function() {
+        darkModeToggle.addEventListener('change', function () {
             isDarkMode = this.checked;
 
             if (isDarkMode) {
@@ -324,13 +224,13 @@ function initializeThemeSwitch() {
                 document.body.setAttribute('data-theme', 'dark');
                 this.setAttribute('aria-label', 'Dark mode enabled');
                 localStorage.setItem('darkMode', 'enabled');
-                showNotification('Dark mode enabled', 'success');
+                window.InfraQuiz.ui.showNotification('Dark mode enabled', 'success');
             } else {
                 document.body.classList.remove('dark-mode');
                 document.body.setAttribute('data-theme', 'light');
                 this.setAttribute('aria-label', 'Light mode enabled');
                 localStorage.setItem('darkMode', 'disabled');
-                showNotification('Light mode enabled', 'success');
+                window.InfraQuiz.ui.showNotification('Light mode enabled', 'success');
             }
         });
     }
@@ -385,7 +285,7 @@ function initializeLanguageToggle() {
                 document.body.removeChild(announcement);
             }, 1000);
 
-            showNotification(`Language switched to ${currentLanguage === 'en' ? 'English' : 'Spanish'}`, 'success');
+            window.InfraQuiz.ui.showNotification(`Language switched to ${currentLanguage === 'en' ? 'English' : 'Spanish'}`, 'success');
         };
 
         languageToggle.addEventListener('click', toggleLanguage);
@@ -411,7 +311,7 @@ function initializeLanguageToggle() {
                 renderQuizCategories();
             }
 
-            showNotification(`Language switched to ${currentLanguage === 'en' ? 'English' : 'Spanish'}`, 'success');
+            window.InfraQuiz.ui.showNotification(`Language switched to ${currentLanguage === 'en' ? 'English' : 'Spanish'}`, 'success');
         });
     }
 }
@@ -450,7 +350,7 @@ function updateFooterYear() {
 // === NAVIGATION INITIALIZATION ===
 function initializeNavigation() {
     console.log('🧭 Navigation initialized');
-    
+
     // Navbar scroll effect
     const navbar = document.getElementById('main-navbar');
     if (navbar) {
@@ -470,7 +370,7 @@ function initializeNavigation() {
             e.preventDefault();
             const targetId = link.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
-            
+
             if (targetElement) {
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
@@ -483,51 +383,11 @@ function initializeNavigation() {
 
 // === QUIZ FILE LOADING ===
 async function loadQuizFile(category, language) {
-    const config = {
-        GITHUB_REPO: INFRAQUIZ_CONFIG.GITHUB_REPO,
-        GITHUB_BRANCH: INFRAQUIZ_CONFIG.GITHUB_BRANCH,
-        QUIZ_BASE_PATH: INFRAQUIZ_CONFIG.QUIZ_BASE_PATH
-    };
-
-    // Determine the correct filename based on language
-    const quizFile = language === 'en' ? 'questions1.md' : 'cuestionario1.md';
-    const filePath = `${config.QUIZ_BASE_PATH}/${category}/${language}/${quizFile}`;
-    
-    // Try GitHub first
-    const githubUrl = `https://raw.githubusercontent.com/${config.GITHUB_REPO}/${config.GITHUB_BRANCH}/quizzes/${category}/${language}/${quizFile}`;
-    
-    try {
-        console.log(`📥 Loading quiz from GitHub: ${githubUrl}`);
-        const response = await fetch(githubUrl);
-        
-        if (!response.ok) {
-            throw new Error(`GitHub HTTP ${response.status}: ${response.statusText}`);
-        }
-        
-        const content = await response.text();
-        console.log(`✅ Successfully loaded ${Math.round(content.length / 1024)}KB from GitHub`);
-        return content;
-        
-    } catch (githubError) {
-        console.warn(`⚠️ GitHub load failed: ${githubError.message}`);
-        
-        // Fallback to local file
-        try {
-            console.log(`📥 Trying local file: ${filePath}`);
-            const localResponse = await fetch(filePath);
-            
-            if (!localResponse.ok) {
-                throw new Error(`Local HTTP ${localResponse.status}: ${localResponse.statusText}`);
-            }
-            
-            const content = await localResponse.text();
-            console.log(`✅ Successfully loaded ${Math.round(content.length / 1024)}KB from local file`);
-            return content;
-            
-        } catch (localError) {
-            console.error(`❌ Local load also failed: ${localError.message}`);
-            throw new Error(`Failed to load quiz file from both GitHub and local sources. GitHub error: ${githubError.message}, Local error: ${localError.message}`);
-        }
+    if (window.InfraQuiz?.github) {
+        return await window.InfraQuiz.github.fetchQuizContent(category, language);
+    } else {
+        console.error('InfraQuiz GitHub service not available');
+        throw new Error('Service not available');
     }
 }
 
@@ -542,7 +402,7 @@ function parseMarkdownQuiz(markdown) {
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
-        
+
         // Skip empty lines
         if (!line) continue;
 
@@ -558,7 +418,7 @@ function parseMarkdownQuiz(markdown) {
             // Start new question
             const questionText = line.replace(/^###\s*/, '').trim();
             const { emoji, text } = extractEmojiAndText(questionText);
-            
+
             currentQuestion = {
                 text: text,
                 emoji: emoji,
@@ -566,7 +426,7 @@ function parseMarkdownQuiz(markdown) {
                 options: [],
                 explanation: ''
             };
-            
+
             currentOptions = [];
             currentExplanation = '';
             inExplanation = false;
@@ -578,7 +438,7 @@ function parseMarkdownQuiz(markdown) {
             inExplanation = false;
             const optionText = line.replace(/^[📝🔄📦🎯]\s/, '').trim();
             const optionIndex = currentOptions.length;
-            
+
             currentOptions.push({
                 text: optionText,
                 emoji: line.charAt(0),
@@ -593,7 +453,7 @@ function parseMarkdownQuiz(markdown) {
             if (match) {
                 const correctLetter = match[0].charAt(0);
                 const correctIndex = correctLetter.charCodeAt(0) - 65; // A=0, B=1, C=2, D=3
-                
+
                 if (currentOptions[correctIndex]) {
                     currentOptions[correctIndex].isCorrect = true;
                 }
@@ -654,7 +514,7 @@ function renderQuizCategories() {
     if (!container) return;
 
     const t = getTranslations();
-    
+
     container.innerHTML = quizTechnologies.map(tech => {
         const difficultyButtons = tech.difficulties.map(difficulty => {
             const tooltipKey = `${difficulty}_tooltip`;
@@ -692,15 +552,15 @@ async function startRandomQuiz() {
         // Select random technology and difficulty
         const randomTech = quizTechnologies[Math.floor(Math.random() * quizTechnologies.length)];
         const randomDifficulty = randomTech.difficulties[Math.floor(Math.random() * randomTech.difficulties.length)];
-        
+
         console.log(`🎲 Starting random quiz: ${randomTech.id} - ${randomDifficulty}`);
-        
+
         // Redirect to quiz page
         window.location.href = `quiz.html?category=${randomTech.id}&level=${randomDifficulty}&lang=${currentLanguage}`;
-        
+
     } catch (error) {
         console.error('❌ Error starting random quiz:', error);
-        showNotification('Error starting random quiz', 'error');
+        window.InfraQuiz.ui.showNotification('Error starting random quiz', 'error');
     }
 }
 
@@ -728,27 +588,9 @@ function scrollToQuizzes() {
 }
 
 function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'} me-2"></i>
-        ${message}
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
+    if (window.InfraQuiz?.ui) {
+        window.InfraQuiz.ui.showNotification(message, type);
+    }
 }
 
 // === ACCESSIBILITY ENHANCEMENTS ===
