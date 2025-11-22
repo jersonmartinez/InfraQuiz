@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfraQuiz - Quiz</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
-    
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+
     <!-- Google Fonts - Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- MDBootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <!-- Custom CSS -->
-    <link href="styles.css" rel="stylesheet">
-    <!-- Marked.js for markdown parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-0" id="main-navbar">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top glass-effect">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
                 <div class="logo-container">
@@ -36,10 +47,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#home" data-lang-key="home_nav">Inicio</a>
+                        <a class="nav-link" href="index.html#home" data-lang-key="home_nav">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html#quizzes" data-lang-key="quizzes_nav">Cuestionarios</a>
+                        <a class="nav-link" href="index.html#quizzes" data-lang-key="quizzes_nav">Quizzes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="flashcards.html" data-lang-key="flashcards_nav">Flashcards</a>
@@ -48,30 +59,31 @@
                         <a class="nav-link" href="quiz-editor.html" data-lang-key="editor_nav">Editor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="analytics.html" data-lang-key="analytics_nav">Analíticas</a>
+                        <a class="nav-link" href="analytics.html" data-lang-key="analytics_nav">Analytics</a>
                     </li>
                     <!-- Enhanced Theme Switch -->
                     <li class="nav-item ms-lg-3">
                         <div class="theme-switch-container">
-                            <div class="theme-switch" id="themeSwitch">
+                            <button class="theme-switch" id="themeSwitch" aria-label="Toggle theme">
                                 <div class="switch-track">
                                     <div class="switch-thumb">
                                         <i class="bi bi-sun-fill sun-icon"></i>
                                         <i class="bi bi-moon-fill moon-icon"></i>
                                     </div>
                                 </div>
-                            </div>
+                            </button>
                         </div>
                     </li>
                     <!-- Enhanced Language Toggle -->
                     <li class="nav-item ms-lg-3">
                         <div class="language-toggle-container">
-                            <div class="language-toggle" id="languageToggle">
+                            <button class="language-toggle" id="languageToggle" aria-label="Toggle language">
                                 <span class="lang-text" data-lang="en">EN</span>
                                 <span class="lang-text" data-lang="es">ES</span>
                                 <div class="toggle-slider"></div>
-                            </div>
-                        </li>
+                            </button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -87,8 +99,9 @@
                             <div class="spinner-border text-primary mb-4" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
-                            <h4 class="mb-3" data-lang-key="loading_quiz">Cargando cuestionario...</h4>
-                            <p class="text-muted" data-lang-key="loading_questions">Obteniendo preguntas del repositorio...</p>
+                            <h4 class="mb-3" data-lang-key="loading_quiz">Loading quiz...</h4>
+                            <p class="text-muted" data-lang-key="loading_questions">Getting questions from repository...
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -109,7 +122,7 @@
                     <div class="col-lg-8 col-md-10">
                         <!-- Progress Indicator -->
                         <div id="progressIndicator" class="quiz-progress-indicator"></div>
-                        
+
                         <!-- Quiz Card -->
                         <div class="quiz-card">
                             <div class="card-body">
@@ -119,10 +132,10 @@
                                 <div class="d-flex justify-content-between align-items-center mt-4">
                                     <button id="backToCategoriesBtn" class="btn btn-outline-secondary">
                                         <i class="bi bi-arrow-left me-2"></i>
-                                        <span data-lang-key="back_to_categories">Volver a Categorías</span>
+                                        <span data-lang-key="back_to_categories">Back to Categories</span>
                                     </button>
                                     <button id="nextQuestionBtn" class="btn btn-primary" style="display: none;">
-                                        <span data-lang-key="next_question">Siguiente Pregunta</span>
+                                        <span data-lang-key="next_question">Next Question</span>
                                         <i class="bi bi-arrow-right ms-2"></i>
                                     </button>
                                 </div>
@@ -144,11 +157,11 @@
                                 <div class="mt-4">
                                     <button id="restartQuizBtn" class="btn btn-primary me-3">
                                         <i class="bi bi-arrow-repeat me-2"></i>
-                                        <span data-lang-key="restart_quiz">Reiniciar Quiz</span>
+                                        <span data-lang-key="restart_quiz">Restart Quiz</span>
                                     </button>
                                     <button id="backToCategoriesFromResultsBtn" class="btn btn-outline-secondary">
                                         <i class="bi bi-grid me-2"></i>
-                                        <span data-lang-key="back_to_categories">Volver a Categorías</span>
+                                        <span data-lang-key="back_to_categories">Back to Categories</span>
                                     </button>
                                 </div>
                             </div>
@@ -157,135 +170,240 @@
                 </div>
             </div>
         </div>
-
-        <!-- Footer -->
-        <footer class="quiz-footer">
-            <div class="container">
-                <div class="text-center">
-                    <button id="scrollToTopBtn" class="btn-scroll-top" onclick="scrollToTop()">
-                        <i class="bi bi-arrow-up"></i>
-                    </button>
-                    <p class="footer-text">
-                        <span data-lang-key="footer_text">InfraQuiz - Mejora tus conocimientos de infraestructura</span>
-                    </p>
-                </div>
-            </div>
-        </footer>
     </main>
 
-    <!-- Scripts -->
-    <!-- MDBootstrap JS -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
-    
-    <!-- Main Scripts -->
-    <script src="script.js"></script>
-    <script src="quiz_page.js"></script>
+    <!-- Footer -->
+    <footer class="quiz-footer">
+        <div class="container">
+            <div class="text-center">
+                <button id="scrollToTopBtn" class="btn-scroll-top" onclick="scrollToTop()" aria-label="Scroll to top">
+                    <i class="bi bi-arrow-up"></i>
+                </button>
+                <p class="footer-text">
+                    <!DOCTYPE html>
+                    <html lang="en">
 
-    <script>
-        // Debug information and setup
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            console.log('🔍 Quiz URL Parameters:');
-            console.log('  Category:', urlParams.get('category'));
-            console.log('  Level:', urlParams.get('level'));
-            console.log('  Language:', urlParams.get('lang'));
-            console.log('  Custom:', urlParams.get('custom'));
-            
-            // Show current quiz info in title if available
-            const category = urlParams.get('category');
-            const level = urlParams.get('level');
-            if (category && level) {
-                document.title = `InfraQuiz - ${category.charAt(0).toUpperCase() + category.slice(1)} (${level})`;
-            }
-            
-            // Apply translations once scripts are loaded
-            setTimeout(() => {
-                if (window.InfraQuiz && window.InfraQuiz.applyTranslations) {
-                    window.InfraQuiz.applyTranslations();
-                }
-            }, 500);
-            
-            // Add debug test button functionality
-            const debugBtn = document.getElementById('debugTestBtn');
-            if (debugBtn) {
-                debugBtn.addEventListener('click', runDebugTest);
-            }
-        });
-        
-        async function runDebugTest() {
-            console.log('🧪 Running debug test...');
-            
-            const testContent = `# ☸️ Kubernetes - Cuestionario 1
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>InfraQuiz - Quiz</title>
+                        <link rel="icon"
+                            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
 
-## Preguntas
+                        <!-- Google Fonts - Poppins -->
+                        <link
+                            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+                            rel="stylesheet">
 
-### 1. ☸️ ¿Qué es Kubernetes? 🟢
+                        <!-- Font Awesome -->
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+                            rel="stylesheet" />
 
-A) ☸️ Plataforma de orquestación de contenedores
+                        <!-- Bootstrap Icons -->
+                        <link rel="stylesheet"
+                            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-B) 🔧 Sistema de virtualización
+                        <!-- MDB -->
+                        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css"
+                            rel="stylesheet" />
 
-C) 📦 Gestor de paquetes
+                        <!-- AOS Animation -->
+                        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-D) 🌐 Servidor web
+                        <!-- Custom CSS -->
+                        <link rel="stylesheet" href="css/main.css">
+                    </head>
 
-**Respuesta correcta**: A) ☸️ Plataforma de orquestación de contenedores
+                    <body>
+                        <!-- Navbar -->
+                        <nav class="navbar navbar-expand-lg navbar-light fixed-top glass-effect">
+                            <div class="container">
+                                <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                                    <div class="logo-container">
+                                        <div class="logo-icon">
+                                            <i class="bi bi-cpu-fill"></i>
+                                        </div>
+                                        <span class="brand-text">InfraQuiz</span>
+                                    </div>
+                                </a>
+                                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                                    data-mdb-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                    <i class="fas fa-bars"></i>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.html#home" data-lang-key="home_nav">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="index.html#quizzes"
+                                                data-lang-key="quizzes_nav">Quizzes</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="flashcards.html"
+                                                data-lang-key="flashcards_nav">Flashcards</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="quiz-editor.html"
+                                                data-lang-key="editor_nav">Editor</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="analytics.html"
+                                                data-lang-key="analytics_nav">Analytics</a>
+                                        </li>
+                                        <!-- Enhanced Theme Switch -->
+                                        <li class="nav-item ms-lg-3">
+                                            <div class="theme-switch-container">
+                                                <button class="theme-switch" id="themeSwitch" aria-label="Toggle theme">
+                                                    <div class="switch-track">
+                                                        <div class="switch-thumb">
+                                                            <i class="bi bi-sun-fill sun-icon"></i>
+                                                            <i class="bi bi-moon-fill moon-icon"></i>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <!-- Enhanced Language Toggle -->
+                                        <li class="nav-item ms-lg-3">
+                                            <div class="language-toggle-container">
+                                                <button class="language-toggle" id="languageToggle"
+                                                    aria-label="Toggle language">
+                                                    <span class="lang-text" data-lang="en">EN</span>
+                                                    <span class="lang-text" data-lang="es">ES</span>
+                                                    <div class="toggle-slider"></div>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
 
-> 💡 Kubernetes automatiza el despliegue, escalado y gestión de aplicaciones en contenedores.
+                        <!-- Loading Screen -->
+                        <div id="loadingScreen" class="loading-screen">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6 col-md-8">
+                                        <div class="quiz-card text-center">
+                                            <div class="card-body">
+                                                <div class="spinner-border text-primary mb-4" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                <h4 class="mb-3" data-lang-key="loading_quiz">Loading quiz...</h4>
+                                                <p class="text-muted" data-lang-key="loading_questions">Getting
+                                                    questions from repository...
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-### 2. 🐳 ¿Qué es un Pod en Kubernetes? 🟢
+                        <!-- Error Screen -->
+                        <div id="errorScreen" style="display: none;" class="error-screen">
+                            <!-- Error content will be dynamically inserted -->
+                        </div>
 
-A) 🐳 Unidad más pequeña de despliegue
+                        <main class="container-fluid" style="margin-top: 100px; min-height: calc(100vh - 100px);">
+                            <!-- Quiz Content -->
+                            <div id="quizContent" style="display: none;" class="quiz-container">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-8 col-md-10">
+                                            <!-- Progress Indicator -->
+                                            <div id="progressIndicator" class="quiz-progress-indicator"></div>
 
-B) 🔧 Contenedor individual
+                                            <!-- Quiz Card -->
+                                            <div class="quiz-card">
+                                                <div class="card-body">
+                                                    <div id="questionText"></div>
+                                                    <div id="optionsContainer" class="list-group mt-4"></div>
+                                                    <div id="feedback" class="d-none"></div>
+                                                    <div class="d-flex justify-content-between align-items-center mt-4">
+                                                        <button id="backToCategoriesBtn"
+                                                            class="btn btn-outline-secondary">
+                                                            <i class="bi bi-arrow-left me-2"></i>
+                                                            <span data-lang-key="back_to_categories">Back to
+                                                                Categories</span>
+                                                        </button>
+                                                        <button id="nextQuestionBtn" class="btn btn-primary"
+                                                            style="display: none;">
+                                                            <span data-lang-key="next_question">Next Question</span>
+                                                            <i class="bi bi-arrow-right ms-2"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-C) 📦 Paquete de aplicación
+                            <!-- Results Screen -->
+                            <div id="resultsScreen" style="display: none;" class="quiz-results-container">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-6 col-md-8">
+                                            <div class="quiz-card text-center">
+                                                <div class="card-body">
+                                                    <div id="resultsContent"></div>
+                                                    <div class="mt-4">
+                                                        <button id="restartQuizBtn" class="btn btn-primary me-3">
+                                                            <i class="bi bi-arrow-repeat me-2"></i>
+                                                            <span data-lang-key="restart_quiz">Restart Quiz</span>
+                                                        </button>
+                                                        <button id="backToCategoriesFromResultsBtn"
+                                                            class="btn btn-outline-secondary">
+                                                            <i class="bi bi-grid me-2"></i>
+                                                            <span data-lang-key="back_to_categories">Back to
+                                                                Categories</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
 
-D) 🌐 Servicio de red
+                        <!-- Footer -->
+                        <footer class="quiz-footer">
+                            <div class="container">
+                                <div class="text-center">
+                                    <button id="scrollToTopBtn" class="btn-scroll-top" onclick="scrollToTop()"
+                                        aria-label="Scroll to top">
+                                        <i class="bi bi-arrow-up"></i>
+                                    </button>
+                                    <p class="footer-text">
+                                        <span data-lang-key="footer_text">InfraQuiz - Improve your infrastructure
+                                            knowledge</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </footer>
 
-**Respuesta correcta**: A) 🐳 Unidad más pequeña de despliegue
+                        <!-- MDBootstrap JS -->
+                        <script type="text/javascript"
+                            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+                        <!-- Marked.js -->
+                        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+                        <!-- AOS -->
+                        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-> 📘 Un Pod puede contener uno o más contenedores que comparten recursos.`;
+                        <!-- Core Modules -->
+                        <script src="js/modules/core.js"></script>
+                        <script type="module" src="js/modules/gamification-engine.js"></script>
 
-            try {
-                if (!window.InfraQuiz?.parseMarkdownQuiz) {
-                    alert('❌ InfraQuiz.parseMarkdownQuiz not available');
-                    return;
-                }
-                
-                const questions = window.InfraQuiz.parseMarkdownQuiz(testContent);
-                console.log('✅ Parser result:', questions);
-                
-                if (questions.length > 0) {
-                    alert(`✅ Debug test successful! Found ${questions.length} questions.\n\nFirst question: ${questions[0].text}\nEmoji: ${questions[0].emoji}\nOptions: ${questions[0].options.length}`);
-                    
-                    // Try to initialize a simple quiz with these questions
-                    window.currentQuiz = questions;
-                    window.currentQuestionIndex = 0;
-                    window.score = 0;
-                    window.totalQuestions = questions.length;
-                    
-                    // Hide error, show quiz
-                    document.getElementById('quizError').style.display = 'none';
-                    document.getElementById('quizLoading').style.display = 'none';
-                    document.getElementById('quizContent').style.display = 'block';
-                    
-                    // Show first question
-                    if (window.showQuestion) {
-                        window.showQuestion();
-                    }
-                    
-                } else {
-                    alert('❌ Debug test failed: No questions found');
-                    console.log('Debug: Testing content parsing...');
-                    console.log('Content preview:', testContent.substring(0, 200));
-                }
-                
-            } catch (error) {
-                console.error('Debug test error:', error);
-                alert(`❌ Debug test error: ${error.message}`);
-            }
-        }
-    </script>
-</body>
-</html> 
+                        <!-- Quiz Modules -->
+                        <script src="js/modules/quiz-state.js"></script>
+                        <script src="js/modules/quiz-parser.js"></script>
+                        <script src="js/modules/quiz-ui.js"></script>
+                        <script src="js/modules/quiz-service.js"></script>
+                        <script type="module" src="js/modules/quiz-controller.js"></script>
+                    </body>
+
+                    </html>

@@ -1,0 +1,44 @@
+{
+    "first_quiz": {
+        "name": {
+            "en": "First Steps",
+            "es": "Primeros Pasos"
+        },
+        "icon": "🎯"
+    },
+    "bash_master": {
+        "name": {
+            "en": "Shell Master",
+            "es": "Maestro de Shell"
+        },
+        "icon": "💻"
+    },
+    "streak_7": {
+        "name": {
+            "en": "Week Warrior",
+            "es": "Guerrero Semanal"
+        },
+        "icon": "🔥"
+    },
+    "perfect_score": {
+        "name": {
+            "en": "Perfectionist",
+            "es": "Perfeccionista"
+        },
+        "icon": "⭐"
+    },
+    "devops_explorer": {
+        "name": {
+            "en": "DevOps Explorer",
+            "es": "Explorador DevOps"
+        },
+        "icon": "🗺️"
+    },
+    "speed_demon": {
+        "name": {
+            "en": "Speed Demon",
+            "es": "Demonio de Velocidad"
+        },
+        "icon": "⚡"
+    }
+}

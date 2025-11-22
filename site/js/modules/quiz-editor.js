@@ -3,14 +3,13 @@
 class QuizEditor {
     constructor() {
         this.questions = [];
-        this.currentLanguage = localStorage.getItem('quizLanguage') || 'en';
+        this.currentLanguage = localStorage.getItem('language') || 'es';
         this.questionCounter = 0;
         this.init();
     }
 
     init() {
         this.setupEventListeners();
-        this.initializeDarkMode();
         this.updateStats();
     }
 
@@ -30,27 +29,9 @@ class QuizEditor {
             languageSelector.value = this.currentLanguage;
             languageSelector.addEventListener('change', (e) => {
                 this.currentLanguage = e.target.value;
-                localStorage.setItem('quizLanguage', this.currentLanguage);
+                localStorage.setItem('language', this.currentLanguage);
             });
         }
-    }
-
-    initializeDarkMode() {
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            document.body.classList.add('dark-mode');
-            darkModeToggle.checked = true;
-        }
-
-        darkModeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                document.body.classList.add('dark-mode');
-                localStorage.setItem('darkMode', 'enabled');
-            } else {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('darkMode', 'disabled');
-            }
-        });
     }
 
     newQuiz() {
@@ -59,7 +40,7 @@ class QuizEditor {
                 return;
             }
         }
-        
+
         this.questions = [];
         this.questionCounter = 0;
         document.getElementById('quizTitle').value = '';
@@ -72,13 +53,13 @@ class QuizEditor {
     addQuestion() {
         const questionId = ++this.questionCounter;
         const questionHtml = this.createQuestionHTML(questionId);
-        
+
         const questionsContainer = document.getElementById('questionsContainer');
         questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
-        
+
         this.setupQuestionEventListeners(questionId);
         this.updateStats();
-        
+
         // Scroll to the new question
         const newQuestion = document.getElementById(`question-${questionId}`);
         newQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -213,7 +194,7 @@ class QuizEditor {
     moveQuestionUp(questionId) {
         const questionElement = document.getElementById(`question-${questionId}`);
         const previousElement = questionElement.previousElementSibling;
-        
+
         if (previousElement && previousElement.classList.contains('question-editor')) {
             questionElement.parentNode.insertBefore(questionElement, previousElement);
             this.showNotification('Question moved up', 'success');
@@ -223,7 +204,7 @@ class QuizEditor {
     moveQuestionDown(questionId) {
         const questionElement = document.getElementById(`question-${questionId}`);
         const nextElement = questionElement.nextElementSibling;
-        
+
         if (nextElement && nextElement.classList.contains('question-editor')) {
             questionElement.parentNode.insertBefore(nextElement, questionElement);
             this.showNotification('Question moved down', 'success');
@@ -259,25 +240,25 @@ class QuizEditor {
         };
 
         const questionElements = document.querySelectorAll('.question-editor');
-        
+
         questionElements.forEach(element => {
             const questionId = element.id.split('-')[1];
             const questionText = document.getElementById(`questionText-${questionId}`).value;
             const difficulty = document.getElementById(`questionDifficulty-${questionId}`).value;
             const explanation = document.getElementById(`explanation-${questionId}`).value;
-            
+
             const options = [];
             let correctIndex = -1;
-            
+
             for (let i = 0; i < 4; i++) {
                 const optionText = document.getElementById(`option-${questionId}-${i}`).value;
                 const isCorrect = document.getElementById(`correct-${questionId}-${i}`).checked;
-                
+
                 options.push({
                     text: optionText,
                     isCorrect: isCorrect
                 });
-                
+
                 if (isCorrect) {
                     correctIndex = i;
                 }
@@ -299,12 +280,12 @@ class QuizEditor {
 
     saveQuiz() {
         const quizData = this.collectQuizData();
-        
+
         if (!quizData.title || !quizData.category) {
             this.showNotification('Please fill in quiz title and category', 'error');
             return;
         }
-        
+
         if (quizData.questions.length === 0) {
             this.showNotification('Please add at least one question', 'error');
             return;
@@ -313,7 +294,7 @@ class QuizEditor {
         // Save to localStorage with enhanced metadata
         const savedQuizzes = JSON.parse(localStorage.getItem('infraquiz_saved_quizzes') || '[]');
         const quizId = Date.now().toString();
-        
+
         const enhancedQuizData = {
             id: quizId,
             ...quizData,
@@ -330,13 +311,13 @@ class QuizEditor {
                 advanced: quizData.questions.filter(q => q.difficulty === 'advanced').length
             }
         };
-        
+
         // Remove existing quiz with same category and language if exists
-        const existingIndex = savedQuizzes.findIndex(quiz => 
-            quiz.category === quizData.category && 
+        const existingIndex = savedQuizzes.findIndex(quiz =>
+            quiz.category === quizData.category &&
             quiz.language === this.currentLanguage
         );
-        
+
         if (existingIndex !== -1) {
             savedQuizzes[existingIndex] = enhancedQuizData;
             this.showNotification(`Quiz "${quizData.title}" updated successfully!`, 'success');
@@ -344,34 +325,34 @@ class QuizEditor {
             savedQuizzes.push(enhancedQuizData);
             this.showNotification(`Quiz "${quizData.title}" saved successfully!`, 'success');
         }
-        
+
         localStorage.setItem('infraquiz_saved_quizzes', JSON.stringify(savedQuizzes));
-        
+
         // Trigger a custom event to notify other parts of the app
-        window.dispatchEvent(new CustomEvent('quizSaved', { 
-            detail: { 
+        window.dispatchEvent(new CustomEvent('quizSaved', {
+            detail: {
                 quiz: enhancedQuizData,
                 action: existingIndex !== -1 ? 'updated' : 'created'
-            } 
+            }
         }));
     }
 
     loadQuiz() {
         const savedQuizzes = JSON.parse(localStorage.getItem('infraquiz_saved_quizzes') || '[]');
-        
+
         if (savedQuizzes.length === 0) {
             this.showNotification('No saved quizzes found', 'warning');
             return;
         }
 
         // Create a simple selection dialog
-        const quizList = savedQuizzes.map((quiz, index) => 
+        const quizList = savedQuizzes.map((quiz, index) =>
             `${index + 1}. ${quiz.title} (${quiz.category}) - ${quiz.questions.length} questions`
         ).join('\n');
-        
+
         const selection = prompt(`Select a quiz to load:\n\n${quizList}\n\nEnter the number:`);
         const selectedIndex = parseInt(selection) - 1;
-        
+
         if (selectedIndex >= 0 && selectedIndex < savedQuizzes.length) {
             this.loadQuizData(savedQuizzes[selectedIndex]);
         }
@@ -380,20 +361,20 @@ class QuizEditor {
     loadQuizData(quizData) {
         // Clear current quiz
         this.newQuiz();
-        
+
         // Load metadata
         document.getElementById('quizTitle').value = quizData.title;
         document.getElementById('quizCategory').value = quizData.category;
-        
+
         // Load questions
         quizData.questions.forEach((question, index) => {
             this.addQuestion();
             const questionId = this.questionCounter;
-            
+
             document.getElementById(`questionText-${questionId}`).value = question.text;
             document.getElementById(`questionDifficulty-${questionId}`).value = question.difficulty;
             document.getElementById(`explanation-${questionId}`).value = question.explanation;
-            
+
             question.options.forEach((option, optionIndex) => {
                 document.getElementById(`option-${questionId}-${optionIndex}`).value = option.text;
                 if (option.isCorrect) {
@@ -401,14 +382,14 @@ class QuizEditor {
                 }
             });
         });
-        
+
         this.updateStats();
         this.showNotification(`Quiz "${quizData.title}" loaded successfully!`, 'success');
     }
 
     previewQuiz() {
         const quizData = this.collectQuizData();
-        
+
         if (quizData.questions.length === 0) {
             this.showNotification('Please add at least one question to preview', 'error');
             return;
@@ -416,7 +397,7 @@ class QuizEditor {
 
         const previewContent = document.getElementById('previewContent');
         previewContent.innerHTML = this.generatePreviewHTML(quizData);
-        
+
         // Show modal
         const modal = new mdb.Modal(document.getElementById('previewModal'));
         modal.show();
@@ -464,7 +445,7 @@ class QuizEditor {
 
     exportMarkdown() {
         const quizData = this.collectQuizData();
-        
+
         if (quizData.questions.length === 0) {
             this.showNotification('Please add at least one question to export', 'error');
             return;
@@ -513,7 +494,7 @@ class QuizEditor {
             const correctOption = question.options.find(opt => opt.isCorrect);
             markdown += `\n**Correct Answer:**\n📝 ${correctOption.text}\n\n`;
             markdown += `**Explanation:**\n💡 ${question.explanation}\n\n`;
-            
+
             if (index < quizData.questions.length - 1) {
                 markdown += '---\n\n';
             }
@@ -524,7 +505,7 @@ class QuizEditor {
 
     testQuiz() {
         const quizData = this.collectQuizData();
-        
+
         if (quizData.questions.length === 0) {
             this.showNotification('Please add at least one question to test', 'error');
             return;
@@ -532,7 +513,7 @@ class QuizEditor {
 
         // Save quiz data temporarily for testing
         sessionStorage.setItem('infraquiz_test_quiz', JSON.stringify(quizData));
-        
+
         // Open quiz in new tab/window
         window.open('quiz.html?test=true', '_blank');
     }
@@ -554,13 +535,13 @@ class QuizEditor {
             <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info-circle'} me-2"></i>
             ${message}
         `;
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.classList.add('show');
         }, 100);
-        
+
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => {
@@ -576,7 +557,7 @@ class QuizEditor {
 let quizEditor;
 document.addEventListener('DOMContentLoaded', () => {
     quizEditor = new QuizEditor();
-    
+
     // Add some sample questions for demonstration
     if (new URLSearchParams(window.location.search).get('demo') === 'true') {
         quizEditor.loadSampleQuiz();
@@ -584,14 +565,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Add sample quiz method
-QuizEditor.prototype.loadSampleQuiz = function() {
+QuizEditor.prototype.loadSampleQuiz = function () {
     document.getElementById('quizTitle').value = 'Docker Basics - Sample Quiz';
     document.getElementById('quizCategory').value = 'docker';
-    
+
     // Add a sample question
     this.addQuestion();
     const questionId = this.questionCounter;
-    
+
     document.getElementById(`questionText-${questionId}`).value = 'What is the main purpose of Docker containers?';
     document.getElementById(`questionDifficulty-${questionId}`).value = 'beginner';
     document.getElementById(`option-${questionId}-0`).value = 'Package applications with their dependencies';
@@ -600,6 +581,6 @@ QuizEditor.prototype.loadSampleQuiz = function() {
     document.getElementById(`option-${questionId}-3`).value = 'Store data permanently';
     document.getElementById(`correct-${questionId}-0`).checked = true;
     document.getElementById(`explanation-${questionId}`).value = 'Docker containers encapsulate applications with all their dependencies, ensuring they run consistently across different environments.';
-    
+
     this.updateStats();
 };

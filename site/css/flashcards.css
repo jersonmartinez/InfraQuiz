@@ -1,0 +1,331 @@
+/* === FLASHCARD SPECIFIC STYLES === */
+
+/* Flashcard Container */
+.flashcard-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Flashcard Stack */
+.flashcard-stack {
+    perspective: 1000px;
+    margin-bottom: 2rem;
+    height: 400px;
+}
+
+.flashcard {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: var(--shadow-lg);
+    border-radius: 16px;
+}
+
+.flashcard-front,
+.flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.flashcard-back {
+    transform: rotateY(180deg);
+    background: var(--gray-50);
+}
+
+/* Card Content */
+.card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.card-category {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.card-question {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.card-answer {
+    font-size: 1.25rem;
+    color: var(--gray-800);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.tap-hint {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    margin-top: 1rem;
+    opacity: 0.7;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-difficulty {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.again-btn {
+    background: #ef4444;
+}
+
+.hard-btn {
+    background: #f59e0b;
+}
+
+.good-btn {
+    background: #10b981;
+}
+
+.easy-btn {
+    background: #3b82f6;
+}
+
+.btn-difficulty:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* Stats & Progress */
+.session-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+    background: var(--white);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+/* === GAMIFICATION COMPONENTS === */
+
+/* Achievement Notification */
+.achievement-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-teal));
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.achievement-notification.show {
+    transform: translateX(0);
+}
+
+.achievement-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.achievement-icon {
+    font-size: 2rem;
+}
+
+.achievement-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.achievement-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Level Indicator */
+.level-indicator {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.level-text {
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.level-progress {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.level-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-blue), var(--secondary-teal));
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* Streak Counter */
+.streak-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #f97316;
+}
+
+.streak-icon {
+    font-size: 1.2rem;
+}
+
+/* Progress Milestones */
+.progress-milestones {
+    position: relative;
+    margin-top: 0.5rem;
+}
+
+.milestone {
+    position: absolute;
+    top: -20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-600);
+    transform: translateX(-50%);
+}
+
+/* Gamification Bonus */
+.gamification-bonus {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #f59e0b;
+}
+
+.bonus-xp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.bonus-icon {
+    font-size: 1.2rem;
+}
+
+/* Dark Mode Support */
+body.dark-mode .flashcard-front,
+body.dark-mode .flashcard-back {
+    background: var(--gray-800);
+    color: var(--white);
+}
+
+body.dark-mode .flashcard-back {
+    background: var(--gray-700);
+}
+
+body.dark-mode .card-question,
+body.dark-mode .card-answer,
+body.dark-mode .stat-value {
+    color: var(--white);
+}
+
+body.dark-mode .session-stats {
+    background: var(--gray-800);
+}
+
+body.dark-mode .achievement-notification {
+    background: linear-gradient(135deg, var(--gray-800), var(--gray-700));
+}
+
+body.dark-mode .level-indicator {
+    background: var(--gray-800);
+    color: var(--white);
+}
+
+body.dark-mode .gamification-bonus {
+    background: linear-gradient(135deg, #374151, #4b5563);
+    color: var(--white);
+}

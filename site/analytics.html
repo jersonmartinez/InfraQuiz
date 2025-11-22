@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfraQuiz - Analytics Dashboard</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
-    
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+
     <!-- Google Fonts - Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- MDBootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -15,8 +18,14 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Custom CSS -->
-    <link href="styles.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/variables.css" rel="stylesheet">
+    <link href="css/layout.css" rel="stylesheet">
+    <link href="css/components.css" rel="stylesheet">
+    <link href="css/dark-mode.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-0" id="main-navbar">
@@ -68,7 +77,7 @@
                                 <span class="lang-text" data-lang="es">ES</span>
                                 <div class="toggle-slider"></div>
                             </div>
-                        </li>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -215,9 +224,12 @@
     </footer>
 
     <!-- MDBootstrap JS -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
     <!-- Custom JS -->
-    <script src="script.js"></script>
-    <script src="analytics.js"></script>
+    <script src="js/modules/core.js"></script>
+    <script type="module" src="js/modules/gamification-engine.js"></script>
+    <script src="js/modules/analytics.js"></script>
 </body>
+
 </html>

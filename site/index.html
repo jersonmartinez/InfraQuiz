@@ -20,8 +20,12 @@
     <link rel="preconnect" href="https://raw.githubusercontent.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://unpkg.com">
-    <!-- Estilos CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/main.css">
 
     <!-- DNS prefetch for common domains -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -248,8 +252,8 @@
                         infrastructure.
                     </p>
                     <div class="hero-buttons" role="group" aria-label="Primary actions">
-                        <button class="btn btn-hero-primary btn-lg" data-lang-key="start_random_quiz"
-                            aria-describedby="start-quiz-desc">
+                        <button id="startRandomQuizBtn" class="btn btn-hero-primary btn-lg"
+                            data-lang-key="start_random_quiz" aria-describedby="start-quiz-desc">
                             <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Start Random Quiz
                         </button>
                         <button class="btn btn-hero-secondary btn-lg" onclick="window.location.href='flashcards.html'"
@@ -399,11 +403,7 @@
 
     <!-- Scripts (Optimized loading order) -->
 
-    <!-- Load enhanced configuration first -->
-    <script src="enhanced-config.js" defer></script>
 
-    <!-- Load performance optimizations -->
-    <script src="performance-optimization.js" defer></script>
 
     <!-- Load Marked.js for markdown rendering (async) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
@@ -416,17 +416,10 @@
 
     <!-- Initialize AOS after load -->
     <!-- Initialize AOS after load -->
-    <!-- Moved to init.js -->
-
-    <!-- Custom JS (load last) -->
-    <script src="script.js" defer></script>
-
-    <!-- Accessibility Utilities -->
-    <script src="accessibility-utils.js" defer></script>
-
-    <!-- Register Service Worker -->
-    <!-- Application Initialization (Service Worker, Performance, Error Handling) -->
-    <script src="init.js" defer></script>
+    <!-- Initialize AOS after load -->
+    <script type="module" src="js/modules/gamification-engine.js"></script>
+    <script src="js/modules/core.js"></script>
+    <script src="js/modules/home.js"></script>
 </body>
 
 </html>
