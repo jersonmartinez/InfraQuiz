@@ -1,425 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfraQuiz - DevOps Learning Platform</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
+  <!-- Primary Meta Tags -->
+  <title>InfraQuiz - Master DevOps & Cloud Technologies</title>
+  <meta name="title" content="InfraQuiz - Master DevOps & Cloud Technologies" />
+  <meta name="description"
+    content="Test and improve your DevOps knowledge with interactive quizzes on Docker, Kubernetes, Terraform, AWS, CI/CD, and more. Master Infrastructure as Code one question at a time." />
+  <meta name="keywords"
+    content="DevOps, Kubernetes, Docker, Terraform, AWS, CI/CD, Cloud, Infrastructure as Code, IaC, Quiz, Learning, DevSecOps, Ansible, GitHub" />
+  <meta name="author" content="InfraQuiz Team" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#2563eb" />
 
-    <!-- Favicon -->
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
-    <link rel="apple-touch-icon" href="icon-192x192.png">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/pwa-192x192.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/pwa-192x192.png" />
+  <link rel="apple-touch-icon" href="/pwa-512x512.png" />
 
-    <!-- Preconnect to external domains for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://raw.githubusercontent.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://unpkg.com">
-    <!-- CSS Stylesheets -->
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/dark-mode.css">
-    <link rel="stylesheet" href="css/main.css">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://infraquiz.dev/" />
+  <meta property="og:title" content="InfraQuiz - Master DevOps & Cloud Technologies" />
+  <meta property="og:description"
+    content="Test and improve your DevOps knowledge with interactive quizzes on Docker, Kubernetes, Terraform, AWS, CI/CD, and more." />
+  <meta property="og:image" content="/pwa-512x512.png" />
+  <meta property="og:site_name" content="InfraQuiz" />
 
-    <!-- DNS prefetch for common domains -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//raw.githubusercontent.com">
-    <noscript>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet">
-    </noscript>
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://infraquiz.dev/" />
+  <meta name="twitter:title" content="InfraQuiz - Master DevOps & Cloud Technologies" />
+  <meta name="twitter:description"
+    content="Test and improve your DevOps knowledge with interactive quizzes on Docker, Kubernetes, Terraform, AWS, CI/CD, and more." />
+  <meta name="twitter:image" content="/pwa-512x512.png" />
 
-    <!-- Bootstrap Icons (async load) -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    </noscript>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Color+Emoji&display=swap"
+    rel="stylesheet">
 
-    <!-- AOS Animate On Scroll CSS (async load) -->
-    <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style"
-        onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    </noscript>
-
-    <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#2563eb">
-    <meta name="msapplication-TileColor" content="#2563eb">
-
-    <!-- SEO Meta Tags -->
-    <meta name="description"
-        content="Master DevOps with interactive quizzes covering Bash, Docker, Kubernetes, AWS, Terraform, and more. Free learning platform for developers and DevOps engineers.">
-    <meta name="keywords"
-        content="DevOps, Docker, Kubernetes, AWS, Terraform, Bash, Linux, CI/CD, Infrastructure, Cloud Computing, Learning Platform">
-    <meta name="author" content="InfraQuiz Team">
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="InfraQuiz - DevOps Learning Platform">
-    <meta property="og:description"
-        content="Master DevOps with interactive quizzes covering Bash, Docker, Kubernetes, AWS, Terraform, and more.">
-    <meta property="og:image" content="/og-image.png">
-    <meta property="og:url" content="https://infraquiz.dev">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="InfraQuiz">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="InfraQuiz - DevOps Learning Platform">
-    <meta name="twitter:description"
-        content="Master DevOps with interactive quizzes covering Bash, Docker, Kubernetes, AWS, Terraform, and more.">
-    <meta name="twitter:image" content="/twitter-image.png">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://infraquiz.dev">
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "InfraQuiz",
-        "description": "Interactive DevOps learning platform with quizzes covering Bash, Docker, Kubernetes, AWS, and more",
-        "url": "https://infraquiz.dev",
-        "applicationCategory": "EducationalApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "featureList": [
-            "Interactive Quizzes",
-            "Progress Tracking",
-            "Multi-language Support",
-            "Offline Mode",
-            "Performance Analytics"
-        ],
-        "author": {
-            "@type": "Organization",
-            "name": "InfraQuiz Team"
-        }
+  <style>
+    /* Ensure emojis render correctly across all platforms */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
-    </script>
-
-    <!-- Critical CSS (inline for above-the-fold content) -->
-    <style>
-        /* Critical styles for initial render */
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar {
-            background: rgba(37, 99, 235, 0.95);
-            backdrop-filter: blur(10px);
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, .3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-    </style>
+  </style>
 </head>
 
 <body>
-    <!-- Skip to main content link for accessibility -->
-    <a href="#main-content" class="sr-only sr-only-focusable skip-link">Skip to main content</a>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-0" id="main-navbar" role="navigation"
-        aria-label="Main navigation">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#home" aria-label="InfraQuiz home page">
-                <div class="logo-container">
-                    <div class="logo-icon">
-                        <i class="bi bi-cpu-fill" aria-hidden="true"></i>
-                    </div>
-                    <span class="brand-text">InfraQuiz</span>
-                </div>
-            </a>
-            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
-                <i class="fas fa-bars" aria-hidden="true"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home" data-lang-key="home_nav">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#quizzes" data-lang-key="quizzes_nav">Quizzes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="flashcards.html" data-lang-key="flashcards_nav">Flashcards</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="quiz-editor.html" data-lang-key="editor_nav">Editor</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="analytics.html" data-lang-key="analytics_nav">Analytics</a>
-                    </li>
-
-                    <!-- Enhanced Theme Switch -->
-                    <li class="nav-item ms-lg-3">
-                        <div class="theme-switch-container">
-                            <button class="theme-switch" id="themeSwitch"
-                                aria-label="Toggle between light and dark theme" aria-pressed="false" role="button">
-                                <div class="switch-track">
-                                    <div class="switch-thumb">
-                                        <i class="bi bi-sun-fill sun-icon" aria-hidden="true"></i>
-                                        <i class="bi bi-moon-fill moon-icon" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-                    </li>
-
-                    <!-- Enhanced Language Toggle -->
-                    <li class="nav-item ms-lg-3">
-                        <div class="language-toggle-container">
-                            <button class="language-toggle" id="languageToggle"
-                                aria-label="Switch language between English and Spanish" aria-pressed="false"
-                                role="button">
-                                <span class="lang-text" data-lang="en">EN</span>
-                                <span class="lang-text" data-lang="es">ES</span>
-                                <div class="toggle-slider"></div>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="main-content"
-        class="hero-section d-flex align-items-center text-white text-center text-lg-start vh-100" role="main"
-        aria-labelledby="hero-title">
-        <div class="hero-background">
-            <div class="hero-gradient"></div>
-            <div class="hero-particles"></div>
-        </div>
-        <div class="container">
-            <div class="row align-items-center py-5 justify-content-center">
-                <div class="col-lg-8 text-center" data-aos="fade-down" data-aos-duration="1000">
-                    <div class="hero-logo mb-4">
-                        <div class="logo-hero">
-                            <i class="bi bi-cpu-fill" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <h1 id="hero-title" class="hero-title mb-4" data-lang-key="hero_title">
-                        Master DevOps with Interactive Quizzes
-                    </h1>
-                    <p class="hero-description mb-5" data-lang-key="hero_description">
-                        Dive into the world of DevOps with our comprehensive collection of interactive quizzes.
-                        From Bash scripting to Kubernetes orchestration, master the tools that power modern
-                        infrastructure.
-                    </p>
-                    <div class="hero-buttons" role="group" aria-label="Primary actions">
-                        <button id="startRandomQuizBtn" class="btn btn-hero-primary btn-lg"
-                            data-lang-key="start_random_quiz" aria-describedby="start-quiz-desc">
-                            <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Start Random Quiz
-                        </button>
-                        <button class="btn btn-hero-secondary btn-lg" onclick="window.location.href='flashcards.html'"
-                            data-lang-key="study_flashcards" aria-describedby="flashcards-desc">
-                            <i class="bi bi-card-text me-2" aria-hidden="true"></i> Study Flashcards
-                        </button>
-                        <button class="btn btn-hero-outline btn-lg" onclick="scrollToQuizzes()"
-                            data-lang-key="browse_categories" aria-describedby="browse-desc">
-                            <i class="bi bi-list-check me-2" aria-hidden="true"></i> Browse Categories
-                        </button>
-                    </div>
-                    <!-- Hidden descriptions for screen readers -->
-                    <div id="start-quiz-desc" class="sr-only">Start a random quiz to test your DevOps knowledge</div>
-                    <div id="flashcards-desc" class="sr-only">Access the flashcard study system for spaced repetition
-                        learning</div>
-                    <div id="browse-desc" class="sr-only">Browse available quiz categories to choose your learning path
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Quiz Categories Section -->
-    <section id="quizzes" class="py-5" aria-labelledby="categories-title">
-        <div class="container py-5">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <h2 id="categories-title" class="section-title mb-3" data-lang-key="quiz_categories_title">Quiz
-                    Categories</h2>
-                <p class="section-subtitle" data-lang-key="quiz_categories_subtitle">Choose your learning path and
-                    master DevOps technologies</p>
-            </div>
-            <div class="row g-4" id="quiz-categories-container" data-aos="fade-up" data-aos-delay="200" role="grid"
-                aria-label="Quiz categories grid">
-                <!-- Quiz categories will be dynamically loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Flashcards Section -->
-    <section id="flashcards" class="py-5 bg-light" aria-labelledby="flashcards-title">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="flashcards-content">
-                        <h2 id="flashcards-title" class="section-title mb-4" data-lang-key="flashcards_title">🧠
-                            Interactive Flashcards</h2>
-                        <p class="section-subtitle mb-4" data-lang-key="flashcards_description">
-                            Master DevOps concepts with our advanced spaced repetition system. Study smarter, not harder
-                            with personalized learning paths and gamified progress tracking.
-                        </p>
-                        <div class="flashcards-features mb-4" role="list" aria-label="Flashcard features">
-                            <div class="feature-item" role="listitem">
-                                <i class="bi bi-brain" aria-hidden="true"></i>
-                                <span data-lang-key="feature_spaced">Spaced Repetition Algorithm</span>
-                            </div>
-                            <div class="feature-item" role="listitem">
-                                <i class="bi bi-trophy" aria-hidden="true"></i>
-                                <span data-lang-key="feature_gamified">Gamified Learning Experience</span>
-                            </div>
-                            <div class="feature-item" role="listitem">
-                                <i class="bi bi-graph-up" aria-hidden="true"></i>
-                                <span data-lang-key="feature_progress">Detailed Progress Analytics</span>
-                            </div>
-                            <div class="feature-item" role="listitem">
-                                <i class="bi bi-lightning" aria-hidden="true"></i>
-                                <span data-lang-key="feature_adaptive">Adaptive Difficulty</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-flashcards btn-lg" onclick="window.location.href='flashcards.html'"
-                            data-lang-key="start_flashcards" aria-describedby="start-flashcards-desc">
-                            <i class="bi bi-card-text me-2" aria-hidden="true"></i> Start Studying Now
-                        </button>
-                        <div id="start-flashcards-desc" class="sr-only">Navigate to the flashcard study system</div>
-                    </div>
-                </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="flashcards-preview">
-                        <div class="flashcard-demo" role="img" aria-label="Flashcard preview showing Docker question">
-                            <div class="flashcard-front">
-                                <div class="demo-category">🐳 Docker</div>
-                                <div class="demo-question">What is a Docker container?</div>
-                                <div class="demo-hint">Tap to reveal answer</div>
-                            </div>
-                        </div>
-                        <div class="flashcard-stats" role="list" aria-label="Flashcard statistics">
-                            <div class="stat" role="listitem">
-                                <span class="stat-number">500+</span>
-                                <span class="stat-label" data-lang-key="cards_available">Cards Available</span>
-                            </div>
-                            <div class="stat" role="listitem">
-                                <span class="stat-number">12</span>
-                                <span class="stat-label" data-lang-key="categories_covered">Categories</span>
-                            </div>
-                            <div class="stat" role="listitem">
-                                <span class="stat-number">SM-2</span>
-                                <span class="stat-label" data-lang-key="algorithm_used">Algorithm</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Scroll to Top Button -->
-    <button id="scrollToTopBtn" class="scroll-to-top-btn" title="Go to top">
-        <i class="bi bi-arrow-up"></i>
-    </button>
-
-    <!-- Footer -->
-    <footer class="footer-section" role="contentinfo" aria-label="Site footer">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="footer-brand">
-                        <div class="logo-container">
-                            <div class="logo-icon">
-                                <i class="bi bi-cpu-fill" aria-hidden="true"></i>
-                            </div>
-                            <span class="brand-text">InfraQuiz</span>
-                        </div>
-                        <p class="footer-description">Empowering DevOps professionals through interactive learning</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="footer-links" role="list" aria-label="External links">
-                        <a href="https://github.com/jersonmartinez/InfraQuiz" target="_blank" rel="noopener noreferrer"
-                            class="footer-link" aria-label="Visit InfraQuiz GitHub repository">
-                            <i class="bi bi-github" aria-hidden="true"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="https://youtube.com/@DevOpsea/" target="_blank" rel="noopener noreferrer"
-                            class="footer-link" aria-label="Visit DevOpsea YouTube channel">
-                            <i class="bi bi-youtube" aria-hidden="true"></i>
-                            <span>YouTube</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="footer-copyright">
-                    © <span id="currentYear"></span> InfraQuiz. Made with ❤️ for the DevOps community.
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts (Optimized loading order) -->
-
-
-
-    <!-- Load Marked.js for markdown rendering (async) -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
-
-    <!-- MDBootstrap JS (async) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js" defer></script>
-
-    <!-- AOS Animate On Scroll JS (async) -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-
-    <!-- Initialize AOS after load -->
-    <!-- Initialize AOS after load -->
-    <!-- Initialize AOS after load -->
-    <script type="module" src="js/modules/gamification-engine.js"></script>
-    <script src="js/modules/core.js"></script>
-    <script src="js/modules/home.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 
 </html>
