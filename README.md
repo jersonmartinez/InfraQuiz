@@ -121,20 +121,17 @@ A modern, high-performance, progressive web application designed to help DevOps 
 
 ```
 InfraQuiz/
-├── site/                          # Web application files
-│   ├── index.html                 # Main landing page (optimized)
-│   ├── quiz.html                  # Quiz interface page
-│   ├── analytics.html             # Analytics dashboard
-│   ├── quiz-editor.html           # Quiz editor interface
-│   ├── manifest.json              # PWA manifest
-│   ├── sw.js                      # Service Worker
-│   ├── styles.css                 # Enhanced CSS styles (2248 lines)
-│   ├── script.js                  # Main JavaScript functionality (704 lines)
-│   ├── quiz_page.js              # Quiz-specific JavaScript (1689 lines)
-│   ├── analytics.js               # Analytics dashboard logic
-│   ├── quiz-editor.js             # Quiz editor functionality
-│   ├── enhanced-config.js         # Advanced configuration & caching
-│   └── performance-optimization.js # Performance optimizations
+├── .github/
+│   └── workflows/
+│       └── deploy.yml             # GitHub Actions deployment workflow
+├── site/                          # Web application (Vite + React)
+│   ├── src/                       # React source files
+│   ├── public/                    # Public static assets
+│   ├── dist/                      # Built production files (deployed to GitHub Pages)
+│   ├── index.html                 # Main HTML template
+│   ├── package.json               # Node.js dependencies
+│   ├── vite.config.js             # Vite configuration
+│   └── tailwind.config.js         # Tailwind CSS configuration
 ├── quizzes/                       # Quiz content (markdown files)
 │   ├── bash/
 │   │   ├── en/questions1.md
@@ -146,8 +143,8 @@ InfraQuiz/
 │   │   ├── en/questions1.md
 │   │   └── es/cuestionario1.md
 │   └── [other technologies]/
-├── cursor-rules.mdc              # Development guidelines
-└── README.md                     # This file (comprehensive documentation)
+├── DEPLOYMENT.md                  # Deployment documentation
+└── README.md                      # This file (comprehensive documentation)
 ```
 
 ## 🎨 Design System
@@ -229,8 +226,17 @@ Each quiz follows a specific markdown format:
 
 ## 🌐 Deployment
 
-### GitHub Pages
-The site is designed to work with GitHub Pages. Simply push your changes to the main branch and enable GitHub Pages in your repository settings.
+### GitHub Pages (Automatic)
+The site is automatically deployed to GitHub Pages from the `site/dist/` directory when you push to the `main` branch. 
+
+**Live Site**: [https://jersonmartinez.github.io/InfraQuiz/](https://jersonmartinez.github.io/InfraQuiz/)
+
+The deployment process:
+1. GitHub Actions workflow builds the Vite application
+2. The `site/dist/` directory is deployed to GitHub Pages
+3. Changes are live within minutes
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment documentation.
 
 ### Other Hosting
 The static files can be deployed to any web hosting service:
