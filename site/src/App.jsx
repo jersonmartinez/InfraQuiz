@@ -11,7 +11,7 @@ import QuizHistory from './pages/QuizHistory';
 import Analytics from './pages/Analytics';
 import NotFound from './pages/NotFound';
 
-const basename = (import.meta.env.BASE_URL || '/').replace(/\/$/, '') || '/';
+const basename = import.meta.env.BASE_URL?.replace(/\/$/, '') || '';
 
 function App() {
   return (
