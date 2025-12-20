@@ -10,10 +10,10 @@ export const useQuiz = (topic, language = 'en') => {
         const fetchQuiz = async () => {
             try {
                 setLoading(true);
-                // Construct path: /quizzes/terraform/en/questions1.md
-                // Note: We might need to make 'questions1' dynamic later, but for now hardcode or pass as arg.
-                // Let's try to fetch questions1.md by default.
-                const path = `/quizzes/${topic}/${language}/questions1.md`;
+                // Construct path with base URL from Vite config
+                // import.meta.env.BASE_URL includes the base path (e.g., '/InfraQuiz/')
+                const fileName = language === 'es' ? 'cuestionario1.md' : 'questions1.md';
+                const path = `${import.meta.env.BASE_URL}quizzes/${topic}/${language}/${fileName}`;
 
                 const response = await fetch(path);
 
