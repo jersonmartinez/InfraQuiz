@@ -13,7 +13,7 @@ export const useQuiz = (topic, language = 'en') => {
                 // Construct path: /quizzes/terraform/en/questions1.md
                 // Note: We might need to make 'questions1' dynamic later, but for now hardcode or pass as arg.
                 // Let's try to fetch questions1.md by default.
-                const path = `/quizzes/${topic}/${language}/questions1.md`;
+                const path = `${import.meta.env.BASE_URL}quizzes/${topic}/${language}/questions1.md`;
 
                 const response = await fetch(path);
 

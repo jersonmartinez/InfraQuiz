@@ -45,7 +45,7 @@ const QuizSelection = () => {
 
             for (const topic of topics) {
                 try {
-                    const response = await fetch(`/quizzes/${topic.id}/${language}/questions1.md`);
+                    const response = await fetch(`${import.meta.env.BASE_URL}quizzes/${topic.id}/${language}/questions1.md`);
                     if (response.ok) {
                         const text = await response.text();
                         // Count questions by counting "### [number]" pattern

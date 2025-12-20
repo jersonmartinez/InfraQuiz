@@ -15,7 +15,7 @@ function App() {
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <Router>
+        <Router basename={import.meta.env.BASE_URL}>
           <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black text-gray-900 dark:text-white font-sans selection:bg-blue-500/30 transition-colors duration-300">
             {/* Skip to main content link for accessibility */}
             <a href="#main-content" className="skip-link">
