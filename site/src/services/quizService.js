@@ -13,7 +13,9 @@ export const quizService = {
      */
     async getQuiz(topic, language = 'en', setNumber = 1) {
         try {
-            const path = `/quizzes/${topic}/${language}/questions${setNumber}.md`;
+            // Use import.meta.env.BASE_URL to handle deployment to subpaths (e.g. /InfraQuiz/)
+            const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+            const path = `${baseUrl}quizzes/${topic}/${language}/questions${setNumber}.md`;
             const response = await fetch(path);
 
             if (!response.ok) {
@@ -37,7 +39,8 @@ export const quizService = {
      */
     async getQuestionCount(topic, language = 'en', setNumber = 1) {
         try {
-            const path = `/quizzes/${topic}/${language}/questions${setNumber}.md`;
+            const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+            const path = `${baseUrl}quizzes/${topic}/${language}/questions${setNumber}.md`;
             const response = await fetch(path);
 
             if (!response.ok) return 0;

@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -20,57 +20,41 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-<<<<<<< HEAD
+          node-version: "20"
+          cache: "npm"
           cache-dependency-path: site/package-lock.json
-          
+
       - name: Install dependencies
         run: |
           cd site
           npm ci
-          
+
       - name: Build site
         run: |
           cd site
           npm run build
-          
+
       - name: Prepare deployment directory
         run: |
           mkdir -p deploy
           cp -r site/dist/* deploy/
           cp -r quizzes deploy/
-          
+
           # Create a custom 404 page for SPA routing support on GitHub Pages
           # This will redirect unknown routes to index.html where React Router can handle them
           cp site/dist/index.html deploy/404.html
-=======
-          cache-dependency-path: 'site/package-lock.json'
-          
-      - name: Install dependencies
-        working-directory: ./site
-        run: npm ci
-          
-      - name: Build Vite application
-        working-directory: ./site
-        run: npm run build
->>>>>>> 36b37b2db629ea452b0386b18ac558026e296681
-          
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-<<<<<<< HEAD
-          path: './deploy'
-=======
-          path: './site/dist'
->>>>>>> 36b37b2db629ea452b0386b18ac558026e296681
+          path: "./deploy"
 
   deploy:
     environment:
@@ -81,8 +65,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-<<<<<<< HEAD
         uses: actions/deploy-pages@v4
-=======
-        uses: actions/deploy-pages@v4 
->>>>>>> 36b37b2db629ea452b0386b18ac558026e296681
