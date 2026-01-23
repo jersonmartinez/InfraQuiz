@@ -1,25 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Terminal, Server, Cloud, Code, Shield, Database, Workflow, Layers, ArrowRight, Clock } from 'lucide-react';
+import { Terminal, Server, Cloud, Code, Shield, Database, Workflow, Layers, ArrowRight, Clock, Search, Box } from 'lucide-react';
 import { useQuizProgress, useQuizHistory } from '../hooks/useLocalStorage';
 import { useLanguage } from '../context/LanguageContext';
+import { quizService } from '../services/quizService';
+import Breadcrumb from '../components/Breadcrumb';
 
 const topics = [
-    { id: 'bash', name: 'Bash Scripting', emoji: '🐚', icon: <Terminal className="w-8 h-8 text-yellow-500 dark:text-yellow-400" />, desc: 'Shell automation & scripting' },
-    { id: 'docker', name: 'Docker', emoji: '🐳', icon: <Code className="w-8 h-8 text-blue-500 dark:text-blue-400" />, desc: 'Containerization basics' },
-    { id: 'kubernetes', name: 'Kubernetes', emoji: '☸️', icon: <Cloud className="w-8 h-8 text-blue-600 dark:text-blue-500" />, desc: 'Orchestration & scaling' },
-    { id: 'terraform', name: 'Terraform', emoji: '💠', icon: <Workflow className="w-8 h-8 text-purple-500 dark:text-purple-400" />, desc: 'Infrastructure as Code' },
-    { id: 'ansible', name: 'Ansible', emoji: '📜', icon: <Layers className="w-8 h-8 text-red-500 dark:text-red-400" />, desc: 'Configuration management' },
-    { id: 'aws', name: 'AWS Cloud', emoji: '☁️', icon: <Cloud className="w-8 h-8 text-yellow-600 dark:text-yellow-500" />, desc: 'Cloud services & arch' },
-    { id: 'cicd', name: 'CI/CD', emoji: '🔄', icon: <Workflow className="w-8 h-8 text-orange-600 dark:text-orange-500" />, desc: 'Continuous Integration' },
-    { id: 'github', name: 'GitHub', emoji: '🐙', icon: <Code className="w-8 h-8 text-gray-600 dark:text-gray-400" />, desc: 'Version control & collaboration' },
-    { id: 'databases', name: 'Databases', emoji: '💾', icon: <Database className="w-8 h-8 text-green-500 dark:text-green-400" />, desc: 'SQL & NoSQL concepts' },
-    { id: 'security', name: 'DevSecOps', emoji: '🔒', icon: <Shield className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />, desc: 'Security best practices' },
-    { id: 'python', name: 'Python Ops', emoji: '🐍', icon: <Code className="w-8 h-8 text-blue-400 dark:text-blue-300" />, desc: 'Python for DevOps' },
-    { id: 'monitoring', name: 'Monitoring', emoji: '📊', icon: <Server className="w-8 h-8 text-pink-500 dark:text-pink-400" />, desc: 'Observability & metrics' },
-    { id: 'networking', name: 'Networking', emoji: '🌐', icon: <Cloud className="w-8 h-8 text-indigo-500 dark:text-indigo-400" />, desc: 'Network fundamentals' },
-    { id: 'mixed', name: 'Mixed Topics', emoji: '🎯', icon: <Layers className="w-8 h-8 text-violet-500 dark:text-violet-400" />, desc: 'DevOps Mix' },
+    { id: 'bash', name: 'Bash Scripting', emoji: '🐚', icon: <Terminal className="w-8 h-8 text-yellow-500 dark:text-yellow-400" />, desc: 'Shell automation & scripting', category: 'scripting' },
+    { id: 'docker', name: 'Docker', emoji: '🐳', icon: <Code className="w-8 h-8 text-blue-500 dark:text-blue-400" />, desc: 'Containerization basics', category: 'containers' },
+    { id: 'kubernetes', name: 'Kubernetes', emoji: '☸️', icon: <Cloud className="w-8 h-8 text-blue-600 dark:text-blue-500" />, desc: 'Orchestration & scaling', category: 'containers' },
+    { id: 'terraform', name: 'Terraform', emoji: '💠', icon: <Workflow className="w-8 h-8 text-purple-500 dark:text-purple-400" />, desc: 'Infrastructure as Code', category: 'iac' },
+    { id: 'ansible', name: 'Ansible', emoji: '📜', icon: <Layers className="w-8 h-8 text-red-500 dark:text-red-400" />, desc: 'Configuration management', category: 'iac' },
+    { id: 'aws', name: 'AWS Cloud', emoji: '☁️', icon: <Cloud className="w-8 h-8 text-yellow-600 dark:text-yellow-500" />, desc: 'Cloud services & arch', category: 'cloud' },
+    { id: 'cicd', name: 'CI/CD', emoji: '🔄', icon: <Workflow className="w-8 h-8 text-orange-600 dark:text-orange-500" />, desc: 'Continuous Integration', category: 'devops' },
+    { id: 'github', name: 'GitHub', emoji: '🐙', icon: <Code className="w-8 h-8 text-gray-600 dark:text-gray-400" />, desc: 'Version control & collaboration', category: 'devops' },
+    { id: 'databases', name: 'Databases', emoji: '💾', icon: <Database className="w-8 h-8 text-green-500 dark:text-green-400" />, desc: 'SQL & NoSQL concepts', category: 'infrastructure' },
+    { id: 'security', name: 'DevSecOps', emoji: '🔒', icon: <Shield className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />, desc: 'Security best practices', category: 'infrastructure' },
+    { id: 'python', name: 'Python Ops', emoji: '🐍', icon: <Code className="w-8 h-8 text-blue-400 dark:text-blue-300" />, desc: 'Python for DevOps', category: 'scripting' },
+    { id: 'monitoring', name: 'Monitoring', emoji: '📊', icon: <Server className="w-8 h-8 text-pink-500 dark:text-pink-400" />, desc: 'Observability & metrics', category: 'devops' },
+    { id: 'networking', name: 'Networking', emoji: '🌐', icon: <Cloud className="w-8 h-8 text-indigo-500 dark:text-indigo-400" />, desc: 'Network fundamentals', category: 'infrastructure' },
+    { id: 'mixed', name: 'Mixed Topics', emoji: '🎯', icon: <Layers className="w-8 h-8 text-violet-500 dark:text-violet-400" />, desc: 'DevOps Mix', category: 'mixed' },
 ];
+
+const CATEGORIES = [
+    { id: 'all', name: 'All Topics' },
+    { id: 'iac', name: 'IaC' },
+    { id: 'cloud', name: 'Cloud' },
+    { id: 'containers', name: 'Containers' },
+    { id: 'scripting', name: 'Scripting' },
+    { id: 'devops', name: 'DevOps' },
+    { id: 'infrastructure', name: 'Infra & Security' },
+    { id: 'mixed', name: 'Mixed' },
+];
+
+export const getTopicName = (topicId) => {
+    const topic = topics.find(t => t.id === topicId);
+    return topic?.name || topicId;
+};
 
 export const getTopicEmoji = (topicId) => {
     const topic = topics.find(t => t.id === topicId);
@@ -31,12 +49,15 @@ const QuizSelection = () => {
     const { history } = useQuizHistory();
     const { language, t } = useLanguage();
     const [filter, setFilter] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const [questionCounts, setQuestionCounts] = useState({});
 
-    const filteredTopics = topics.filter(topic =>
-        topic.name.toLowerCase().includes(filter.toLowerCase()) ||
-        topic.desc.toLowerCase().includes(filter.toLowerCase())
-    );
+    const filteredTopics = topics.filter(topic => {
+        const matchesFilter = topic.name.toLowerCase().includes(filter.toLowerCase()) ||
+            topic.desc.toLowerCase().includes(filter.toLowerCase());
+        const matchesCategory = selectedCategory === 'all' || topic.category === selectedCategory;
+        return matchesFilter && matchesCategory;
+    });
 
     // Fetch and count questions for each topic
     useEffect(() => {
@@ -44,19 +65,7 @@ const QuizSelection = () => {
             const counts = {};
 
             for (const topic of topics) {
-                try {
-                    const response = await fetch(`/quizzes/${topic.id}/${language}/questions1.md`);
-                    if (response.ok) {
-                        const text = await response.text();
-                        // Count questions by counting "### [number]" pattern
-                        const matches = text.match(/###\s+\d+\./g);
-                        counts[topic.id] = matches ? matches.length : 0;
-                    } else {
-                        counts[topic.id] = 0;
-                    }
-                } catch (error) {
-                    counts[topic.id] = 0;
-                }
+                counts[topic.id] = await quizService.getQuestionCount(topic.id, language);
             }
 
             setQuestionCounts(counts);
@@ -75,20 +84,47 @@ const QuizSelection = () => {
     return (
         <div className="min-h-screen pt-24 px-6 pb-12">
             <div className="max-w-7xl mx-auto">
+                <Breadcrumb
+                    items={[
+                        { label: 'All Topics' }
+                    ]}
+                />
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">{t('selection.title')}</h1>
                     <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">{t('selection.subtitle')}</p>
                 </div>
 
-                {/* Search/Filter */}
-                <div className="max-w-md mx-auto mb-12">
-                    <input
-                        type="text"
-                        placeholder={t('selection.searchPlaceholder')}
-                        value={filter}
-                        onChange={(e) => setFilter(e.target.value)}
-                        className="w-full px-6 py-4 bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all"
-                    />
+                {/* Filters Row */}
+                <div className="flex flex-col md:flex-row gap-6 items-center justify-between mb-12">
+                    {/* Category Tabs */}
+                    <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 overflow-x-auto max-w-full no-scrollbar mb-4 md:mb-0">
+                        {CATEGORIES.map(cat => (
+                            <button
+                                key={cat.id}
+                                onClick={() => setSelectedCategory(cat.id)}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${selectedCategory === cat.id
+                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                    }`}
+                            >
+                                {cat.name}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Search Input */}
+                    <div className="relative w-full md:w-80">
+                        <input
+                            type="text"
+                            placeholder={t('selection.searchPlaceholder')}
+                            value={filter}
+                            onChange={(e) => setFilter(e.target.value)}
+                            className="w-full pl-12 pr-6 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all"
+                        />
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
+                            <Search size={20} />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -135,12 +171,27 @@ const QuizSelection = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="mb-6 flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                                            <span className="flex items-center gap-1"><Clock size={14} /> ~15m</span>
-                                            <span className="flex items-center gap-1">
-                                                <Layers size={14} />
-                                                {questionCount > 0 ? `${questionCount} ${t('selection.questions')}` : '...'}
-                                            </span>
+                                        <div className="mb-6">
+                                            <div className="flex items-center justify-between gap-4 text-xs text-gray-500 dark:text-gray-400 mb-4">
+                                                <span className="flex items-center gap-1"><Clock size={14} /> ~15m</span>
+                                                <span className="flex items-center gap-1">
+                                                    <Layers size={14} />
+                                                    {questionCount > 0 ? `${questionCount} ${t('selection.questions')}` : '...'}
+                                                </span>
+                                            </div>
+
+                                            <div className="flex flex-wrap gap-2">
+                                                {[1, 2, 3, 4, 5, 6, 7, 8].map((set) => (
+                                                    <Link
+                                                        key={set}
+                                                        to={`/quiz/${topic.id}?set=${set}`}
+                                                        className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-blue-500/20 hover:text-blue-400 border border-gray-200 dark:border-white/10 text-[10px] font-bold transition-all"
+                                                        title={`Start Set ${set}`}
+                                                    >
+                                                        S{set}
+                                                    </Link>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
 
@@ -157,6 +208,15 @@ const QuizSelection = () => {
                                             <>{t('selection.start')} <ArrowRight size={18} /></>
                                         )}
                                     </Link>
+                                    <div className="mt-3 flex justify-center">
+                                        <Link
+                                            to={`/quiz/${topic.id}?mode=study`}
+                                            className="text-xs font-bold text-blue-500 hover:text-blue-400 flex items-center gap-1 group/study"
+                                        >
+                                            <Box size={14} className="group-hover/study:rotate-12 transition-transform" />
+                                            Study Reference Guide
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         );

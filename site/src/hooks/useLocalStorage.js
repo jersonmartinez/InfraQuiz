@@ -36,12 +36,28 @@ export const useQuizHistory = () => {
 
     const getStats = () => {
         if (history.length === 0) {
-            return { totalQuizzes: 0, averageScore: 0, bestScore: 0, worstScore: 0, totalTimeSpent: 0, favoriteTopics: [], recentQuizzes: [] };
+            return { totalQuizzes: 0, averageScore: 0, bestScore: 0, worstScore: 0, totalTimeSpent: 0, favoriteTopics: [], recentQuizzes: [], weakTopics: [] };
         }
         const scores = history.map((q) => q.percentage);
-        const topicCounts = {};
-        history.forEach((quiz) => { topicCounts[quiz.topic] = (topicCounts[quiz.topic] || 0) + 1; });
-        const favoriteTopics = Object.entries(topicCounts).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([topic]) => topic);
+        const topicStats = {};
+
+        history.forEach((quiz) => {
+            if (!topicStats[quiz.topic]) {
+                topicStats[quiz.topic] = { count: 0, totalScore: 0 };
+            }
+            topicStats[quiz.topic].count++;
+            topicStats[quiz.topic].totalScore += quiz.percentage;
+        });
+
+        const favoriteTopics = Object.entries(topicStats)
+            .sort((a, b) => b[1].count - a[1].count)
+            .slice(0, 3)
+            .map(([topic]) => topic);
+
+        const weakTopics = Object.entries(topicStats)
+            .filter(([_, data]) => (data.totalScore / data.count) < 70)
+            .map(([topic]) => topic);
+
         return {
             totalQuizzes: history.length,
             averageScore: scores.reduce((a, b) => a + b, 0) / scores.length,
@@ -49,6 +65,7 @@ export const useQuizHistory = () => {
             worstScore: Math.min(...scores),
             totalTimeSpent: history.reduce((sum, q) => sum + (q.timeSpent || 0), 0),
             favoriteTopics,
+            weakTopics,
             recentQuizzes: history.slice(0, 5),
         };
     };

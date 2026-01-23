@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import {
     Server, Cloud, Code, Database, Shield, GitBranch,
-    Activity, Network, Layers, Workflow, Box, Terminal
+    Activity, Network, Layers, Workflow, Box, Terminal, ArrowRight
 } from 'lucide-react';
 
 const TerminalIcon = () => (
@@ -100,6 +100,7 @@ const CategoryQuizzes = () => {
             <div className="max-w-6xl mx-auto">
                 <Breadcrumb
                     items={[
+                        { label: 'All Topics', href: '/quiz' },
                         { label: categoryData.name }
                     ]}
                 />
@@ -126,11 +127,7 @@ const CategoryQuizzes = () => {
                         const TopicIcon = topic.icon;
 
                         return (
-                            <Link
-                                key={topicId}
-                                to={`/quiz/${topicId}`}
-                                className="glass-panel p-6 rounded-2xl hover:bg-white/5 transition-all hover:scale-105 group"
-                            >
+                            <div key={topicId} className="glass-panel p-6 rounded-2xl bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-blue-500/30 transition-all group flex flex-col">
                                 <div className="mb-4 p-3 rounded-lg bg-white/5 w-fit">
                                     {typeof TopicIcon === 'function' && topicId === 'bash' ? (
                                         <TopicIcon />
@@ -138,12 +135,25 @@ const CategoryQuizzes = () => {
                                         <TopicIcon className={`w-8 h-8 ${topic.color}`} />
                                     )}
                                 </div>
-                                <h3 className="text-xl font-semibold mb-2 text-white">{topic.name}</h3>
-                                <p className="text-gray-400 text-sm mb-4">{topic.desc}</p>
-                                <div className="text-xs text-gray-500 group-hover:text-blue-400 transition-colors">
-                                    Start Quiz &rarr;
+                                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{topic.name}</h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-6 flex-grow">{topic.desc}</p>
+
+                                <div className="space-y-3">
+                                    <Link
+                                        to={`/quiz/${topicId}`}
+                                        className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/10 flex items-center justify-center gap-2"
+                                    >
+                                        Start Quiz <ArrowRight size={16} />
+                                    </Link>
+                                    <Link
+                                        to={`/quiz/${topicId}?mode=study`}
+                                        className="w-full py-2 text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-blue-500 flex items-center justify-center gap-1 transition-colors"
+                                    >
+                                        <Box size={14} />
+                                        Reference Guide
+                                    </Link>
                                 </div>
-                            </Link>
+                            </div>
                         );
                     })}
                 </div>

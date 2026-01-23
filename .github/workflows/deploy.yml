@@ -3,23 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
@@ -29,29 +24,29 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: site/package-lock.json
+          
+      - name: Install dependencies
+        run: |
+          cd site
+          npm ci
           
       - name: Build site
         run: |
-          # Copy site files to root for GitHub Pages
-          cp -r site/* .
+          cd site
+          npm run build
           
-          # Ensure quizzes directory is accessible
-          # GitHub Pages serves from root, so paths need to be adjusted
+      - name: Prepare deployment directory
+        run: |
+          mkdir -p deploy
+          cp -r site/dist/* deploy/
+          cp -r quizzes deploy/
           
-          # Create a simple 404 page
-          echo '<!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="UTF-8">
-            <title>404 - Page Not Found</title>
-            <meta http-equiv="refresh" content="3; url=./index.html">
-          </head>
-          <body>
-            <h1>404 - Page Not Found</h1>
-            <p>Redirecting to home page...</p>
-          </body>
-          </html>' > 404.html
+          # Create a custom 404 page for SPA routing support on GitHub Pages
+          # This will redirect unknown routes to index.html where React Router can handle them
+          cp site/dist/index.html deploy/404.html
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -59,9 +54,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: './deploy'
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages
@@ -72,4 +66,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 
+        uses: actions/deploy-pages@v4

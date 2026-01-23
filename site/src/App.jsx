@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import QuizSelection from './pages/QuizSelection';
 import Quiz from './pages/Quiz';
+import CategoryQuizzes from './pages/CategoryQuizzes';
 import QuizHistory from './pages/QuizHistory';
 import Analytics from './pages/Analytics';
 import NotFound from './pages/NotFound';
@@ -31,6 +32,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/quiz" element={<QuizSelection />} />
+                <Route path="/quiz/category/:category" element={<CategoryQuizzes />} />
                 <Route path="/quiz/:topic" element={<Quiz />} />
                 <Route path="/history" element={<QuizHistory />} />
                 <Route path="/analytics" element={<Analytics />} />

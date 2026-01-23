@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { parseQuizMarkdown } from '../utils/quizParser';
+import { quizService } from '../services/quizService';
 
-export const useQuiz = (topic, language = 'en') => {
+export const useQuiz = (topic, language = 'en', setNumber = 1) => {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -10,23 +10,10 @@ export const useQuiz = (topic, language = 'en') => {
         const fetchQuiz = async () => {
             try {
                 setLoading(true);
-                // Construct path: /quizzes/terraform/en/questions1.md
-                // Note: We might need to make 'questions1' dynamic later, but for now hardcode or pass as arg.
-                // Let's try to fetch questions1.md by default.
-                const path = `/quizzes/${topic}/${language}/questions1.md`;
-
-                const response = await fetch(path);
-
-                if (!response.ok) {
-                    throw new Error(`Failed to load quiz for ${topic}`);
-                }
-
-                const text = await response.text();
-                const parsedQuestions = parseQuizMarkdown(text);
+                const parsedQuestions = await quizService.getQuiz(topic, language, setNumber);
                 setQuestions(parsedQuestions);
                 setError(null);
             } catch (err) {
-                console.error('Error loading quiz:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -36,7 +23,7 @@ export const useQuiz = (topic, language = 'en') => {
         if (topic) {
             fetchQuiz();
         }
-    }, [topic, language]);
+    }, [topic, language, setNumber]);
 
     return { questions, loading, error };
 };

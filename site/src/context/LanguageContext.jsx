@@ -17,9 +17,9 @@ export const translations = {
             start: 'Start Learning',
             popular: 'Popular Topics',
             features: {
-                iac: { title: 'Infrastructure as Code', desc: 'Master Terraform, Ansible, and CloudFormation patterns.' },
-                cloud: { title: 'Cloud Native', desc: 'Deep dive into Kubernetes, Docker, and Microservices.' },
-                devsecops: { title: 'DevSecOps', desc: 'Learn security best practices and compliance automation.' },
+                iac: { title: 'Infrastructure as Code', desc: 'Master Terraform and Ansible. (2 Quizzes)' },
+                cloud: { title: 'Cloud Platforms', desc: 'Deep dive into AWS and Cloud Architecture. (1 Quiz)' },
+                containers: { title: 'Containerization', desc: 'Master Docker and Kubernetes orchestration. (2 Quizzes)' },
             },
         },
         selection: {
@@ -123,9 +123,9 @@ export const translations = {
             start: 'Empezar a Aprender',
             popular: 'Temas Populares',
             features: {
-                iac: { title: 'Infraestructura como Código', desc: 'Domina patrones de Terraform, Ansible y CloudFormation.' },
-                cloud: { title: 'Cloud Native', desc: 'Profundiza en Kubernetes, Docker y Microservicios.' },
-                devsecops: { title: 'DevSecOps', desc: 'Aprende mejores prácticas de seguridad y automatización de cumplimiento.' },
+                iac: { title: 'Infraestructura como Código', desc: 'Domina Terraform y Ansible. (2 Quizzes)' },
+                cloud: { title: 'Plataformas Cloud', desc: 'Profundiza en AWS y Arquitectura Cloud. (1 Quiz)' },
+                containers: { title: 'Contenerización', desc: 'Domina Docker y la orquestación con Kubernetes. (2 Quizzes)' },
             },
         },
         selection: {

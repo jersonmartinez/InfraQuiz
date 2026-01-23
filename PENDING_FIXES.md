@@ -168,6 +168,8 @@ Home > All Topics [Back]
 
 ---
 
-**Estado**: Parcialmente Implementado
-**Requiere**: Completar App.jsx y Quiz.jsx
-**Prioridad**: Alta
+---
+
+**Estado**: ✅ Completamente Implementado
+**Requiere**: Ninguna acción adicional.
+**Prioridad**: Completada
