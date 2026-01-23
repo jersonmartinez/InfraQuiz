@@ -10,23 +10,7 @@ export const useQuiz = (topic, language = 'en', setNumber = 1) => {
         const fetchQuiz = async () => {
             try {
                 setLoading(true);
-<<<<<<< HEAD
                 const parsedQuestions = await quizService.getQuiz(topic, language, setNumber);
-=======
-                // Construct path with base URL from Vite config
-                // import.meta.env.BASE_URL includes the base path (e.g., '/InfraQuiz/')
-                const fileName = language === 'es' ? 'cuestionario1.md' : 'questions1.md';
-                const path = `${import.meta.env.BASE_URL}quizzes/${topic}/${language}/${fileName}`;
-
-                const response = await fetch(path);
-
-                if (!response.ok) {
-                    throw new Error(`Failed to load quiz for ${topic}`);
-                }
-
-                const text = await response.text();
-                const parsedQuestions = parseQuizMarkdown(text);
->>>>>>> 36b37b2db629ea452b0386b18ac558026e296681
                 setQuestions(parsedQuestions);
                 setError(null);
             } catch (err) {
