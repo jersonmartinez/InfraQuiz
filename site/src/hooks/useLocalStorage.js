@@ -159,5 +159,93 @@ export const useAchievements = () => {
         return unlocked;
     };
 
+
     return { achievements, checkAchievements };
+};
+
+export const useBookmarks = () => {
+    const [bookmarks, setBookmarks] = useLocalStorage('bookmarks', []);
+
+    const toggleBookmark = (question) => {
+        setBookmarks((prev) => {
+            const exists = prev.find((b) => b.id === question.id);
+            if (exists) {
+                return prev.filter((b) => b.id !== question.id);
+            }
+            return [...prev, { ...question, bookmarkedAt: new Date().toISOString() }];
+        });
+    };
+
+    const isBookmarked = (id) => bookmarks.some((b) => b.id === id);
+
+    return { bookmarks, toggleBookmark, isBookmarked };
+};
+
+export const useStreaks = () => {
+    const [streakData, setStreakData] = useLocalStorage('streakData', {
+        currentStreak: 0,
+        lastActiveDate: null,
+        bestStreak: 0,
+    });
+
+    const updateStreak = () => {
+        const today = new Date().toDateString();
+        const lastDate = streakData.lastActiveDate ? new Date(streakData.lastActiveDate).toDateString() : null;
+
+        if (today === lastDate) return;
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayString = yesterday.toDateString();
+
+        setStreakData(prev => {
+            let newStreak = prev.currentStreak;
+            if (lastDate === yesterdayString) {
+                newStreak += 1;
+            } else {
+                newStreak = 1;
+            }
+
+            return {
+                currentStreak: newStreak,
+                lastActiveDate: new Date().toISOString(),
+                bestStreak: Math.max(newStreak, prev.bestStreak),
+            };
+        });
+    };
+
+    return { streakData, updateStreak };
+};
+
+export const useInfraPoints = () => {
+    const [points, setPoints] = useLocalStorage('infraPoints', 0);
+
+    const addPoints = (amount) => setPoints(prev => prev + amount);
+    const spendPoints = (amount) => {
+        if (points >= amount) {
+            setPoints(prev => prev - amount);
+            return true;
+        }
+        return false;
+    };
+
+    return { points, addPoints, spendPoints };
+};
+
+export const useFailedQuestions = () => {
+    const [failedQuestions, setFailedQuestions] = useLocalStorage('failedQuestions', []);
+
+    const addFailedQuestion = (question) => {
+        setFailedQuestions((prev) => {
+            const exists = prev.find((q) => q.id === question.id && q.topic === question.topic);
+            if (exists) return prev;
+            return [...prev, { ...question, failedAt: new Date().toISOString() }];
+        });
+    };
+
+    const removeFailedQuestion = (id, topic) => {
+        setFailedQuestions((prev) => prev.filter((q) => !(q.id === id && q.topic === topic)));
+    };
+
+    return { failedQuestions, addFailedQuestion, removeFailedQuestion };
 };

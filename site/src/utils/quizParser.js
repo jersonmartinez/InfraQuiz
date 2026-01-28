@@ -47,7 +47,7 @@ export const parseQuizMarkdown = (markdown) => {
             i++;
         }
 
-        // Collect explanation
+        // Collect explanation and references
         while (i < lines.length) {
             // Stop at next question
             if (lines[i].match(/^###\s+\d+\./)) {
@@ -64,6 +64,11 @@ export const parseQuizMarkdown = (markdown) => {
             if (lines[i] && !lines[i].startsWith('**')) {
                 const text = lines[i].replace(/^>\s*/, '').trim();
                 if (text) {
+                    // Check for markdown link [title](url)
+                    const linkMatch = text.match(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/);
+                    if (linkMatch && !question.referenceUrl) {
+                        question.referenceUrl = linkMatch[2];
+                    }
                     question.explanation += (question.explanation ? ' ' : '') + text;
                 }
             }

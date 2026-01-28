@@ -1,13 +1,17 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
-import { useQuizHistory, useAchievements, useQuizProgress } from './useLocalStorage';
+import { useQuizHistory, useAchievements, useQuizProgress, useBookmarks, useInfraPoints, useStreaks, useFailedQuestions } from './useLocalStorage';
 
 export const useQuizGame = (topic, questions, setNumber) => {
     const navigate = useNavigate();
     const { addQuizResult } = useQuizHistory();
     const { checkAchievements } = useAchievements();
     const { saveProgress, getProgress, clearProgress } = useQuizProgress();
+    const { toggleBookmark, isBookmarked } = useBookmarks();
+    const { points, addPoints, spendPoints } = useInfraPoints();
+    const { updateStreak } = useStreaks();
+    const { addFailedQuestion } = useFailedQuestions();
 
     // Initial Progress Data
     const initialProgress = useMemo(() => {
@@ -26,6 +30,7 @@ export const useQuizGame = (topic, questions, setNumber) => {
     const [isPaused, setIsPaused] = useState(false);
     const [pendingNavigation, setPendingNavigation] = useState(null);
     const [hasStarted, setHasStarted] = useState(false);
+    const [isFocusMode, setIsFocusMode] = useState(false);
 
     // Mode State
     const [isFlashcardMode, setIsFlashcardMode] = useState(false);
@@ -36,6 +41,9 @@ export const useQuizGame = (topic, questions, setNumber) => {
     const [difficultyFilter, setDifficultyFilter] = useState('all');
     const [questionLimit, setQuestionLimit] = useState('all');
     const [studySearch, setStudySearch] = useState('');
+
+    // Power-ups
+    const [disabledOptions, setDisabledOptions] = useState(new Set());
 
     // Filtered Questions
     const filteredQuestions = useMemo(() => {
@@ -57,13 +65,14 @@ export const useQuizGame = (topic, questions, setNumber) => {
     const currentAnswer = answers[currentQuestionIndex];
     const isAnswered = !!currentAnswer;
 
-    // Shuffled Options (Memoized instead of state to avoid cascading renders)
+    // Shuffled Options (Deterministic based on question ID to satisfy purity)
     const shuffledOptions = useMemo(() => {
         if (!currentQuestion) return [];
         const options = [...currentQuestion.options];
+        let seed = currentQuestion.id;
         for (let i = options.length - 1; i > 0; i--) {
-            // eslint-disable-next-line react-hooks/purity
-            const j = Math.floor(Math.random() * (i + 1));
+            seed = (seed * 9301 + 49297) % 233280;
+            const j = Math.floor((seed / 233280) * (i + 1));
             [options[i], options[j]] = [options[j], options[i]];
         }
         return options;
@@ -74,12 +83,10 @@ export const useQuizGame = (topic, questions, setNumber) => {
         return shuffledOptions.find(opt => opt.letter === currentAnswer.selectedOption) || null;
     }, [currentAnswer, shuffledOptions]);
 
-
-
-
     const handleStart = () => {
         setHasStarted(true);
         setStartTime(Date.now());
+        setDisabledOptions(new Set());
     };
 
     const handleSaveProgress = () => {
@@ -123,24 +130,30 @@ export const useQuizGame = (topic, questions, setNumber) => {
         setPausedTime(0);
         setIsPaused(false);
         setHasStarted(false);
+        setDisabledOptions(new Set());
         clearProgress(topic);
     };
 
     const handleOptionClick = useCallback((option) => {
-        if (isAnswered || isPaused || !hasStarted) return;
+        if (isAnswered || isPaused || !hasStarted || disabledOptions.has(option.letter)) return;
         const correctLetter = currentQuestion.correctAnswer.match(/^([A-D])\)/)?.[1];
         const isCorrect = option.letter === correctLetter;
+
+        if (isCorrect) {
+            addPoints(10); // 10 points per correct answer
+        } else {
+            addFailedQuestion({ ...currentQuestion, topic }); // Save for flashcards
+        }
+
         setAnswers([...answers, {
             questionId: currentQuestion.id,
             correct: isCorrect,
             selectedOption: option.letter,
             correctOption: correctLetter,
         }]);
-    }, [isAnswered, isPaused, hasStarted, currentQuestion, answers]);
+    }, [isAnswered, isPaused, hasStarted, currentQuestion, answers, addPoints, disabledOptions, addFailedQuestion, topic]);
 
     const [markedQuestions, setMarkedQuestions] = useState(new Set());
-
-    // ... (existing state)
 
     const toggleMark = () => {
         const newMarked = new Set(markedQuestions);
@@ -156,7 +169,6 @@ export const useQuizGame = (topic, questions, setNumber) => {
         clearProgress(topic);
         const timeSpent = Math.floor((pausedTime + (Date.now() - startTime)) / 1000);
         const percentage = Math.round((score / filteredQuestions.length) * 100);
-        // Include 'set' in the result for Smart Study features
         const quizResult = {
             topic,
             score,
@@ -164,10 +176,11 @@ export const useQuizGame = (topic, questions, setNumber) => {
             percentage,
             timeSpent,
             answers,
-            set: setNumber // Save the set number!
+            set: setNumber
         };
         addQuizResult(quizResult);
         checkAchievements(quizResult);
+        updateStreak(); // Update streak on finish
 
         if (percentage >= 70) {
             confetti({
@@ -178,11 +191,12 @@ export const useQuizGame = (topic, questions, setNumber) => {
             });
         }
         setShowResults(true);
-    }, [topic, pausedTime, startTime, score, filteredQuestions.length, answers, setNumber, clearProgress, addQuizResult, checkAchievements]);
+    }, [topic, pausedTime, startTime, score, filteredQuestions.length, answers, setNumber, clearProgress, addQuizResult, checkAchievements, updateStreak]);
 
     const handleNext = useCallback(() => {
         if (currentQuestionIndex < filteredQuestions.length - 1) {
             setCurrentQuestionIndex(prev => prev + 1);
+            setDisabledOptions(new Set());
         } else {
             handleFinish();
         }
@@ -190,12 +204,31 @@ export const useQuizGame = (topic, questions, setNumber) => {
 
     const handleFlashcardClick = (known) => {
         if (!isAnswered && !isPaused && hasStarted) {
+            if (known) addPoints(10);
             setAnswers([...answers, {
                 questionId: currentQuestion.id,
                 correct: known,
                 selectedOption: known ? 'known' : 'unknown',
                 correctOption: 'known',
             }]);
+        }
+    };
+
+    // Power-ups
+    const handleUseFiftyFifty = () => {
+        if (isAnswered || isPaused || !hasStarted || disabledOptions.size > 0) return;
+
+        if (spendPoints(50)) { // 50 points for 50/50
+            const correctLetter = currentQuestion.correctAnswer.match(/^([A-D])\)/)?.[1];
+            const incorrectOptions = currentQuestion.options.filter(opt => opt.letter !== correctLetter);
+
+            // Randomly pick two incorrect options to disable
+            const toDisable = [...incorrectOptions]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 2)
+                .map(opt => opt.letter);
+
+            setDisabledOptions(new Set(toDisable));
         }
     };
 
@@ -239,7 +272,11 @@ export const useQuizGame = (topic, questions, setNumber) => {
         questionLimit,
         studySearch,
         progressPercentage,
-        markedQuestions, // Exported
+        markedQuestions,
+        points,
+        isBookmarked: currentQuestion ? isBookmarked(currentQuestion.id) : false,
+        disabledOptions,
+        isFocusMode,
 
         // Setters
         setIsFlashcardMode,
@@ -250,6 +287,7 @@ export const useQuizGame = (topic, questions, setNumber) => {
         setDifficultyFilter,
         setShowSaveDialog,
         setPendingNavigation,
+        setIsFocusMode,
 
         // Actions
         handleStart,
@@ -261,6 +299,8 @@ export const useQuizGame = (topic, questions, setNumber) => {
         handleNext,
         handleFinish,
         handleFlashcardClick,
-        toggleMark // Exported
+        toggleMark,
+        handleToggleBookmark: () => currentQuestion && toggleBookmark(currentQuestion),
+        handleUseFiftyFifty
     };
 };

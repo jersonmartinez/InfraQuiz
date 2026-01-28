@@ -10,6 +10,9 @@ import Quiz from './pages/Quiz';
 import CategoryQuizzes from './pages/CategoryQuizzes';
 import QuizHistory from './pages/QuizHistory';
 import Analytics from './pages/Analytics';
+import Bookmarks from './pages/Bookmarks';
+import DailyChallenge from './pages/DailyChallenge';
+import MistakesFlashcards from './pages/MistakesFlashcards';
 import NotFound from './pages/NotFound';
 
 const basename = import.meta.env.BASE_URL?.replace(/\/$/, '') || '';
@@ -38,6 +41,9 @@ function App() {
                 <Route path="/quiz/:topic" element={<Quiz />} />
                 <Route path="/history" element={<QuizHistory />} />
                 <Route path="/analytics" element={<Analytics />} />
+                <Route path="/bookmarks" element={<Bookmarks />} />
+                <Route path="/daily-challenge" element={<DailyChallenge />} />
+                <Route path="/mistakes" element={<MistakesFlashcards />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

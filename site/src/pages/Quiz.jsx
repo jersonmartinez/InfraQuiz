@@ -7,7 +7,7 @@ import { getTopicEmoji, getTopicName } from '../utils/topicUtils';
 import Timer from '../components/Timer';
 import Breadcrumb from '../components/Breadcrumb';
 import { QuizQuestionSkeleton } from '../components/SkeletonLoader';
-import { ArrowRight, CheckCircle, XCircle, Keyboard, Save, Play, Layers, BookOpen, Eye, Search, Clock, Flag, PlayCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, XCircle, Keyboard, Save, Play, Layers, BookOpen, Eye, Search, Clock, Flag, PlayCircle, Bookmark, Zap, Focus } from 'lucide-react';
 
 import { useQuizHistory } from '../hooks/useLocalStorage';
 import { quizService } from '../services/quizService';
@@ -15,6 +15,8 @@ import { quizService } from '../services/quizService';
 // Modular components
 import QuizResults from '../components/quiz/QuizResults';
 import { PausedOverlay, SaveDialog } from '../components/quiz/QuizOverlay';
+import FormattedText from '../components/FormattedText';
+import { ExternalLink } from 'lucide-react';
 
 const Quiz = () => {
     const { topic } = useParams();
@@ -86,16 +88,6 @@ const Quiz = () => {
     // Game Logic
     const game = useQuizGame(topic, questions, setNumber);
 
-    const renderText = (text) => {
-        if (!text) return '';
-        const cleanText = text.replace(/[\u{FFFD}◆\u{25C6}\uD800-\uDFFF]/gu, '📝');
-        return cleanText.split(/(`[^`]+`)/).map((part, i) => {
-            if (part.startsWith('`') && part.endsWith('`')) {
-                return <code key={i} className="bg-white/10 px-1.5 py-0.5 rounded text-sm font-mono">{part.slice(1, -1)}</code>;
-            }
-            return <span key={i}>{part}</span>;
-        });
-    };
 
     if (loading) return (
         <div className="min-h-screen pt-24 px-6 pb-12">
@@ -207,7 +199,7 @@ const Quiz = () => {
                                                 'bg-yellow-500/10 text-yellow-500'
                                             }`}>{q.difficulty}</span>
                                     </div>
-                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 leading-relaxed">{renderText(q.question)}</h3>
+                                    <FormattedText className="text-xl font-bold text-gray-900 dark:text-white mb-6 leading-relaxed" text={q.question} />
 
                                     <div className="grid md:grid-cols-2 gap-3 mb-6">
                                         {q.options.map(opt => {
@@ -215,7 +207,7 @@ const Quiz = () => {
                                             return (
                                                 <div key={opt.letter} className={`p-4 rounded-xl border ${isCorrect ? 'border-green-500/30 bg-green-500/10' : 'border-gray-100 dark:border-white/5 opacity-40'} flex items-center gap-3 transition-opacity hover:opacity-100`}>
                                                     <span className={`font-bold ${isCorrect ? 'text-green-500' : 'text-gray-400'}`}>{opt.letter}</span>
-                                                    <span className="text-xs text-gray-700 dark:text-gray-300 leading-snug">{renderText(opt.text)}</span>
+                                                    <FormattedText className="text-xs text-gray-700 dark:text-gray-300 leading-snug" text={opt.text} />
                                                     {isCorrect && <CheckCircle size={14} className="text-green-500 ml-auto flex-shrink-0" />}
                                                 </div>
                                             );
@@ -227,7 +219,19 @@ const Quiz = () => {
                                             <div className="w-1.5 h-4 bg-blue-500 rounded-full"></div>
                                             <span className="font-black text-xs text-blue-500 uppercase not-italic tracking-tighter">Deep Knowledge</span>
                                         </div>
-                                        {renderText(q.explanation)}
+                                        <FormattedText className="text-gray-700 dark:text-gray-300 leading-relaxed shadow-inner" text={q.explanation} />
+                                        {q.referenceUrl && (
+                                            <div className="mt-4 pt-4 border-t border-blue-500/10 flex justify-end">
+                                                <a
+                                                    href={q.referenceUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-2 text-xs font-black text-blue-500 uppercase tracking-widest hover:text-blue-400 transition-colors"
+                                                >
+                                                    Docs <ExternalLink size={12} />
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))
@@ -239,16 +243,20 @@ const Quiz = () => {
     }
 
     return (
-        <div className="min-h-screen pt-24 px-6 pb-12 relative animate-fade-in">
+        <div className={`min-h-screen pt-24 px-6 pb-12 relative animate-fade-in ${game.isFocusMode ? 'z-[100] bg-gray-50 dark:bg-gray-950 fixed inset-0 pt-12 overflow-y-auto' : ''}`}>
             <div className="max-w-3xl mx-auto">
-                <Breadcrumb items={[{ label: t('quiz.back'), href: '/quiz' }, { label: `${getTopicName(topic)} - Set ${setNumber}` }]} onBack={game.handleBack} />
+                {!game.isFocusMode && <Breadcrumb items={[{ label: t('quiz.back'), href: '/quiz' }, { label: `${getTopicName(topic)} - Set ${setNumber}` }]} onBack={game.handleBack} />}
 
                 <div className="flex justify-between items-center mb-6">
                     <span className="text-gray-600 dark:text-gray-400 font-medium uppercase tracking-wider text-sm flex items-center gap-2">
                         <span className="text-2xl">{getTopicEmoji(topic)}</span>
                         {getTopicName(topic)} Quiz (Set {setNumber})
                     </span>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <div className="flex items-center gap-1 bg-yellow-500/10 text-yellow-600 px-3 py-1.5 rounded-full font-bold text-xs border border-yellow-500/20">
+                            <Zap size={14} className="fill-yellow-500" />
+                            {game.points}
+                        </div>
                         <Timer
                             startTime={game.startTime}
                             isActive={!game.showResults && !game.isPaused && game.hasStarted}
@@ -256,9 +264,16 @@ const Quiz = () => {
                             limit={game.timeLimit}
                             onTimeUp={game.handleFinish}
                         />
+                        <button
+                            onClick={() => game.setIsFocusMode(!game.isFocusMode)}
+                            className={`p-2 rounded-lg border transition-all ${game.isFocusMode ? 'bg-blue-600 text-white border-blue-500 shadow-lg' : 'bg-white dark:bg-white/10 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/20'}`}
+                            title="Focus Mode"
+                        >
+                            <Focus size={18} />
+                        </button>
                         {!game.isPaused && game.hasStarted && (
                             <button onClick={() => game.setShowSaveDialog(true)} className="flex items-center gap-2 px-3 py-2 text-sm bg-white dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/10" title={t('quiz.save')}>
-                                <Save size={16} />{t('quiz.save')}
+                                <Save size={16} /> <span className="hidden md:inline">{t('quiz.save')}</span>
                             </button>
                         )}
                         <button
@@ -267,42 +282,8 @@ const Quiz = () => {
                             title={game.isFlashcardMode ? 'Switch to Quiz Mode' : 'Switch to Flashcard Mode'}
                         >
                             <BookOpen size={16} />
-                            <span className="hidden sm:inline">{game.isFlashcardMode ? 'Flashcards' : 'Quiz Mode'}</span>
+                            <span className="hidden lg:inline">{game.isFlashcardMode ? 'Flashcards' : 'Quiz Mode'}</span>
                         </button>
-                        <button
-                            onClick={() => {
-                                if (game.timeLimit === 0) game.setTimeLimit(600); // 10 mins
-                                else game.setTimeLimit(0);
-                            }}
-                            className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg border transition-all ${game.timeLimit > 0 ? 'bg-orange-600 text-white border-orange-500 shadow-lg' : 'bg-white dark:bg-white/10 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/20'}`}
-                            title={game.timeLimit > 0 ? 'Disable Timer' : 'Enable 10-Minute Challenge'}
-                        >
-                            <Clock size={16} />
-                            <span className="hidden sm:inline">{game.timeLimit > 0 ? 'Timed' : 'Challenge'}</span>
-                        </button>
-                        {game.isPaused && (
-                            <button
-                                onClick={game.handleResume}
-                                className="p-2 ml-2 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-500 rounded-lg transition-colors"
-                                title="Resume"
-                                aria-label="Resume Quiz"
-                            >
-                                <PlayCircle size={20} />
-                            </button>
-                        )}
-                        {!game.isPaused && game.hasStarted && (
-                            <button
-                                onClick={game.toggleMark}
-                                className={`p-2 ml-2 rounded-lg transition-colors ${game.markedQuestions.has(game.currentQuestionIndex)
-                                    ? 'bg-orange-500/20 text-orange-500 hover:bg-orange-500/30'
-                                    : 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white'
-                                    }`}
-                                title="Mark for Review"
-                                aria-label={game.markedQuestions.has(game.currentQuestionIndex) ? "Unmark Question" : "Mark Question for Review"}
-                            >
-                                <Flag size={20} fill={game.markedQuestions.has(game.currentQuestionIndex) ? "currentColor" : "none"} />
-                            </button>
-                        )}
                     </div>
                 </div>
 
@@ -372,15 +353,29 @@ const Quiz = () => {
                     <div className={`glass-panel p-6 md:p-8 rounded-2xl mb-6 transition-all duration-300 bg-white/50 dark:bg-white/5 border border-gray-200 dark:border-white/10 ${game.isPaused ? 'opacity-30 blur-sm pointer-events-none' : ''}`}>
                         {game.currentQuestion ? (
                             <>
-                                <h2 className="text-2xl font-semibold mb-8 leading-relaxed text-gray-900 dark:text-white flex gap-3">
-                                    <span className="flex items-center gap-2 text-blue-500">
+                                <div className="flex justify-between items-start mb-6">
+                                    <span className="flex items-center gap-2 text-blue-500 text-2xl font-black">
                                         {game.currentQuestion.id}.
-                                        {game.markedQuestions.has(game.currentQuestionIndex) && (
-                                            <Flag size={24} className="text-orange-500" fill="currentColor" />
-                                        )}
                                     </span>
-                                    {renderText(game.currentQuestion.question)}
-                                </h2>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={game.handleToggleBookmark}
+                                            className={`p-2 rounded-lg transition-all ${game.isBookmarked ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-100 dark:bg-white/5 text-gray-400 hover:text-blue-500'}`}
+                                            title="Bookmark Question"
+                                        >
+                                            <Bookmark size={20} fill={game.isBookmarked ? "currentColor" : "none"} />
+                                        </button>
+                                        <button
+                                            onClick={game.toggleMark}
+                                            className={`p-2 rounded-lg transition-all ${game.markedQuestions.has(game.currentQuestionIndex) ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-100 dark:bg-white/5 text-gray-400 hover:text-orange-500'}`}
+                                            title="Mark for Review"
+                                        >
+                                            <Flag size={20} fill={game.markedQuestions.has(game.currentQuestionIndex) ? "currentColor" : "none"} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <FormattedText className="text-2xl font-bold mb-8 leading-relaxed text-gray-900 dark:text-white" text={game.currentQuestion.question} />
 
                                 <div className="space-y-3">
                                     {game.isFlashcardMode ? (
@@ -422,37 +417,57 @@ const Quiz = () => {
                                             </div>
                                         )
                                     ) : (
-                                        game.shuffledOptions.map((option, index) => {
-                                            const displayLetter = ['A', 'B', 'C', 'D'][index];
-                                            const isSelected = game.selectedOption?.letter === option.letter;
-                                            const correctLetter = game.currentQuestion.correctAnswer.match(/^([A-D])\)/)?.[1];
-                                            const isCorrect = option.letter === correctLetter;
+                                        <>
+                                            {game.shuffledOptions.map((option, index) => {
+                                                const displayLetter = ['A', 'B', 'C', 'D'][index];
+                                                const isSelected = game.selectedOption?.letter === option.letter;
+                                                const correctLetter = game.currentQuestion.correctAnswer.match(/^([A-D])\)/)?.[1];
+                                                const isCorrect = option.letter === correctLetter;
+                                                const isDisabled = game.disabledOptions.has(option.letter);
 
-                                            let optionClass = "w-full p-4 rounded-xl text-left transition-all border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 flex items-center justify-between text-gray-900 dark:text-white ";
+                                                let optionClass = "w-full p-4 rounded-xl text-left transition-all border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 flex items-center justify-between text-gray-900 dark:text-white ";
 
-                                            if (game.isAnswered) {
-                                                if (isSelected && isCorrect) optionClass = "w-full p-4 rounded-xl text-left border border-green-500/50 bg-green-500/10 flex items-center justify-between ";
-                                                else if (isSelected && !isCorrect) optionClass = "w-full p-4 rounded-xl text-left border border-red-500/50 bg-red-500/10 flex items-center justify-between ";
-                                                else if (isCorrect) optionClass = "w-full p-4 rounded-xl text-left border border-green-500/50 bg-green-500/20 flex items-center justify-between ";
-                                                else optionClass += "opacity-50 ";
-                                            }
+                                                if (isDisabled) {
+                                                    optionClass += "opacity-30 cursor-not-allowed grayscale ";
+                                                } else if (game.isAnswered) {
+                                                    if (isSelected && isCorrect) optionClass = "w-full p-4 rounded-xl text-left border border-green-500/50 bg-green-500/10 flex items-center justify-between ";
+                                                    else if (isSelected && !isCorrect) optionClass = "w-full p-4 rounded-xl text-left border border-red-500/50 bg-red-500/10 flex items-center justify-between ";
+                                                    else if (isCorrect) optionClass = "w-full p-4 rounded-xl text-left border border-green-500/50 bg-green-500/20 flex items-center justify-between opacity-70 ";
+                                                    else optionClass += "opacity-40 ";
+                                                }
 
-                                            return (
-                                                <button
-                                                    key={option.letter}
-                                                    onClick={() => game.handleOptionClick(option)}
-                                                    disabled={game.isAnswered || game.isPaused || !game.hasStarted}
-                                                    className={optionClass}
-                                                >
-                                                    <span className="flex items-center gap-3">
-                                                        <span className="font-bold text-blue-500">{displayLetter}</span>
-                                                        <span>{renderText(option.text)}</span>
-                                                    </span>
-                                                    {game.isAnswered && isCorrect && <CheckCircle className="text-green-500" size={20} />}
-                                                    {game.isAnswered && isSelected && !isCorrect && <XCircle className="text-red-500" size={20} />}
-                                                </button>
-                                            );
-                                        })
+                                                return (
+                                                    <button
+                                                        key={option.letter}
+                                                        onClick={() => game.handleOptionClick(option)}
+                                                        disabled={game.isAnswered || game.isPaused || !game.hasStarted || isDisabled}
+                                                        className={optionClass}
+                                                    >
+                                                        <span className="flex items-center gap-3">
+                                                            <span className="font-bold text-blue-500">{displayLetter}</span>
+                                                            <FormattedText text={option.text} />
+                                                        </span>
+                                                        {game.isAnswered && isCorrect && <CheckCircle className="text-green-500" size={20} />}
+                                                        {game.isAnswered && isSelected && !isCorrect && <XCircle className="text-red-500" size={20} />}
+                                                        {isDisabled && <Eye size={16} className="text-gray-400" />}
+                                                    </button>
+                                                );
+                                            })}
+
+                                            {!game.isAnswered && !game.isPaused && game.hasStarted && (
+                                                <div className="pt-6 border-t border-gray-100 dark:border-white/5 mt-4 flex items-center justify-between">
+                                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Survival Tools</p>
+                                                    <button
+                                                        onClick={game.handleUseFiftyFifty}
+                                                        disabled={game.points < 50 || game.disabledOptions.size > 0}
+                                                        className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all text-xs font-bold ${game.points >= 50 && game.disabledOptions.size === 0 ? 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20 hover:bg-yellow-500/20' : 'opacity-40 grayscale cursor-not-allowed border-gray-200'}`}
+                                                    >
+                                                        <Zap size={14} className="fill-yellow-500" />
+                                                        50/50 (50 Points)
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </>
                                     )}
                                 </div>
                             </>
@@ -466,9 +481,22 @@ const Quiz = () => {
 
                 {game.isAnswered && !game.isPaused && game.hasStarted && (
                     <div className="space-y-6 animate-slide-up">
-                        <div className="bg-blue-500/5 border border-blue-500/20 p-6 rounded-xl">
+                        <div className="bg-blue-500/5 border border-blue-500/20 p-6 rounded-xl relative overflow-hidden group">
                             <h3 className="font-bold text-blue-600 dark:text-blue-400 mb-2 flex items-center gap-2">💡 {t('quiz.explanation')}</h3>
-                            <div className="text-gray-700 dark:text-gray-300 leading-relaxed italic">{renderText(game.currentQuestion.explanation)}</div>
+                            <FormattedText className="text-gray-700 dark:text-gray-300 leading-relaxed italic" text={game.currentQuestion.explanation} />
+
+                            {game.currentQuestion.referenceUrl && (
+                                <div className="mt-4 pt-4 border-t border-blue-500/10 flex justify-end">
+                                    <a
+                                        href={game.currentQuestion.referenceUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-xs font-black text-blue-500 uppercase tracking-widest hover:text-blue-400 transition-colors"
+                                    >
+                                        Official Documentation <ExternalLink size={14} />
+                                    </a>
+                                </div>
+                            )}
                         </div>
                         <div className="flex justify-end">
                             <button onClick={game.handleNext} className="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-black font-bold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-all flex items-center gap-2 shadow-lg scale-105">
