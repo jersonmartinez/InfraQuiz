@@ -1,13 +1,16 @@
 import React from 'react';
 import { useQuizHistory } from '../../hooks/useLocalStorage';
+import { useLanguage } from '../../hooks/useLanguage';
 import { Trophy, Medal, Crown } from 'lucide-react';
 import { getTopicName, getTopicEmoji } from '../../utils/topicUtils';
 
 const LocalLeaderboard = () => {
     const { history } = useQuizHistory();
+    const { t } = useLanguage();
 
-    // Group by topic and find best score for each
+    // Group by topic and find best score for each, excluding daily challenges as topics
     const topicBests = history.reduce((acc, current) => {
+        if (current.topic === 'daily-challenge') return acc;
         if (!acc[current.topic] || current.percentage > acc[current.topic].percentage) {
             acc[current.topic] = current;
         }
@@ -25,10 +28,10 @@ const LocalLeaderboard = () => {
             </div>
 
             <h2 className="text-2xl font-black mb-8 flex items-center gap-3 text-gray-900 dark:text-white">
-                <Trophy className="text-yellow-500" /> Hall of Fame
+                <Trophy className="text-yellow-500" /> {t('leaderboard.title')}
             </h2>
 
-            <div className="space-y-4">
+            <div className="space-y-4 text-gray-900 dark:text-white">
                 {sortedBests.slice(0, 5).map((entry, index) => (
                     <div key={entry.topic} className="flex items-center gap-4 p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-gray-100 dark:border-white/5 hover:border-blue-500/20 transition-all group">
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black ${index === 0 ? 'bg-yellow-500/20 text-yellow-600' :
@@ -42,10 +45,10 @@ const LocalLeaderboard = () => {
                         <div className="flex-grow">
                             <div className="flex items-center gap-2">
                                 <span className="text-xl">{getTopicEmoji(entry.topic)}</span>
-                                <span className="font-bold text-gray-900 dark:text-white">{getTopicName(entry.topic)}</span>
+                                <span className="font-bold">{getTopicName(entry.topic)}</span>
                             </div>
                             <div className="text-[10px] font-black uppercase text-gray-400 tracking-widest mt-1">
-                                Best: {entry.percentage}% • {entry.score}/{entry.total}
+                                {t('leaderboard.best')}: {entry.percentage}% • {entry.score}/{entry.total}
                             </div>
                         </div>
 

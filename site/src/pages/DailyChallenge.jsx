@@ -12,7 +12,7 @@ import FormattedText from '../components/FormattedText';
 import { ExternalLink } from 'lucide-react';
 
 const DailyChallenge = () => {
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
     const { addPoints } = useInfraPoints();
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -45,21 +45,21 @@ const DailyChallenge = () => {
                         // Pick 2 random questions from each topic
                         const shuffled = [...setQs].sort((a, b) => (seed % a.id) - (seed % b.id));
                         dailyPool.push(...shuffled.slice(0, 2).map(q => ({ ...q, topic })));
-                    } catch (err) {
-                        console.error(`Failed to load daily topic: ${topic}`, err);
+                    } catch {
+                        console.error(`Failed to load daily topic: ${topic}`);
                     }
                 }));
 
                 setQuestions(dailyPool.sort(() => Math.random() - 0.5));
             } catch {
-                setError("Failed to generate daily challenge. Please try again later.");
+                setError(t('quiz.error'));
             } finally {
                 setLoading(false);
             }
         };
 
         fetchDailyQuestions();
-    }, [language]);
+    }, [language, t]);
 
     const game = useQuizGame('daily-challenge', questions, 0);
 
@@ -80,7 +80,7 @@ const DailyChallenge = () => {
     if (loading) return (
         <div className="min-h-screen flex flex-col items-center justify-center">
             <Loader2 className="animate-spin text-blue-500 mb-4" size={48} />
-            <p className="text-gray-500 font-bold">Generating today's challenge...</p>
+            <p className="text-gray-500 font-bold">{t('daily.generating')}</p>
         </div>
     );
 
@@ -93,13 +93,13 @@ const DailyChallenge = () => {
 
     if (game.showResults) {
         return (
-            <div className="animate-fade-in">
+            <div className="animate-fade-in text-gray-900 dark:text-white">
                 <div className="max-w-4xl mx-auto pt-24 px-6 text-center">
                     <div className="w-24 h-24 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-yellow-500/20 shadow-2xl shadow-yellow-500/10">
                         <Trophy className="text-yellow-500 w-12 h-12" />
                     </div>
-                    <h1 className="text-4xl font-black text-gray-900 dark:text-white mb-2">Daily Challenge Complete!</h1>
-                    <p className="text-gray-500 mb-12">You've tackled the selected topics for today.</p>
+                    <h1 className="text-4xl font-black mb-2">{t('daily.completeTitle')}</h1>
+                    <p className="text-gray-500 mb-12">{t('daily.completeDesc')}</p>
                 </div>
                 <QuizResults
                     score={game.score}
@@ -114,7 +114,7 @@ const DailyChallenge = () => {
 
 
     return (
-        <div className="min-h-screen pt-24 px-6 pb-12 relative animate-fade-in">
+        <div className="min-h-screen pt-24 px-6 pb-12 relative animate-fade-in text-gray-900 dark:text-white">
             <div className="max-w-3xl mx-auto">
                 <div className="flex justify-between items-center mb-8 bg-gradient-to-r from-purple-600 to-blue-600 p-6 rounded-3xl text-white shadow-xl shadow-blue-500/20 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -123,14 +123,14 @@ const DailyChallenge = () => {
                     <div className="relative z-10">
                         <div className="flex items-center gap-2 mb-1">
                             <Trophy size={18} className="text-yellow-400" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-white/80">Daily Challenge</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-white/80">{t('daily.title')}</span>
                         </div>
-                        <h1 className="text-2xl font-black">Infrastructure Hero</h1>
-                        <p className="text-sm text-white/70">10 Questions • Multi-topic Review</p>
+                        <h1 className="text-2xl font-black">{t('daily.title')}</h1>
+                        <p className="text-sm text-white/70">{questions.length} {t('selection.questions')} • {t('daily.subtitle')}</p>
                     </div>
                     <div className="relative z-10 text-right">
                         <div className="text-3xl font-black">+{game.score * 10}</div>
-                        <div className="text-[10px] font-black uppercase tracking-widest text-white/80">Current Est. IP</div>
+                        <div className="text-[10px] font-black uppercase tracking-widest text-white/80">{t('daily.pointsEst')}</div>
                     </div>
                 </div>
 
@@ -139,15 +139,15 @@ const DailyChallenge = () => {
                         <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
                             <Zap className="text-blue-500 w-10 h-10" />
                         </div>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Are you ready?</h2>
+                        <h2 className="text-2xl font-bold mb-4">{t('daily.ready')}</h2>
                         <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-sm mx-auto">
-                            Finish with 80% or more to earn a <span className="text-yellow-500 font-bold">100 IP Bonus</span> and special badge recognition.
+                            {t('daily.bonusText').replace('{bonus}', '100')}
                         </p>
                         <button
                             onClick={game.handleStart}
                             className="px-12 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-xl transform hover:scale-105 transition-all text-lg"
                         >
-                            Start Challenge
+                            {t('daily.start')}
                         </button>
                     </div>
                 ) : (
@@ -170,16 +170,16 @@ const DailyChallenge = () => {
                         </div>
 
                         <div className="glass-panel p-8 rounded-2xl bg-white/5 shadow-sm border border-white/5 mb-6">
-                            <FormattedText className="text-2xl font-bold mb-8 leading-relaxed text-gray-900 dark:text-white" text={game.currentQuestion?.question} />
+                            <FormattedText className="text-2xl font-bold mb-8 leading-relaxed" text={game.currentQuestion?.question} />
 
                             <div className="space-y-3">
                                 {game.shuffledOptions.map((option, index) => {
                                     const displayLetter = ['A', 'B', 'C', 'D'][index];
                                     const isSelected = game.selectedOption?.letter === option.letter;
-                                    const correctLetter = game.currentQuestion.correctAnswer.match(/^([A-D])\)/)?.[1];
+                                    const correctLetter = game.currentQuestion.correctAnswer.match(/^([A-D])\)/)?.[1] || game.currentQuestion.correctAnswer;
                                     const isCorrect = option.letter === correctLetter;
 
-                                    let optionClass = "w-full p-4 rounded-xl text-left transition-all border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 flex items-center justify-between text-gray-900 dark:text-white ";
+                                    let optionClass = "w-full p-4 rounded-xl text-left transition-all border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/5 flex items-center justify-between ";
 
                                     if (game.isAnswered) {
                                         if (isSelected && isCorrect) optionClass = "w-full p-4 rounded-xl text-left border border-green-500/50 bg-green-500/10 flex items-center justify-between ";
@@ -229,7 +229,7 @@ const DailyChallenge = () => {
                                         onClick={game.currentQuestionIndex === questions.length - 1 ? handleChallengeFinish : game.handleNext}
                                         className="px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-black font-bold rounded-xl flex items-center gap-2"
                                     >
-                                        {game.currentQuestionIndex === questions.length - 1 ? 'Finish Challenge' : 'Next Question'}
+                                        {game.currentQuestionIndex === questions.length - 1 ? t('daily.finishChallenge') : t('quiz.next')}
                                         <ArrowRight size={20} />
                                     </button>
                                 </div>

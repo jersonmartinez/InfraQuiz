@@ -142,7 +142,7 @@ export const useQuizGame = (topic, questions, setNumber) => {
         if (isCorrect) {
             addPoints(10); // 10 points per correct answer
         } else {
-            addFailedQuestion({ ...currentQuestion, topic }); // Save for flashcards
+            addFailedQuestion({ ...currentQuestion, topic: currentQuestion.topic || topic }); // Save for flashcards
         }
 
         setAnswers([...answers, {

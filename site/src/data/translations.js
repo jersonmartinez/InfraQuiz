@@ -104,6 +104,38 @@ export const translations = {
             goBack: 'Go Back',
             suggestions: 'Try these popular quizzes:',
         },
+        flashcards: {
+            title: 'Smart Flashcards',
+            backToDashboard: 'Back to Dashboard',
+            reveal: 'Reveal Answer',
+            gotIt: 'I Got It Now (+5 IP)',
+            keepReviewing: 'Keep Reviewing',
+            skip: 'Skip Question',
+            discard: 'Discard',
+            emptyTitle: "You're all caught up!",
+            emptyDesc: "Failed questions from quizzes will automatically appear here for review.",
+            challengeBtn: 'Challenge Yourself',
+            correctAnswer: 'Correct Answer & Explanation',
+            learningMode: 'Learning Mode',
+            questionCount: 'Question {current} of {total}'
+        },
+        daily: {
+            title: 'Infrastructure Hero',
+            subtitle: '10 Questions • Multi-topic Review',
+            completeTitle: 'Daily Challenge Complete!',
+            completeDesc: "You've tackled the selected topics for today.",
+            bonusText: 'Finish with 80% or more to earn a {bonus} IP Bonus.',
+            ready: 'Are you ready?',
+            start: 'Start Challenge',
+            finishChallenge: 'Finish Challenge',
+            generating: "Generating today's challenge...",
+            pointsEst: 'Current Est. IP'
+        },
+        leaderboard: {
+            title: 'Hall of Fame',
+            best: 'Best',
+            topPerformers: 'Top Performers'
+        }
     },
     es: {
         nav: {
@@ -210,5 +242,37 @@ export const translations = {
             goBack: 'Volver',
             suggestions: 'Prueba estos quizzes populares:',
         },
+        flashcards: {
+            title: 'Flashcards Inteligentes',
+            backToDashboard: 'Volver al Panel',
+            reveal: 'Revelar Respuesta',
+            gotIt: 'Ya lo sé (+5 IP)',
+            keepReviewing: 'Seguir Repasando',
+            skip: 'Saltar Pregunta',
+            discard: 'Descartar',
+            emptyTitle: '¡Estás al día!',
+            emptyDesc: 'Las preguntas falladas en los quizzes aparecerán aquí automáticamente para repasarlas.',
+            challengeBtn: 'Ponte a Prueba',
+            correctAnswer: 'Respuesta Correcta y Explicación',
+            learningMode: 'Modo Aprendizaje',
+            questionCount: 'Pregunta {current} de {total}'
+        },
+        daily: {
+            title: 'Héroe de Infraestructura',
+            subtitle: '10 Preguntas • Repaso Multi-tema',
+            completeTitle: '¡Desafío Diario Completado!',
+            completeDesc: 'Has superado los temas seleccionados para hoy.',
+            bonusText: 'Termina con 80% o más para ganar un bono de {bonus} IP.',
+            ready: '¿Estás listo?',
+            start: 'Iniciar Desafío',
+            finishChallenge: 'Finalizar Desafío',
+            generating: 'Generando el desafío de hoy...',
+            pointsEst: 'IP Est. Actual'
+        },
+        leaderboard: {
+            title: 'Salón de la Fama',
+            best: 'Mejor',
+            topPerformers: 'Mejores Resultados'
+        }
     }
 };
