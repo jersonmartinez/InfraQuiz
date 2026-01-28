@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Terminal, Server, Cloud, Code, Shield, Database, Workflow, Layers, ArrowRight, Clock, Search, Box, Brain } from 'lucide-react';
 import { useQuizProgress, useQuizHistory } from '../hooks/useLocalStorage';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 import { quizService } from '../services/quizService';
 import Breadcrumb from '../components/Breadcrumb';
 
@@ -34,15 +34,8 @@ const CATEGORIES = [
     { id: 'mixed', name: 'Mixed' },
 ];
 
-export const getTopicName = (topicId) => {
-    const topic = topics.find(t => t.id === topicId);
-    return topic?.name || topicId;
-};
-
-export const getTopicEmoji = (topicId) => {
-    const topic = topics.find(t => t.id === topicId);
-    return topic?.emoji || '📝';
-};
+// Utility functions removed to resolve Fast Refresh issues.
+// They are now imported from ../utils/topicUtils.js
 
 const QuizSelection = () => {
     const { savedProgress } = useQuizProgress();

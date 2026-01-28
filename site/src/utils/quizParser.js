@@ -26,7 +26,7 @@ export const parseQuizMarkdown = (markdown) => {
         // Remove ### N. and difficulty emojis, but KEEP the question emoji
         question.question = line
             .replace(/^###\s+\d+\.\s*/, '') // Remove ### 1. 
-            .replace(/[🟢🟡🔴]/g, '')       // Remove ONLY difficulty emojis
+            .replace(/[🟢🟡🔴]/gu, '')       // Remove ONLY difficulty emojis
             .trim();
 
         i++; // Move to next line

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Terminal, Menu, X, History, Globe, BarChart2, Sun, Moon } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../hooks/useLanguage';
+import { useTheme } from '../hooks/useTheme';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);

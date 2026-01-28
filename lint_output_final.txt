@@ -1,0 +1,69 @@
+
+> site@0.0.0 lint
+> eslint .
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\components\AchievementBadge.jsx
+  89:10  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\components\GlobalErrorBoundary.jsx
+  9:37  error  '_error' is defined but never used  no-unused-vars
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\context\LanguageContext.jsx
+  4:14  error  Fast refresh only works when a file only exports components. Move your React context(s) to a separate file  react-refresh/only-export-components
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\context\ThemeContext.jsx
+  4:14  error  Fast refresh only works when a file only exports components. Move your React context(s) to a separate file  react-refresh/only-export-components
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\hooks\useQuizGame.js
+   61:21  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  59 |                 const savedIndex = savedProgress.currentQuestion || 0;
+  60 |                 if (savedIndex < questions.length) {
+> 61 |                     setCurrentQuestionIndex(savedIndex);
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  62 |                     setScore(savedProgress.score || 0);
+  63 |                     const loadedAnswers = Array.isArray(savedProgress.answers) ? savedProgress.answers : [];
+  64 |                     setAnswers(loadedAnswers);  react-hooks/set-state-in-effect
+   88:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  86 |                 [options[i], options[j]] = [options[j], options[i]];
+  87 |             }
+> 88 |             setShuffledOptions(options);
+     |             ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  89 |             setSelectedOption(null);
+  90 |             setIsAnswered(false);
+  91 |         }                                                                                                                                                                                                           react-hooks/set-state-in-effect
+  101:21  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+   99 |                 const option = shuffledOptions.find(opt => opt.letter === savedAnswer.selectedOption);
+  100 |                 if (option) {
+> 101 |                     setSelectedOption(option);
+      |                     ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  102 |                     setIsAnswered(true);
+  103 |                 }
+  104 |             }                                                                                                                                             react-hooks/set-state-in-effect
+  162:11  warning  The 'handleOptionClick' function makes the dependencies of useEffect Hook (at line 257) change on every render. To fix this, wrap the definition of 'handleOptionClick' in its own useCallback() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+  219:11  warning  The 'handleNext' function makes the dependencies of useEffect Hook (at line 257) change on every render. To fix this, wrap the definition of 'handleNext' in its own useCallback() Hook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+
+✖ 9 problems (7 errors, 2 warnings)
+

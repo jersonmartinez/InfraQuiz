@@ -55,7 +55,7 @@ export const useQuizHistory = () => {
             .map(([topic]) => topic);
 
         const weakTopics = Object.entries(topicStats)
-            .filter(([_, data]) => (data.totalScore / data.count) < 70)
+            .filter(([, data]) => (data.totalScore / data.count) < 70)
             .map(([topic]) => topic);
 
         return {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Terminal, ArrowRight, Server, Cloud, Box, Target, Zap, Clock } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 import { useQuizHistory } from '../hooks/useLocalStorage';
-import { getTopicEmoji, getTopicName } from './QuizSelection';
+import { getTopicEmoji, getTopicName } from '../utils/topicUtils';
 
 const Home = () => {
     const { t } = useLanguage();
@@ -129,17 +129,20 @@ const Home = () => {
     );
 };
 
-const FeatureCard = ({ icon: Icon, title, desc, color, bg, to }) => (
-    <Link to={to} className="group p-8 rounded-2xl bg-white/50 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/5 block">
-        <div className={`w-14 h-14 rounded-xl ${bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${color}`}>
-            <Icon size={32} />
-        </div>
-        <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{title}</h3>
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{desc}</p>
-        <div className="text-blue-500 dark:text-blue-400 text-sm font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-            Explore Quizzes <ArrowRight size={16} />
-        </div>
-    </Link>
-);
+const FeatureCard = (props) => {
+    const { icon: Icon, title, desc, color, bg, to } = props;
+    return (
+        <Link to={to} className="group p-8 rounded-2xl bg-white/50 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/5 block">
+            <div className={`w-14 h-14 rounded-xl ${bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${color}`}>
+                <Icon size={32} />
+            </div>
+            <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{title}</h3>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{desc}</p>
+            <div className="text-blue-500 dark:text-blue-400 text-sm font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
+                Explore Quizzes <ArrowRight size={16} />
+            </div>
+        </Link>
+    );
+};
 
 export default Home;

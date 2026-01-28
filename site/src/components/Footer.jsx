@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Terminal, Github, Heart, ExternalLink } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 const Footer = () => {
-    const { t, language } = useLanguage();
+    const { t } = useLanguage();
     const currentYear = new Date().getFullYear();
 
     return (

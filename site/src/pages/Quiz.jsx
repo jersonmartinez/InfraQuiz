@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useQuiz } from '../hooks/useQuiz';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 import { useQuizGame } from '../hooks/useQuizGame';
 import { getTopicEmoji, getTopicName } from './QuizSelection';
 import Timer from '../components/Timer';

@@ -1,0 +1,124 @@
+
+> site@0.0.0 lint
+> eslint .
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\components\AchievementBadge.jsx
+  163:10  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\components\Footer.jsx
+  7:16  error  'language' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\components\GlobalErrorBoundary.jsx
+  9:37  error  'error' is defined but never used  no-unused-vars
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\components\Timer.jsx
+  10:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+   8 |         if (!isActive) {
+   9 |             const currentSeconds = Math.floor(pausedTime / 1000);
+> 10 |             setSeconds(limit > 0 ? Math.max(0, limit - currentSeconds) : currentSeconds);
+     |             ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  11 |             return;
+  12 |         }
+  13 |  react-hooks/set-state-in-effect
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\components\quiz\QuizResults.jsx
+  4:10  error  'useLanguage' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\context\LanguageContext.jsx
+  34:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\context\ThemeContext.jsx
+  30:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\hooks\useLocalStorage.js
+  58:23  error  '__' is defined but never used  no-unused-vars
+
+c:\Users\Jerson\Documents\Repositories\InfraQuiz\site\src\hooks\useQuizGame.js
+   19:48  error    Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  17 |     const [showResults, setShowResults] = useState(false);
+  18 |     const [shuffledOptions, setShuffledOptions] = useState([]);
+> 19 |     const [startTime, setStartTime] = useState(Date.now());
+     |                                                ^^^^^^^^^^ Cannot call impure function
+  20 |     const [answers, setAnswers] = useState([]);
+  21 |     const [showSaveDialog, setShowSaveDialog] = useState(false);
+  22 |     const [pausedTime, setPausedTime] = useState(0);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/purity
+   78:8   warning  React Hook useEffect has a missing dependency: 'clearProgress'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/exhaustive-deps
+  117:29  error    Error: Cannot access variable before it is declared
+
+`handleOptionClick` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  115 |             if (keyIndex !== -1 && keyIndex < shuffledOptions.length && !isAnswered) {
+  116 |                 const option = shuffledOptions[keyIndex];
+> 117 |                 if (option) handleOptionClick(option);
+      |                             ^^^^^^^^^^^^^^^^^ `handleOptionClick` accessed before it is declared
+  118 |             }
+  119 |             if (e.key === 'Enter' && isAnswered) handleNext();
+  120 |         };
+
+  175 |     };
+  176 |
+> 177 |     const handleOptionClick = (option) => {
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 178 |         if (isAnswered || isPaused || !hasStarted) return;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 179 |         setSelectedOption(option);
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 189 |         }]);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 190 |     };
+      | ^^^^^^^ `handleOptionClick` is declared here
+  191 |
+  192 |     const [markedQuestions, setMarkedQuestions] = useState(new Set());
+  193 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/immutability
+  119:50  error    Error: Cannot access variable before it is declared
+
+`handleNext` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  117 |                 if (option) handleOptionClick(option);
+  118 |             }
+> 119 |             if (e.key === 'Enter' && isAnswered) handleNext();
+      |                                                  ^^^^^^^^^^ `handleNext` accessed before it is declared
+  120 |         };
+  121 |         window.addEventListener('keydown', handleKeyPress);
+  122 |         return () => window.removeEventListener('keydown', handleKeyPress);
+
+  232 |     };
+  233 |
+> 234 |     const handleNext = () => {
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 235 |         if (currentQuestionIndex < filteredQuestions.length - 1) {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 236 |             setCurrentQuestionIndex(prev => prev + 1);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 237 |             setSelectedOption(null);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 238 |             setIsAnswered(false);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 239 |         } else {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 240 |             handleFinish();
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 241 |         }
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 242 |     };
+      | ^^^^^^^ `handleNext` is declared here
+  243 |
+  244 |     const handleFlashcardClick = (known) => {
+  245 |         if (!isAnswered && !isPaused && hasStarted) {  react-hooks/immutability
+  123:8   warning  React Hook useEffect has missing dependencies: 'handleNext' and 'handleOptionClick'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+
+✖ 13 problems (11 errors, 2 warnings)
+

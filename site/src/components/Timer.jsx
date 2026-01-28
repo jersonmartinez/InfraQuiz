@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 
 const Timer = ({ startTime, isActive = true, pausedTime = 0, limit = 0, onTimeUp }) => {
-    const [seconds, setSeconds] = useState(0);
+    const [seconds, setSeconds] = useState(() => {
+        const currentSeconds = Math.floor(pausedTime / 1000);
+        return limit > 0 ? Math.max(0, limit - currentSeconds) : currentSeconds;
+    });
 
     useEffect(() => {
-        if (!isActive) {
-            const currentSeconds = Math.floor(pausedTime / 1000);
-            setSeconds(limit > 0 ? Math.max(0, limit - currentSeconds) : currentSeconds);
-            return;
-        }
+        if (!isActive) return;
 
         const interval = setInterval(() => {
             const elapsed = Math.floor((Date.now() - startTime + pausedTime) / 1000);

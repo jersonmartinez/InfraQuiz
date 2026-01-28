@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { RefreshCw, Home, ChevronDown, ChevronUp, CheckCircle2, XCircle, Trophy, Target, Clock, Zap, Star, TrendingUp, Award, BookOpen } from 'lucide-react';
-import { useLanguage } from '../../context/LanguageContext';
-import { getTopicEmoji, getTopicName } from '../../pages/QuizSelection';
+import { getTopicEmoji, getTopicName } from '../../utils/topicUtils';
 
 const QuizResults = ({ score, total, onRetry, answers, questions, timeSpent }) => {
-    const { t } = useLanguage();
     const { topic } = useParams();
     const [showReview, setShowReview] = useState(false);
     const [animatedPercentage, setAnimatedPercentage] = useState(0);
@@ -128,7 +125,7 @@ const QuizResults = ({ score, total, onRetry, answers, questions, timeSpent }) =
                         </div>
 
                         {/* Stats Grid */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
                             <div className="p-4 bg-green-500/10 rounded-2xl border border-green-500/20 text-center">
                                 <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400 mb-1">
                                     <CheckCircle2 size={18} />
@@ -152,10 +149,17 @@ const QuizResults = ({ score, total, onRetry, answers, questions, timeSpent }) =
                             </div>
                             <div className="p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20 text-center">
                                 <div className="flex items-center justify-center gap-2 text-purple-600 dark:text-purple-400 mb-1">
+                                    <Clock size={18} />
+                                    <span className="text-xs font-bold uppercase tracking-wider">Avg Time</span>
+                                </div>
+                                <div className="text-3xl font-black text-purple-600 dark:text-purple-400">{avgTimePerQuestion || 0}s</div>
+                            </div>
+                            <div className="p-4 bg-orange-500/10 rounded-2xl border border-orange-500/20 text-center">
+                                <div className="flex items-center justify-center gap-2 text-orange-600 dark:text-orange-400 mb-1">
                                     <Zap size={18} />
                                     <span className="text-xs font-bold uppercase tracking-wider">Questions</span>
                                 </div>
-                                <div className="text-3xl font-black text-purple-600 dark:text-purple-400">{total}</div>
+                                <div className="text-3xl font-black text-orange-600 dark:text-orange-400">{total}</div>
                             </div>
                         </div>
 

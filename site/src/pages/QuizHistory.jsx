@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuizHistory } from '../hooks/useLocalStorage';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 import { Clock, Calendar, Award, Trash2 } from 'lucide-react';
 import { getTopicEmoji } from './QuizSelection';
 

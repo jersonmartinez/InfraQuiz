@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuizHistory, useAchievements } from '../hooks/useLocalStorage';
-import { AchievementGrid } from '../components/AchievementBadge';
+import { AchievementGrid } from '../components/AchievementGrid';
 import { Trophy, Target, Clock, TrendingUp, Award, Calendar } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 const Analytics = () => {
     const { history, getStats, clearHistory } = useQuizHistory();

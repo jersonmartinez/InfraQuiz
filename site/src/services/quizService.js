@@ -48,7 +48,7 @@ export const quizService = {
             const text = await response.text();
             const matches = text.match(/###\s+\d+\./g);
             return matches ? matches.length : 0;
-        } catch (error) {
+        } catch {
             return 0;
         }
     }

@@ -1,0 +1,23 @@
+{
+  "name": "infraquiz-root",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "lint": "cd site && npm run lint",
+    "test": "cd site && npm run test",
+    "validate-quizzes": "node scripts/validate-quizzes.js",
+    "validate-all": "npm run lint && npm run test && npm run validate-quizzes"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3"
+  },
+  "lint-staged": {
+    "site/src/**/*.{js,jsx}": [
+      "npm run lint --prefix site"
+    ],
+    "quizzes/**/*.md": [
+      "node scripts/validate-quizzes.js"
+    ]
+  }
+}
