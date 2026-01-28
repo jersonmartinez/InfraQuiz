@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuizHistory } from '../hooks/useLocalStorage';
 import { useLanguage } from '../hooks/useLanguage';
 import { Clock, Calendar, Award, Trash2 } from 'lucide-react';
-import { getTopicEmoji } from './QuizSelection';
+import { getTopicEmoji } from '../utils/topicUtils';
 
 const QuizHistory = () => {
     const { history, clearHistory } = useQuizHistory();

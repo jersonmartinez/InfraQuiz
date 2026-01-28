@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuizProgress, useQuizHistory } from '../hooks/useLocalStorage';
-import { getTopicEmoji } from '../pages/QuizSelection';
+import { getTopicEmoji } from '../utils/topicUtils';
 import { Play, Clock, CheckCircle } from 'lucide-react';
 
 const Dashboard = () => {

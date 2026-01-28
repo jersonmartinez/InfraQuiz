@@ -3,7 +3,7 @@ import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useQuiz } from '../hooks/useQuiz';
 import { useLanguage } from '../hooks/useLanguage';
 import { useQuizGame } from '../hooks/useQuizGame';
-import { getTopicEmoji, getTopicName } from './QuizSelection';
+import { getTopicEmoji, getTopicName } from '../utils/topicUtils';
 import Timer from '../components/Timer';
 import Breadcrumb from '../components/Breadcrumb';
 import { QuizQuestionSkeleton } from '../components/SkeletonLoader';
