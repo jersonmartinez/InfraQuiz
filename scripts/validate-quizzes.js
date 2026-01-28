@@ -31,7 +31,7 @@ function validateQuizFile(filePath) {
                     errors.push(`Question ${currentQuestion} is missing options.`);
                 }
                 if (!hasCorrectAnswer) {
-                    errors.push(`Question ${currentQuestion} is missing '**Correct Answer**'.`);
+                    errors.push(`Question ${currentQuestion} is missing '**Correct Answer**' (or '**Respuesta correcta**').`);
                 }
                 if (!hasExplanation) {
                     errors.push(`Question ${currentQuestion} is missing an explanation.`);
@@ -49,10 +49,10 @@ function validateQuizFile(filePath) {
         if (line.startsWith('B)')) hasOptions.B = true;
         if (line.startsWith('C)')) hasOptions.C = true;
         if (line.startsWith('D)')) hasOptions.D = true;
-        if (line.startsWith('**Correct Answer**')) hasCorrectAnswer = true;
+        if (line.match(/^\*\*(Correct Answer|Respuesta correcta)\*\*/i)) hasCorrectAnswer = true;
         if (line.startsWith('>') || (hasCorrectAnswer && line.length > 0 && !line.match(/^[A-D]\)/))) {
             // Very simple check for explanation
-            if (hasCorrectAnswer && !line.startsWith('**Correct Answer**')) {
+            if (hasCorrectAnswer && !line.match(/^\*\*(Correct Answer|Respuesta correcta)\*\*/i)) {
                 hasExplanation = true;
             }
         }
@@ -61,7 +61,7 @@ function validateQuizFile(filePath) {
     // Final question validation
     if (currentQuestion > 0) {
         if (!hasOptions.A || !hasOptions.B || !hasOptions.C || !hasOptions.D) errors.push(`Question ${currentQuestion} is missing options.`);
-        if (!hasCorrectAnswer) errors.push(`Question ${currentQuestion} is missing '**Correct Answer**'.`);
+        if (!hasCorrectAnswer) errors.push(`Question ${currentQuestion} is missing '**Correct Answer**' (or '**Respuesta correcta**').`);
         if (!hasExplanation) errors.push(`Question ${currentQuestion} is missing an explanation.`);
     }
 

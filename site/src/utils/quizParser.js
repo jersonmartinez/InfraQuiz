@@ -32,7 +32,7 @@ export const parseQuizMarkdown = (markdown) => {
         i++; // Move to next line
 
         // Collect options A, B, C, D
-        while (i < lines.length && !lines[i].startsWith('**Correct Answer**')) {
+        while (i < lines.length && !lines[i].match(/^\*\*(Correct Answer|Respuesta correcta)\*\*/i)) {
             if (lines[i].match(/^[A-D]\)/)) {
                 const letter = lines[i].match(/^([A-D])\)/)[1];
                 const text = lines[i].replace(/^[A-D]\)\s*/, '').trim();
@@ -42,8 +42,8 @@ export const parseQuizMarkdown = (markdown) => {
         }
 
         // Get correct answer
-        if (i < lines.length && lines[i].startsWith('**Correct Answer**')) {
-            question.correctAnswer = lines[i].replace('**Correct Answer**:', '').trim();
+        if (i < lines.length && lines[i].match(/^\*\*(Correct Answer|Respuesta correcta)\*\*/i)) {
+            question.correctAnswer = lines[i].replace(/^\*\*(Correct Answer|Respuesta correcta)\*\*:/i, '').trim();
             i++;
         }
 

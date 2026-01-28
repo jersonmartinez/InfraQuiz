@@ -72,6 +72,7 @@ const Home = () => {
                                                         to={`/quiz/${topic}?mode=study`}
                                                         className="p-3 bg-white dark:bg-white/10 hover:bg-purple-500/10 dark:hover:bg-purple-500/10 rounded-xl transition-all group border border-gray-100 dark:border-white/5"
                                                         title="Review Guide"
+                                                        aria-label={`Review Study Guide for ${getTopicName(topic)}`}
                                                     >
                                                         <Box size={18} className="text-purple-400" />
                                                     </Link>

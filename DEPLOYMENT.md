@@ -13,14 +13,18 @@ This repository is configured to automatically deploy to GitHub Pages from the `
 
 ### Workflow Steps
 
-The deployment workflow (`.github/workflows/deploy.yml`) performs the following steps:
+The deployment pipeline (`.github/workflows/deploy.yml`) is split into three phases:
 
-1. **Checkout**: Clones the repository
-2. **Setup Node.js**: Installs Node.js 18 with npm caching
-3. **Install Dependencies**: Runs `npm ci` in the `site/` directory
-4. **Build Application**: Runs `npm run build` to create production build
-5. **Upload Artifact**: Packages the `site/dist/` directory
-6. **Deploy**: Deploys the artifact to GitHub Pages
+1. **Quality Assurance (Parallel)**:
+   - **Lint Code**: Ensures code style and best practices.
+   - **Run Unit Tests**: Executes Vitest for core utilities (e.g., `quizParser`).
+   - **Validate Quiz Content**: Runs a custom validator on all Markdown files in `quizzes/`.
+   - **Security Audit**: Scans dependencies for high-security vulnerabilities.
+2. **Build Phase**:
+   - Installs dependencies and builds the Vite application.
+   - Packages the `dist/` and `quizzes/` directories into a deployment artifact.
+3. **Deployment Phase** (Main branch only):
+   - Deploys the generated artifact to GitHub Pages.
 
 ### Manual Deployment
 

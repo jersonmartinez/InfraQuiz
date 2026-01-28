@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Terminal, Server, Cloud, Code, Shield, Database, Workflow, Layers, ArrowRight, Clock, Search, Box } from 'lucide-react';
+import { Terminal, Server, Cloud, Code, Shield, Database, Workflow, Layers, ArrowRight, Clock, Search, Box, Brain } from 'lucide-react';
 import { useQuizProgress, useQuizHistory } from '../hooks/useLocalStorage';
 import { useLanguage } from '../context/LanguageContext';
 import { quizService } from '../services/quizService';
@@ -187,6 +187,7 @@ const QuizSelection = () => {
                                                         to={`/quiz/${topic.id}?set=${set}`}
                                                         className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-blue-500/20 hover:text-blue-400 border border-gray-200 dark:border-white/10 text-[10px] font-bold transition-all"
                                                         title={`Start Set ${set}`}
+                                                        aria-label={`Start ${topic.name} Set ${set}`}
                                                     >
                                                         S{set}
                                                     </Link>
@@ -208,6 +209,34 @@ const QuizSelection = () => {
                                             <>{t('selection.start')} <ArrowRight size={18} /></>
                                         )}
                                     </Link>
+
+                                    {/* Smart Study Button */}
+                                    {(() => {
+                                        const topicHistory = history.filter(h => h.topic === topic.id);
+                                        const missedQuestions = topicHistory.flatMap(h =>
+                                            h.answers
+                                                .filter(a => !a.correct && h.set)
+                                                .map(a => ({ set: h.set, id: a.questionId }))
+                                        );
+                                        const uniqueMissed = Array.from(new Set(missedQuestions.map(q => `${q.set}-${q.id}`)))
+                                            .map(s => {
+                                                const [set, id] = s.split('-');
+                                                return { set: parseInt(set), id: parseInt(id) };
+                                            });
+
+                                        if (uniqueMissed.length >= 5) {
+                                            return (
+                                                <Link
+                                                    to={`/quiz/${topic.id}?mode=smart`}
+                                                    className="w-full mt-3 py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white shadow-lg shadow-purple-500/20"
+                                                >
+                                                    <Brain size={18} />
+                                                    Smart Study ({uniqueMissed.length})
+                                                </Link>
+                                            );
+                                        }
+                                        return null;
+                                    })()}
                                     <div className="mt-3 flex justify-center">
                                         <Link
                                             to={`/quiz/${topic.id}?mode=study`}

@@ -39,9 +39,11 @@ This document outlines the step-by-step plan to simplify, document, and improve 
     2.  Build the project (`npm run build`).
     3.  Copy `quizzes/` to the `dist/` folder.
     4.  Deploy the `dist/` folder.
+- **Benefit**: ✅ COMPLETED - Pipeline is now robust, parallelized, and includes linting/testing.
 
 ### Step 7: Add Basic Testing
 - **Action**: Implement Vitest for the `quizParser` utility to prevent breaking the app when updating Markdown content.
+- **Benefit**: ✅ COMPLETED - Vitest integrated with unit tests for the parser.
 
 ---
 
@@ -49,7 +51,8 @@ This document outlines the step-by-step plan to simplify, document, and improve 
 
 ### Phase 1: Stability (Week 1)
 1.  **Fix Deployment Workflow**: ✅ COMPLETED - GitHub Pages now builds and deploys correctly.
-2.  **Validator Script**: (Next step) Create a Node.js script to validate all Markdown files in `quizzes/`.
+2.  **Validator Script**: ✅ COMPLETED - Integrated `scripts/validate-quizzes.js` into the pipeline.
+3.  **Basic Testing**: ✅ COMPLETED - Unit tests for `quizParser.js` added.
 
 ### Phase 2: Refactoring (Week 2)
 1.  **Extract Components**: ✅ COMPLETED - Split `Quiz.jsx` into smaller, reusable parts in `src/components/quiz/`.
