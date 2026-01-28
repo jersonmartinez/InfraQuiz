@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { CheckCircle2, XCircle, Target, Clock, Zap, RefreshCw, ChevronUp, BookOpen, Home } from 'lucide-react';
 import { getTopicEmoji, getTopicName } from '../../utils/topicUtils';
 
 const QuizResults = ({ score, total, onRetry, answers, questions, timeSpent }) => {
